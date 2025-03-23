@@ -8,6 +8,7 @@ import { SourceRankModule } from './modules/source-rank';
 import { BullModule } from '@nestjs/bullmq';
 import { Service } from './modules/tokens';
 import { FeedbacksModule } from './modules/feedbacks/feedbacks.module';
+import { ConferenceOrganizationModule } from './modules/conference-organization';
 
 @Module({
   imports: [CommonModule, UserModule, AuthModule, SourceRankModule,
@@ -21,7 +22,8 @@ import { FeedbacksModule } from './modules/feedbacks/feedbacks.module';
           }
       })
   }),
-  FeedbacksModule
+  FeedbacksModule,
+  ConferenceOrganizationModule
   ],
   controllers: [AppController],
   providers: [AppService],
