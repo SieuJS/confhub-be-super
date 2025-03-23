@@ -154,7 +154,7 @@ export class ConferenceService {
                     : {}),
 
                 ranks: {
-                    ...(conferenceFilter.rank || conferenceFilter.source
+                    ...(conferenceFilter.rank || conferenceFilter.source || conferenceFilter.researchFields
                         ? {
                               some: {
                                   byRank: {
@@ -178,6 +178,14 @@ export class ConferenceService {
                                                 },
                                             }
                                           : {}),
+                                    ...(conferenceFilter.researchFields ?{
+                                        inFieldOfResearch : {
+                                            name : {
+                                                in : conferenceFilter.researchFields,
+                                                mode : "insensitive"
+                                            }
+                                        }
+                                    } : {})
                                   },
                               },
                           }

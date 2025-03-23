@@ -23,6 +23,8 @@ import { UserService } from "../../user/services/user.service";
 import { ConferenceFollowInput } from "../models/conference-follow/conference-follow.input";
 import { ConferenceDetailDTO } from "../models/conference/conference-detail.dto";
 import { ConferenceFeedBackInputDTO } from "../models/conference-feedback/conference-feedback.input";
+import { filter } from "rxjs";
+import { parse } from "path";
 
 @ApiTags("/conference")
 @Controller("conference")
@@ -60,10 +62,13 @@ export class ConferenceController {
         if(params.type) {
             params.accessType = params.type;
         }
+        params.page = parseInt(params.page as any);
+        params.perPage = parseInt(params.perPage as any);
         
         const conferences =  await this.conferenceService.getConferences(params);
-        
+
         const conferenceToResponse : ConferenceDTO[] = await Promise.all(conferences.map( async conference => {
+            const rank = await this.conferenceRankService.getRankByConferenceFilter(conference.id, params);
             
             const organization = await this.conferenceOrganizationService.getFirstOrganizationsByConferenceId(conference.id) ;
             if(!organization) {
@@ -77,8 +82,8 @@ export class ConferenceController {
                             address : "",
                             continent : '',
                         },
-                        rank : conference.ranks[0]?.byRank?.name,
-                        source : conference.ranks[0]?.byRank?.belongsToSource.name,
+                        rank : rank?.rank || '', 
+                        source : rank?.source  || '',
                         year : conference.ranks[0]?.year,
                         researchFields: conference.ranks.map(rank => rank.inFieldOfResearch.name),
                         topics : [],
