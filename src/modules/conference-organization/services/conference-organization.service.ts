@@ -181,6 +181,12 @@ export class ConferenceOrganizationSerivce {
 
         })
     }
+    
+
+    async getAllTopics () {
+        return this.prismaService.topics.findMany({
+        })
+    }
 
 
 }
