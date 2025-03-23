@@ -1,6 +1,6 @@
 import { Body, Controller, Get, HttpException, Param, Post, Query } from "@nestjs/common";
 import { ConferenceService } from "../services/conference.service";
-import { ApiBody, ApiParam, ApiQuery, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBody, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { ConferencePaginationDTO } from "../models/conference/conference-pagination.dto";
 import { ConferenceImportDTO } from "../models/conference/conference-import.dto";
 import {
@@ -23,8 +23,7 @@ import { UserService } from "../../user/services/user.service";
 import { ConferenceFollowInput } from "../models/conference-follow/conference-follow.input";
 import { ConferenceDetailDTO } from "../models/conference/conference-detail.dto";
 import { ConferenceFeedBackInputDTO } from "../models/conference-feedback/conference-feedback.input";
-import { filter } from "rxjs";
-import { parse } from "path";
+import { converStringToDate, convertObjectToDate } from "src/modules/conference-job/utils/date-parse";
 
 @ApiTags("/conference")
 @Controller("conference")
@@ -348,6 +347,115 @@ export class ConferenceController {
         }
     }
 
+    @Post('update/:id')
+    @ApiParam({name : 'id'})
+    async updateConference(@Param('id') id : string) {
+        const conference = await this.conferenceService.getConferenceById(id);
+        if(!conference) {
+            return new HttpException('Conference not found', 404);
+        }
+        const organization = await this.conferenceOrganizationService.getFirstOrganizationsByConferenceId(conference.id) ;
+        if(!organization) {
+            return new HttpException('Organization not found', 404);
+        }
+        const responseData = await this.conferenceCrawlJobService.fetchUpdateConferenceCrawlData({
+            cfpLink : organization.cfpLink, 
+            impLink : organization.impLink,
+            Acronym : conference.acronym,
+            Title : conference.title,
+            mainLink : organization.link
+        });
+        const crawlData = responseData.data[0];
+        
+        const organizeData = await this.conferenceOrganizationService.importOrganize({
+            year: parseInt(crawlData.year),
+            accessType: crawlData.type,
+            link: crawlData.link,
+            impLink: crawlData.impLink,
+            cfpLink: crawlData.cfpLink,
+            summerize: crawlData.summary,
+            callForPaper: crawlData.callForPapers,
+            conferenceId: conference.id,
+            topics: crawlData.topics.split(","),
+            isAvailable: true,
+            publisher : crawlData.publisher
+        });
+        console.log('organizeData', organizeData)
+        if(!organizeData) {
+            return new HttpException('Organization not found', 404);
+        }
+
+        const locationData =
+        await this.conferenceOrganizationService.importPlace({
+            continent: crawlData.continent,
+            country: crawlData.country,
+            cityStateProvince: crawlData.cityStateProvince,
+            address: crawlData.location,
+            organizeId: organizeData.id,
+        });
+
+        const {
+            submissionDate,
+            cameraReadyDate,
+            conferenceDates,
+            registrationDate,
+            notificationDate,
+            otherDate,
+        } = crawlData;
+
+        const conferenceDateInput = converStringToDate(
+            conferenceDates,
+            "conferenceDates",
+            organizeData.id
+        );
+
+        const submissionDateInput = convertObjectToDate(
+            submissionDate,
+            "submissionDate",
+            organizeData.id
+        );
+        const cameraReadyDateInput = convertObjectToDate(
+            cameraReadyDate,
+            "cameraReadyDate",
+            organizeData.id
+        );
+        const registrationDateInput = convertObjectToDate(
+            registrationDate,
+            "registrationDate",
+            organizeData.id
+        );
+        const notificationDateInput = convertObjectToDate(
+            notificationDate,
+            "notificationDate",
+            organizeData.id
+        );
+        const otherDateInput = convertObjectToDate(
+            otherDate,
+            "otherDate",
+            organizeData.id
+        );
+
+        const dateInput = [
+            ...conferenceDateInput,
+            ...submissionDateInput,
+            ...cameraReadyDateInput,
+            ...registrationDateInput,
+            ...notificationDateInput,
+            ...otherDateInput,
+        ];
+
+        for (const date of dateInput) {
+            await this.conferenceOrganizationService.importDate(date);
+        }
+        
+        return {
+            conferenceId : conference.id,
+            organizationId : organizeData.id,
+            locationId : locationData.id,
+            dates : dateInput
+        }
+    }
+
     @Post('crawl')
     @ApiBody({
         type : ConferenceCrawlInputDTO
@@ -421,3 +529,4 @@ export class ConferenceController {
     }
 
 }
+

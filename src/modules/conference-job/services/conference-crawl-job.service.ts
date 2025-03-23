@@ -11,6 +11,7 @@ import { HttpService } from "@nestjs/axios";
 import { catchError, firstValueFrom } from "rxjs";
 import { ConferenceCrawlNewRequestDto } from "../models/crawl-request/conference-crawl-new-request.dto";
 import { ConferenceCrawlNewResponseDto } from "../models/crawl-response/conference-crawl-new-reponse.dto";
+import { ConferenceCrawlUpdateRequestDto } from "../models/crawl-request/conference-crawl-update-request.dto";
 
 @Injectable()
 export class ConferenceCrawlJobService {
@@ -81,6 +82,30 @@ export class ConferenceCrawlJobService {
                 })
             )
         );
+        return data
+    }
+
+    async fetchUpdateConferenceCrawlData(input : ConferenceCrawlUpdateRequestDto) : Promise<ConferenceCrawlNewResponseDto> {
+        const CRAWL_URL = process.env.CRAWLER_URL
+        const { data } : {data : ConferenceCrawlNewResponseDto} = await firstValueFrom(
+            this.httpService.post(CRAWL_URL+"/crawl-conferences", 
+            [
+                {
+                    ...input
+                }
+            ], 
+            {
+                params: { dataSource: 'client' },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).pipe(
+                catchError((error) => {
+                    throw error;
+                })
+            )
+        );
+        console.log('data', data)
         return data
     }
 

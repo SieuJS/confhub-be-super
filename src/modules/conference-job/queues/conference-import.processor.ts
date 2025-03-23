@@ -6,8 +6,7 @@ import { CONFERENCE_QUEUE_NAME } from "../../../constants/queue-name";
 import { CONFERENCE_CRAWL_JOB_NAME } from "../../../constants/job-name";
 import { ConferenceCrawlJobService } from "../services";
 import { ConferenceOrganizationSerivce } from "../../conference-organization";
-import { ConferenceDateInput } from "src/modules/conference-organization/models/date/conferencer-date.input";
-import { parseDateRange } from "../utils/date-parse";
+import { converStringToDate, convertObjectToDate} from "../utils/date-parse";
 import { MessageService } from "../../socket-gateway/services/message.service";
 import { ConferenceCrawlJobDTO } from "../models/conference-crawl-job/conference-crawl-job.dto";
 import { ConferenceAttribute } from "../../../constants/conference-attribute";
@@ -217,38 +216,3 @@ export class ConferenceImportProcessor extends WorkerHost {
     }
 }
 
-const convertObjectToDate = (
-    date: object,
-    type: string,
-    organizedId
-): ConferenceDateInput[] => {
-    const result: ConferenceDateInput[] = [];
-    for (const key in date) {
-        const [fromDate, toDate] = parseDateRange(date[key]);
-        result.push({
-            fromDate,
-            toDate,
-            type,
-            name: key,
-            organizedId,
-        });
-    }
-    return result;
-};
-
-const converStringToDate = (
-    date: string,
-    type: string,
-    organizedId
-): ConferenceDateInput[] => {
-    const [fromDate, toDate] = parseDateRange(date);
-    return [
-        {
-            fromDate,
-            toDate,
-            type,
-            name: type,
-            organizedId,
-        },
-    ];
-};

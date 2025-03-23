@@ -86,10 +86,6 @@ export class ConferenceOrganizationSerivce {
     }
 
     async importOrganize(input : OrganizedInput) : Promise<OrganizedDTO | undefined> {
-        
-        if(!input.link) {
-            return undefined;
-        }
 
         const organize = await this.prismaService.conferenceOrganizations.create({
             data : {
