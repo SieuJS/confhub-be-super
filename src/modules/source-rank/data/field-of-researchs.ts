@@ -1,4 +1,4 @@
-[
+export const FOR_DATA = [
     { "name": "Applied computing", "code": "4601" },
     { "name": "Applications in arts and humanities", "code": "460101" },
     { "name": "Applications in health", "code": "460102" },

@@ -1,7 +1,7 @@
 import { LoggerService, PrismaService } from "../../common";
-import * as fs from "fs";
-import * as path from "path";
+
 import { Injectable } from "@nestjs/common";
+import { FOR_DATA } from "../data/field-of-researchs";
 
 @Injectable()
 export class FieldOfResearchService {
@@ -17,12 +17,7 @@ export class FieldOfResearchService {
 
         if (count === 0) {
             // If no data exists, import from JSON file
-            const fieldsOfResearch = JSON.parse(
-                fs.readFileSync(
-                    path.join(__dirname, "../data/field-of-researchs.json"),
-                    "utf8"
-                )
-            );
+            const fieldsOfResearch =FOR_DATA ;
 
             // Insert all fields of research
             await this.prismaService.fieldOfResearchs.createMany({
