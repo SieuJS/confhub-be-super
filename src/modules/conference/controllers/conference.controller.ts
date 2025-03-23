@@ -24,6 +24,7 @@ import { ConferenceFollowInput } from "../models/conference-follow/conference-fo
 import { ConferenceDetailDTO } from "../models/conference/conference-detail.dto";
 import { ConferenceFeedBackInputDTO } from "../models/conference-feedback/conference-feedback.input";
 import { converStringToDate, convertObjectToDate } from "src/modules/conference-job/utils/date-parse";
+import { link } from "joi";
 
 @ApiTags("/conference")
 @Controller("conference")
@@ -365,7 +366,13 @@ export class ConferenceController {
             Title : conference.title,
             mainLink : organization.link
         });
-        const crawlData = responseData.data[0];
+        let crawlData = responseData.data[0];
+        crawlData = {
+            ...crawlData,
+            cfpLink : organization.cfpLink,
+            impLink : organization.impLink,
+            link : organization.link
+        }
         
         const organizeData = await this.conferenceOrganizationService.importOrganize({
             year: parseInt(crawlData.year),
