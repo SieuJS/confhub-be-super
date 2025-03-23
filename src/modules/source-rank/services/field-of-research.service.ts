@@ -45,6 +45,9 @@ export class FieldOfResearchService {
     }
 
     public async getFieldOfResearchByCode (forCode : string) {
+        if(!forCode) {
+            return null;
+        }
         return await this.prismaService.fieldOfResearchs.findFirst({
             where : {
                 code : forCode
