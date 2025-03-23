@@ -62,8 +62,13 @@ export class ConferenceController {
         if(params.type) {
             params.accessType = params.type;
         }
-        params.page = parseInt(params.page as any);
-        params.perPage = parseInt(params.perPage as any);
+        if(
+            params.page
+        )
+        {params.page = parseInt(params.page as any);}
+        if(params.perPage) {
+            params.perPage = parseInt(params.perPage as any);
+        }
         
         const conferences =  await this.conferenceService.getConferences(params);
 
