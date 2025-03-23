@@ -282,7 +282,7 @@ export class ConferenceService {
                                                                       ),
                                                               },
                                                               toDate: {
-                                                                  lte: parser.fromString(
+                                                                  gte: parser.fromString(
                                                                       conferenceFilter.fromDate
                                                                   ),
                                                               },
@@ -298,7 +298,7 @@ export class ConferenceService {
                                                                   ),
                                                               },
                                                                 fromDate: {
-                                                                    gte: parser.fromString(
+                                                                    lte: parser.fromString(
                                                                         conferenceFilter.toDate
                                                                     ),
                                                                 },
