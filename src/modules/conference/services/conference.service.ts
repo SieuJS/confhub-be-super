@@ -276,28 +276,19 @@ export class ConferenceService {
                                                 some: {
                                                     ...(conferenceFilter.fromDate
                                                         ? {
-                                                              fromDate: {
-                                                                  gte: parser.fromString(
-                                                                      conferenceFilter.fromDate
-                                                                      ),
-                                                              },
-                                                              toDate: {
-                                                                  gte: parser.fromString(
-                                                                      conferenceFilter.fromDate
-                                                                  ),
-                                                              },
-                                                              type : 'conferenceDates'
-                                                          }
+                                                            toDate : {
+                                                                gte: parser.fromString(
+                                                                    conferenceFilter.fromDate
+                                                                ),
+                                                            },
+                                                            type : 'conferenceDates'
+                                                        }
                                                         : {}),
 
                                                     ...(conferenceFilter.toDate
                                                         ? {
-                                                              toDate: {
-                                                                  lte: parser.fromString(
-                                                                      conferenceFilter.toDate
-                                                                  ),
-                                                              },
-                                                                fromDate: {
+
+                                                            fromDate: {
                                                                     lte: parser.fromString(
                                                                         conferenceFilter.toDate
                                                                     ),
