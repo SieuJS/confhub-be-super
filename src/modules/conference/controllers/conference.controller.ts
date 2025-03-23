@@ -62,7 +62,9 @@ export class ConferenceController {
         }
         
         const conferences =  await this.conferenceService.getConferences(params);
+        
         const conferenceToResponse : ConferenceDTO[] = await Promise.all(conferences.map( async conference => {
+            
             const organization = await this.conferenceOrganizationService.getFirstOrganizationsByConferenceId(conference.id) ;
             if(!organization) {
                     return {

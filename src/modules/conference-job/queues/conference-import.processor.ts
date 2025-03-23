@@ -44,11 +44,10 @@ export class ConferenceImportProcessor extends WorkerHost {
     async handleCrawlConferenceJob(
         job: Job<ConferenceCrawlJobDTO, any, string>
     ) {
+        job.data.progress = 20;
+        job.data.message = "Crawling conference data";
+        const channel = "cfp-crawl-"+job.data.id;
         try {
-
-            job.data.progress = 20;
-            job.data.message = "Crawling conference data";
-            const channel = "cfp-crawl-"+job.data.id;
             await this.messageService.sendMessage(channel, {progress : 20, message : "Crawling conference data", status : "processing"});
             await job.updateProgress(20);
 
@@ -62,7 +61,9 @@ export class ConferenceImportProcessor extends WorkerHost {
                 this.loggerService.error(
                     `No data found for ${job.data.conferenceTitle}`
                 );
-                return;
+                throw new Error(
+                    `No data found for ${job.data.conferenceTitle}`
+                );
             }
 
             job.data.progress = 40;
@@ -83,7 +84,9 @@ export class ConferenceImportProcessor extends WorkerHost {
                 this.loggerService.error(
                     `No link found for ${job.data.conferenceTitle}`
                 );
-                return;
+                throw new Error(
+                    `No link found for ${job.data.conferenceTitle}`
+                );
             }
 
             const organizeData =
@@ -111,7 +114,9 @@ export class ConferenceImportProcessor extends WorkerHost {
                 this.loggerService.error(
                     `No link found for ${job.data.conferenceTitle}`
                 );
-                return; 
+                throw new Error(
+                    `No link found for ${job.data.conferenceTitle}`
+                );
             }
             job.data.progress = 60;
             job.data.message =
@@ -200,6 +205,13 @@ export class ConferenceImportProcessor extends WorkerHost {
             this.loggerService.error(
                 `Error while importing conference data ${job.data.conferenceTitle}`
             );
+            await this.conferenceCrawlJobService.updateConferenceCrawlJob(job.data.id , {
+                status : ConferenceAttribute.JOB_STATUS_FAILED,
+                progress : 100,
+                message : "Error while importing conference data "+job.data.conferenceTitle
+            });
+            await job.updateProgress(100);
+            this.messageService.sendMessage(channel, {progress : 100, message : "Error while importing conference data "+job.data.conferenceTitle, status : "failed"});
             this.loggerService.error(e);
         }
     }
