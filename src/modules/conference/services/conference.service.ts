@@ -51,7 +51,18 @@ export class ConferenceService {
 
         if (!conferenceFilter) {
             return await this.prismaService.conferences.findMany({
-                include,
+                include : {
+                    ranks : {
+                        include : {
+                            inFieldOfResearch : true,
+                            byRank : {
+                                include : {
+                                    belongsToSource : true
+                                }
+                            }
+                        }
+                    }
+                }
             });
         }
 
@@ -380,6 +391,39 @@ export class ConferenceService {
                 year,
             },
         });
+    }
+
+    async createOrFindRank(
+        conferenceId: string,
+        rankInstance: RankDTO,
+        fieldOfResearchId: string,
+        year: number
+    ) {
+        const existingRank = await this.prismaService.conferences.findFirst(
+            {
+                where : {
+                    id : conferenceId, 
+                    ranks : {
+                        some : {
+                            rankId : rankInstance.id,
+                            fieldOfResearchId,
+                            year
+                        }
+                    }
+                }
+            }
+        );
+
+        if (existingRank) {
+            return existingRank;
+        }
+
+        return await this.createConferenceRank(
+            conferenceId,
+            rankInstance,
+            fieldOfResearchId,
+            year
+        );
     }
 
     

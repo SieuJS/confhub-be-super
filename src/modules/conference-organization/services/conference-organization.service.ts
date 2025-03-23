@@ -58,7 +58,11 @@ export class ConferenceOrganizationSerivce {
         })
 
         const topicsToCreate = topics.filter(topic => {
-            return !topicsInDb.find(topicInDb => topicInDb.name === topic)
+            const exists = topicsInDb.find(topicInDb => topicInDb.name === topic)
+            if(!exists) {
+                return true;
+            }
+            return false;
         })
 
         const topicsCreated = await this.prismaService.topics.createManyAndReturn({

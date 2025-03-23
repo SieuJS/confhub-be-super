@@ -75,10 +75,10 @@ export class ConferenceController {
                             address : "",
                             continent : '',
                         },
-                        rank : '',
-                        source : '',
-                        year : 0,
-                        researchFields: [],
+                        rank : conference.ranks[0]?.byRank?.name,
+                        source : conference.ranks[0]?.byRank?.belongsToSource.name,
+                        year : conference.ranks[0]?.year,
+                        researchFields: conference.ranks.map(rank => rank.inFieldOfResearch.name),
                         topics : [],
                         dates : { fromDate: new Date(), toDate: new Date(), name: '', type: 'conferenceDates' },
                         link : '',
@@ -210,10 +210,6 @@ export class ConferenceController {
         const year = new Date().getFullYear();
         conferenceImport.year = year;
 
-        conferenceImport.fieldOfResearchCodes = conferenceImport.fieldOfResearchCodes.filter(
-            (code) => code !== ""
-        )
-
         if (!conferenceInstance) {
             isExists = false;
             conferenceInstance = await this.conferenceService.createConference(
@@ -232,12 +228,13 @@ export class ConferenceController {
             value: 0,
         };
 
+
         const rankInstance = await this.rankService.findOrCreateRank(rankInput);
         conferenceImport.fieldOfResearchCodes.forEach(async (code) => {
             const fieldOfResearch =
                 await this.fieldOfResearch.getFieldOfResearchByCode(code);
             if (fieldOfResearch) {
-                await this.conferenceService.createConferenceRank(
+                const t = await this.conferenceService.createOrFindRank(
                     conferenceInstance.id,
                     rankInstance,
                     fieldOfResearch.id,
@@ -284,15 +281,32 @@ export class ConferenceController {
         if(!conference) {
             return new HttpException('Conference not found', 404);
         }
-        const organization = await this.conferenceOrganizationService.getFirstOrganizationsByConferenceId(conference.id) ;
-        if(!organization) {
-            return new HttpException('Organization not found', 404);
-        }
-        let locations = await this.conferenceOrganizationService.getLocationsByOrganizedId(organization.id);
-        const dates = await this.conferenceOrganizationService.getDatesByOrganizedId(organization.id);
         const ranks = await this.conferenceRankService.getRankByConferenceId(conference.id);
         const folowBy = await this.conferenceService.getFollowedByConferenceId(conference.id);
         const feedbacks = await this.conferenceService.getFeedbacksByConferenceId(conference.id);
+        const organization = await this.conferenceOrganizationService.getFirstOrganizationsByConferenceId(conference.id) ;
+        if(!organization) {
+            return {
+                conference : {
+                    id : conference.id,
+                    title : conference.title,
+                    acronym : conference.acronym,
+                    creatorId : conference.creatorId,
+                    createdAt : conference.createdAt,
+                    updatedAt : conference.updatedAt,
+                    creatorName : conference.creatorId,
+                },
+                organization : null,
+                location : null,
+                dates : null,
+                ranks : ranks,
+                followBy : folowBy,
+                feedbacks : feedbacks
+            }
+        }
+        let locations = await this.conferenceOrganizationService.getLocationsByOrganizedId(organization.id);
+        const dates = await this.conferenceOrganizationService.getDatesByOrganizedId(organization.id);
+  
         return {
             conference : {
                 id : conference.id,

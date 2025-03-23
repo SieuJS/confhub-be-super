@@ -43,11 +43,12 @@ export class FieldOfResearchService {
         if(!forCode) {
             return null;
         }
-        return await this.prismaService.fieldOfResearchs.findFirst({
+        const result = await this.prismaService.fieldOfResearchs.findFirst({
             where : {
-                code : forCode
+                code : `${forCode}`
             }
         });
+        return result;
     }
 
     

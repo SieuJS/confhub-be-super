@@ -37,7 +37,6 @@ export class RankService {
         const existingRank = await this.prismaService.ranks.findFirst({
             where : {
                 name : rank.name,
-                value : rank.value,
                 sourceId : rank.source.id
             },
             include : {
@@ -53,7 +52,6 @@ export class RankService {
                 source : existingRank.belongsToSource
             }
         }
-
         return await this.createRank(rank);
     }
 

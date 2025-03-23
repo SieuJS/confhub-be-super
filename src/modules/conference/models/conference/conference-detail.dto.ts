@@ -26,21 +26,21 @@ export class ConferenceDetailDTO {
     conference : ConferenceInfoDTO
 
     @ApiProperty({description : "Organization information"})
-    organization : OrganizedDTO
+    organization : OrganizedDTO | null
 
     @ApiProperty({description : "Location information"})
-    location : LocationDTO
-
+    location : LocationDTO | null
+ 
     @ApiProperty({description : "Rank information"})
-    ranks : ConferenceRankDTO[]
+    ranks : ConferenceRankDTO[] | null
 
     @ApiProperty({description : "Important dates"})
-    dates : ConferenceDatesDTO[]
+    dates : ConferenceDatesDTO[] | null
 
     @ApiProperty({description : "Feedbacks"})
-    feedbacks : ConferenceFeedBackDTO[]
+    feedbacks : ConferenceFeedBackDTO[] | null
 
     @ApiProperty({description : "Followed by" , type : ConferenceFollowByDTO , isArray : true})
-    followBy : ConferenceFollowByDTO[]
+    followBy : ConferenceFollowByDTO[] | null
 
 }

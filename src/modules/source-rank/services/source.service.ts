@@ -27,7 +27,10 @@ export class SourceService {
     public async findOrCreateSource (source : SourceInputDTO) : Promise<SourceDTO> {
         const existingSource = await this.prismaService.sources.findFirst({
             where : {
-                name : source.name
+                name : {
+                    equals : source.name.trim(),
+                    mode : 'insensitive'
+                }
             }
         })
 
