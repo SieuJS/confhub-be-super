@@ -9,6 +9,7 @@ export class ConferenceOrganizationController {
 
     @Get('/topics')
     async getConferenceTopics() {
-        return await this.conferenceOrganizationService.getAllTopics();
+        const topicsInstances =  await this.conferenceOrganizationService.getAllTopics();
+        return topicsInstances.map(topic => topic.name);
     }
 }

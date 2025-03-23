@@ -161,7 +161,7 @@ export class ConferenceService {
                                       ...(conferenceFilter.rank
                                           ? {
                                                 name: {
-                                                    contains:
+                                                    equals:
                                                         conferenceFilter.rank,
                                                     mode: "insensitive",
                                                 },
