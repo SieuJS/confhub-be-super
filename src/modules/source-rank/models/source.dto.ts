@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Sources } from "@prisma/client";
+import { Sources } from "../../../../generated/prisma_client";
 export class SourceDTO {
 
     @ApiProperty(

@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { FieldOfResearchs } from "@prisma/client";
+import { FieldOfResearchs } from "../../../../generated/prisma_client";
 import { IsUUID } from "class-validator";
 
 export class FieldOfResearchDTO {

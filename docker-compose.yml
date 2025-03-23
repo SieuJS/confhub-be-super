@@ -8,6 +8,9 @@ services:
     image: docker.io/bitnami/postgresql:16
     ports:
       - '5432:5432'
+    hostname: postgresql
+    networks:
+      - prisma-network
     volumes:
       - 'postgresql_data:/bitnami/postgresql'
     environment:
@@ -15,24 +18,46 @@ services:
       - POSTGRESQL_DATABASE=confhub
       - POSTGRESQL_USERNAME=confhub
       - POSTGRESQL_PASSWORD=password
-
+  server:
+    build: 
+      context: .  
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    stdin_open: true
+    tty: true  # Keeps the container running for debugging
+    depends_on:
+      - postgresql
+    env_file:
+      - .env.product
+    networks:
+      - prisma-network
   confhub_redis:
-        container_name: confhub_redis
-        image: redis:alpine
-        expose:
-          - 6379
-        ports:
-          - 6379:6379 # Public port để lát nữa test multiple worker
-        restart: unless-stopped
+    container_name: confhub_redis
+    image: redis:alpine
+    hostname: redis
+    expose:
+      - 6379
+    ports:
+      - 6379:6379 
+    networks:
+      - prisma-network
+    restart: unless-stopped
   confhub_redis_commander:
-        container_name: confhub_redis_commander
-        image: rediscommander/redis-commander:latest
-        environment:
-          - REDIS_HOSTS=local:confhub_redis:6379
-        ports:
-          - '8088:8081'
-        depends_on:
-          - confhub_redis
+    container_name: confhub_redis_commander
+    image: rediscommander/redis-commander:latest
+    environment:
+      - REDIS_HOSTS=local:confhub_redis:6379
+    ports:
+      - '8088:8081'
+    networks:
+      - prisma-network
+    depends_on:
+      - confhub_redis
+ 
+networks:
+  prisma-network:
+    name: prisma-network
 volumes:
   postgresql_data:
     driver: local

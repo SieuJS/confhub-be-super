@@ -1,5 +1,5 @@
 import { PipeTransform, Injectable } from '@nestjs/common';
-import { Conferences } from '@prisma/client';
+import { Conferences } from '../../../../generated/prisma_client';
 import { ConferenceDTO } from '../models/conference/conference.dto';
 import { ConferenceFilter } from '../models/conference-filter/conference.filter';
 import parser from 'any-date-parser';

@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { SourceDTO } from "./source.dto";
-import { Ranks } from "@prisma/client";
+import { Ranks } from "../../../../generated/prisma_client";
 
 export class RankDTO {
 
