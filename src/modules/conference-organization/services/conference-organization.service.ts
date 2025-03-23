@@ -140,7 +140,7 @@ export class ConferenceOrganizationSerivce {
         }
     }
 
-    async getLocationsByOrganizedId(organizedId : string) {
+    async getLocationsByOrganizedId(organizedId : string ) {
         return this.prismaService.locations.findMany({
             where : {
                 isAvailable : true,

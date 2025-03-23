@@ -143,7 +143,6 @@ export class ConferenceImportProcessor extends WorkerHost {
                 organizeData.id
             );
 
-            console.log("input",conferenceDateInput)
             const submissionDateInput = convertObjectToDate(
                 submissionDate,
                 "submissionDate",
@@ -230,7 +229,6 @@ const converStringToDate = (
     type: string,
     organizedId
 ): ConferenceDateInput[] => {
-    console.log("date", date);
     const [fromDate, toDate] = parseDateRange(date);
     return [
         {

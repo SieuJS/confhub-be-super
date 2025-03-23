@@ -9,8 +9,7 @@ export class LocationDTO {
     @ApiProperty({
         example : "Colisten, Paris, France"
     })
-    address : string 
-
+    address : string | undefined
     @ApiProperty({
         example : "Paris"
     })

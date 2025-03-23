@@ -10,6 +10,7 @@ import { Service } from './modules/tokens';
 import { FeedbacksModule } from './modules/feedbacks/feedbacks.module';
 import { ConferenceOrganizationModule } from './modules/conference-organization';
 import { ConferenceJobModule } from './modules/conference-job';
+import { ConferencesModule } from './modules/conference/conference.module';
 
 @Module({
   imports: [CommonModule, UserModule, AuthModule, SourceRankModule,
@@ -25,7 +26,8 @@ import { ConferenceJobModule } from './modules/conference-job';
   }),
   FeedbacksModule,
   ConferenceOrganizationModule,
-  ConferenceJobModule
+  ConferenceJobModule,
+  ConferencesModule
   ],
   controllers: [AppController],
   providers: [AppService],

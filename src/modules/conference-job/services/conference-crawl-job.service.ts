@@ -62,8 +62,9 @@ export class ConferenceCrawlJobService {
     }
 
     async fetchConferenceCrawlData(input : ConferenceCrawlNewRequestDto) : Promise<ConferenceCrawlNewResponseDto> {
+        const CRAWL_URL = process.env.CRAWL_URL
         const { data } : {data : ConferenceCrawlNewResponseDto} = await firstValueFrom(
-            this.httpService.post("http://localhost:3001/crawl-conferences", 
+            this.httpService.post(CRAWL_URL+"/crawl-conferences", 
             [
                 {
                     ...input
