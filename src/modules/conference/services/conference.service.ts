@@ -281,6 +281,7 @@ export class ConferenceService {
                                                                       conferenceFilter.fromDate
                                                                       ),
                                                               },
+                                                              type : 'conferenceDates'
                                                           }
                                                         : {}),
 
@@ -296,6 +297,7 @@ export class ConferenceService {
                                                                       conferenceFilter.toDate
                                                                   ),
                                                               },
+                                                            type : 'conferenceDates'
                                                           }
                                                         : {}),
                                                 },
