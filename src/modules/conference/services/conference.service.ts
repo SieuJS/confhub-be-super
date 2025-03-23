@@ -31,7 +31,7 @@ export class ConferenceService {
     ) {}
 
     async getConferences(conferenceFilter?: ConferenceFilter ) {
-
+        
         const include = {
             ranks: {
                 include: {
@@ -280,6 +280,11 @@ export class ConferenceService {
                                                                   gte: parser.fromString(
                                                                       conferenceFilter.fromDate
                                                                       ),
+                                                              },
+                                                              toDate: {
+                                                                  lte: parser.fromString(
+                                                                      conferenceFilter.fromDate
+                                                                  ),
                                                               },
                                                               type : 'conferenceDates'
                                                           }
