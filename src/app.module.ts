@@ -9,6 +9,7 @@ import { BullModule } from '@nestjs/bullmq';
 import { Service } from './modules/tokens';
 import { FeedbacksModule } from './modules/feedbacks/feedbacks.module';
 import { ConferenceOrganizationModule } from './modules/conference-organization';
+import { ConferenceJobModule } from './modules/conference-job';
 
 @Module({
   imports: [CommonModule, UserModule, AuthModule, SourceRankModule,
@@ -23,7 +24,8 @@ import { ConferenceOrganizationModule } from './modules/conference-organization'
       })
   }),
   FeedbacksModule,
-  ConferenceOrganizationModule
+  ConferenceOrganizationModule,
+  ConferenceJobModule
   ],
   controllers: [AppController],
   providers: [AppService],
