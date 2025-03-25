@@ -43,11 +43,19 @@ export class FieldOfResearchService {
         if(!forCode) {
             return null;
         }
-        const result = await this.prismaService.fieldOfResearchs.findFirst({
+        let result = await this.prismaService.fieldOfResearchs.findFirst({
             where : {
                 code : `${forCode}`
             }
         });
+        if(!result) {
+            result = await this.prismaService.fieldOfResearchs.create({
+                data : {
+                    code : forCode,
+                    name : "UNDEFINED"
+                }
+            })
+        }
         return result;
     }
 

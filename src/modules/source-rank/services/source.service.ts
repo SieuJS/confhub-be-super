@@ -28,16 +28,16 @@ export class SourceService {
         const existingSource = await this.prismaService.sources.findFirst({
             where : {
                 name : {
-                    equals : source.name.trim(),
-                    mode : 'insensitive'
+                    equals : source.name.trim()
                 }
             }
         })
 
         if(existingSource) {
+            console.log('source already exists', existingSource)
             return existingSource;
         }
-
+        console.log('create new source')
         return await this.prismaService.sources.create({
             data : source
         })

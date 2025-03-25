@@ -244,7 +244,7 @@ export class ConferenceController {
         const rankInstance = await this.rankService.findOrCreateRank(rankInput);
         conferenceImport.fieldOfResearchCodes.forEach(async (code) => {
             const fieldOfResearch =
-                await this.fieldOfResearch.getFieldOfResearchByCode(code);
+                (await this.fieldOfResearch.getFieldOfResearchByCode(code));
             if (fieldOfResearch) {
                 const t = await this.conferenceService.createOrFindRank(
                     conferenceInstance.id,
@@ -387,7 +387,6 @@ export class ConferenceController {
             isAvailable: true,
             publisher : crawlData.publisher
         });
-        console.log('organizeData', organizeData)
         if(!organizeData) {
             return new HttpException('Organization not found', 404);
         }
