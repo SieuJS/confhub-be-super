@@ -12,7 +12,7 @@ export class AdminService {
   }
 
   async initializeAdmin() {
-    const count = await this.prismaService.users.count();
+    const count = await this.prismaService.admins.count();
     if (count > 0) {
       this.logService.info('Admin already exists');
       return;
