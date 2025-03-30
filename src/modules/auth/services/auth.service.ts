@@ -59,7 +59,7 @@ export class AuthService {
           id : admin.id,
           email : admin.email,
           role : 'admin'
-        }})
+        }},)
     }
   }
 
