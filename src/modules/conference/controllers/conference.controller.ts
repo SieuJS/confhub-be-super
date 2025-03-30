@@ -103,7 +103,7 @@ export class ConferenceController {
   })
   @Post('import')
   async importConferences(
-    @Body() conferenceImport: ConferenceImportDTO,
+    @Body() conferenceImport,
   ): Promise<any> {
     let isExists = true;
     const user = await this.adminService.getAdmin();
@@ -112,10 +112,7 @@ export class ConferenceController {
     }
     conferenceImport.adminId = user.id;
     let conferenceInstance =
-      await this.conferenceService.getConferenceByAcronymAndTitle(
-        conferenceImport.title,
-        conferenceImport.acronym,
-      );
+      await this.conferenceService.getConferenceById(conferenceImport.id)
     const year = new Date().getFullYear();
     conferenceImport.year = year;
 
