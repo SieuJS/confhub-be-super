@@ -124,10 +124,20 @@ export type Users = $Result.DefaultSelection<Prisma.$UsersPayload>
  */
 export type ConferenceCrawlJobs = $Result.DefaultSelection<Prisma.$ConferenceCrawlJobsPayload>
 /**
+ * Model ConferenceBlacklists
+ * 
+ */
+export type ConferenceBlacklists = $Result.DefaultSelection<Prisma.$ConferenceBlacklistsPayload>
+/**
  * Model JournalCrawlJobs
  * 
  */
 export type JournalCrawlJobs = $Result.DefaultSelection<Prisma.$JournalCrawlJobsPayload>
+/**
+ * Model Notifications
+ * 
+ */
+export type Notifications = $Result.DefaultSelection<Prisma.$NotificationsPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -475,6 +485,16 @@ export class PrismaClient<
   get conferenceCrawlJobs(): Prisma.ConferenceCrawlJobsDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.conferenceBlacklists`: Exposes CRUD operations for the **ConferenceBlacklists** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ConferenceBlacklists
+    * const conferenceBlacklists = await prisma.conferenceBlacklists.findMany()
+    * ```
+    */
+  get conferenceBlacklists(): Prisma.ConferenceBlacklistsDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.journalCrawlJobs`: Exposes CRUD operations for the **JournalCrawlJobs** model.
     * Example usage:
     * ```ts
@@ -483,6 +503,16 @@ export class PrismaClient<
     * ```
     */
   get journalCrawlJobs(): Prisma.JournalCrawlJobsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.notifications`: Exposes CRUD operations for the **Notifications** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Notifications
+    * const notifications = await prisma.notifications.findMany()
+    * ```
+    */
+  get notifications(): Prisma.NotificationsDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -945,7 +975,9 @@ export namespace Prisma {
     JournalFollows: 'JournalFollows',
     Users: 'Users',
     ConferenceCrawlJobs: 'ConferenceCrawlJobs',
-    JournalCrawlJobs: 'JournalCrawlJobs'
+    ConferenceBlacklists: 'ConferenceBlacklists',
+    JournalCrawlJobs: 'JournalCrawlJobs',
+    Notifications: 'Notifications'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -964,7 +996,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "passenger" | "locations" | "conferenceDates" | "conferenceOrganizations" | "conferenceTopics" | "topics" | "conferences" | "conferenceRanks" | "fieldOfResearchs" | "ranks" | "sources" | "journalTopics" | "journalRanks" | "journals" | "conferenceFollows" | "conferenceLikes" | "conferenceFeedbacks" | "conferenceCalendars" | "journalLikes" | "journalFollows" | "users" | "conferenceCrawlJobs" | "journalCrawlJobs"
+      modelProps: "passenger" | "locations" | "conferenceDates" | "conferenceOrganizations" | "conferenceTopics" | "topics" | "conferences" | "conferenceRanks" | "fieldOfResearchs" | "ranks" | "sources" | "journalTopics" | "journalRanks" | "journals" | "conferenceFollows" | "conferenceLikes" | "conferenceFeedbacks" | "conferenceCalendars" | "journalLikes" | "journalFollows" | "users" | "conferenceCrawlJobs" | "conferenceBlacklists" | "journalCrawlJobs" | "notifications"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2596,6 +2628,80 @@ export namespace Prisma {
           }
         }
       }
+      ConferenceBlacklists: {
+        payload: Prisma.$ConferenceBlacklistsPayload<ExtArgs>
+        fields: Prisma.ConferenceBlacklistsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ConferenceBlacklistsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConferenceBlacklistsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ConferenceBlacklistsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConferenceBlacklistsPayload>
+          }
+          findFirst: {
+            args: Prisma.ConferenceBlacklistsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConferenceBlacklistsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ConferenceBlacklistsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConferenceBlacklistsPayload>
+          }
+          findMany: {
+            args: Prisma.ConferenceBlacklistsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConferenceBlacklistsPayload>[]
+          }
+          create: {
+            args: Prisma.ConferenceBlacklistsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConferenceBlacklistsPayload>
+          }
+          createMany: {
+            args: Prisma.ConferenceBlacklistsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ConferenceBlacklistsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConferenceBlacklistsPayload>[]
+          }
+          delete: {
+            args: Prisma.ConferenceBlacklistsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConferenceBlacklistsPayload>
+          }
+          update: {
+            args: Prisma.ConferenceBlacklistsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConferenceBlacklistsPayload>
+          }
+          deleteMany: {
+            args: Prisma.ConferenceBlacklistsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ConferenceBlacklistsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ConferenceBlacklistsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConferenceBlacklistsPayload>[]
+          }
+          upsert: {
+            args: Prisma.ConferenceBlacklistsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConferenceBlacklistsPayload>
+          }
+          aggregate: {
+            args: Prisma.ConferenceBlacklistsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateConferenceBlacklists>
+          }
+          groupBy: {
+            args: Prisma.ConferenceBlacklistsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ConferenceBlacklistsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ConferenceBlacklistsCountArgs<ExtArgs>
+            result: $Utils.Optional<ConferenceBlacklistsCountAggregateOutputType> | number
+          }
+        }
+      }
       JournalCrawlJobs: {
         payload: Prisma.$JournalCrawlJobsPayload<ExtArgs>
         fields: Prisma.JournalCrawlJobsFieldRefs
@@ -2667,6 +2773,80 @@ export namespace Prisma {
           count: {
             args: Prisma.JournalCrawlJobsCountArgs<ExtArgs>
             result: $Utils.Optional<JournalCrawlJobsCountAggregateOutputType> | number
+          }
+        }
+      }
+      Notifications: {
+        payload: Prisma.$NotificationsPayload<ExtArgs>
+        fields: Prisma.NotificationsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.NotificationsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.NotificationsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationsPayload>
+          }
+          findFirst: {
+            args: Prisma.NotificationsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.NotificationsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationsPayload>
+          }
+          findMany: {
+            args: Prisma.NotificationsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationsPayload>[]
+          }
+          create: {
+            args: Prisma.NotificationsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationsPayload>
+          }
+          createMany: {
+            args: Prisma.NotificationsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.NotificationsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationsPayload>[]
+          }
+          delete: {
+            args: Prisma.NotificationsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationsPayload>
+          }
+          update: {
+            args: Prisma.NotificationsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationsPayload>
+          }
+          deleteMany: {
+            args: Prisma.NotificationsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.NotificationsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.NotificationsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationsPayload>[]
+          }
+          upsert: {
+            args: Prisma.NotificationsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationsPayload>
+          }
+          aggregate: {
+            args: Prisma.NotificationsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateNotifications>
+          }
+          groupBy: {
+            args: Prisma.NotificationsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<NotificationsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.NotificationsCountArgs<ExtArgs>
+            result: $Utils.Optional<NotificationsCountAggregateOutputType> | number
           }
         }
       }
@@ -2776,7 +2956,9 @@ export namespace Prisma {
     journalFollows?: JournalFollowsOmit
     users?: UsersOmit
     conferenceCrawlJobs?: ConferenceCrawlJobsOmit
+    conferenceBlacklists?: ConferenceBlacklistsOmit
     journalCrawlJobs?: JournalCrawlJobsOmit
+    notifications?: NotificationsOmit
   }
 
   /* Types for Logging */
@@ -2967,6 +3149,7 @@ export namespace Prisma {
     ranks: number
     crawlJobs: number
     feedbacks: number
+    blacklists: number
   }
 
   export type ConferencesCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2977,6 +3160,7 @@ export namespace Prisma {
     ranks?: boolean | ConferencesCountOutputTypeCountRanksArgs
     crawlJobs?: boolean | ConferencesCountOutputTypeCountCrawlJobsArgs
     feedbacks?: boolean | ConferencesCountOutputTypeCountFeedbacksArgs
+    blacklists?: boolean | ConferencesCountOutputTypeCountBlacklistsArgs
   }
 
   // Custom InputTypes
@@ -3037,6 +3221,13 @@ export namespace Prisma {
    */
   export type ConferencesCountOutputTypeCountFeedbacksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ConferenceFeedbacksWhereInput
+  }
+
+  /**
+   * ConferencesCountOutputType without action
+   */
+  export type ConferencesCountOutputTypeCountBlacklistsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConferenceBlacklistsWhereInput
   }
 
 
@@ -3231,6 +3422,8 @@ export namespace Prisma {
     journalLikes: number
     journalFollows: number
     feedbacks: number
+    blacklists: number
+    notifications: number
   }
 
   export type UsersCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3242,6 +3435,8 @@ export namespace Prisma {
     journalLikes?: boolean | UsersCountOutputTypeCountJournalLikesArgs
     journalFollows?: boolean | UsersCountOutputTypeCountJournalFollowsArgs
     feedbacks?: boolean | UsersCountOutputTypeCountFeedbacksArgs
+    blacklists?: boolean | UsersCountOutputTypeCountBlacklistsArgs
+    notifications?: boolean | UsersCountOutputTypeCountNotificationsArgs
   }
 
   // Custom InputTypes
@@ -3309,6 +3504,20 @@ export namespace Prisma {
    */
   export type UsersCountOutputTypeCountFeedbacksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ConferenceFeedbacksWhereInput
+  }
+
+  /**
+   * UsersCountOutputType without action
+   */
+  export type UsersCountOutputTypeCountBlacklistsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConferenceBlacklistsWhereInput
+  }
+
+  /**
+   * UsersCountOutputType without action
+   */
+  export type UsersCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NotificationsWhereInput
   }
 
 
@@ -10126,6 +10335,7 @@ export namespace Prisma {
     crawlJobs?: boolean | Conferences$crawlJobsArgs<ExtArgs>
     createdByUser?: boolean | UsersDefaultArgs<ExtArgs>
     feedbacks?: boolean | Conferences$feedbacksArgs<ExtArgs>
+    blacklists?: boolean | Conferences$blacklistsArgs<ExtArgs>
     _count?: boolean | ConferencesCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["conferences"]>
 
@@ -10171,6 +10381,7 @@ export namespace Prisma {
     crawlJobs?: boolean | Conferences$crawlJobsArgs<ExtArgs>
     createdByUser?: boolean | UsersDefaultArgs<ExtArgs>
     feedbacks?: boolean | Conferences$feedbacksArgs<ExtArgs>
+    blacklists?: boolean | Conferences$blacklistsArgs<ExtArgs>
     _count?: boolean | ConferencesCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ConferencesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10191,6 +10402,7 @@ export namespace Prisma {
       crawlJobs: Prisma.$ConferenceCrawlJobsPayload<ExtArgs>[]
       createdByUser: Prisma.$UsersPayload<ExtArgs>
       feedbacks: Prisma.$ConferenceFeedbacksPayload<ExtArgs>[]
+      blacklists: Prisma.$ConferenceBlacklistsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -10602,6 +10814,7 @@ export namespace Prisma {
     crawlJobs<T extends Conferences$crawlJobsArgs<ExtArgs> = {}>(args?: Subset<T, Conferences$crawlJobsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceCrawlJobsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     createdByUser<T extends UsersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsersDefaultArgs<ExtArgs>>): Prisma__UsersClient<$Result.GetResult<Prisma.$UsersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     feedbacks<T extends Conferences$feedbacksArgs<ExtArgs> = {}>(args?: Subset<T, Conferences$feedbacksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceFeedbacksPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    blacklists<T extends Conferences$blacklistsArgs<ExtArgs> = {}>(args?: Subset<T, Conferences$blacklistsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceBlacklistsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11199,6 +11412,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ConferenceFeedbacksScalarFieldEnum | ConferenceFeedbacksScalarFieldEnum[]
+  }
+
+  /**
+   * Conferences.blacklists
+   */
+  export type Conferences$blacklistsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConferenceBlacklists
+     */
+    select?: ConferenceBlacklistsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConferenceBlacklists
+     */
+    omit?: ConferenceBlacklistsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConferenceBlacklistsInclude<ExtArgs> | null
+    where?: ConferenceBlacklistsWhereInput
+    orderBy?: ConferenceBlacklistsOrderByWithRelationInput | ConferenceBlacklistsOrderByWithRelationInput[]
+    cursor?: ConferenceBlacklistsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ConferenceBlacklistsScalarFieldEnum | ConferenceBlacklistsScalarFieldEnum[]
   }
 
   /**
@@ -25675,6 +25912,8 @@ export namespace Prisma {
     journalLikes?: boolean | Users$journalLikesArgs<ExtArgs>
     journalFollows?: boolean | Users$journalFollowsArgs<ExtArgs>
     feedbacks?: boolean | Users$feedbacksArgs<ExtArgs>
+    blacklists?: boolean | Users$blacklistsArgs<ExtArgs>
+    notifications?: boolean | Users$notificationsArgs<ExtArgs>
     _count?: boolean | UsersCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["users"]>
 
@@ -25724,6 +25963,8 @@ export namespace Prisma {
     journalLikes?: boolean | Users$journalLikesArgs<ExtArgs>
     journalFollows?: boolean | Users$journalFollowsArgs<ExtArgs>
     feedbacks?: boolean | Users$feedbacksArgs<ExtArgs>
+    blacklists?: boolean | Users$blacklistsArgs<ExtArgs>
+    notifications?: boolean | Users$notificationsArgs<ExtArgs>
     _count?: boolean | UsersCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UsersIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -25740,6 +25981,8 @@ export namespace Prisma {
       journalLikes: Prisma.$JournalLikesPayload<ExtArgs>[]
       journalFollows: Prisma.$JournalFollowsPayload<ExtArgs>[]
       feedbacks: Prisma.$ConferenceFeedbacksPayload<ExtArgs>[]
+      blacklists: Prisma.$ConferenceBlacklistsPayload<ExtArgs>[]
+      notifications: Prisma.$NotificationsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -26153,6 +26396,8 @@ export namespace Prisma {
     journalLikes<T extends Users$journalLikesArgs<ExtArgs> = {}>(args?: Subset<T, Users$journalLikesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JournalLikesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     journalFollows<T extends Users$journalFollowsArgs<ExtArgs> = {}>(args?: Subset<T, Users$journalFollowsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JournalFollowsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     feedbacks<T extends Users$feedbacksArgs<ExtArgs> = {}>(args?: Subset<T, Users$feedbacksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceFeedbacksPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    blacklists<T extends Users$blacklistsArgs<ExtArgs> = {}>(args?: Subset<T, Users$blacklistsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceBlacklistsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    notifications<T extends Users$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, Users$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -26768,6 +27013,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ConferenceFeedbacksScalarFieldEnum | ConferenceFeedbacksScalarFieldEnum[]
+  }
+
+  /**
+   * Users.blacklists
+   */
+  export type Users$blacklistsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConferenceBlacklists
+     */
+    select?: ConferenceBlacklistsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConferenceBlacklists
+     */
+    omit?: ConferenceBlacklistsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConferenceBlacklistsInclude<ExtArgs> | null
+    where?: ConferenceBlacklistsWhereInput
+    orderBy?: ConferenceBlacklistsOrderByWithRelationInput | ConferenceBlacklistsOrderByWithRelationInput[]
+    cursor?: ConferenceBlacklistsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ConferenceBlacklistsScalarFieldEnum | ConferenceBlacklistsScalarFieldEnum[]
+  }
+
+  /**
+   * Users.notifications
+   */
+  export type Users$notificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notifications
+     */
+    select?: NotificationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notifications
+     */
+    omit?: NotificationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationsInclude<ExtArgs> | null
+    where?: NotificationsWhereInput
+    orderBy?: NotificationsOrderByWithRelationInput | NotificationsOrderByWithRelationInput[]
+    cursor?: NotificationsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NotificationsScalarFieldEnum | NotificationsScalarFieldEnum[]
   }
 
   /**
@@ -27908,6 +28201,1072 @@ export namespace Prisma {
 
 
   /**
+   * Model ConferenceBlacklists
+   */
+
+  export type AggregateConferenceBlacklists = {
+    _count: ConferenceBlacklistsCountAggregateOutputType | null
+    _min: ConferenceBlacklistsMinAggregateOutputType | null
+    _max: ConferenceBlacklistsMaxAggregateOutputType | null
+  }
+
+  export type ConferenceBlacklistsMinAggregateOutputType = {
+    id: string | null
+    conferenceId: string | null
+    userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ConferenceBlacklistsMaxAggregateOutputType = {
+    id: string | null
+    conferenceId: string | null
+    userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ConferenceBlacklistsCountAggregateOutputType = {
+    id: number
+    conferenceId: number
+    userId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ConferenceBlacklistsMinAggregateInputType = {
+    id?: true
+    conferenceId?: true
+    userId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ConferenceBlacklistsMaxAggregateInputType = {
+    id?: true
+    conferenceId?: true
+    userId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ConferenceBlacklistsCountAggregateInputType = {
+    id?: true
+    conferenceId?: true
+    userId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ConferenceBlacklistsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ConferenceBlacklists to aggregate.
+     */
+    where?: ConferenceBlacklistsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ConferenceBlacklists to fetch.
+     */
+    orderBy?: ConferenceBlacklistsOrderByWithRelationInput | ConferenceBlacklistsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ConferenceBlacklistsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ConferenceBlacklists from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ConferenceBlacklists.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ConferenceBlacklists
+    **/
+    _count?: true | ConferenceBlacklistsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ConferenceBlacklistsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ConferenceBlacklistsMaxAggregateInputType
+  }
+
+  export type GetConferenceBlacklistsAggregateType<T extends ConferenceBlacklistsAggregateArgs> = {
+        [P in keyof T & keyof AggregateConferenceBlacklists]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateConferenceBlacklists[P]>
+      : GetScalarType<T[P], AggregateConferenceBlacklists[P]>
+  }
+
+
+
+
+  export type ConferenceBlacklistsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConferenceBlacklistsWhereInput
+    orderBy?: ConferenceBlacklistsOrderByWithAggregationInput | ConferenceBlacklistsOrderByWithAggregationInput[]
+    by: ConferenceBlacklistsScalarFieldEnum[] | ConferenceBlacklistsScalarFieldEnum
+    having?: ConferenceBlacklistsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ConferenceBlacklistsCountAggregateInputType | true
+    _min?: ConferenceBlacklistsMinAggregateInputType
+    _max?: ConferenceBlacklistsMaxAggregateInputType
+  }
+
+  export type ConferenceBlacklistsGroupByOutputType = {
+    id: string
+    conferenceId: string
+    userId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: ConferenceBlacklistsCountAggregateOutputType | null
+    _min: ConferenceBlacklistsMinAggregateOutputType | null
+    _max: ConferenceBlacklistsMaxAggregateOutputType | null
+  }
+
+  type GetConferenceBlacklistsGroupByPayload<T extends ConferenceBlacklistsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ConferenceBlacklistsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ConferenceBlacklistsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ConferenceBlacklistsGroupByOutputType[P]>
+            : GetScalarType<T[P], ConferenceBlacklistsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ConferenceBlacklistsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    conferenceId?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    belongsTo?: boolean | ConferencesDefaultArgs<ExtArgs>
+    byUser?: boolean | UsersDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["conferenceBlacklists"]>
+
+  export type ConferenceBlacklistsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    conferenceId?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    belongsTo?: boolean | ConferencesDefaultArgs<ExtArgs>
+    byUser?: boolean | UsersDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["conferenceBlacklists"]>
+
+  export type ConferenceBlacklistsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    conferenceId?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    belongsTo?: boolean | ConferencesDefaultArgs<ExtArgs>
+    byUser?: boolean | UsersDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["conferenceBlacklists"]>
+
+  export type ConferenceBlacklistsSelectScalar = {
+    id?: boolean
+    conferenceId?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ConferenceBlacklistsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "conferenceId" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["conferenceBlacklists"]>
+  export type ConferenceBlacklistsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    belongsTo?: boolean | ConferencesDefaultArgs<ExtArgs>
+    byUser?: boolean | UsersDefaultArgs<ExtArgs>
+  }
+  export type ConferenceBlacklistsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    belongsTo?: boolean | ConferencesDefaultArgs<ExtArgs>
+    byUser?: boolean | UsersDefaultArgs<ExtArgs>
+  }
+  export type ConferenceBlacklistsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    belongsTo?: boolean | ConferencesDefaultArgs<ExtArgs>
+    byUser?: boolean | UsersDefaultArgs<ExtArgs>
+  }
+
+  export type $ConferenceBlacklistsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ConferenceBlacklists"
+    objects: {
+      belongsTo: Prisma.$ConferencesPayload<ExtArgs>
+      byUser: Prisma.$UsersPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      conferenceId: string
+      userId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["conferenceBlacklists"]>
+    composites: {}
+  }
+
+  type ConferenceBlacklistsGetPayload<S extends boolean | null | undefined | ConferenceBlacklistsDefaultArgs> = $Result.GetResult<Prisma.$ConferenceBlacklistsPayload, S>
+
+  type ConferenceBlacklistsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ConferenceBlacklistsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ConferenceBlacklistsCountAggregateInputType | true
+    }
+
+  export interface ConferenceBlacklistsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ConferenceBlacklists'], meta: { name: 'ConferenceBlacklists' } }
+    /**
+     * Find zero or one ConferenceBlacklists that matches the filter.
+     * @param {ConferenceBlacklistsFindUniqueArgs} args - Arguments to find a ConferenceBlacklists
+     * @example
+     * // Get one ConferenceBlacklists
+     * const conferenceBlacklists = await prisma.conferenceBlacklists.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ConferenceBlacklistsFindUniqueArgs>(args: SelectSubset<T, ConferenceBlacklistsFindUniqueArgs<ExtArgs>>): Prisma__ConferenceBlacklistsClient<$Result.GetResult<Prisma.$ConferenceBlacklistsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ConferenceBlacklists that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ConferenceBlacklistsFindUniqueOrThrowArgs} args - Arguments to find a ConferenceBlacklists
+     * @example
+     * // Get one ConferenceBlacklists
+     * const conferenceBlacklists = await prisma.conferenceBlacklists.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ConferenceBlacklistsFindUniqueOrThrowArgs>(args: SelectSubset<T, ConferenceBlacklistsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ConferenceBlacklistsClient<$Result.GetResult<Prisma.$ConferenceBlacklistsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ConferenceBlacklists that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConferenceBlacklistsFindFirstArgs} args - Arguments to find a ConferenceBlacklists
+     * @example
+     * // Get one ConferenceBlacklists
+     * const conferenceBlacklists = await prisma.conferenceBlacklists.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ConferenceBlacklistsFindFirstArgs>(args?: SelectSubset<T, ConferenceBlacklistsFindFirstArgs<ExtArgs>>): Prisma__ConferenceBlacklistsClient<$Result.GetResult<Prisma.$ConferenceBlacklistsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ConferenceBlacklists that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConferenceBlacklistsFindFirstOrThrowArgs} args - Arguments to find a ConferenceBlacklists
+     * @example
+     * // Get one ConferenceBlacklists
+     * const conferenceBlacklists = await prisma.conferenceBlacklists.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ConferenceBlacklistsFindFirstOrThrowArgs>(args?: SelectSubset<T, ConferenceBlacklistsFindFirstOrThrowArgs<ExtArgs>>): Prisma__ConferenceBlacklistsClient<$Result.GetResult<Prisma.$ConferenceBlacklistsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ConferenceBlacklists that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConferenceBlacklistsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ConferenceBlacklists
+     * const conferenceBlacklists = await prisma.conferenceBlacklists.findMany()
+     * 
+     * // Get first 10 ConferenceBlacklists
+     * const conferenceBlacklists = await prisma.conferenceBlacklists.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const conferenceBlacklistsWithIdOnly = await prisma.conferenceBlacklists.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ConferenceBlacklistsFindManyArgs>(args?: SelectSubset<T, ConferenceBlacklistsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceBlacklistsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ConferenceBlacklists.
+     * @param {ConferenceBlacklistsCreateArgs} args - Arguments to create a ConferenceBlacklists.
+     * @example
+     * // Create one ConferenceBlacklists
+     * const ConferenceBlacklists = await prisma.conferenceBlacklists.create({
+     *   data: {
+     *     // ... data to create a ConferenceBlacklists
+     *   }
+     * })
+     * 
+     */
+    create<T extends ConferenceBlacklistsCreateArgs>(args: SelectSubset<T, ConferenceBlacklistsCreateArgs<ExtArgs>>): Prisma__ConferenceBlacklistsClient<$Result.GetResult<Prisma.$ConferenceBlacklistsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ConferenceBlacklists.
+     * @param {ConferenceBlacklistsCreateManyArgs} args - Arguments to create many ConferenceBlacklists.
+     * @example
+     * // Create many ConferenceBlacklists
+     * const conferenceBlacklists = await prisma.conferenceBlacklists.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ConferenceBlacklistsCreateManyArgs>(args?: SelectSubset<T, ConferenceBlacklistsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ConferenceBlacklists and returns the data saved in the database.
+     * @param {ConferenceBlacklistsCreateManyAndReturnArgs} args - Arguments to create many ConferenceBlacklists.
+     * @example
+     * // Create many ConferenceBlacklists
+     * const conferenceBlacklists = await prisma.conferenceBlacklists.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ConferenceBlacklists and only return the `id`
+     * const conferenceBlacklistsWithIdOnly = await prisma.conferenceBlacklists.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ConferenceBlacklistsCreateManyAndReturnArgs>(args?: SelectSubset<T, ConferenceBlacklistsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceBlacklistsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ConferenceBlacklists.
+     * @param {ConferenceBlacklistsDeleteArgs} args - Arguments to delete one ConferenceBlacklists.
+     * @example
+     * // Delete one ConferenceBlacklists
+     * const ConferenceBlacklists = await prisma.conferenceBlacklists.delete({
+     *   where: {
+     *     // ... filter to delete one ConferenceBlacklists
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ConferenceBlacklistsDeleteArgs>(args: SelectSubset<T, ConferenceBlacklistsDeleteArgs<ExtArgs>>): Prisma__ConferenceBlacklistsClient<$Result.GetResult<Prisma.$ConferenceBlacklistsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ConferenceBlacklists.
+     * @param {ConferenceBlacklistsUpdateArgs} args - Arguments to update one ConferenceBlacklists.
+     * @example
+     * // Update one ConferenceBlacklists
+     * const conferenceBlacklists = await prisma.conferenceBlacklists.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ConferenceBlacklistsUpdateArgs>(args: SelectSubset<T, ConferenceBlacklistsUpdateArgs<ExtArgs>>): Prisma__ConferenceBlacklistsClient<$Result.GetResult<Prisma.$ConferenceBlacklistsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ConferenceBlacklists.
+     * @param {ConferenceBlacklistsDeleteManyArgs} args - Arguments to filter ConferenceBlacklists to delete.
+     * @example
+     * // Delete a few ConferenceBlacklists
+     * const { count } = await prisma.conferenceBlacklists.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ConferenceBlacklistsDeleteManyArgs>(args?: SelectSubset<T, ConferenceBlacklistsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ConferenceBlacklists.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConferenceBlacklistsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ConferenceBlacklists
+     * const conferenceBlacklists = await prisma.conferenceBlacklists.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ConferenceBlacklistsUpdateManyArgs>(args: SelectSubset<T, ConferenceBlacklistsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ConferenceBlacklists and returns the data updated in the database.
+     * @param {ConferenceBlacklistsUpdateManyAndReturnArgs} args - Arguments to update many ConferenceBlacklists.
+     * @example
+     * // Update many ConferenceBlacklists
+     * const conferenceBlacklists = await prisma.conferenceBlacklists.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ConferenceBlacklists and only return the `id`
+     * const conferenceBlacklistsWithIdOnly = await prisma.conferenceBlacklists.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ConferenceBlacklistsUpdateManyAndReturnArgs>(args: SelectSubset<T, ConferenceBlacklistsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceBlacklistsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ConferenceBlacklists.
+     * @param {ConferenceBlacklistsUpsertArgs} args - Arguments to update or create a ConferenceBlacklists.
+     * @example
+     * // Update or create a ConferenceBlacklists
+     * const conferenceBlacklists = await prisma.conferenceBlacklists.upsert({
+     *   create: {
+     *     // ... data to create a ConferenceBlacklists
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ConferenceBlacklists we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ConferenceBlacklistsUpsertArgs>(args: SelectSubset<T, ConferenceBlacklistsUpsertArgs<ExtArgs>>): Prisma__ConferenceBlacklistsClient<$Result.GetResult<Prisma.$ConferenceBlacklistsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ConferenceBlacklists.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConferenceBlacklistsCountArgs} args - Arguments to filter ConferenceBlacklists to count.
+     * @example
+     * // Count the number of ConferenceBlacklists
+     * const count = await prisma.conferenceBlacklists.count({
+     *   where: {
+     *     // ... the filter for the ConferenceBlacklists we want to count
+     *   }
+     * })
+    **/
+    count<T extends ConferenceBlacklistsCountArgs>(
+      args?: Subset<T, ConferenceBlacklistsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ConferenceBlacklistsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ConferenceBlacklists.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConferenceBlacklistsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ConferenceBlacklistsAggregateArgs>(args: Subset<T, ConferenceBlacklistsAggregateArgs>): Prisma.PrismaPromise<GetConferenceBlacklistsAggregateType<T>>
+
+    /**
+     * Group by ConferenceBlacklists.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConferenceBlacklistsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ConferenceBlacklistsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ConferenceBlacklistsGroupByArgs['orderBy'] }
+        : { orderBy?: ConferenceBlacklistsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ConferenceBlacklistsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetConferenceBlacklistsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ConferenceBlacklists model
+   */
+  readonly fields: ConferenceBlacklistsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ConferenceBlacklists.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ConferenceBlacklistsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    belongsTo<T extends ConferencesDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ConferencesDefaultArgs<ExtArgs>>): Prisma__ConferencesClient<$Result.GetResult<Prisma.$ConferencesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    byUser<T extends UsersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsersDefaultArgs<ExtArgs>>): Prisma__UsersClient<$Result.GetResult<Prisma.$UsersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ConferenceBlacklists model
+   */ 
+  interface ConferenceBlacklistsFieldRefs {
+    readonly id: FieldRef<"ConferenceBlacklists", 'String'>
+    readonly conferenceId: FieldRef<"ConferenceBlacklists", 'String'>
+    readonly userId: FieldRef<"ConferenceBlacklists", 'String'>
+    readonly createdAt: FieldRef<"ConferenceBlacklists", 'DateTime'>
+    readonly updatedAt: FieldRef<"ConferenceBlacklists", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ConferenceBlacklists findUnique
+   */
+  export type ConferenceBlacklistsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConferenceBlacklists
+     */
+    select?: ConferenceBlacklistsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConferenceBlacklists
+     */
+    omit?: ConferenceBlacklistsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConferenceBlacklistsInclude<ExtArgs> | null
+    /**
+     * Filter, which ConferenceBlacklists to fetch.
+     */
+    where: ConferenceBlacklistsWhereUniqueInput
+  }
+
+  /**
+   * ConferenceBlacklists findUniqueOrThrow
+   */
+  export type ConferenceBlacklistsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConferenceBlacklists
+     */
+    select?: ConferenceBlacklistsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConferenceBlacklists
+     */
+    omit?: ConferenceBlacklistsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConferenceBlacklistsInclude<ExtArgs> | null
+    /**
+     * Filter, which ConferenceBlacklists to fetch.
+     */
+    where: ConferenceBlacklistsWhereUniqueInput
+  }
+
+  /**
+   * ConferenceBlacklists findFirst
+   */
+  export type ConferenceBlacklistsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConferenceBlacklists
+     */
+    select?: ConferenceBlacklistsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConferenceBlacklists
+     */
+    omit?: ConferenceBlacklistsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConferenceBlacklistsInclude<ExtArgs> | null
+    /**
+     * Filter, which ConferenceBlacklists to fetch.
+     */
+    where?: ConferenceBlacklistsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ConferenceBlacklists to fetch.
+     */
+    orderBy?: ConferenceBlacklistsOrderByWithRelationInput | ConferenceBlacklistsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ConferenceBlacklists.
+     */
+    cursor?: ConferenceBlacklistsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ConferenceBlacklists from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ConferenceBlacklists.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ConferenceBlacklists.
+     */
+    distinct?: ConferenceBlacklistsScalarFieldEnum | ConferenceBlacklistsScalarFieldEnum[]
+  }
+
+  /**
+   * ConferenceBlacklists findFirstOrThrow
+   */
+  export type ConferenceBlacklistsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConferenceBlacklists
+     */
+    select?: ConferenceBlacklistsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConferenceBlacklists
+     */
+    omit?: ConferenceBlacklistsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConferenceBlacklistsInclude<ExtArgs> | null
+    /**
+     * Filter, which ConferenceBlacklists to fetch.
+     */
+    where?: ConferenceBlacklistsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ConferenceBlacklists to fetch.
+     */
+    orderBy?: ConferenceBlacklistsOrderByWithRelationInput | ConferenceBlacklistsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ConferenceBlacklists.
+     */
+    cursor?: ConferenceBlacklistsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ConferenceBlacklists from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ConferenceBlacklists.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ConferenceBlacklists.
+     */
+    distinct?: ConferenceBlacklistsScalarFieldEnum | ConferenceBlacklistsScalarFieldEnum[]
+  }
+
+  /**
+   * ConferenceBlacklists findMany
+   */
+  export type ConferenceBlacklistsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConferenceBlacklists
+     */
+    select?: ConferenceBlacklistsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConferenceBlacklists
+     */
+    omit?: ConferenceBlacklistsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConferenceBlacklistsInclude<ExtArgs> | null
+    /**
+     * Filter, which ConferenceBlacklists to fetch.
+     */
+    where?: ConferenceBlacklistsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ConferenceBlacklists to fetch.
+     */
+    orderBy?: ConferenceBlacklistsOrderByWithRelationInput | ConferenceBlacklistsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ConferenceBlacklists.
+     */
+    cursor?: ConferenceBlacklistsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ConferenceBlacklists from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ConferenceBlacklists.
+     */
+    skip?: number
+    distinct?: ConferenceBlacklistsScalarFieldEnum | ConferenceBlacklistsScalarFieldEnum[]
+  }
+
+  /**
+   * ConferenceBlacklists create
+   */
+  export type ConferenceBlacklistsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConferenceBlacklists
+     */
+    select?: ConferenceBlacklistsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConferenceBlacklists
+     */
+    omit?: ConferenceBlacklistsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConferenceBlacklistsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ConferenceBlacklists.
+     */
+    data: XOR<ConferenceBlacklistsCreateInput, ConferenceBlacklistsUncheckedCreateInput>
+  }
+
+  /**
+   * ConferenceBlacklists createMany
+   */
+  export type ConferenceBlacklistsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ConferenceBlacklists.
+     */
+    data: ConferenceBlacklistsCreateManyInput | ConferenceBlacklistsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ConferenceBlacklists createManyAndReturn
+   */
+  export type ConferenceBlacklistsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConferenceBlacklists
+     */
+    select?: ConferenceBlacklistsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConferenceBlacklists
+     */
+    omit?: ConferenceBlacklistsOmit<ExtArgs> | null
+    /**
+     * The data used to create many ConferenceBlacklists.
+     */
+    data: ConferenceBlacklistsCreateManyInput | ConferenceBlacklistsCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConferenceBlacklistsIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ConferenceBlacklists update
+   */
+  export type ConferenceBlacklistsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConferenceBlacklists
+     */
+    select?: ConferenceBlacklistsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConferenceBlacklists
+     */
+    omit?: ConferenceBlacklistsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConferenceBlacklistsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ConferenceBlacklists.
+     */
+    data: XOR<ConferenceBlacklistsUpdateInput, ConferenceBlacklistsUncheckedUpdateInput>
+    /**
+     * Choose, which ConferenceBlacklists to update.
+     */
+    where: ConferenceBlacklistsWhereUniqueInput
+  }
+
+  /**
+   * ConferenceBlacklists updateMany
+   */
+  export type ConferenceBlacklistsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ConferenceBlacklists.
+     */
+    data: XOR<ConferenceBlacklistsUpdateManyMutationInput, ConferenceBlacklistsUncheckedUpdateManyInput>
+    /**
+     * Filter which ConferenceBlacklists to update
+     */
+    where?: ConferenceBlacklistsWhereInput
+    /**
+     * Limit how many ConferenceBlacklists to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ConferenceBlacklists updateManyAndReturn
+   */
+  export type ConferenceBlacklistsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConferenceBlacklists
+     */
+    select?: ConferenceBlacklistsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConferenceBlacklists
+     */
+    omit?: ConferenceBlacklistsOmit<ExtArgs> | null
+    /**
+     * The data used to update ConferenceBlacklists.
+     */
+    data: XOR<ConferenceBlacklistsUpdateManyMutationInput, ConferenceBlacklistsUncheckedUpdateManyInput>
+    /**
+     * Filter which ConferenceBlacklists to update
+     */
+    where?: ConferenceBlacklistsWhereInput
+    /**
+     * Limit how many ConferenceBlacklists to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConferenceBlacklistsIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ConferenceBlacklists upsert
+   */
+  export type ConferenceBlacklistsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConferenceBlacklists
+     */
+    select?: ConferenceBlacklistsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConferenceBlacklists
+     */
+    omit?: ConferenceBlacklistsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConferenceBlacklistsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ConferenceBlacklists to update in case it exists.
+     */
+    where: ConferenceBlacklistsWhereUniqueInput
+    /**
+     * In case the ConferenceBlacklists found by the `where` argument doesn't exist, create a new ConferenceBlacklists with this data.
+     */
+    create: XOR<ConferenceBlacklistsCreateInput, ConferenceBlacklistsUncheckedCreateInput>
+    /**
+     * In case the ConferenceBlacklists was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ConferenceBlacklistsUpdateInput, ConferenceBlacklistsUncheckedUpdateInput>
+  }
+
+  /**
+   * ConferenceBlacklists delete
+   */
+  export type ConferenceBlacklistsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConferenceBlacklists
+     */
+    select?: ConferenceBlacklistsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConferenceBlacklists
+     */
+    omit?: ConferenceBlacklistsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConferenceBlacklistsInclude<ExtArgs> | null
+    /**
+     * Filter which ConferenceBlacklists to delete.
+     */
+    where: ConferenceBlacklistsWhereUniqueInput
+  }
+
+  /**
+   * ConferenceBlacklists deleteMany
+   */
+  export type ConferenceBlacklistsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ConferenceBlacklists to delete
+     */
+    where?: ConferenceBlacklistsWhereInput
+    /**
+     * Limit how many ConferenceBlacklists to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ConferenceBlacklists without action
+   */
+  export type ConferenceBlacklistsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConferenceBlacklists
+     */
+    select?: ConferenceBlacklistsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConferenceBlacklists
+     */
+    omit?: ConferenceBlacklistsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConferenceBlacklistsInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model JournalCrawlJobs
    */
 
@@ -29026,6 +30385,1090 @@ export namespace Prisma {
 
 
   /**
+   * Model Notifications
+   */
+
+  export type AggregateNotifications = {
+    _count: NotificationsCountAggregateOutputType | null
+    _min: NotificationsMinAggregateOutputType | null
+    _max: NotificationsMaxAggregateOutputType | null
+  }
+
+  export type NotificationsMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    type: string | null
+    message: string | null
+    isRead: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type NotificationsMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    type: string | null
+    message: string | null
+    isRead: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type NotificationsCountAggregateOutputType = {
+    id: number
+    userId: number
+    type: number
+    message: number
+    isRead: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type NotificationsMinAggregateInputType = {
+    id?: true
+    userId?: true
+    type?: true
+    message?: true
+    isRead?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type NotificationsMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    type?: true
+    message?: true
+    isRead?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type NotificationsCountAggregateInputType = {
+    id?: true
+    userId?: true
+    type?: true
+    message?: true
+    isRead?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type NotificationsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Notifications to aggregate.
+     */
+    where?: NotificationsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notifications to fetch.
+     */
+    orderBy?: NotificationsOrderByWithRelationInput | NotificationsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: NotificationsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Notifications
+    **/
+    _count?: true | NotificationsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: NotificationsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: NotificationsMaxAggregateInputType
+  }
+
+  export type GetNotificationsAggregateType<T extends NotificationsAggregateArgs> = {
+        [P in keyof T & keyof AggregateNotifications]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateNotifications[P]>
+      : GetScalarType<T[P], AggregateNotifications[P]>
+  }
+
+
+
+
+  export type NotificationsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NotificationsWhereInput
+    orderBy?: NotificationsOrderByWithAggregationInput | NotificationsOrderByWithAggregationInput[]
+    by: NotificationsScalarFieldEnum[] | NotificationsScalarFieldEnum
+    having?: NotificationsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: NotificationsCountAggregateInputType | true
+    _min?: NotificationsMinAggregateInputType
+    _max?: NotificationsMaxAggregateInputType
+  }
+
+  export type NotificationsGroupByOutputType = {
+    id: string
+    userId: string
+    type: string
+    message: string
+    isRead: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: NotificationsCountAggregateOutputType | null
+    _min: NotificationsMinAggregateOutputType | null
+    _max: NotificationsMaxAggregateOutputType | null
+  }
+
+  type GetNotificationsGroupByPayload<T extends NotificationsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<NotificationsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof NotificationsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], NotificationsGroupByOutputType[P]>
+            : GetScalarType<T[P], NotificationsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type NotificationsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    message?: boolean
+    isRead?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    byUser?: boolean | UsersDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["notifications"]>
+
+  export type NotificationsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    message?: boolean
+    isRead?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    byUser?: boolean | UsersDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["notifications"]>
+
+  export type NotificationsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    message?: boolean
+    isRead?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    byUser?: boolean | UsersDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["notifications"]>
+
+  export type NotificationsSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    message?: boolean
+    isRead?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type NotificationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "type" | "message" | "isRead" | "createdAt" | "updatedAt", ExtArgs["result"]["notifications"]>
+  export type NotificationsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    byUser?: boolean | UsersDefaultArgs<ExtArgs>
+  }
+  export type NotificationsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    byUser?: boolean | UsersDefaultArgs<ExtArgs>
+  }
+  export type NotificationsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    byUser?: boolean | UsersDefaultArgs<ExtArgs>
+  }
+
+  export type $NotificationsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Notifications"
+    objects: {
+      byUser: Prisma.$UsersPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      type: string
+      message: string
+      isRead: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["notifications"]>
+    composites: {}
+  }
+
+  type NotificationsGetPayload<S extends boolean | null | undefined | NotificationsDefaultArgs> = $Result.GetResult<Prisma.$NotificationsPayload, S>
+
+  type NotificationsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<NotificationsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: NotificationsCountAggregateInputType | true
+    }
+
+  export interface NotificationsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Notifications'], meta: { name: 'Notifications' } }
+    /**
+     * Find zero or one Notifications that matches the filter.
+     * @param {NotificationsFindUniqueArgs} args - Arguments to find a Notifications
+     * @example
+     * // Get one Notifications
+     * const notifications = await prisma.notifications.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends NotificationsFindUniqueArgs>(args: SelectSubset<T, NotificationsFindUniqueArgs<ExtArgs>>): Prisma__NotificationsClient<$Result.GetResult<Prisma.$NotificationsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Notifications that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {NotificationsFindUniqueOrThrowArgs} args - Arguments to find a Notifications
+     * @example
+     * // Get one Notifications
+     * const notifications = await prisma.notifications.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends NotificationsFindUniqueOrThrowArgs>(args: SelectSubset<T, NotificationsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__NotificationsClient<$Result.GetResult<Prisma.$NotificationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Notifications that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationsFindFirstArgs} args - Arguments to find a Notifications
+     * @example
+     * // Get one Notifications
+     * const notifications = await prisma.notifications.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends NotificationsFindFirstArgs>(args?: SelectSubset<T, NotificationsFindFirstArgs<ExtArgs>>): Prisma__NotificationsClient<$Result.GetResult<Prisma.$NotificationsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Notifications that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationsFindFirstOrThrowArgs} args - Arguments to find a Notifications
+     * @example
+     * // Get one Notifications
+     * const notifications = await prisma.notifications.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends NotificationsFindFirstOrThrowArgs>(args?: SelectSubset<T, NotificationsFindFirstOrThrowArgs<ExtArgs>>): Prisma__NotificationsClient<$Result.GetResult<Prisma.$NotificationsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Notifications that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Notifications
+     * const notifications = await prisma.notifications.findMany()
+     * 
+     * // Get first 10 Notifications
+     * const notifications = await prisma.notifications.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const notificationsWithIdOnly = await prisma.notifications.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends NotificationsFindManyArgs>(args?: SelectSubset<T, NotificationsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Notifications.
+     * @param {NotificationsCreateArgs} args - Arguments to create a Notifications.
+     * @example
+     * // Create one Notifications
+     * const Notifications = await prisma.notifications.create({
+     *   data: {
+     *     // ... data to create a Notifications
+     *   }
+     * })
+     * 
+     */
+    create<T extends NotificationsCreateArgs>(args: SelectSubset<T, NotificationsCreateArgs<ExtArgs>>): Prisma__NotificationsClient<$Result.GetResult<Prisma.$NotificationsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Notifications.
+     * @param {NotificationsCreateManyArgs} args - Arguments to create many Notifications.
+     * @example
+     * // Create many Notifications
+     * const notifications = await prisma.notifications.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends NotificationsCreateManyArgs>(args?: SelectSubset<T, NotificationsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Notifications and returns the data saved in the database.
+     * @param {NotificationsCreateManyAndReturnArgs} args - Arguments to create many Notifications.
+     * @example
+     * // Create many Notifications
+     * const notifications = await prisma.notifications.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Notifications and only return the `id`
+     * const notificationsWithIdOnly = await prisma.notifications.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends NotificationsCreateManyAndReturnArgs>(args?: SelectSubset<T, NotificationsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Notifications.
+     * @param {NotificationsDeleteArgs} args - Arguments to delete one Notifications.
+     * @example
+     * // Delete one Notifications
+     * const Notifications = await prisma.notifications.delete({
+     *   where: {
+     *     // ... filter to delete one Notifications
+     *   }
+     * })
+     * 
+     */
+    delete<T extends NotificationsDeleteArgs>(args: SelectSubset<T, NotificationsDeleteArgs<ExtArgs>>): Prisma__NotificationsClient<$Result.GetResult<Prisma.$NotificationsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Notifications.
+     * @param {NotificationsUpdateArgs} args - Arguments to update one Notifications.
+     * @example
+     * // Update one Notifications
+     * const notifications = await prisma.notifications.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends NotificationsUpdateArgs>(args: SelectSubset<T, NotificationsUpdateArgs<ExtArgs>>): Prisma__NotificationsClient<$Result.GetResult<Prisma.$NotificationsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Notifications.
+     * @param {NotificationsDeleteManyArgs} args - Arguments to filter Notifications to delete.
+     * @example
+     * // Delete a few Notifications
+     * const { count } = await prisma.notifications.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends NotificationsDeleteManyArgs>(args?: SelectSubset<T, NotificationsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Notifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Notifications
+     * const notifications = await prisma.notifications.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends NotificationsUpdateManyArgs>(args: SelectSubset<T, NotificationsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Notifications and returns the data updated in the database.
+     * @param {NotificationsUpdateManyAndReturnArgs} args - Arguments to update many Notifications.
+     * @example
+     * // Update many Notifications
+     * const notifications = await prisma.notifications.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Notifications and only return the `id`
+     * const notificationsWithIdOnly = await prisma.notifications.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends NotificationsUpdateManyAndReturnArgs>(args: SelectSubset<T, NotificationsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Notifications.
+     * @param {NotificationsUpsertArgs} args - Arguments to update or create a Notifications.
+     * @example
+     * // Update or create a Notifications
+     * const notifications = await prisma.notifications.upsert({
+     *   create: {
+     *     // ... data to create a Notifications
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Notifications we want to update
+     *   }
+     * })
+     */
+    upsert<T extends NotificationsUpsertArgs>(args: SelectSubset<T, NotificationsUpsertArgs<ExtArgs>>): Prisma__NotificationsClient<$Result.GetResult<Prisma.$NotificationsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Notifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationsCountArgs} args - Arguments to filter Notifications to count.
+     * @example
+     * // Count the number of Notifications
+     * const count = await prisma.notifications.count({
+     *   where: {
+     *     // ... the filter for the Notifications we want to count
+     *   }
+     * })
+    **/
+    count<T extends NotificationsCountArgs>(
+      args?: Subset<T, NotificationsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], NotificationsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Notifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends NotificationsAggregateArgs>(args: Subset<T, NotificationsAggregateArgs>): Prisma.PrismaPromise<GetNotificationsAggregateType<T>>
+
+    /**
+     * Group by Notifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends NotificationsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: NotificationsGroupByArgs['orderBy'] }
+        : { orderBy?: NotificationsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, NotificationsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetNotificationsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Notifications model
+   */
+  readonly fields: NotificationsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Notifications.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__NotificationsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    byUser<T extends UsersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsersDefaultArgs<ExtArgs>>): Prisma__UsersClient<$Result.GetResult<Prisma.$UsersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Notifications model
+   */ 
+  interface NotificationsFieldRefs {
+    readonly id: FieldRef<"Notifications", 'String'>
+    readonly userId: FieldRef<"Notifications", 'String'>
+    readonly type: FieldRef<"Notifications", 'String'>
+    readonly message: FieldRef<"Notifications", 'String'>
+    readonly isRead: FieldRef<"Notifications", 'Boolean'>
+    readonly createdAt: FieldRef<"Notifications", 'DateTime'>
+    readonly updatedAt: FieldRef<"Notifications", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Notifications findUnique
+   */
+  export type NotificationsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notifications
+     */
+    select?: NotificationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notifications
+     */
+    omit?: NotificationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationsInclude<ExtArgs> | null
+    /**
+     * Filter, which Notifications to fetch.
+     */
+    where: NotificationsWhereUniqueInput
+  }
+
+  /**
+   * Notifications findUniqueOrThrow
+   */
+  export type NotificationsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notifications
+     */
+    select?: NotificationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notifications
+     */
+    omit?: NotificationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationsInclude<ExtArgs> | null
+    /**
+     * Filter, which Notifications to fetch.
+     */
+    where: NotificationsWhereUniqueInput
+  }
+
+  /**
+   * Notifications findFirst
+   */
+  export type NotificationsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notifications
+     */
+    select?: NotificationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notifications
+     */
+    omit?: NotificationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationsInclude<ExtArgs> | null
+    /**
+     * Filter, which Notifications to fetch.
+     */
+    where?: NotificationsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notifications to fetch.
+     */
+    orderBy?: NotificationsOrderByWithRelationInput | NotificationsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Notifications.
+     */
+    cursor?: NotificationsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Notifications.
+     */
+    distinct?: NotificationsScalarFieldEnum | NotificationsScalarFieldEnum[]
+  }
+
+  /**
+   * Notifications findFirstOrThrow
+   */
+  export type NotificationsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notifications
+     */
+    select?: NotificationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notifications
+     */
+    omit?: NotificationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationsInclude<ExtArgs> | null
+    /**
+     * Filter, which Notifications to fetch.
+     */
+    where?: NotificationsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notifications to fetch.
+     */
+    orderBy?: NotificationsOrderByWithRelationInput | NotificationsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Notifications.
+     */
+    cursor?: NotificationsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Notifications.
+     */
+    distinct?: NotificationsScalarFieldEnum | NotificationsScalarFieldEnum[]
+  }
+
+  /**
+   * Notifications findMany
+   */
+  export type NotificationsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notifications
+     */
+    select?: NotificationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notifications
+     */
+    omit?: NotificationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationsInclude<ExtArgs> | null
+    /**
+     * Filter, which Notifications to fetch.
+     */
+    where?: NotificationsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notifications to fetch.
+     */
+    orderBy?: NotificationsOrderByWithRelationInput | NotificationsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Notifications.
+     */
+    cursor?: NotificationsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notifications.
+     */
+    skip?: number
+    distinct?: NotificationsScalarFieldEnum | NotificationsScalarFieldEnum[]
+  }
+
+  /**
+   * Notifications create
+   */
+  export type NotificationsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notifications
+     */
+    select?: NotificationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notifications
+     */
+    omit?: NotificationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Notifications.
+     */
+    data: XOR<NotificationsCreateInput, NotificationsUncheckedCreateInput>
+  }
+
+  /**
+   * Notifications createMany
+   */
+  export type NotificationsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Notifications.
+     */
+    data: NotificationsCreateManyInput | NotificationsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Notifications createManyAndReturn
+   */
+  export type NotificationsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notifications
+     */
+    select?: NotificationsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notifications
+     */
+    omit?: NotificationsOmit<ExtArgs> | null
+    /**
+     * The data used to create many Notifications.
+     */
+    data: NotificationsCreateManyInput | NotificationsCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationsIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Notifications update
+   */
+  export type NotificationsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notifications
+     */
+    select?: NotificationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notifications
+     */
+    omit?: NotificationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Notifications.
+     */
+    data: XOR<NotificationsUpdateInput, NotificationsUncheckedUpdateInput>
+    /**
+     * Choose, which Notifications to update.
+     */
+    where: NotificationsWhereUniqueInput
+  }
+
+  /**
+   * Notifications updateMany
+   */
+  export type NotificationsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Notifications.
+     */
+    data: XOR<NotificationsUpdateManyMutationInput, NotificationsUncheckedUpdateManyInput>
+    /**
+     * Filter which Notifications to update
+     */
+    where?: NotificationsWhereInput
+    /**
+     * Limit how many Notifications to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Notifications updateManyAndReturn
+   */
+  export type NotificationsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notifications
+     */
+    select?: NotificationsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notifications
+     */
+    omit?: NotificationsOmit<ExtArgs> | null
+    /**
+     * The data used to update Notifications.
+     */
+    data: XOR<NotificationsUpdateManyMutationInput, NotificationsUncheckedUpdateManyInput>
+    /**
+     * Filter which Notifications to update
+     */
+    where?: NotificationsWhereInput
+    /**
+     * Limit how many Notifications to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationsIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Notifications upsert
+   */
+  export type NotificationsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notifications
+     */
+    select?: NotificationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notifications
+     */
+    omit?: NotificationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Notifications to update in case it exists.
+     */
+    where: NotificationsWhereUniqueInput
+    /**
+     * In case the Notifications found by the `where` argument doesn't exist, create a new Notifications with this data.
+     */
+    create: XOR<NotificationsCreateInput, NotificationsUncheckedCreateInput>
+    /**
+     * In case the Notifications was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<NotificationsUpdateInput, NotificationsUncheckedUpdateInput>
+  }
+
+  /**
+   * Notifications delete
+   */
+  export type NotificationsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notifications
+     */
+    select?: NotificationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notifications
+     */
+    omit?: NotificationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationsInclude<ExtArgs> | null
+    /**
+     * Filter which Notifications to delete.
+     */
+    where: NotificationsWhereUniqueInput
+  }
+
+  /**
+   * Notifications deleteMany
+   */
+  export type NotificationsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Notifications to delete
+     */
+    where?: NotificationsWhereInput
+    /**
+     * Limit how many Notifications to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Notifications without action
+   */
+  export type NotificationsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notifications
+     */
+    select?: NotificationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notifications
+     */
+    omit?: NotificationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationsInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -29301,6 +31744,17 @@ export namespace Prisma {
   export type ConferenceCrawlJobsScalarFieldEnum = (typeof ConferenceCrawlJobsScalarFieldEnum)[keyof typeof ConferenceCrawlJobsScalarFieldEnum]
 
 
+  export const ConferenceBlacklistsScalarFieldEnum: {
+    id: 'id',
+    conferenceId: 'conferenceId',
+    userId: 'userId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ConferenceBlacklistsScalarFieldEnum = (typeof ConferenceBlacklistsScalarFieldEnum)[keyof typeof ConferenceBlacklistsScalarFieldEnum]
+
+
   export const JournalCrawlJobsScalarFieldEnum: {
     id: 'id',
     journalId: 'journalId',
@@ -29312,6 +31766,19 @@ export namespace Prisma {
   };
 
   export type JournalCrawlJobsScalarFieldEnum = (typeof JournalCrawlJobsScalarFieldEnum)[keyof typeof JournalCrawlJobsScalarFieldEnum]
+
+
+  export const NotificationsScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    type: 'type',
+    message: 'message',
+    isRead: 'isRead',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type NotificationsScalarFieldEnum = (typeof NotificationsScalarFieldEnum)[keyof typeof NotificationsScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -29837,6 +32304,7 @@ export namespace Prisma {
     crawlJobs?: ConferenceCrawlJobsListRelationFilter
     createdByUser?: XOR<UsersScalarRelationFilter, UsersWhereInput>
     feedbacks?: ConferenceFeedbacksListRelationFilter
+    blacklists?: ConferenceBlacklistsListRelationFilter
   }
 
   export type ConferencesOrderByWithRelationInput = {
@@ -29855,6 +32323,7 @@ export namespace Prisma {
     crawlJobs?: ConferenceCrawlJobsOrderByRelationAggregateInput
     createdByUser?: UsersOrderByWithRelationInput
     feedbacks?: ConferenceFeedbacksOrderByRelationAggregateInput
+    blacklists?: ConferenceBlacklistsOrderByRelationAggregateInput
   }
 
   export type ConferencesWhereUniqueInput = Prisma.AtLeast<{
@@ -29877,6 +32346,7 @@ export namespace Prisma {
     crawlJobs?: ConferenceCrawlJobsListRelationFilter
     createdByUser?: XOR<UsersScalarRelationFilter, UsersWhereInput>
     feedbacks?: ConferenceFeedbacksListRelationFilter
+    blacklists?: ConferenceBlacklistsListRelationFilter
   }, "id" | "title_acronym">
 
   export type ConferencesOrderByWithAggregationInput = {
@@ -30706,6 +33176,8 @@ export namespace Prisma {
     journalLikes?: JournalLikesListRelationFilter
     journalFollows?: JournalFollowsListRelationFilter
     feedbacks?: ConferenceFeedbacksListRelationFilter
+    blacklists?: ConferenceBlacklistsListRelationFilter
+    notifications?: NotificationsListRelationFilter
   }
 
   export type UsersOrderByWithRelationInput = {
@@ -30726,6 +33198,8 @@ export namespace Prisma {
     journalLikes?: JournalLikesOrderByRelationAggregateInput
     journalFollows?: JournalFollowsOrderByRelationAggregateInput
     feedbacks?: ConferenceFeedbacksOrderByRelationAggregateInput
+    blacklists?: ConferenceBlacklistsOrderByRelationAggregateInput
+    notifications?: NotificationsOrderByRelationAggregateInput
   }
 
   export type UsersWhereUniqueInput = Prisma.AtLeast<{
@@ -30749,6 +33223,8 @@ export namespace Prisma {
     journalLikes?: JournalLikesListRelationFilter
     journalFollows?: JournalFollowsListRelationFilter
     feedbacks?: ConferenceFeedbacksListRelationFilter
+    blacklists?: ConferenceBlacklistsListRelationFilter
+    notifications?: NotificationsListRelationFilter
   }, "id" | "email">
 
   export type UsersOrderByWithAggregationInput = {
@@ -30848,6 +33324,64 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"ConferenceCrawlJobs"> | Date | string
   }
 
+  export type ConferenceBlacklistsWhereInput = {
+    AND?: ConferenceBlacklistsWhereInput | ConferenceBlacklistsWhereInput[]
+    OR?: ConferenceBlacklistsWhereInput[]
+    NOT?: ConferenceBlacklistsWhereInput | ConferenceBlacklistsWhereInput[]
+    id?: StringFilter<"ConferenceBlacklists"> | string
+    conferenceId?: StringFilter<"ConferenceBlacklists"> | string
+    userId?: StringFilter<"ConferenceBlacklists"> | string
+    createdAt?: DateTimeFilter<"ConferenceBlacklists"> | Date | string
+    updatedAt?: DateTimeFilter<"ConferenceBlacklists"> | Date | string
+    belongsTo?: XOR<ConferencesScalarRelationFilter, ConferencesWhereInput>
+    byUser?: XOR<UsersScalarRelationFilter, UsersWhereInput>
+  }
+
+  export type ConferenceBlacklistsOrderByWithRelationInput = {
+    id?: SortOrder
+    conferenceId?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    belongsTo?: ConferencesOrderByWithRelationInput
+    byUser?: UsersOrderByWithRelationInput
+  }
+
+  export type ConferenceBlacklistsWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ConferenceBlacklistsWhereInput | ConferenceBlacklistsWhereInput[]
+    OR?: ConferenceBlacklistsWhereInput[]
+    NOT?: ConferenceBlacklistsWhereInput | ConferenceBlacklistsWhereInput[]
+    conferenceId?: StringFilter<"ConferenceBlacklists"> | string
+    userId?: StringFilter<"ConferenceBlacklists"> | string
+    createdAt?: DateTimeFilter<"ConferenceBlacklists"> | Date | string
+    updatedAt?: DateTimeFilter<"ConferenceBlacklists"> | Date | string
+    belongsTo?: XOR<ConferencesScalarRelationFilter, ConferencesWhereInput>
+    byUser?: XOR<UsersScalarRelationFilter, UsersWhereInput>
+  }, "id">
+
+  export type ConferenceBlacklistsOrderByWithAggregationInput = {
+    id?: SortOrder
+    conferenceId?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ConferenceBlacklistsCountOrderByAggregateInput
+    _max?: ConferenceBlacklistsMaxOrderByAggregateInput
+    _min?: ConferenceBlacklistsMinOrderByAggregateInput
+  }
+
+  export type ConferenceBlacklistsScalarWhereWithAggregatesInput = {
+    AND?: ConferenceBlacklistsScalarWhereWithAggregatesInput | ConferenceBlacklistsScalarWhereWithAggregatesInput[]
+    OR?: ConferenceBlacklistsScalarWhereWithAggregatesInput[]
+    NOT?: ConferenceBlacklistsScalarWhereWithAggregatesInput | ConferenceBlacklistsScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ConferenceBlacklists"> | string
+    conferenceId?: StringWithAggregatesFilter<"ConferenceBlacklists"> | string
+    userId?: StringWithAggregatesFilter<"ConferenceBlacklists"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ConferenceBlacklists"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ConferenceBlacklists"> | Date | string
+  }
+
   export type JournalCrawlJobsWhereInput = {
     AND?: JournalCrawlJobsWhereInput | JournalCrawlJobsWhereInput[]
     OR?: JournalCrawlJobsWhereInput[]
@@ -30913,6 +33447,72 @@ export namespace Prisma {
     message?: StringWithAggregatesFilter<"JournalCrawlJobs"> | string
     createdAt?: DateTimeWithAggregatesFilter<"JournalCrawlJobs"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"JournalCrawlJobs"> | Date | string
+  }
+
+  export type NotificationsWhereInput = {
+    AND?: NotificationsWhereInput | NotificationsWhereInput[]
+    OR?: NotificationsWhereInput[]
+    NOT?: NotificationsWhereInput | NotificationsWhereInput[]
+    id?: StringFilter<"Notifications"> | string
+    userId?: StringFilter<"Notifications"> | string
+    type?: StringFilter<"Notifications"> | string
+    message?: StringFilter<"Notifications"> | string
+    isRead?: BoolFilter<"Notifications"> | boolean
+    createdAt?: DateTimeFilter<"Notifications"> | Date | string
+    updatedAt?: DateTimeFilter<"Notifications"> | Date | string
+    byUser?: XOR<UsersScalarRelationFilter, UsersWhereInput>
+  }
+
+  export type NotificationsOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    message?: SortOrder
+    isRead?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    byUser?: UsersOrderByWithRelationInput
+  }
+
+  export type NotificationsWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_type?: NotificationsUserIdTypeCompoundUniqueInput
+    AND?: NotificationsWhereInput | NotificationsWhereInput[]
+    OR?: NotificationsWhereInput[]
+    NOT?: NotificationsWhereInput | NotificationsWhereInput[]
+    userId?: StringFilter<"Notifications"> | string
+    type?: StringFilter<"Notifications"> | string
+    message?: StringFilter<"Notifications"> | string
+    isRead?: BoolFilter<"Notifications"> | boolean
+    createdAt?: DateTimeFilter<"Notifications"> | Date | string
+    updatedAt?: DateTimeFilter<"Notifications"> | Date | string
+    byUser?: XOR<UsersScalarRelationFilter, UsersWhereInput>
+  }, "id" | "userId_type">
+
+  export type NotificationsOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    message?: SortOrder
+    isRead?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: NotificationsCountOrderByAggregateInput
+    _max?: NotificationsMaxOrderByAggregateInput
+    _min?: NotificationsMinOrderByAggregateInput
+  }
+
+  export type NotificationsScalarWhereWithAggregatesInput = {
+    AND?: NotificationsScalarWhereWithAggregatesInput | NotificationsScalarWhereWithAggregatesInput[]
+    OR?: NotificationsScalarWhereWithAggregatesInput[]
+    NOT?: NotificationsScalarWhereWithAggregatesInput | NotificationsScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Notifications"> | string
+    userId?: StringWithAggregatesFilter<"Notifications"> | string
+    type?: StringWithAggregatesFilter<"Notifications"> | string
+    message?: StringWithAggregatesFilter<"Notifications"> | string
+    isRead?: BoolWithAggregatesFilter<"Notifications"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Notifications"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Notifications"> | Date | string
   }
 
   export type PassengerCreateInput = {
@@ -31372,6 +33972,7 @@ export namespace Prisma {
     crawlJobs?: ConferenceCrawlJobsCreateNestedManyWithoutBelongsToInput
     createdByUser: UsersCreateNestedOneWithoutCreatedConferencesInput
     feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutBelongsToInput
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesUncheckedCreateInput = {
@@ -31389,6 +33990,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
     crawlJobs?: ConferenceCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
     feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutBelongsToInput
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesUpdateInput = {
@@ -31406,6 +34008,7 @@ export namespace Prisma {
     crawlJobs?: ConferenceCrawlJobsUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneRequiredWithoutCreatedConferencesNestedInput
     feedbacks?: ConferenceFeedbacksUpdateManyWithoutBelongsToNestedInput
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateInput = {
@@ -31423,6 +34026,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
     crawlJobs?: ConferenceCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
     feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutBelongsToNestedInput
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesCreateManyInput = {
@@ -32211,6 +34815,8 @@ export namespace Prisma {
     journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
     journalFollows?: JournalFollowsCreateNestedManyWithoutByUserInput
     feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsCreateNestedManyWithoutByUserInput
   }
 
   export type UsersUncheckedCreateInput = {
@@ -32231,6 +34837,8 @@ export namespace Prisma {
     journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
     journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutByUserInput
     feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
   }
 
   export type UsersUpdateInput = {
@@ -32251,6 +34859,8 @@ export namespace Prisma {
     journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
     journalFollows?: JournalFollowsUpdateManyWithoutByUserNestedInput
     feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
   }
 
   export type UsersUncheckedUpdateInput = {
@@ -32271,6 +34881,8 @@ export namespace Prisma {
     journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
     journalFollows?: JournalFollowsUncheckedUpdateManyWithoutByUserNestedInput
     feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
   }
 
   export type UsersCreateManyInput = {
@@ -32378,6 +34990,60 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ConferenceBlacklistsCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    belongsTo: ConferencesCreateNestedOneWithoutBlacklistsInput
+    byUser: UsersCreateNestedOneWithoutBlacklistsInput
+  }
+
+  export type ConferenceBlacklistsUncheckedCreateInput = {
+    id?: string
+    conferenceId: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ConferenceBlacklistsUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    belongsTo?: ConferencesUpdateOneRequiredWithoutBlacklistsNestedInput
+    byUser?: UsersUpdateOneRequiredWithoutBlacklistsNestedInput
+  }
+
+  export type ConferenceBlacklistsUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    conferenceId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConferenceBlacklistsCreateManyInput = {
+    id?: string
+    conferenceId: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ConferenceBlacklistsUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConferenceBlacklistsUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    conferenceId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type JournalCrawlJobsCreateInput = {
     id?: string
     status: string
@@ -32443,6 +35109,75 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     progress?: IntFieldUpdateOperationsInput | number
     message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationsCreateInput = {
+    id?: string
+    type: string
+    message: string
+    isRead?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    byUser: UsersCreateNestedOneWithoutNotificationsInput
+  }
+
+  export type NotificationsUncheckedCreateInput = {
+    id?: string
+    userId: string
+    type: string
+    message: string
+    isRead?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type NotificationsUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    byUser?: UsersUpdateOneRequiredWithoutNotificationsNestedInput
+  }
+
+  export type NotificationsUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationsCreateManyInput = {
+    id?: string
+    userId: string
+    type: string
+    message: string
+    isRead?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type NotificationsUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationsUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -32876,6 +35611,12 @@ export namespace Prisma {
     none?: ConferenceFeedbacksWhereInput
   }
 
+  export type ConferenceBlacklistsListRelationFilter = {
+    every?: ConferenceBlacklistsWhereInput
+    some?: ConferenceBlacklistsWhereInput
+    none?: ConferenceBlacklistsWhereInput
+  }
+
   export type ConferenceFollowsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -32901,6 +35642,10 @@ export namespace Prisma {
   }
 
   export type ConferenceFeedbacksOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ConferenceBlacklistsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -33385,11 +36130,21 @@ export namespace Prisma {
     none?: JournalsWhereInput
   }
 
+  export type NotificationsListRelationFilter = {
+    every?: NotificationsWhereInput
+    some?: NotificationsWhereInput
+    none?: NotificationsWhereInput
+  }
+
   export type ConferencesOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type JournalsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type NotificationsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -33467,6 +36222,30 @@ export namespace Prisma {
     progress?: SortOrder
   }
 
+  export type ConferenceBlacklistsCountOrderByAggregateInput = {
+    id?: SortOrder
+    conferenceId?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ConferenceBlacklistsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    conferenceId?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ConferenceBlacklistsMinOrderByAggregateInput = {
+    id?: SortOrder
+    conferenceId?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type JournalCrawlJobsCountOrderByAggregateInput = {
     id?: SortOrder
     journalId?: SortOrder
@@ -33503,6 +36282,41 @@ export namespace Prisma {
 
   export type JournalCrawlJobsSumOrderByAggregateInput = {
     progress?: SortOrder
+  }
+
+  export type NotificationsUserIdTypeCompoundUniqueInput = {
+    userId: string
+    type: string
+  }
+
+  export type NotificationsCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    message?: SortOrder
+    isRead?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type NotificationsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    message?: SortOrder
+    isRead?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type NotificationsMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    message?: SortOrder
+    isRead?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -33864,6 +36678,13 @@ export namespace Prisma {
     connect?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
   }
 
+  export type ConferenceBlacklistsCreateNestedManyWithoutBelongsToInput = {
+    create?: XOR<ConferenceBlacklistsCreateWithoutBelongsToInput, ConferenceBlacklistsUncheckedCreateWithoutBelongsToInput> | ConferenceBlacklistsCreateWithoutBelongsToInput[] | ConferenceBlacklistsUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: ConferenceBlacklistsCreateOrConnectWithoutBelongsToInput | ConferenceBlacklistsCreateOrConnectWithoutBelongsToInput[]
+    createMany?: ConferenceBlacklistsCreateManyBelongsToInputEnvelope
+    connect?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
+  }
+
   export type ConferenceFollowsUncheckedCreateNestedManyWithoutBelongsToInput = {
     create?: XOR<ConferenceFollowsCreateWithoutBelongsToInput, ConferenceFollowsUncheckedCreateWithoutBelongsToInput> | ConferenceFollowsCreateWithoutBelongsToInput[] | ConferenceFollowsUncheckedCreateWithoutBelongsToInput[]
     connectOrCreate?: ConferenceFollowsCreateOrConnectWithoutBelongsToInput | ConferenceFollowsCreateOrConnectWithoutBelongsToInput[]
@@ -33911,6 +36732,13 @@ export namespace Prisma {
     connectOrCreate?: ConferenceFeedbacksCreateOrConnectWithoutBelongsToInput | ConferenceFeedbacksCreateOrConnectWithoutBelongsToInput[]
     createMany?: ConferenceFeedbacksCreateManyBelongsToInputEnvelope
     connect?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
+  }
+
+  export type ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput = {
+    create?: XOR<ConferenceBlacklistsCreateWithoutBelongsToInput, ConferenceBlacklistsUncheckedCreateWithoutBelongsToInput> | ConferenceBlacklistsCreateWithoutBelongsToInput[] | ConferenceBlacklistsUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: ConferenceBlacklistsCreateOrConnectWithoutBelongsToInput | ConferenceBlacklistsCreateOrConnectWithoutBelongsToInput[]
+    createMany?: ConferenceBlacklistsCreateManyBelongsToInputEnvelope
+    connect?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
   }
 
   export type ConferenceFollowsUpdateManyWithoutBelongsToNestedInput = {
@@ -34019,6 +36847,20 @@ export namespace Prisma {
     deleteMany?: ConferenceFeedbacksScalarWhereInput | ConferenceFeedbacksScalarWhereInput[]
   }
 
+  export type ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput = {
+    create?: XOR<ConferenceBlacklistsCreateWithoutBelongsToInput, ConferenceBlacklistsUncheckedCreateWithoutBelongsToInput> | ConferenceBlacklistsCreateWithoutBelongsToInput[] | ConferenceBlacklistsUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: ConferenceBlacklistsCreateOrConnectWithoutBelongsToInput | ConferenceBlacklistsCreateOrConnectWithoutBelongsToInput[]
+    upsert?: ConferenceBlacklistsUpsertWithWhereUniqueWithoutBelongsToInput | ConferenceBlacklistsUpsertWithWhereUniqueWithoutBelongsToInput[]
+    createMany?: ConferenceBlacklistsCreateManyBelongsToInputEnvelope
+    set?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
+    disconnect?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
+    delete?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
+    connect?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
+    update?: ConferenceBlacklistsUpdateWithWhereUniqueWithoutBelongsToInput | ConferenceBlacklistsUpdateWithWhereUniqueWithoutBelongsToInput[]
+    updateMany?: ConferenceBlacklistsUpdateManyWithWhereWithoutBelongsToInput | ConferenceBlacklistsUpdateManyWithWhereWithoutBelongsToInput[]
+    deleteMany?: ConferenceBlacklistsScalarWhereInput | ConferenceBlacklistsScalarWhereInput[]
+  }
+
   export type ConferenceFollowsUncheckedUpdateManyWithoutBelongsToNestedInput = {
     create?: XOR<ConferenceFollowsCreateWithoutBelongsToInput, ConferenceFollowsUncheckedCreateWithoutBelongsToInput> | ConferenceFollowsCreateWithoutBelongsToInput[] | ConferenceFollowsUncheckedCreateWithoutBelongsToInput[]
     connectOrCreate?: ConferenceFollowsCreateOrConnectWithoutBelongsToInput | ConferenceFollowsCreateOrConnectWithoutBelongsToInput[]
@@ -34115,6 +36957,20 @@ export namespace Prisma {
     update?: ConferenceFeedbacksUpdateWithWhereUniqueWithoutBelongsToInput | ConferenceFeedbacksUpdateWithWhereUniqueWithoutBelongsToInput[]
     updateMany?: ConferenceFeedbacksUpdateManyWithWhereWithoutBelongsToInput | ConferenceFeedbacksUpdateManyWithWhereWithoutBelongsToInput[]
     deleteMany?: ConferenceFeedbacksScalarWhereInput | ConferenceFeedbacksScalarWhereInput[]
+  }
+
+  export type ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput = {
+    create?: XOR<ConferenceBlacklistsCreateWithoutBelongsToInput, ConferenceBlacklistsUncheckedCreateWithoutBelongsToInput> | ConferenceBlacklistsCreateWithoutBelongsToInput[] | ConferenceBlacklistsUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: ConferenceBlacklistsCreateOrConnectWithoutBelongsToInput | ConferenceBlacklistsCreateOrConnectWithoutBelongsToInput[]
+    upsert?: ConferenceBlacklistsUpsertWithWhereUniqueWithoutBelongsToInput | ConferenceBlacklistsUpsertWithWhereUniqueWithoutBelongsToInput[]
+    createMany?: ConferenceBlacklistsCreateManyBelongsToInputEnvelope
+    set?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
+    disconnect?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
+    delete?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
+    connect?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
+    update?: ConferenceBlacklistsUpdateWithWhereUniqueWithoutBelongsToInput | ConferenceBlacklistsUpdateWithWhereUniqueWithoutBelongsToInput[]
+    updateMany?: ConferenceBlacklistsUpdateManyWithWhereWithoutBelongsToInput | ConferenceBlacklistsUpdateManyWithWhereWithoutBelongsToInput[]
+    deleteMany?: ConferenceBlacklistsScalarWhereInput | ConferenceBlacklistsScalarWhereInput[]
   }
 
   export type FieldOfResearchsCreateNestedOneWithoutConferenceRanksInput = {
@@ -34901,6 +37757,20 @@ export namespace Prisma {
     connect?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
   }
 
+  export type ConferenceBlacklistsCreateNestedManyWithoutByUserInput = {
+    create?: XOR<ConferenceBlacklistsCreateWithoutByUserInput, ConferenceBlacklistsUncheckedCreateWithoutByUserInput> | ConferenceBlacklistsCreateWithoutByUserInput[] | ConferenceBlacklistsUncheckedCreateWithoutByUserInput[]
+    connectOrCreate?: ConferenceBlacklistsCreateOrConnectWithoutByUserInput | ConferenceBlacklistsCreateOrConnectWithoutByUserInput[]
+    createMany?: ConferenceBlacklistsCreateManyByUserInputEnvelope
+    connect?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
+  }
+
+  export type NotificationsCreateNestedManyWithoutByUserInput = {
+    create?: XOR<NotificationsCreateWithoutByUserInput, NotificationsUncheckedCreateWithoutByUserInput> | NotificationsCreateWithoutByUserInput[] | NotificationsUncheckedCreateWithoutByUserInput[]
+    connectOrCreate?: NotificationsCreateOrConnectWithoutByUserInput | NotificationsCreateOrConnectWithoutByUserInput[]
+    createMany?: NotificationsCreateManyByUserInputEnvelope
+    connect?: NotificationsWhereUniqueInput | NotificationsWhereUniqueInput[]
+  }
+
   export type ConferenceFollowsUncheckedCreateNestedManyWithoutByUserInput = {
     create?: XOR<ConferenceFollowsCreateWithoutByUserInput, ConferenceFollowsUncheckedCreateWithoutByUserInput> | ConferenceFollowsCreateWithoutByUserInput[] | ConferenceFollowsUncheckedCreateWithoutByUserInput[]
     connectOrCreate?: ConferenceFollowsCreateOrConnectWithoutByUserInput | ConferenceFollowsCreateOrConnectWithoutByUserInput[]
@@ -34955,6 +37825,20 @@ export namespace Prisma {
     connectOrCreate?: ConferenceFeedbacksCreateOrConnectWithoutByUserInput | ConferenceFeedbacksCreateOrConnectWithoutByUserInput[]
     createMany?: ConferenceFeedbacksCreateManyByUserInputEnvelope
     connect?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
+  }
+
+  export type ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput = {
+    create?: XOR<ConferenceBlacklistsCreateWithoutByUserInput, ConferenceBlacklistsUncheckedCreateWithoutByUserInput> | ConferenceBlacklistsCreateWithoutByUserInput[] | ConferenceBlacklistsUncheckedCreateWithoutByUserInput[]
+    connectOrCreate?: ConferenceBlacklistsCreateOrConnectWithoutByUserInput | ConferenceBlacklistsCreateOrConnectWithoutByUserInput[]
+    createMany?: ConferenceBlacklistsCreateManyByUserInputEnvelope
+    connect?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
+  }
+
+  export type NotificationsUncheckedCreateNestedManyWithoutByUserInput = {
+    create?: XOR<NotificationsCreateWithoutByUserInput, NotificationsUncheckedCreateWithoutByUserInput> | NotificationsCreateWithoutByUserInput[] | NotificationsUncheckedCreateWithoutByUserInput[]
+    connectOrCreate?: NotificationsCreateOrConnectWithoutByUserInput | NotificationsCreateOrConnectWithoutByUserInput[]
+    createMany?: NotificationsCreateManyByUserInputEnvelope
+    connect?: NotificationsWhereUniqueInput | NotificationsWhereUniqueInput[]
   }
 
   export type ConferenceFollowsUpdateManyWithoutByUserNestedInput = {
@@ -35069,6 +37953,34 @@ export namespace Prisma {
     deleteMany?: ConferenceFeedbacksScalarWhereInput | ConferenceFeedbacksScalarWhereInput[]
   }
 
+  export type ConferenceBlacklistsUpdateManyWithoutByUserNestedInput = {
+    create?: XOR<ConferenceBlacklistsCreateWithoutByUserInput, ConferenceBlacklistsUncheckedCreateWithoutByUserInput> | ConferenceBlacklistsCreateWithoutByUserInput[] | ConferenceBlacklistsUncheckedCreateWithoutByUserInput[]
+    connectOrCreate?: ConferenceBlacklistsCreateOrConnectWithoutByUserInput | ConferenceBlacklistsCreateOrConnectWithoutByUserInput[]
+    upsert?: ConferenceBlacklistsUpsertWithWhereUniqueWithoutByUserInput | ConferenceBlacklistsUpsertWithWhereUniqueWithoutByUserInput[]
+    createMany?: ConferenceBlacklistsCreateManyByUserInputEnvelope
+    set?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
+    disconnect?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
+    delete?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
+    connect?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
+    update?: ConferenceBlacklistsUpdateWithWhereUniqueWithoutByUserInput | ConferenceBlacklistsUpdateWithWhereUniqueWithoutByUserInput[]
+    updateMany?: ConferenceBlacklistsUpdateManyWithWhereWithoutByUserInput | ConferenceBlacklistsUpdateManyWithWhereWithoutByUserInput[]
+    deleteMany?: ConferenceBlacklistsScalarWhereInput | ConferenceBlacklistsScalarWhereInput[]
+  }
+
+  export type NotificationsUpdateManyWithoutByUserNestedInput = {
+    create?: XOR<NotificationsCreateWithoutByUserInput, NotificationsUncheckedCreateWithoutByUserInput> | NotificationsCreateWithoutByUserInput[] | NotificationsUncheckedCreateWithoutByUserInput[]
+    connectOrCreate?: NotificationsCreateOrConnectWithoutByUserInput | NotificationsCreateOrConnectWithoutByUserInput[]
+    upsert?: NotificationsUpsertWithWhereUniqueWithoutByUserInput | NotificationsUpsertWithWhereUniqueWithoutByUserInput[]
+    createMany?: NotificationsCreateManyByUserInputEnvelope
+    set?: NotificationsWhereUniqueInput | NotificationsWhereUniqueInput[]
+    disconnect?: NotificationsWhereUniqueInput | NotificationsWhereUniqueInput[]
+    delete?: NotificationsWhereUniqueInput | NotificationsWhereUniqueInput[]
+    connect?: NotificationsWhereUniqueInput | NotificationsWhereUniqueInput[]
+    update?: NotificationsUpdateWithWhereUniqueWithoutByUserInput | NotificationsUpdateWithWhereUniqueWithoutByUserInput[]
+    updateMany?: NotificationsUpdateManyWithWhereWithoutByUserInput | NotificationsUpdateManyWithWhereWithoutByUserInput[]
+    deleteMany?: NotificationsScalarWhereInput | NotificationsScalarWhereInput[]
+  }
+
   export type ConferenceFollowsUncheckedUpdateManyWithoutByUserNestedInput = {
     create?: XOR<ConferenceFollowsCreateWithoutByUserInput, ConferenceFollowsUncheckedCreateWithoutByUserInput> | ConferenceFollowsCreateWithoutByUserInput[] | ConferenceFollowsUncheckedCreateWithoutByUserInput[]
     connectOrCreate?: ConferenceFollowsCreateOrConnectWithoutByUserInput | ConferenceFollowsCreateOrConnectWithoutByUserInput[]
@@ -35181,6 +38093,34 @@ export namespace Prisma {
     deleteMany?: ConferenceFeedbacksScalarWhereInput | ConferenceFeedbacksScalarWhereInput[]
   }
 
+  export type ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput = {
+    create?: XOR<ConferenceBlacklistsCreateWithoutByUserInput, ConferenceBlacklistsUncheckedCreateWithoutByUserInput> | ConferenceBlacklistsCreateWithoutByUserInput[] | ConferenceBlacklistsUncheckedCreateWithoutByUserInput[]
+    connectOrCreate?: ConferenceBlacklistsCreateOrConnectWithoutByUserInput | ConferenceBlacklistsCreateOrConnectWithoutByUserInput[]
+    upsert?: ConferenceBlacklistsUpsertWithWhereUniqueWithoutByUserInput | ConferenceBlacklistsUpsertWithWhereUniqueWithoutByUserInput[]
+    createMany?: ConferenceBlacklistsCreateManyByUserInputEnvelope
+    set?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
+    disconnect?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
+    delete?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
+    connect?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
+    update?: ConferenceBlacklistsUpdateWithWhereUniqueWithoutByUserInput | ConferenceBlacklistsUpdateWithWhereUniqueWithoutByUserInput[]
+    updateMany?: ConferenceBlacklistsUpdateManyWithWhereWithoutByUserInput | ConferenceBlacklistsUpdateManyWithWhereWithoutByUserInput[]
+    deleteMany?: ConferenceBlacklistsScalarWhereInput | ConferenceBlacklistsScalarWhereInput[]
+  }
+
+  export type NotificationsUncheckedUpdateManyWithoutByUserNestedInput = {
+    create?: XOR<NotificationsCreateWithoutByUserInput, NotificationsUncheckedCreateWithoutByUserInput> | NotificationsCreateWithoutByUserInput[] | NotificationsUncheckedCreateWithoutByUserInput[]
+    connectOrCreate?: NotificationsCreateOrConnectWithoutByUserInput | NotificationsCreateOrConnectWithoutByUserInput[]
+    upsert?: NotificationsUpsertWithWhereUniqueWithoutByUserInput | NotificationsUpsertWithWhereUniqueWithoutByUserInput[]
+    createMany?: NotificationsCreateManyByUserInputEnvelope
+    set?: NotificationsWhereUniqueInput | NotificationsWhereUniqueInput[]
+    disconnect?: NotificationsWhereUniqueInput | NotificationsWhereUniqueInput[]
+    delete?: NotificationsWhereUniqueInput | NotificationsWhereUniqueInput[]
+    connect?: NotificationsWhereUniqueInput | NotificationsWhereUniqueInput[]
+    update?: NotificationsUpdateWithWhereUniqueWithoutByUserInput | NotificationsUpdateWithWhereUniqueWithoutByUserInput[]
+    updateMany?: NotificationsUpdateManyWithWhereWithoutByUserInput | NotificationsUpdateManyWithWhereWithoutByUserInput[]
+    deleteMany?: NotificationsScalarWhereInput | NotificationsScalarWhereInput[]
+  }
+
   export type ConferencesCreateNestedOneWithoutCrawlJobsInput = {
     create?: XOR<ConferencesCreateWithoutCrawlJobsInput, ConferencesUncheckedCreateWithoutCrawlJobsInput>
     connectOrCreate?: ConferencesCreateOrConnectWithoutCrawlJobsInput
@@ -35195,6 +38135,34 @@ export namespace Prisma {
     update?: XOR<XOR<ConferencesUpdateToOneWithWhereWithoutCrawlJobsInput, ConferencesUpdateWithoutCrawlJobsInput>, ConferencesUncheckedUpdateWithoutCrawlJobsInput>
   }
 
+  export type ConferencesCreateNestedOneWithoutBlacklistsInput = {
+    create?: XOR<ConferencesCreateWithoutBlacklistsInput, ConferencesUncheckedCreateWithoutBlacklistsInput>
+    connectOrCreate?: ConferencesCreateOrConnectWithoutBlacklistsInput
+    connect?: ConferencesWhereUniqueInput
+  }
+
+  export type UsersCreateNestedOneWithoutBlacklistsInput = {
+    create?: XOR<UsersCreateWithoutBlacklistsInput, UsersUncheckedCreateWithoutBlacklistsInput>
+    connectOrCreate?: UsersCreateOrConnectWithoutBlacklistsInput
+    connect?: UsersWhereUniqueInput
+  }
+
+  export type ConferencesUpdateOneRequiredWithoutBlacklistsNestedInput = {
+    create?: XOR<ConferencesCreateWithoutBlacklistsInput, ConferencesUncheckedCreateWithoutBlacklistsInput>
+    connectOrCreate?: ConferencesCreateOrConnectWithoutBlacklistsInput
+    upsert?: ConferencesUpsertWithoutBlacklistsInput
+    connect?: ConferencesWhereUniqueInput
+    update?: XOR<XOR<ConferencesUpdateToOneWithWhereWithoutBlacklistsInput, ConferencesUpdateWithoutBlacklistsInput>, ConferencesUncheckedUpdateWithoutBlacklistsInput>
+  }
+
+  export type UsersUpdateOneRequiredWithoutBlacklistsNestedInput = {
+    create?: XOR<UsersCreateWithoutBlacklistsInput, UsersUncheckedCreateWithoutBlacklistsInput>
+    connectOrCreate?: UsersCreateOrConnectWithoutBlacklistsInput
+    upsert?: UsersUpsertWithoutBlacklistsInput
+    connect?: UsersWhereUniqueInput
+    update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutBlacklistsInput, UsersUpdateWithoutBlacklistsInput>, UsersUncheckedUpdateWithoutBlacklistsInput>
+  }
+
   export type JournalsCreateNestedOneWithoutCrawlJobsInput = {
     create?: XOR<JournalsCreateWithoutCrawlJobsInput, JournalsUncheckedCreateWithoutCrawlJobsInput>
     connectOrCreate?: JournalsCreateOrConnectWithoutCrawlJobsInput
@@ -35207,6 +38175,20 @@ export namespace Prisma {
     upsert?: JournalsUpsertWithoutCrawlJobsInput
     connect?: JournalsWhereUniqueInput
     update?: XOR<XOR<JournalsUpdateToOneWithWhereWithoutCrawlJobsInput, JournalsUpdateWithoutCrawlJobsInput>, JournalsUncheckedUpdateWithoutCrawlJobsInput>
+  }
+
+  export type UsersCreateNestedOneWithoutNotificationsInput = {
+    create?: XOR<UsersCreateWithoutNotificationsInput, UsersUncheckedCreateWithoutNotificationsInput>
+    connectOrCreate?: UsersCreateOrConnectWithoutNotificationsInput
+    connect?: UsersWhereUniqueInput
+  }
+
+  export type UsersUpdateOneRequiredWithoutNotificationsNestedInput = {
+    create?: XOR<UsersCreateWithoutNotificationsInput, UsersUncheckedCreateWithoutNotificationsInput>
+    connectOrCreate?: UsersCreateOrConnectWithoutNotificationsInput
+    upsert?: UsersUpsertWithoutNotificationsInput
+    connect?: UsersWhereUniqueInput
+    update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutNotificationsInput, UsersUpdateWithoutNotificationsInput>, UsersUncheckedUpdateWithoutNotificationsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -35636,6 +38618,7 @@ export namespace Prisma {
     crawlJobs?: ConferenceCrawlJobsCreateNestedManyWithoutBelongsToInput
     createdByUser: UsersCreateNestedOneWithoutCreatedConferencesInput
     feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutBelongsToInput
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesUncheckedCreateWithoutOrganizationsInput = {
@@ -35652,6 +38635,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
     crawlJobs?: ConferenceCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
     feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutBelongsToInput
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesCreateOrConnectWithoutOrganizationsInput = {
@@ -35773,6 +38757,7 @@ export namespace Prisma {
     crawlJobs?: ConferenceCrawlJobsUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneRequiredWithoutCreatedConferencesNestedInput
     feedbacks?: ConferenceFeedbacksUpdateManyWithoutBelongsToNestedInput
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateWithoutOrganizationsInput = {
@@ -35789,6 +38774,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
     crawlJobs?: ConferenceCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
     feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutBelongsToNestedInput
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferenceOrganizationsCreateWithoutTopicsInput = {
@@ -36199,6 +39185,8 @@ export namespace Prisma {
     journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
     journalFollows?: JournalFollowsCreateNestedManyWithoutByUserInput
     feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsCreateNestedManyWithoutByUserInput
   }
 
   export type UsersUncheckedCreateWithoutCreatedConferencesInput = {
@@ -36218,6 +39206,8 @@ export namespace Prisma {
     journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
     journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutByUserInput
     feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
   }
 
   export type UsersCreateOrConnectWithoutCreatedConferencesInput = {
@@ -36250,6 +39240,30 @@ export namespace Prisma {
 
   export type ConferenceFeedbacksCreateManyBelongsToInputEnvelope = {
     data: ConferenceFeedbacksCreateManyBelongsToInput | ConferenceFeedbacksCreateManyBelongsToInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ConferenceBlacklistsCreateWithoutBelongsToInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    byUser: UsersCreateNestedOneWithoutBlacklistsInput
+  }
+
+  export type ConferenceBlacklistsUncheckedCreateWithoutBelongsToInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ConferenceBlacklistsCreateOrConnectWithoutBelongsToInput = {
+    where: ConferenceBlacklistsWhereUniqueInput
+    create: XOR<ConferenceBlacklistsCreateWithoutBelongsToInput, ConferenceBlacklistsUncheckedCreateWithoutBelongsToInput>
+  }
+
+  export type ConferenceBlacklistsCreateManyBelongsToInputEnvelope = {
+    data: ConferenceBlacklistsCreateManyBelongsToInput | ConferenceBlacklistsCreateManyBelongsToInput[]
     skipDuplicates?: boolean
   }
 
@@ -36453,6 +39467,8 @@ export namespace Prisma {
     journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
     journalFollows?: JournalFollowsUpdateManyWithoutByUserNestedInput
     feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutCreatedConferencesInput = {
@@ -36472,6 +39488,8 @@ export namespace Prisma {
     journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
     journalFollows?: JournalFollowsUncheckedUpdateManyWithoutByUserNestedInput
     feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
   }
 
   export type ConferenceFeedbacksUpsertWithWhereUniqueWithoutBelongsToInput = {
@@ -36501,6 +39519,33 @@ export namespace Prisma {
     star?: IntFilter<"ConferenceFeedbacks"> | number
     createdAt?: DateTimeFilter<"ConferenceFeedbacks"> | Date | string
     updatedAt?: DateTimeFilter<"ConferenceFeedbacks"> | Date | string
+  }
+
+  export type ConferenceBlacklistsUpsertWithWhereUniqueWithoutBelongsToInput = {
+    where: ConferenceBlacklistsWhereUniqueInput
+    update: XOR<ConferenceBlacklistsUpdateWithoutBelongsToInput, ConferenceBlacklistsUncheckedUpdateWithoutBelongsToInput>
+    create: XOR<ConferenceBlacklistsCreateWithoutBelongsToInput, ConferenceBlacklistsUncheckedCreateWithoutBelongsToInput>
+  }
+
+  export type ConferenceBlacklistsUpdateWithWhereUniqueWithoutBelongsToInput = {
+    where: ConferenceBlacklistsWhereUniqueInput
+    data: XOR<ConferenceBlacklistsUpdateWithoutBelongsToInput, ConferenceBlacklistsUncheckedUpdateWithoutBelongsToInput>
+  }
+
+  export type ConferenceBlacklistsUpdateManyWithWhereWithoutBelongsToInput = {
+    where: ConferenceBlacklistsScalarWhereInput
+    data: XOR<ConferenceBlacklistsUpdateManyMutationInput, ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToInput>
+  }
+
+  export type ConferenceBlacklistsScalarWhereInput = {
+    AND?: ConferenceBlacklistsScalarWhereInput | ConferenceBlacklistsScalarWhereInput[]
+    OR?: ConferenceBlacklistsScalarWhereInput[]
+    NOT?: ConferenceBlacklistsScalarWhereInput | ConferenceBlacklistsScalarWhereInput[]
+    id?: StringFilter<"ConferenceBlacklists"> | string
+    conferenceId?: StringFilter<"ConferenceBlacklists"> | string
+    userId?: StringFilter<"ConferenceBlacklists"> | string
+    createdAt?: DateTimeFilter<"ConferenceBlacklists"> | Date | string
+    updatedAt?: DateTimeFilter<"ConferenceBlacklists"> | Date | string
   }
 
   export type FieldOfResearchsCreateWithoutConferenceRanksInput = {
@@ -36557,6 +39602,7 @@ export namespace Prisma {
     crawlJobs?: ConferenceCrawlJobsCreateNestedManyWithoutBelongsToInput
     createdByUser: UsersCreateNestedOneWithoutCreatedConferencesInput
     feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutBelongsToInput
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesUncheckedCreateWithoutRanksInput = {
@@ -36573,6 +39619,7 @@ export namespace Prisma {
     organizations?: ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput
     crawlJobs?: ConferenceCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
     feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutBelongsToInput
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesCreateOrConnectWithoutRanksInput = {
@@ -36657,6 +39704,7 @@ export namespace Prisma {
     crawlJobs?: ConferenceCrawlJobsUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneRequiredWithoutCreatedConferencesNestedInput
     feedbacks?: ConferenceFeedbacksUpdateManyWithoutBelongsToNestedInput
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateWithoutRanksInput = {
@@ -36673,6 +39721,7 @@ export namespace Prisma {
     organizations?: ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput
     crawlJobs?: ConferenceCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
     feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutBelongsToNestedInput
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
   export type JournalRanksCreateWithoutInFieldOfResearchInput = {
@@ -37375,6 +40424,8 @@ export namespace Prisma {
     journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
     journalFollows?: JournalFollowsCreateNestedManyWithoutByUserInput
     feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsCreateNestedManyWithoutByUserInput
   }
 
   export type UsersUncheckedCreateWithoutCreatedJournalsInput = {
@@ -37394,6 +40445,8 @@ export namespace Prisma {
     journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
     journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutByUserInput
     feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
   }
 
   export type UsersCreateOrConnectWithoutCreatedJournalsInput = {
@@ -37544,6 +40597,8 @@ export namespace Prisma {
     journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
     journalFollows?: JournalFollowsUpdateManyWithoutByUserNestedInput
     feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutCreatedJournalsInput = {
@@ -37563,6 +40618,8 @@ export namespace Prisma {
     journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
     journalFollows?: JournalFollowsUncheckedUpdateManyWithoutByUserNestedInput
     feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
   }
 
   export type ConferencesCreateWithoutFollowsInput = {
@@ -37579,6 +40636,7 @@ export namespace Prisma {
     crawlJobs?: ConferenceCrawlJobsCreateNestedManyWithoutBelongsToInput
     createdByUser: UsersCreateNestedOneWithoutCreatedConferencesInput
     feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutBelongsToInput
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesUncheckedCreateWithoutFollowsInput = {
@@ -37595,6 +40653,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
     crawlJobs?: ConferenceCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
     feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutBelongsToInput
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesCreateOrConnectWithoutFollowsInput = {
@@ -37619,6 +40678,8 @@ export namespace Prisma {
     journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
     journalFollows?: JournalFollowsCreateNestedManyWithoutByUserInput
     feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsCreateNestedManyWithoutByUserInput
   }
 
   export type UsersUncheckedCreateWithoutFollowConferenceInput = {
@@ -37638,6 +40699,8 @@ export namespace Prisma {
     journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
     journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutByUserInput
     feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
   }
 
   export type UsersCreateOrConnectWithoutFollowConferenceInput = {
@@ -37670,6 +40733,7 @@ export namespace Prisma {
     crawlJobs?: ConferenceCrawlJobsUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneRequiredWithoutCreatedConferencesNestedInput
     feedbacks?: ConferenceFeedbacksUpdateManyWithoutBelongsToNestedInput
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateWithoutFollowsInput = {
@@ -37686,6 +40750,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
     crawlJobs?: ConferenceCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
     feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutBelongsToNestedInput
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
   export type UsersUpsertWithoutFollowConferenceInput = {
@@ -37716,6 +40781,8 @@ export namespace Prisma {
     journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
     journalFollows?: JournalFollowsUpdateManyWithoutByUserNestedInput
     feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutFollowConferenceInput = {
@@ -37735,6 +40802,8 @@ export namespace Prisma {
     journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
     journalFollows?: JournalFollowsUncheckedUpdateManyWithoutByUserNestedInput
     feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
   }
 
   export type ConferencesCreateWithoutLikesInput = {
@@ -37751,6 +40820,7 @@ export namespace Prisma {
     crawlJobs?: ConferenceCrawlJobsCreateNestedManyWithoutBelongsToInput
     createdByUser: UsersCreateNestedOneWithoutCreatedConferencesInput
     feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutBelongsToInput
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesUncheckedCreateWithoutLikesInput = {
@@ -37767,6 +40837,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
     crawlJobs?: ConferenceCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
     feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutBelongsToInput
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesCreateOrConnectWithoutLikesInput = {
@@ -37791,6 +40862,8 @@ export namespace Prisma {
     journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
     journalFollows?: JournalFollowsCreateNestedManyWithoutByUserInput
     feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsCreateNestedManyWithoutByUserInput
   }
 
   export type UsersUncheckedCreateWithoutLikesInput = {
@@ -37810,6 +40883,8 @@ export namespace Prisma {
     journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
     journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutByUserInput
     feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
   }
 
   export type UsersCreateOrConnectWithoutLikesInput = {
@@ -37842,6 +40917,7 @@ export namespace Prisma {
     crawlJobs?: ConferenceCrawlJobsUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneRequiredWithoutCreatedConferencesNestedInput
     feedbacks?: ConferenceFeedbacksUpdateManyWithoutBelongsToNestedInput
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateWithoutLikesInput = {
@@ -37858,6 +40934,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
     crawlJobs?: ConferenceCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
     feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutBelongsToNestedInput
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
   export type UsersUpsertWithoutLikesInput = {
@@ -37888,6 +40965,8 @@ export namespace Prisma {
     journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
     journalFollows?: JournalFollowsUpdateManyWithoutByUserNestedInput
     feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutLikesInput = {
@@ -37907,6 +40986,8 @@ export namespace Prisma {
     journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
     journalFollows?: JournalFollowsUncheckedUpdateManyWithoutByUserNestedInput
     feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
   }
 
   export type ConferencesCreateWithoutFeedbacksInput = {
@@ -37923,6 +41004,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
     crawlJobs?: ConferenceCrawlJobsCreateNestedManyWithoutBelongsToInput
     createdByUser: UsersCreateNestedOneWithoutCreatedConferencesInput
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesUncheckedCreateWithoutFeedbacksInput = {
@@ -37939,6 +41021,7 @@ export namespace Prisma {
     organizations?: ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
     crawlJobs?: ConferenceCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesCreateOrConnectWithoutFeedbacksInput = {
@@ -37963,6 +41046,8 @@ export namespace Prisma {
     createdJournals?: JournalsCreateNestedManyWithoutCreatedByUserInput
     journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
     journalFollows?: JournalFollowsCreateNestedManyWithoutByUserInput
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsCreateNestedManyWithoutByUserInput
   }
 
   export type UsersUncheckedCreateWithoutFeedbacksInput = {
@@ -37982,6 +41067,8 @@ export namespace Prisma {
     createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreatedByUserInput
     journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
     journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutByUserInput
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
   }
 
   export type UsersCreateOrConnectWithoutFeedbacksInput = {
@@ -38014,6 +41101,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
     crawlJobs?: ConferenceCrawlJobsUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneRequiredWithoutCreatedConferencesNestedInput
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateWithoutFeedbacksInput = {
@@ -38030,6 +41118,7 @@ export namespace Prisma {
     organizations?: ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
     crawlJobs?: ConferenceCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
   export type UsersUpsertWithoutFeedbacksInput = {
@@ -38060,6 +41149,8 @@ export namespace Prisma {
     createdJournals?: JournalsUpdateManyWithoutCreatedByUserNestedInput
     journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
     journalFollows?: JournalFollowsUpdateManyWithoutByUserNestedInput
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutFeedbacksInput = {
@@ -38079,6 +41170,8 @@ export namespace Prisma {
     createdJournals?: JournalsUncheckedUpdateManyWithoutCreatedByUserNestedInput
     journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
     journalFollows?: JournalFollowsUncheckedUpdateManyWithoutByUserNestedInput
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
   }
 
   export type ConferencesCreateWithoutCalendarsInput = {
@@ -38095,6 +41188,7 @@ export namespace Prisma {
     crawlJobs?: ConferenceCrawlJobsCreateNestedManyWithoutBelongsToInput
     createdByUser: UsersCreateNestedOneWithoutCreatedConferencesInput
     feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutBelongsToInput
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesUncheckedCreateWithoutCalendarsInput = {
@@ -38111,6 +41205,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
     crawlJobs?: ConferenceCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
     feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutBelongsToInput
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesCreateOrConnectWithoutCalendarsInput = {
@@ -38135,6 +41230,8 @@ export namespace Prisma {
     journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
     journalFollows?: JournalFollowsCreateNestedManyWithoutByUserInput
     feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsCreateNestedManyWithoutByUserInput
   }
 
   export type UsersUncheckedCreateWithoutCalendarInput = {
@@ -38154,6 +41251,8 @@ export namespace Prisma {
     journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
     journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutByUserInput
     feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
   }
 
   export type UsersCreateOrConnectWithoutCalendarInput = {
@@ -38186,6 +41285,7 @@ export namespace Prisma {
     crawlJobs?: ConferenceCrawlJobsUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneRequiredWithoutCreatedConferencesNestedInput
     feedbacks?: ConferenceFeedbacksUpdateManyWithoutBelongsToNestedInput
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateWithoutCalendarsInput = {
@@ -38202,6 +41302,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
     crawlJobs?: ConferenceCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
     feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutBelongsToNestedInput
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
   export type UsersUpsertWithoutCalendarInput = {
@@ -38232,6 +41333,8 @@ export namespace Prisma {
     journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
     journalFollows?: JournalFollowsUpdateManyWithoutByUserNestedInput
     feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutCalendarInput = {
@@ -38251,6 +41354,8 @@ export namespace Prisma {
     journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
     journalFollows?: JournalFollowsUncheckedUpdateManyWithoutByUserNestedInput
     feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
   }
 
   export type JournalsCreateWithoutJournalLikesInput = {
@@ -38307,6 +41412,8 @@ export namespace Prisma {
     createdJournals?: JournalsCreateNestedManyWithoutCreatedByUserInput
     journalFollows?: JournalFollowsCreateNestedManyWithoutByUserInput
     feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsCreateNestedManyWithoutByUserInput
   }
 
   export type UsersUncheckedCreateWithoutJournalLikesInput = {
@@ -38326,6 +41433,8 @@ export namespace Prisma {
     createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreatedByUserInput
     journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutByUserInput
     feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
   }
 
   export type UsersCreateOrConnectWithoutJournalLikesInput = {
@@ -38404,6 +41513,8 @@ export namespace Prisma {
     createdJournals?: JournalsUpdateManyWithoutCreatedByUserNestedInput
     journalFollows?: JournalFollowsUpdateManyWithoutByUserNestedInput
     feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutJournalLikesInput = {
@@ -38423,6 +41534,8 @@ export namespace Prisma {
     createdJournals?: JournalsUncheckedUpdateManyWithoutCreatedByUserNestedInput
     journalFollows?: JournalFollowsUncheckedUpdateManyWithoutByUserNestedInput
     feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
   }
 
   export type JournalsCreateWithoutJournalFollowsInput = {
@@ -38479,6 +41592,8 @@ export namespace Prisma {
     createdJournals?: JournalsCreateNestedManyWithoutCreatedByUserInput
     journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
     feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsCreateNestedManyWithoutByUserInput
   }
 
   export type UsersUncheckedCreateWithoutJournalFollowsInput = {
@@ -38498,6 +41613,8 @@ export namespace Prisma {
     createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreatedByUserInput
     journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
     feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
   }
 
   export type UsersCreateOrConnectWithoutJournalFollowsInput = {
@@ -38576,6 +41693,8 @@ export namespace Prisma {
     createdJournals?: JournalsUpdateManyWithoutCreatedByUserNestedInput
     journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
     feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutJournalFollowsInput = {
@@ -38595,6 +41714,8 @@ export namespace Prisma {
     createdJournals?: JournalsUncheckedUpdateManyWithoutCreatedByUserNestedInput
     journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
     feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
   }
 
   export type ConferenceFollowsCreateWithoutByUserInput = {
@@ -38683,6 +41804,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
     crawlJobs?: ConferenceCrawlJobsCreateNestedManyWithoutBelongsToInput
     feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutBelongsToInput
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesUncheckedCreateWithoutCreatedByUserInput = {
@@ -38699,6 +41821,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
     crawlJobs?: ConferenceCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
     feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutBelongsToInput
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesCreateOrConnectWithoutCreatedByUserInput = {
@@ -38826,6 +41949,58 @@ export namespace Prisma {
 
   export type ConferenceFeedbacksCreateManyByUserInputEnvelope = {
     data: ConferenceFeedbacksCreateManyByUserInput | ConferenceFeedbacksCreateManyByUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ConferenceBlacklistsCreateWithoutByUserInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    belongsTo: ConferencesCreateNestedOneWithoutBlacklistsInput
+  }
+
+  export type ConferenceBlacklistsUncheckedCreateWithoutByUserInput = {
+    id?: string
+    conferenceId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ConferenceBlacklistsCreateOrConnectWithoutByUserInput = {
+    where: ConferenceBlacklistsWhereUniqueInput
+    create: XOR<ConferenceBlacklistsCreateWithoutByUserInput, ConferenceBlacklistsUncheckedCreateWithoutByUserInput>
+  }
+
+  export type ConferenceBlacklistsCreateManyByUserInputEnvelope = {
+    data: ConferenceBlacklistsCreateManyByUserInput | ConferenceBlacklistsCreateManyByUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type NotificationsCreateWithoutByUserInput = {
+    id?: string
+    type: string
+    message: string
+    isRead?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type NotificationsUncheckedCreateWithoutByUserInput = {
+    id?: string
+    type: string
+    message: string
+    isRead?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type NotificationsCreateOrConnectWithoutByUserInput = {
+    where: NotificationsWhereUniqueInput
+    create: XOR<NotificationsCreateWithoutByUserInput, NotificationsUncheckedCreateWithoutByUserInput>
+  }
+
+  export type NotificationsCreateManyByUserInputEnvelope = {
+    data: NotificationsCreateManyByUserInput | NotificationsCreateManyByUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -38985,6 +42160,51 @@ export namespace Prisma {
     data: XOR<ConferenceFeedbacksUpdateManyMutationInput, ConferenceFeedbacksUncheckedUpdateManyWithoutByUserInput>
   }
 
+  export type ConferenceBlacklistsUpsertWithWhereUniqueWithoutByUserInput = {
+    where: ConferenceBlacklistsWhereUniqueInput
+    update: XOR<ConferenceBlacklistsUpdateWithoutByUserInput, ConferenceBlacklistsUncheckedUpdateWithoutByUserInput>
+    create: XOR<ConferenceBlacklistsCreateWithoutByUserInput, ConferenceBlacklistsUncheckedCreateWithoutByUserInput>
+  }
+
+  export type ConferenceBlacklistsUpdateWithWhereUniqueWithoutByUserInput = {
+    where: ConferenceBlacklistsWhereUniqueInput
+    data: XOR<ConferenceBlacklistsUpdateWithoutByUserInput, ConferenceBlacklistsUncheckedUpdateWithoutByUserInput>
+  }
+
+  export type ConferenceBlacklistsUpdateManyWithWhereWithoutByUserInput = {
+    where: ConferenceBlacklistsScalarWhereInput
+    data: XOR<ConferenceBlacklistsUpdateManyMutationInput, ConferenceBlacklistsUncheckedUpdateManyWithoutByUserInput>
+  }
+
+  export type NotificationsUpsertWithWhereUniqueWithoutByUserInput = {
+    where: NotificationsWhereUniqueInput
+    update: XOR<NotificationsUpdateWithoutByUserInput, NotificationsUncheckedUpdateWithoutByUserInput>
+    create: XOR<NotificationsCreateWithoutByUserInput, NotificationsUncheckedCreateWithoutByUserInput>
+  }
+
+  export type NotificationsUpdateWithWhereUniqueWithoutByUserInput = {
+    where: NotificationsWhereUniqueInput
+    data: XOR<NotificationsUpdateWithoutByUserInput, NotificationsUncheckedUpdateWithoutByUserInput>
+  }
+
+  export type NotificationsUpdateManyWithWhereWithoutByUserInput = {
+    where: NotificationsScalarWhereInput
+    data: XOR<NotificationsUpdateManyMutationInput, NotificationsUncheckedUpdateManyWithoutByUserInput>
+  }
+
+  export type NotificationsScalarWhereInput = {
+    AND?: NotificationsScalarWhereInput | NotificationsScalarWhereInput[]
+    OR?: NotificationsScalarWhereInput[]
+    NOT?: NotificationsScalarWhereInput | NotificationsScalarWhereInput[]
+    id?: StringFilter<"Notifications"> | string
+    userId?: StringFilter<"Notifications"> | string
+    type?: StringFilter<"Notifications"> | string
+    message?: StringFilter<"Notifications"> | string
+    isRead?: BoolFilter<"Notifications"> | boolean
+    createdAt?: DateTimeFilter<"Notifications"> | Date | string
+    updatedAt?: DateTimeFilter<"Notifications"> | Date | string
+  }
+
   export type ConferencesCreateWithoutCrawlJobsInput = {
     id?: string
     title: string
@@ -38999,6 +42219,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
     createdByUser: UsersCreateNestedOneWithoutCreatedConferencesInput
     feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutBelongsToInput
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesUncheckedCreateWithoutCrawlJobsInput = {
@@ -39015,6 +42236,7 @@ export namespace Prisma {
     organizations?: ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
     feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutBelongsToInput
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesCreateOrConnectWithoutCrawlJobsInput = {
@@ -39047,6 +42269,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneRequiredWithoutCreatedConferencesNestedInput
     feedbacks?: ConferenceFeedbacksUpdateManyWithoutBelongsToNestedInput
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateWithoutCrawlJobsInput = {
@@ -39063,6 +42286,191 @@ export namespace Prisma {
     organizations?: ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
     feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutBelongsToNestedInput
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput
+  }
+
+  export type ConferencesCreateWithoutBlacklistsInput = {
+    id?: string
+    title: string
+    acronym: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    status: string
+    follows?: ConferenceFollowsCreateNestedManyWithoutBelongsToInput
+    likes?: ConferenceLikesCreateNestedManyWithoutBelongsToInput
+    calendars?: ConferenceCalendarsCreateNestedManyWithoutBelongsToInput
+    organizations?: ConferenceOrganizationsCreateNestedManyWithoutBelongsToInput
+    ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
+    crawlJobs?: ConferenceCrawlJobsCreateNestedManyWithoutBelongsToInput
+    createdByUser: UsersCreateNestedOneWithoutCreatedConferencesInput
+    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutBelongsToInput
+  }
+
+  export type ConferencesUncheckedCreateWithoutBlacklistsInput = {
+    id?: string
+    title: string
+    acronym: string
+    creatorId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    status: string
+    follows?: ConferenceFollowsUncheckedCreateNestedManyWithoutBelongsToInput
+    likes?: ConferenceLikesUncheckedCreateNestedManyWithoutBelongsToInput
+    calendars?: ConferenceCalendarsUncheckedCreateNestedManyWithoutBelongsToInput
+    organizations?: ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput
+    ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
+    crawlJobs?: ConferenceCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
+    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutBelongsToInput
+  }
+
+  export type ConferencesCreateOrConnectWithoutBlacklistsInput = {
+    where: ConferencesWhereUniqueInput
+    create: XOR<ConferencesCreateWithoutBlacklistsInput, ConferencesUncheckedCreateWithoutBlacklistsInput>
+  }
+
+  export type UsersCreateWithoutBlacklistsInput = {
+    id?: string
+    email: string
+    password: string
+    firstName: string
+    lastName: string
+    dob: Date | string
+    role: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    followConference?: ConferenceFollowsCreateNestedManyWithoutByUserInput
+    likes?: ConferenceLikesCreateNestedManyWithoutByUserInput
+    calendar?: ConferenceCalendarsCreateNestedManyWithoutByUserInput
+    createdConferences?: ConferencesCreateNestedManyWithoutCreatedByUserInput
+    createdJournals?: JournalsCreateNestedManyWithoutCreatedByUserInput
+    journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
+    journalFollows?: JournalFollowsCreateNestedManyWithoutByUserInput
+    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsCreateNestedManyWithoutByUserInput
+  }
+
+  export type UsersUncheckedCreateWithoutBlacklistsInput = {
+    id?: string
+    email: string
+    password: string
+    firstName: string
+    lastName: string
+    dob: Date | string
+    role: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    followConference?: ConferenceFollowsUncheckedCreateNestedManyWithoutByUserInput
+    likes?: ConferenceLikesUncheckedCreateNestedManyWithoutByUserInput
+    calendar?: ConferenceCalendarsUncheckedCreateNestedManyWithoutByUserInput
+    createdConferences?: ConferencesUncheckedCreateNestedManyWithoutCreatedByUserInput
+    createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreatedByUserInput
+    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
+    journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutByUserInput
+    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
+  }
+
+  export type UsersCreateOrConnectWithoutBlacklistsInput = {
+    where: UsersWhereUniqueInput
+    create: XOR<UsersCreateWithoutBlacklistsInput, UsersUncheckedCreateWithoutBlacklistsInput>
+  }
+
+  export type ConferencesUpsertWithoutBlacklistsInput = {
+    update: XOR<ConferencesUpdateWithoutBlacklistsInput, ConferencesUncheckedUpdateWithoutBlacklistsInput>
+    create: XOR<ConferencesCreateWithoutBlacklistsInput, ConferencesUncheckedCreateWithoutBlacklistsInput>
+    where?: ConferencesWhereInput
+  }
+
+  export type ConferencesUpdateToOneWithWhereWithoutBlacklistsInput = {
+    where?: ConferencesWhereInput
+    data: XOR<ConferencesUpdateWithoutBlacklistsInput, ConferencesUncheckedUpdateWithoutBlacklistsInput>
+  }
+
+  export type ConferencesUpdateWithoutBlacklistsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    acronym?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    follows?: ConferenceFollowsUpdateManyWithoutBelongsToNestedInput
+    likes?: ConferenceLikesUpdateManyWithoutBelongsToNestedInput
+    calendars?: ConferenceCalendarsUpdateManyWithoutBelongsToNestedInput
+    organizations?: ConferenceOrganizationsUpdateManyWithoutBelongsToNestedInput
+    ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
+    crawlJobs?: ConferenceCrawlJobsUpdateManyWithoutBelongsToNestedInput
+    createdByUser?: UsersUpdateOneRequiredWithoutCreatedConferencesNestedInput
+    feedbacks?: ConferenceFeedbacksUpdateManyWithoutBelongsToNestedInput
+  }
+
+  export type ConferencesUncheckedUpdateWithoutBlacklistsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    acronym?: StringFieldUpdateOperationsInput | string
+    creatorId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    follows?: ConferenceFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
+    likes?: ConferenceLikesUncheckedUpdateManyWithoutBelongsToNestedInput
+    calendars?: ConferenceCalendarsUncheckedUpdateManyWithoutBelongsToNestedInput
+    organizations?: ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput
+    ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
+    crawlJobs?: ConferenceCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
+    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutBelongsToNestedInput
+  }
+
+  export type UsersUpsertWithoutBlacklistsInput = {
+    update: XOR<UsersUpdateWithoutBlacklistsInput, UsersUncheckedUpdateWithoutBlacklistsInput>
+    create: XOR<UsersCreateWithoutBlacklistsInput, UsersUncheckedCreateWithoutBlacklistsInput>
+    where?: UsersWhereInput
+  }
+
+  export type UsersUpdateToOneWithWhereWithoutBlacklistsInput = {
+    where?: UsersWhereInput
+    data: XOR<UsersUpdateWithoutBlacklistsInput, UsersUncheckedUpdateWithoutBlacklistsInput>
+  }
+
+  export type UsersUpdateWithoutBlacklistsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    dob?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    followConference?: ConferenceFollowsUpdateManyWithoutByUserNestedInput
+    likes?: ConferenceLikesUpdateManyWithoutByUserNestedInput
+    calendar?: ConferenceCalendarsUpdateManyWithoutByUserNestedInput
+    createdConferences?: ConferencesUpdateManyWithoutCreatedByUserNestedInput
+    createdJournals?: JournalsUpdateManyWithoutCreatedByUserNestedInput
+    journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
+    journalFollows?: JournalFollowsUpdateManyWithoutByUserNestedInput
+    feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
+  }
+
+  export type UsersUncheckedUpdateWithoutBlacklistsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    dob?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    followConference?: ConferenceFollowsUncheckedUpdateManyWithoutByUserNestedInput
+    likes?: ConferenceLikesUncheckedUpdateManyWithoutByUserNestedInput
+    calendar?: ConferenceCalendarsUncheckedUpdateManyWithoutByUserNestedInput
+    createdConferences?: ConferencesUncheckedUpdateManyWithoutCreatedByUserNestedInput
+    createdJournals?: JournalsUncheckedUpdateManyWithoutCreatedByUserNestedInput
+    journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
+    journalFollows?: JournalFollowsUncheckedUpdateManyWithoutByUserNestedInput
+    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
   }
 
   export type JournalsCreateWithoutCrawlJobsInput = {
@@ -39143,6 +42551,106 @@ export namespace Prisma {
     journalRanks?: JournalRanksUncheckedUpdateManyWithoutBelongsToNestedInput
     journalLikes?: JournalLikesUncheckedUpdateManyWithoutBelongsToNestedInput
     journalFollows?: JournalFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
+  }
+
+  export type UsersCreateWithoutNotificationsInput = {
+    id?: string
+    email: string
+    password: string
+    firstName: string
+    lastName: string
+    dob: Date | string
+    role: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    followConference?: ConferenceFollowsCreateNestedManyWithoutByUserInput
+    likes?: ConferenceLikesCreateNestedManyWithoutByUserInput
+    calendar?: ConferenceCalendarsCreateNestedManyWithoutByUserInput
+    createdConferences?: ConferencesCreateNestedManyWithoutCreatedByUserInput
+    createdJournals?: JournalsCreateNestedManyWithoutCreatedByUserInput
+    journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
+    journalFollows?: JournalFollowsCreateNestedManyWithoutByUserInput
+    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
+  }
+
+  export type UsersUncheckedCreateWithoutNotificationsInput = {
+    id?: string
+    email: string
+    password: string
+    firstName: string
+    lastName: string
+    dob: Date | string
+    role: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    followConference?: ConferenceFollowsUncheckedCreateNestedManyWithoutByUserInput
+    likes?: ConferenceLikesUncheckedCreateNestedManyWithoutByUserInput
+    calendar?: ConferenceCalendarsUncheckedCreateNestedManyWithoutByUserInput
+    createdConferences?: ConferencesUncheckedCreateNestedManyWithoutCreatedByUserInput
+    createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreatedByUserInput
+    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
+    journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutByUserInput
+    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
+  }
+
+  export type UsersCreateOrConnectWithoutNotificationsInput = {
+    where: UsersWhereUniqueInput
+    create: XOR<UsersCreateWithoutNotificationsInput, UsersUncheckedCreateWithoutNotificationsInput>
+  }
+
+  export type UsersUpsertWithoutNotificationsInput = {
+    update: XOR<UsersUpdateWithoutNotificationsInput, UsersUncheckedUpdateWithoutNotificationsInput>
+    create: XOR<UsersCreateWithoutNotificationsInput, UsersUncheckedCreateWithoutNotificationsInput>
+    where?: UsersWhereInput
+  }
+
+  export type UsersUpdateToOneWithWhereWithoutNotificationsInput = {
+    where?: UsersWhereInput
+    data: XOR<UsersUpdateWithoutNotificationsInput, UsersUncheckedUpdateWithoutNotificationsInput>
+  }
+
+  export type UsersUpdateWithoutNotificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    dob?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    followConference?: ConferenceFollowsUpdateManyWithoutByUserNestedInput
+    likes?: ConferenceLikesUpdateManyWithoutByUserNestedInput
+    calendar?: ConferenceCalendarsUpdateManyWithoutByUserNestedInput
+    createdConferences?: ConferencesUpdateManyWithoutCreatedByUserNestedInput
+    createdJournals?: JournalsUpdateManyWithoutCreatedByUserNestedInput
+    journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
+    journalFollows?: JournalFollowsUpdateManyWithoutByUserNestedInput
+    feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
+  }
+
+  export type UsersUncheckedUpdateWithoutNotificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    dob?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    followConference?: ConferenceFollowsUncheckedUpdateManyWithoutByUserNestedInput
+    likes?: ConferenceLikesUncheckedUpdateManyWithoutByUserNestedInput
+    calendar?: ConferenceCalendarsUncheckedUpdateManyWithoutByUserNestedInput
+    createdConferences?: ConferencesUncheckedUpdateManyWithoutCreatedByUserNestedInput
+    createdJournals?: JournalsUncheckedUpdateManyWithoutCreatedByUserNestedInput
+    journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
+    journalFollows?: JournalFollowsUncheckedUpdateManyWithoutByUserNestedInput
+    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
   }
 
   export type ConferenceDatesCreateManyBelongsToInput = {
@@ -39370,6 +42878,13 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ConferenceBlacklistsCreateManyBelongsToInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type ConferenceFollowsUpdateWithoutBelongsToInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39555,6 +43070,27 @@ export namespace Prisma {
     creatorId?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     star?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConferenceBlacklistsUpdateWithoutBelongsToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    byUser?: UsersUpdateOneRequiredWithoutBlacklistsNestedInput
+  }
+
+  export type ConferenceBlacklistsUncheckedUpdateWithoutBelongsToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -39903,6 +43439,22 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ConferenceBlacklistsCreateManyByUserInput = {
+    id?: string
+    conferenceId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type NotificationsCreateManyByUserInput = {
+    id?: string
+    type: string
+    message: string
+    isRead?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type ConferenceFollowsUpdateWithoutByUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39980,6 +43532,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
     crawlJobs?: ConferenceCrawlJobsUpdateManyWithoutBelongsToNestedInput
     feedbacks?: ConferenceFeedbacksUpdateManyWithoutBelongsToNestedInput
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateWithoutCreatedByUserInput = {
@@ -39996,6 +43549,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
     crawlJobs?: ConferenceCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
     feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutBelongsToNestedInput
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateManyWithoutCreatedByUserInput = {
@@ -40115,6 +43669,54 @@ export namespace Prisma {
     conferenceId?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     star?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConferenceBlacklistsUpdateWithoutByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    belongsTo?: ConferencesUpdateOneRequiredWithoutBlacklistsNestedInput
+  }
+
+  export type ConferenceBlacklistsUncheckedUpdateWithoutByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    conferenceId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConferenceBlacklistsUncheckedUpdateManyWithoutByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    conferenceId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationsUpdateWithoutByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationsUncheckedUpdateWithoutByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationsUncheckedUpdateManyWithoutByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

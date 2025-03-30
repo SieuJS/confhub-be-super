@@ -98,6 +98,7 @@ model Conferences {
   crawlJobs     ConferenceCrawlJobs[]
   createdByUser Users                     @relation(fields: [creatorId], references: [id])
   feedbacks     ConferenceFeedbacks[]
+  blacklists    ConferenceBlacklists[]
 
   @@unique([title, acronym])
 }
@@ -244,8 +245,8 @@ model JournalFollows {
 }
 
 model Users {
-  id                 String                @id @default(uuid())
-  email              String                @unique
+  id                 String                 @id @default(uuid())
+  email              String                 @unique
   password           String
   firstName          String
   lastName           String
@@ -254,13 +255,15 @@ model Users {
   followConference   ConferenceFollows[]
   likes              ConferenceLikes[]
   calendar           ConferenceCalendars[]
-  createdAt          DateTime              @default(now())
-  updatedAt          DateTime              @updatedAt
+  createdAt          DateTime               @default(now())
+  updatedAt          DateTime               @updatedAt
   createdConferences Conferences[]
   createdJournals    Journals[]
   journalLikes       JournalLikes[]
   journalFollows     JournalFollows[]
   feedbacks          ConferenceFeedbacks[]
+  blacklists         ConferenceBlacklists[]
+  notifications      Notifications[]
 }
 
 model ConferenceCrawlJobs {
@@ -274,6 +277,16 @@ model ConferenceCrawlJobs {
   belongsTo    Conferences @relation(fields: [conferenceId], references: [id])
 }
 
+model ConferenceBlacklists {
+  id           String      @id @default(uuid())
+  conferenceId String
+  userId       String
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  belongsTo    Conferences @relation(fields: [conferenceId], references: [id])
+  byUser       Users       @relation(fields: [userId], references: [id])
+}
+
 model JournalCrawlJobs {
   id        String   @id @default(uuid())
   journalId String
@@ -283,4 +296,17 @@ model JournalCrawlJobs {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   belongsTo Journals @relation(fields: [journalId], references: [id])
+}
+
+model Notifications {
+  id        String   @id @default(uuid())
+  userId    String
+  type      String
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  byUser    Users    @relation(fields: [userId], references: [id])
+
+  @@unique([userId, type])
 }

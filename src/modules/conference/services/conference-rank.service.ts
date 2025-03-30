@@ -37,32 +37,32 @@ export class ConferenceRankService {
 
     }
 
-    async getRankByConferenceFilter (conferenceId : string, filter : ConferenceFilter) : Promise<ConferenceRankDTO | null> {
+    async getRankByConferenceFilter (conferenceId : string, filter : ConferenceFilter | undefined) : Promise<ConferenceRankDTO | null> {
         const rankInfo = await this.prismaService.conferenceRanks.findFirst({
             where : {
                 conferenceId,
-                ...(filter.researchFields ? {
+                ...(filter?.researchFields ? {
                     inFieldOfResearch : {
                         name : {
-                            in : filter.researchFields,
+                            in : filter?.researchFields,
                             mode : 'insensitive'
                         }
                     }
                 }:{}),
-                ...(filter.source ? {
+                ...(filter?.source ? {
                     byRank : {
                         belongsToSource : {
                             name : {
-                                equals : filter.source,
+                                equals : filter?.source,
                                 mode : 'insensitive'
                             }
                         }
                     }
                 }: {}),
-                ...(filter.rank ? {
+                ...(filter?.rank ? {
                     byRank : {
                         name : {
-                            equals : filter.rank,
+                            equals : filter?.rank,
                             mode : 'insensitive'
                         }
                     }

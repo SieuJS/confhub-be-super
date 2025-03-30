@@ -2,8 +2,9 @@ import parser from "any-date-parser";
 import { ConferenceDateInput } from "src/modules/conference-organization/models/date/conferencer-date.input";
 export function parseDateRange(dateRange: string): [Date, Date] {
   // Normalize dash types and remove any extra spaces
-  dateRange = dateRange.replace("–", "-").replace(/\s*,\s*/g, ", ").trim();
+  console.log("date" ,dateRange);
 
+  dateRange = dateRange.replace("–", "-").replace(/\s*,\s*/g, ", ").trim();
   let parts = dateRange.split(" - ");
   
   // If splitting by " - " fails, attempt to split by "–" (for cases like "October 16–19, 2024")
@@ -16,7 +17,7 @@ export function parseDateRange(dateRange: string): [Date, Date] {
       singleDate = parser.fromString('1' + dateRange);
       if(!singleDate.isValid())
       {
-        throw new Error(`Invalid date range format: ${dateRange}`);
+        throw new Error(`Could not parse the date: ${dateRange}`);
       }
     else 
       return [singleDate, singleDate]

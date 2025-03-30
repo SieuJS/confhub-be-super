@@ -313,12 +313,30 @@ exports.Prisma.ConferenceCrawlJobsScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ConferenceBlacklistsScalarFieldEnum = {
+  id: 'id',
+  conferenceId: 'conferenceId',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.JournalCrawlJobsScalarFieldEnum = {
   id: 'id',
   journalId: 'journalId',
   status: 'status',
   progress: 'progress',
   message: 'message',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.NotificationsScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  message: 'message',
+  isRead: 'isRead',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -362,7 +380,9 @@ exports.Prisma.ModelName = {
   JournalFollows: 'JournalFollows',
   Users: 'Users',
   ConferenceCrawlJobs: 'ConferenceCrawlJobs',
-  JournalCrawlJobs: 'JournalCrawlJobs'
+  ConferenceBlacklists: 'ConferenceBlacklists',
+  JournalCrawlJobs: 'JournalCrawlJobs',
+  Notifications: 'Notifications'
 };
 
 /**

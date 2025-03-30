@@ -47,7 +47,7 @@ export class ConferenceController {
         type: ConferencePaginationDTO,
     })
     @Get()
-    async getConferences(@Query() params: GetConferencesParams, @Query('topics') topics : string | string[]) {
+    async getConferences(@Query() params: GetConferencesParams, @Query('topics') topics : string | string[]) : Promise<ConferencePaginationDTO> {
         if(topics instanceof Array) {
             params.topics = topics;
         } else if(topics) {
@@ -71,126 +71,8 @@ export class ConferenceController {
         }
         
         const conferences =  await this.conferenceService.getConferences(params);
-
-        const conferenceToResponse : ConferenceDTO[] = await Promise.all(conferences.map( async conference => {
-            const rank = await this.conferenceRankService.getRankByConferenceFilter(conference.id, params);
-            
-            const organization = await this.conferenceOrganizationService.getFirstOrganizationsByConferenceId(conference.id) ;
-            if(!organization) {
-                    return {
-                        id : conference.id,
-                        title : conference.title,
-                        acronym : conference.acronym,
-                        location : {
-                            cityStateProvince : '',
-                            country : '',
-                            address : "",
-                            continent : '',
-                        },
-                        rank : rank?.rank || '', 
-                        source : rank?.source  || '',
-                        year : conference.ranks[0]?.year,
-                        researchFields: conference.ranks.map(rank => rank.inFieldOfResearch.name),
-                        topics : [],
-                        dates : { fromDate: new Date(), toDate: new Date(), name: '', type: 'conferenceDates' },
-                        link : '',
-                        createdAt : conference.createdAt,
-                        updatedAt : conference.updatedAt,
-                        creatorId : conference.creatorId,
-                        accessType : '',
-                        status : conference.status
-                    }
-                }
-            
-            const locations = await this.conferenceOrganizationService.getLocationsByOrganizedId(organization.id);
-            if(locations.length === 0) {
-                return {
-                    id : conference.id,
-                    title : conference.title,
-                    acronym : conference.acronym,
-                    location : {
-                        cityStateProvince : '',
-                        country : '',
-                        address : '',
-                        continent : '',
-                    },
-                    rank : '',
-                    source : '',
-                    year : 0,
-                    researchFields: [],
-                    topics : [],
-                    dates : { fromDate: new Date(), toDate: new Date(), name: '', type: 'conferenceDates' },
-                    link : '',
-                    createdAt : conference.createdAt,
-                    updatedAt : conference.updatedAt,
-                    creatorId : conference.creatorId,
-                    accessType : '',
-                    status : conference.status
-                }}
-            const dates = await this.conferenceOrganizationService.getDatesByOrganizedId(organization.id);
-            if(dates.length === 0) {
-                return {
-                    id : conference.id,
-                    title : conference.title,
-                    acronym : conference.acronym,
-                    location : {
-                        cityStateProvince : locations[0].cityStateProvince ?? '',
-                        country : locations[0].country ?? '',
-                        address : locations[0].address ?? '',
-                        continent : locations[0].continent ?? '',
-                    },
-                    rank : conference.ranks[0]?.byRank?.name,
-                    source : conference.ranks[0]?.byRank?.belongsToSource.name,
-                    year : conference.ranks[0]?.year,
-                    researchFields: conference.ranks.map(rank => rank.inFieldOfResearch.name),
-                    topics : organization.topics,
-                    dates : { fromDate: new Date(), toDate: new Date(), name: '', type: 'conferenceDates' },
-                    link : organization.link,
-                    createdAt : conference.createdAt,
-                    updatedAt : conference.updatedAt,
-                    creatorId : conference.creatorId,
-                    accessType : organization.accessType,
-                    status : conference.status
-                }
-            }
-
-            const conferenceDTO : ConferenceDTO = {
-                id : conference.id,
-                title : conference.title,
-                acronym : conference.acronym,
-                location : {
-                    cityStateProvince : locations[0].cityStateProvince || '',
-                    country : locations[0].country || '',
-                    address : locations[0].address || '',
-                    continent : locations[0].continent || '',
-                },
-                rank : conference.ranks[0]?.byRank?.name,
-                source : conference.ranks[0]?.byRank?.belongsToSource.name,
-                year : conference.ranks[0]?.year,
-                researchFields: conference.ranks.map(rank => rank.inFieldOfResearch.name),
-                topics : organization.topics,
-                dates : dates.filter(date => {
-                    return (date.type === 'conferenceDates')
-                }).map(date => {
-                    return {
-                        fromDate : date.fromDate,
-                        toDate : date.toDate,
-                        name : date.name,
-                        type : date.type
-                    }
-                })[0],
-                link : organization.link,
-                createdAt : conference.createdAt,
-                updatedAt : conference.updatedAt,
-                creatorId : conference.creatorId,
-                accessType : organization.accessType,
-                status : conference.status
-
-            }
-            return conferenceDTO;
-        }))
         
-        return this.paginationService.paginate(conferenceToResponse, params.page, parseInt(params.perPage as any));
+        return conferences;
     }
 
     @Get('all') 
