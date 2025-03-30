@@ -368,7 +368,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/sieunguyen/Desktop/sieu-works/confhub-2/all the sources of conhuf/confhub-admin-be/generated/prisma_client",
+      "value": "/Users/sieunguyen/Desktop/sieu-works/confhub-2/all the sources of conhuf/confhub-be-super/generated/prisma_client",
       "fromEnvVar": null
     },
     "config": {
@@ -382,7 +382,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/Users/sieunguyen/Desktop/sieu-works/confhub-2/all the sources of conhuf/confhub-admin-be/prisma/schema.prisma",
+    "sourceFilePath": "/Users/sieunguyen/Desktop/sieu-works/confhub-2/all the sources of conhuf/confhub-be-super/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -396,6 +396,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": true,
   "inlineDatasources": {
     "db": {
       "url": {
