@@ -3,8 +3,7 @@ import { AuthService } from "../services/auth.service";
 import { LocalAuthGuard } from "../guards/local.guard";
 import { ApiBearerAuth, ApiBody, ApiHeader, ApiTags } from "@nestjs/swagger";
 import { LoginInput } from "../models/login.input";
-import { JWTGuard } from "../guards/jwt.guard";
-import { AuthGuard } from "@nestjs/passport";
+import { JWTGuardAdmin, JWTGuardUser } from "../guards/jwt.guard";
 
 @ApiTags('auth')
 @Controller('/auth') 
@@ -47,7 +46,7 @@ export class AuthController {
         }
     }
 
-    @Get('/me')
+    @Get('/admin/me')
     @ApiBearerAuth('access-token'
 
     )
@@ -55,9 +54,22 @@ export class AuthController {
         name : 'Authorization',
         description : 'Bearer token'
     })
-    @UseGuards(AuthGuard('jwt'))
+    @UseGuards(JWTGuardAdmin)
     async getMe(@Req() req) {
         const user = req.user;
         return user;
     }
+
+    @Get('/me')
+    @ApiBearerAuth('access-token')
+    @ApiHeader({
+        name : 'Authorization',
+        description : 'Bearer token'
+    })
+    @UseGuards(JWTGuardUser)
+    async getMeUser(@Req() req) {
+        const user = req.user;
+        return user;
+    }
+    
 }

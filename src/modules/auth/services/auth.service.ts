@@ -6,6 +6,7 @@ import { UserDTO } from 'src/modules/user/models/user.dto';
 import { JwtService } from '@nestjs/jwt';
 import { AdminService } from 'src/modules/user/services/admin.service';
 import { AdminDto } from 'src/modules/user/models/admin/admin.dto';
+import { PayloadToken } from '../models/payload-token';
 
 @Injectable()
 export class AuthService {
@@ -61,6 +62,40 @@ export class AuthService {
           role : 'admin'
         }},)
     }
+  }
+
+  async validateJwtAdmin (payload : PayloadToken) {
+    if(!payload) {
+      throw new Error('Invalid token');
+    }
+    if(payload.role !== 'admin') {
+      throw new Error('Unauthorized');
+    }
+    const admin = await this.admin.getAdminById(payload.id);
+    if(!admin) {
+      throw new Error('Wrong token');
+    }
+    if(admin.email !== payload.email) {
+      throw new Error('Wrong token');
+    }
+    return true
+  }
+
+  async validateJwtUser (payload : PayloadToken) {
+    if(!payload) {
+      throw new Error('Invalid token');
+    }
+    if(payload.role !== 'user') {
+      throw new Error('Unauthorized');
+    }
+    const user = await this.usersService.getUserById(payload.id);
+    if(!user) {
+      throw new Error('Wrong token');
+    }
+    if(user.email !== payload.email) {
+      throw new Error('Wrong token');
+    }
+    return true
   }
 
 }
