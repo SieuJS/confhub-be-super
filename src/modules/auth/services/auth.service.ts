@@ -4,11 +4,15 @@ import { UserService } from '../../user/services/user.service'
 import * as crypto from 'crypto'
 import { UserDTO } from 'src/modules/user/models/user.dto';
 import { JwtService } from '@nestjs/jwt';
+import { AdminService } from 'src/modules/user/services/admin.service';
+import { AdminDto } from 'src/modules/user/models/admin/admin.dto';
+import { PayloadToken } from '../models/payload-token';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UserService,
+    private admin : AdminService,
     private jwtService: JwtService
   ) {}
 
@@ -27,9 +31,71 @@ export class AuthService {
     return user;
   }
 
-  async login (user : UserDTO) {
+  async validateAdmin (email: string, password: string): Promise<any> {
+    const admin = await this.admin.getAdminByEmail(email)
+    if(!admin) {
+        throw Error ("No email match")
+    }
+    const hashedInputPassword = crypto.createHash('sha256').update(password).digest('hex')
+    const isPasswordValid = hashedInputPassword === admin.password
+    if(!isPasswordValid){
+        throw Error ("Wrong password")
+    }
+    return admin;
+  }
+
+  async loginUser (user : UserDTO) {
     return {
-        access_token : this.jwtService.sign({payload : {user}})
+        access_token : this.jwtService.sign({payload : {
+          id : user.id,
+          email : user.email,
+          role : 'user'
+        }})
     }
   }
+
+  async loginAdmin (admin : AdminDto) {
+    return {
+        access_token : this.jwtService.sign({payload : {
+          id : admin.id,
+          email : admin.email,
+          role : 'admin'
+        }},)
+    }
+  }
+
+  async validateJwtAdmin (payload : PayloadToken) {
+    if(!payload) {
+      throw new Error('Invalid token');
+    }
+    if(payload.role !== 'admin') {
+      throw new Error('Unauthorized');
+    }
+    const admin = await this.admin.getAdminById(payload.id);
+    if(!admin) {
+      throw new Error('Wrong token');
+    }
+    if(admin.email !== payload.email) {
+      throw new Error('Wrong token');
+    }
+    return true
+  }
+
+  async validateJwtUser (payload : PayloadToken) {
+    if(!payload) {
+      throw new Error('Invalid token');
+    }
+    if(payload.role !== 'user') {
+      throw new Error('Unauthorized');
+    }
+    const user = await this.usersService.getUserById(payload.id);
+    if(!user) {
+      throw new Error('Wrong token');
+    }
+    if(user.email !== payload.email) {
+      throw new Error('Wrong token');
+    }
+    return true
+  }
+
 }

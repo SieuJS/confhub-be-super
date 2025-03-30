@@ -5,9 +5,9 @@ export class LoginInput {
     @IsString()
     @IsNotEmpty()
     @ApiProperty({
-        example: 'username',
+        example: 'email',
     })
-    username: string;
+    email: string;
 
     @IsString()
     @IsNotEmpty()
@@ -15,4 +15,9 @@ export class LoginInput {
         example: 'password',
     })
     password: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @ApiProperty({description : "The mode of login", example: 'admin'})
+    mode: 'admin' | 'user';
 }

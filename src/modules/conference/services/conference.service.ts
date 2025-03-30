@@ -20,6 +20,7 @@ import { ConferenceFeedBackInputDTO } from '../models/conference-feedback/confer
 import { PaginatorTypes, paginator } from '@nodeteam/nestjs-prisma-pagination';
 import { ConferencePaginationDTO } from '../models/conference/conference-pagination.dto';
 import { GetConferencesParams } from '../models/conference-request/get-conference-params';
+import { AdminController } from 'src/modules/user/controllers/admin.controller';
 
 const paginate: PaginatorTypes.PaginateFunction = paginator({ perPage: 10 });
 @Injectable()
@@ -34,8 +35,9 @@ export class ConferenceService {
     private readonly conferenceRankService: ConferenceRankService,
   ) {}
 
-  async getConferences(conferenceFilter?: GetConferencesParams) : 
-  Promise<ConferencePaginationDTO> {
+  async getConferences(
+    conferenceFilter?: GetConferencesParams,
+  ): Promise<ConferencePaginationDTO> {
     const include = {
       ranks: {
         include: {
@@ -54,43 +56,28 @@ export class ConferenceService {
     };
 
     const whereCondition = {
-        ...(conferenceFilter?.keyword
-          ? {
-              OR: [
-                {
-                  title: {
-                    contains: conferenceFilter?.keyword,
-                    mode: 'insensitive',
-                  },
+      ...(conferenceFilter?.keyword
+        ? {
+            OR: [
+              {
+                title: {
+                  contains: conferenceFilter?.keyword,
+                  mode: 'insensitive',
                 },
-                {
-                  acronym: {
-                    contains: conferenceFilter?.keyword,
-                    mode: 'insensitive',
-                  },
+              },
+              {
+                acronym: {
+                  contains: conferenceFilter?.keyword,
+                  mode: 'insensitive',
                 },
-                {
-                  organizations: {
-                    some: {
-                      topics: {
-                        some: {
-                          inTopic: {
-                            name: {
-                              contains: conferenceFilter?.keyword,
-                              mode: 'insensitive',
-                            },
-                          },
-                        },
-                      },
-                    },
-                  },
-                },
-                {
-                  organizations: {
-                    some: {
-                      locations: {
-                        some: {
-                          address: {
+              },
+              {
+                organizations: {
+                  some: {
+                    topics: {
+                      some: {
+                        inTopic: {
+                          name: {
                             contains: conferenceFilter?.keyword,
                             mode: 'insensitive',
                           },
@@ -99,337 +86,390 @@ export class ConferenceService {
                     },
                   },
                 },
-                {
-                  organizations: {
-                    some: {
-                      summerize: {
-                        contains: conferenceFilter?.keyword,
-                        mode: 'insensitive',
+              },
+              {
+                organizations: {
+                  some: {
+                    locations: {
+                      some: {
+                        address: {
+                          contains: conferenceFilter?.keyword,
+                          mode: 'insensitive',
+                        },
                       },
                     },
                   },
                 },
-                {
-                  organizations: {
-                    some: {
-                      callForPaper: {
-                        contains: conferenceFilter?.keyword,
-                        mode: 'insensitive',
-                      },
+              },
+              {
+                organizations: {
+                  some: {
+                    summerize: {
+                      contains: conferenceFilter?.keyword,
+                      mode: 'insensitive',
                     },
                   },
                 },
-              ],
-            }
-          : {}),
-
-        ...(conferenceFilter?.title
-          ? {
-              title: {
-                contains: conferenceFilter?.title,
-                mode: 'insensitive',
               },
-            }
-          : {}),
-
-        ...(conferenceFilter?.acronym
-          ? {
-              acronym: {
-                contains: conferenceFilter?.acronym,
-                mode: 'insensitive',
-              },
-            }
-          : {}),
-
-        ranks: {
-          ...(conferenceFilter?.rank ||
-          conferenceFilter?.source ||
-          conferenceFilter?.researchFields
-            ? {
-                some: {
-                  byRank: {
-                    ...(conferenceFilter?.rank
-                      ? {
-                          name: {
-                            equals: conferenceFilter?.rank,
-                            mode: 'insensitive',
-                          },
-                        }
-                      : {}),
-                    ...(conferenceFilter?.source
-                      ? {
-                          belongsToSource: {
-                            name: {
-                              contains: conferenceFilter?.source,
-                              mode: 'insensitive',
-                            },
-                          },
-                        }
-                      : {}),
-                    ...(conferenceFilter?.researchFields
-                      ? {
-                          inFieldOfResearch: {
-                            name: {
-                              in: conferenceFilter?.researchFields,
-                              mode: 'insensitive',
-                            },
-                          },
-                        }
-                      : {}),
+              {
+                organizations: {
+                  some: {
+                    callForPaper: {
+                      contains: conferenceFilter?.keyword,
+                      mode: 'insensitive',
+                    },
                   },
                 },
-              }
-            : {}),
-        },
+              },
+            ],
+          }
+        : {}),
 
-        ...(conferenceFilter?.topics ||
-        conferenceFilter?.fromDate ||
-        conferenceFilter?.toDate ||
-        conferenceFilter?.cityStateProvince ||
-        conferenceFilter?.continent ||
-        conferenceFilter?.country ||
-        conferenceFilter?.accessType
+      ...(conferenceFilter?.title
+        ? {
+            title: {
+              contains: conferenceFilter?.title,
+              mode: 'insensitive',
+            },
+          }
+        : {}),
+
+      ...(conferenceFilter?.acronym
+        ? {
+            acronym: {
+              contains: conferenceFilter?.acronym,
+              mode: 'insensitive',
+            },
+          }
+        : {}),
+
+      ranks: {
+        ...(conferenceFilter?.rank ||
+        conferenceFilter?.source ||
+        conferenceFilter?.researchFields
           ? {
-              organizations: {
-                some: {
-                  ...(conferenceFilter?.accessType
+              some: {
+                byRank: {
+                  ...(conferenceFilter?.rank
                     ? {
-                        accessType: {
-                          contains: conferenceFilter?.accessType,
+                        name: {
+                          equals: conferenceFilter?.rank,
                           mode: 'insensitive',
                         },
                       }
                     : {}),
-                  ...(conferenceFilter?.topics
+                  ...(conferenceFilter?.source
                     ? {
-                        topics: {
-                          some: {
-                            inTopic: {
-                              name: {
-                                in: conferenceFilter?.topics,
-                                mode: 'insensitive',
-                              },
-                            },
+                        belongsToSource: {
+                          name: {
+                            contains: conferenceFilter?.source,
+                            mode: 'insensitive',
                           },
                         },
                       }
                     : {}),
-                  locations: {
-                    some: {
-                      ...(conferenceFilter?.cityStateProvince
-                        ? {
-                            cityStateProvince: {
-                              contains: conferenceFilter?.cityStateProvince,
-                              mode: 'insensitive',
-                            },
-                          }
-                        : {}),
+                  ...(conferenceFilter?.researchFields
+                    ? {
+                        inFieldOfResearch: {
+                          name: {
+                            in: conferenceFilter?.researchFields,
+                            mode: 'insensitive',
+                          },
+                        },
+                      }
+                    : {}),
+                },
+              },
+            }
+          : {}),
+      },
 
-                      ...(conferenceFilter?.country
-                        ? {
-                            country: {
-                              contains: conferenceFilter?.country,
+      ...(conferenceFilter?.topics ||
+      conferenceFilter?.fromDate ||
+      conferenceFilter?.toDate ||
+      conferenceFilter?.cityStateProvince ||
+      conferenceFilter?.continent ||
+      conferenceFilter?.country ||
+      conferenceFilter?.accessType
+        ? {
+            organizations: {
+              some: {
+                ...(conferenceFilter?.accessType
+                  ? {
+                      accessType: {
+                        contains: conferenceFilter?.accessType,
+                        mode: 'insensitive',
+                      },
+                    }
+                  : {}),
+                ...(conferenceFilter?.topics
+                  ? {
+                      topics: {
+                        some: {
+                          inTopic: {
+                            name: {
+                              in: conferenceFilter?.topics,
                               mode: 'insensitive',
                             },
-                          }
-                        : {}),
-
-                      ...(conferenceFilter?.continent
-                        ? {
-                            continent: {
-                              contains: conferenceFilter?.continent,
-                              mode: 'insensitive',
-                            },
-                          }
-                        : {}),
-
-                      ...(conferenceFilter?.address
-                        ? {
-                            address: {
-                              contains: conferenceFilter?.address,
-                              mode: 'insensitive',
-                            },
-                          }
-                        : {}),
-                    },
-                  },
-                  conferenceDates: {
-                    ...(conferenceFilter?.fromDate || conferenceFilter?.toDate
+                          },
+                        },
+                      },
+                    }
+                  : {}),
+                locations: {
+                  some: {
+                    ...(conferenceFilter?.cityStateProvince
                       ? {
-                          some: {
-                            ...(conferenceFilter?.fromDate
-                              ? {
-                                  toDate: {
-                                    gte: parser.fromString(
-                                      conferenceFilter?.fromDate,
-                                    ),
-                                  },
-                                  type: 'conferenceDates',
-                                }
-                              : {}),
+                          cityStateProvince: {
+                            contains: conferenceFilter?.cityStateProvince,
+                            mode: 'insensitive',
+                          },
+                        }
+                      : {}),
 
-                            ...(conferenceFilter?.toDate
-                              ? {
-                                  fromDate: {
-                                    lte: parser.fromString(
-                                      conferenceFilter?.toDate,
-                                    ),
-                                  },
-                                  type: 'conferenceDates',
-                                }
-                              : {}),
+                    ...(conferenceFilter?.country
+                      ? {
+                          country: {
+                            contains: conferenceFilter?.country,
+                            mode: 'insensitive',
+                          },
+                        }
+                      : {}),
+
+                    ...(conferenceFilter?.continent
+                      ? {
+                          continent: {
+                            contains: conferenceFilter?.continent,
+                            mode: 'insensitive',
+                          },
+                        }
+                      : {}),
+
+                    ...(conferenceFilter?.address
+                      ? {
+                          address: {
+                            contains: conferenceFilter?.address,
+                            mode: 'insensitive',
                           },
                         }
                       : {}),
                   },
                 },
+                conferenceDates: {
+                  ...(conferenceFilter?.fromDate || conferenceFilter?.toDate
+                    ? {
+                        some: {
+                          ...(conferenceFilter?.fromDate
+                            ? {
+                                toDate: {
+                                  gte: parser.fromString(
+                                    conferenceFilter?.fromDate,
+                                  ),
+                                },
+                                type: 'conferenceDates',
+                              }
+                            : {}),
+
+                          ...(conferenceFilter?.toDate
+                            ? {
+                                fromDate: {
+                                  lte: parser.fromString(
+                                    conferenceFilter?.toDate,
+                                  ),
+                                },
+                                type: 'conferenceDates',
+                              }
+                            : {}),
+                        },
+                      }
+                    : {}),
+                },
               },
-            }
-          : {}),
-      }
-
-    
-    const paginatedData = await paginate(
-        this.prismaService.conferences,
-        {
-            where : whereCondition,
-            include : include,
-        },
-        {
-            page : conferenceFilter?.page || 1,
-            perPage : conferenceFilter?.perPage || 10,
-        }
-    )
-
-    const conferences = paginatedData.data as any; 
-    const conferenceToResponse : ConferenceDTO[] = await Promise.all(conferences.map( async conference => {
-        const rank = await this.conferenceRankService.getRankByConferenceFilter(conference.id, conferenceFilter);
-        
-        const organization = await this.conferenceOraganizationService.getFirstOrganizationsByConferenceId(conference.id) ;
-        if(!organization) {
-                return {
-                    id : conference.id,
-                    title : conference.title,
-                    acronym : conference.acronym,
-                    location : {
-                        cityStateProvince : '',
-                        country : '',
-                        address : "",
-                        continent : '',
-                    },
-                    rank : rank?.rank || '', 
-                    source : rank?.source  || '',
-                    year : conference.ranks[0]?.year,
-                    researchFields: conference.ranks.map(rank => rank.inFieldOfResearch.name),
-                    topics : [],
-                    dates : { fromDate: new Date(), toDate: new Date(), name: '', type: 'conferenceDates' },
-                    link : '',
-                    createdAt : conference.createdAt,
-                    updatedAt : conference.updatedAt,
-                    creatorId : conference.creatorId,
-                    accessType : '',
-                    status : conference.status
-                }
-            }
-        
-        const locations = await this.conferenceOraganizationService.getLocationsByOrganizedId(organization.id);
-        if(locations.length === 0) {
-            return {
-                id : conference.id,
-                title : conference.title,
-                acronym : conference.acronym,
-                location : {
-                    cityStateProvince : '',
-                    country : '',
-                    address : '',
-                    continent : '',
-                },
-                rank : '',
-                source : '',
-                year : 0,
-                researchFields: [],
-                topics : [],
-                dates : { fromDate: new Date(), toDate: new Date(), name: '', type: 'conferenceDates' },
-                link : '',
-                createdAt : conference.createdAt,
-                updatedAt : conference.updatedAt,
-                creatorId : conference.creatorId,
-                accessType : '',
-                status : conference.status
-            }}
-        const dates = await this.conferenceOraganizationService.getDatesByOrganizedId(organization.id);
-        if(dates.length === 0) {
-            return {
-                id : conference.id,
-                title : conference.title,
-                acronym : conference.acronym,
-                location : {
-                    cityStateProvince : locations[0].cityStateProvince ?? '',
-                    country : locations[0].country ?? '',
-                    address : locations[0].address ?? '',
-                    continent : locations[0].continent ?? '',
-                },
-                rank : conference.ranks[0]?.byRank?.name,
-                source : conference.ranks[0]?.byRank?.belongsToSource.name,
-                year : conference.ranks[0]?.year,
-                researchFields: conference.ranks.map(rank => rank.inFieldOfResearch.name),
-                topics : organization.topics,
-                dates : { fromDate: new Date(), toDate: new Date(), name: '', type: 'conferenceDates' },
-                link : organization.link,
-                createdAt : conference.createdAt,
-                updatedAt : conference.updatedAt,
-                creatorId : conference.creatorId,
-                accessType : organization.accessType,
-                status : conference.status
-            }
-        }
-
-        const conferenceDTO : ConferenceDTO = {
-            id : conference.id,
-            title : conference.title,
-            acronym : conference.acronym,
-            location : {
-                cityStateProvince : locations[0].cityStateProvince || '',
-                country : locations[0].country || '',
-                address : locations[0].address || '',
-                continent : locations[0].continent || '',
             },
-            rank : conference.ranks[0]?.byRank?.name,
-            source : conference.ranks[0]?.byRank?.belongsToSource.name,
-            year : conference.ranks[0]?.year,
-            researchFields: conference.ranks.map(rank => rank.inFieldOfResearch.name),
-            topics : organization.topics,
-            dates : dates.filter(date => {
-                return (date.type === 'conferenceDates')
-            }).map(date => {
-                return {
-                    fromDate : date.fromDate,
-                    toDate : date.toDate,
-                    name : date.name,
-                    type : date.type
-                }
-            })[0],
-            link : organization.link,
-            createdAt : conference.createdAt,
-            updatedAt : conference.updatedAt,
-            creatorId : conference.creatorId,
-            accessType : organization.accessType,
-            status : conference.status
+          }
+        : {}),
+    };
 
+    const paginatedData = await paginate(
+      this.prismaService.conferences,
+      {
+        where: whereCondition,
+        include: include,
+      },
+      {
+        page: conferenceFilter?.page || 1,
+        perPage: conferenceFilter?.perPage || 10,
+      },
+    );
+
+    const conferences = paginatedData.data as any;
+    const conferenceToResponse: ConferenceDTO[] = await Promise.all(
+      conferences.map(async (conference) => {
+        const rank = await this.conferenceRankService.getRankByConferenceFilter(
+          conference.id,
+          conferenceFilter,
+        );
+
+        const organization =
+          await this.conferenceOraganizationService.getFirstOrganizationsByConferenceId(
+            conference.id,
+          );
+        if (!organization) {
+          return {
+            id: conference.id,
+            title: conference.title,
+            acronym: conference.acronym,
+            location: {
+              cityStateProvince: '',
+              country: '',
+              address: '',
+              continent: '',
+            },
+            rank: rank?.rank || '',
+            source: rank?.source || '',
+            year: conference.ranks[0]?.year,
+            researchFields: conference.ranks.map(
+              (rank) => rank.inFieldOfResearch.name,
+            ),
+            topics: [],
+            dates: {
+              fromDate: new Date(),
+              toDate: new Date(),
+              name: '',
+              type: 'conferenceDates',
+            },
+            link: '',
+            createdAt: conference.createdAt,
+            updatedAt: conference.updatedAt,
+            creatorId: conference.creatorId,
+            accessType: '',
+            status: conference.status,
+          };
         }
+
+        const locations =
+          await this.conferenceOraganizationService.getLocationsByOrganizedId(
+            organization.id,
+          );
+        if (locations.length === 0) {
+          return {
+            id: conference.id,
+            title: conference.title,
+            acronym: conference.acronym,
+            location: {
+              cityStateProvince: '',
+              country: '',
+              address: '',
+              continent: '',
+            },
+            rank: '',
+            source: '',
+            year: 0,
+            researchFields: [],
+            topics: [],
+            dates: {
+              fromDate: new Date(),
+              toDate: new Date(),
+              name: '',
+              type: 'conferenceDates',
+            },
+            link: '',
+            createdAt: conference.createdAt,
+            updatedAt: conference.updatedAt,
+            creatorId: conference.creatorId,
+            accessType: '',
+            status: conference.status,
+          };
+        }
+        const dates =
+          await this.conferenceOraganizationService.getDatesByOrganizedId(
+            organization.id,
+          );
+        if (dates.length === 0) {
+          return {
+            id: conference.id,
+            title: conference.title,
+            acronym: conference.acronym,
+            location: {
+              cityStateProvince: locations[0].cityStateProvince ?? '',
+              country: locations[0].country ?? '',
+              address: locations[0].address ?? '',
+              continent: locations[0].continent ?? '',
+            },
+            rank: conference.ranks[0]?.byRank?.name,
+            source: conference.ranks[0]?.byRank?.belongsToSource.name,
+            year: conference.ranks[0]?.year,
+            researchFields: conference.ranks.map(
+              (rank) => rank.inFieldOfResearch.name,
+            ),
+            topics: organization.topics,
+            dates: {
+              fromDate: new Date(),
+              toDate: new Date(),
+              name: '',
+              type: 'conferenceDates',
+            },
+            link: organization.link,
+            createdAt: conference.createdAt,
+            updatedAt: conference.updatedAt,
+            creatorId: conference.creatorId,
+            adminId: conference.adminId,
+            accessType: organization.accessType,
+            status: conference.status,
+          };
+        }
+
+        const conferenceDTO: ConferenceDTO = {
+          id: conference.id,
+          title: conference.title,
+          acronym: conference.acronym,
+          location: {
+            cityStateProvince: locations[0].cityStateProvince || '',
+            country: locations[0].country || '',
+            address: locations[0].address || '',
+            continent: locations[0].continent || '',
+          },
+          rank: conference.ranks[0]?.byRank?.name,
+          source: conference.ranks[0]?.byRank?.belongsToSource.name,
+          year: conference.ranks[0]?.year,
+          researchFields: conference.ranks.map(
+            (rank) => rank.inFieldOfResearch.name,
+          ),
+          topics: organization.topics,
+          dates: dates
+            .filter((date) => {
+              return date.type === 'conferenceDates';
+            })
+            .map((date) => {
+              return {
+                fromDate: date.fromDate,
+                toDate: date.toDate,
+                name: date.name,
+                type: date.type,
+              };
+            })[0],
+          link: organization.link,
+          createdAt: conference.createdAt,
+          updatedAt: conference.updatedAt,
+          creatorId: conference.creatorId,
+          adminId: conference.adminId,
+          accessType: organization.accessType,
+          status: conference.status,
+        };
         return conferenceDTO;
-    }))
+      }),
+    );
     return {
-        payload : conferenceToResponse,
-        meta : {
-            curPage : paginatedData.meta.currentPage,
-            perPage : paginatedData.meta.perPage,
-            totalItems : paginatedData.meta.total,
-            totalPage : paginatedData.meta.lastPage, 
-            prevPage : paginatedData.meta.prev,
-            nextPage : paginatedData.meta.next
-        },
-    }
+      payload: conferenceToResponse,
+      meta: {
+        curPage: paginatedData.meta.currentPage,
+        perPage: paginatedData.meta.perPage,
+        totalItems: paginatedData.meta.total,
+        totalPage: paginatedData.meta.lastPage,
+        prevPage: paginatedData.meta.prev,
+        nextPage: paginatedData.meta.next,
+      },
+    };
   }
 
   async getConferenceById(id: string) {
@@ -466,7 +506,7 @@ export class ConferenceService {
       data: {
         title: conference.title,
         acronym: conference.acronym,
-        creatorId: conference.creatorId,
+        adminId: conference.adminId,
         status: 'pending',
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -491,7 +531,7 @@ export class ConferenceService {
         id: conference.id,
         title: conference.title,
         acronym: conference.acronym,
-        creatorId: conference.creatorId,
+        adminId: conference.adminId,
         status: 'pending',
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -560,117 +600,12 @@ export class ConferenceService {
       data: {
         title: conferenceImport.title,
         acronym: conferenceImport.acronym,
-        creatorId: conferenceImport.creatorId,
+        adminId: conferenceImport.adminId,
         status: 'pending',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
     });
-  }
-
-  async getGeneralConferenceInfo(
-    conferenceId: string,
-  ): Promise<ConferenceDTO | undefined> {
-    const conference = await this.prismaService.conferences.findUnique({
-      where: {
-        id: conferenceId,
-      },
-      include: {
-        ranks: {
-          include: {
-            byRank: {
-              include: {
-                belongsToSource: true,
-              },
-            },
-            inFieldOfResearch: {
-              select: {
-                name: true,
-              },
-            },
-          },
-        },
-      },
-    });
-    if (!conference) {
-      return undefined;
-    }
-
-    const organization =
-      await this.conferenceOraganizationService.getFirstOrganizationsByConferenceId(
-        conference.id,
-      );
-    if (!organization) {
-      return {
-        id: conference.id,
-        title: conference.title,
-        acronym: conference.acronym,
-        location: {
-          cityStateProvince: '',
-          country: '',
-          address: '',
-          continent: '',
-        },
-        rank: '',
-        source: '',
-        year: NaN,
-        researchFields: [],
-        topics: [],
-        dates: undefined,
-        link: '',
-        createdAt: conference.createdAt,
-        updatedAt: conference.updatedAt,
-        creatorId: conference.creatorId,
-        accessType: '',
-        status: conference.status,
-      };
-    }
-
-    const locations =
-      await this.conferenceOraganizationService.getLocationsByOrganizedId(
-        organization.id,
-      );
-    const dates =
-      await this.conferenceOraganizationService.getDatesByOrganizedId(
-        organization.id,
-      );
-    const conferenceDTO: ConferenceDTO = {
-      id: conference.id,
-      title: conference.title,
-      acronym: conference.acronym,
-      location: {
-        cityStateProvince: locations[0].cityStateProvince,
-        country: locations[0].country,
-        address: locations[0].address,
-        continent: locations[0].continent,
-      },
-      rank: conference.ranks[0]?.byRank?.name,
-      source: conference.ranks[0]?.byRank?.belongsToSource.name,
-      year: conference.ranks[0]?.year,
-      researchFields: conference.ranks.map(
-        (rank) => rank.inFieldOfResearch.name,
-      ),
-      topics: organization.topics,
-      dates: dates
-        .filter((date) => {
-          return date.type === 'conferenceDates';
-        })
-        .map((date) => {
-          return {
-            fromDate: date.fromDate,
-            toDate: date.toDate,
-            name: date.name,
-            type: date.type,
-          };
-        })[0],
-      link: organization.link,
-      createdAt: conference.createdAt,
-      updatedAt: conference.updatedAt,
-      creatorId: conference.creatorId,
-      accessType: organization.accessType,
-      status: conference.status,
-    };
-    return conferenceDTO;
   }
 
   async getConferenceDetails(conferenceId: string) {
@@ -798,5 +733,17 @@ export class ConferenceService {
     });
 
     return results;
+  }
+
+  async getCreatorIdByConferenceId(conferenceId: string) {
+    const conference = await this.prismaService.conferences.findUnique({
+      where: {
+        id: conferenceId,
+      },
+    });
+    if (!conference) {
+      return undefined;
+    }
+    return conference.creatorId;
   }
 }

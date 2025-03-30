@@ -50,7 +50,11 @@ export class ConferenceDTO {
 
     @ApiProperty({description : "Id of user who created the conference", example : '123e4567-e89b-12d3-a456-426614174000'})
     @IsUUID()
-    creatorId: string
+    creatorId: string | null
+
+    @ApiProperty({description : "Id of admin", example : '123e4567-e89b-12d3-a456-426614174000'})
+    @IsUUID()
+    adminId: string | undefined
 
     @ApiProperty({
         description : "Type of conference",
