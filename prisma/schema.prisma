@@ -80,13 +80,15 @@ model Topics {
   updatedAt DateTime @updatedAt
   inConferenceTopics ConferenceTopics[]
   inJournalTopics    JournalTopics[]
+  inInterested TopicUserInteresteds[]
 }
 
 model Conferences {
   id            String                    @id @default(uuid())
   title         String
   acronym       String
-  creatorId     String
+  creatorId     String?
+  adminId       String?
   createdAt     DateTime                  @default(now())
   updatedAt     DateTime                  @updatedAt
   status        String
@@ -96,7 +98,8 @@ model Conferences {
   organizations ConferenceOrganizations[]
   ranks         ConferenceRanks[]
   crawlJobs     ConferenceCrawlJobs[]
-  createdByUser Users                     @relation(fields: [creatorId], references: [id])
+  createdByUser Users?                   @relation(fields: [creatorId], references: [id])
+  createByAdmin Admins?                  @relation(fields: [adminId], references: [id])
   feedbacks     ConferenceFeedbacks[]
   blacklists    ConferenceBlacklists[]
   @@unique([title, acronym])
@@ -247,19 +250,34 @@ model Users {
   firstName          String
   lastName           String
   dob                DateTime
-  role               String
+  avatar             String
+  aboutMe             String
+  background         String
   followConference   ConferenceFollows[]
   likes              ConferenceLikes[]
   calendar           ConferenceCalendars[]
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
   createdConferences Conferences[]
+  interestedTopics   TopicUserInteresteds[]
   createdJournals    Journals[]
   journalLikes       JournalLikes[]
   journalFollows     JournalFollows[]
   feedbacks          ConferenceFeedbacks[]
   blacklists         ConferenceBlacklists[] 
   notifications      Notifications[]
+  notificationSettings NotificationSettings[]
+  verification      UserVerification[]
+}
+
+model Admins {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  fullName  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  createdConferences Conferences[]
 }
 
 model ConferenceCrawlJobs {
@@ -296,13 +314,56 @@ model JournalCrawlJobs {
 
 model Notifications {
   id        String   @id @default(uuid())
+  notificationId String
   userId    String
-  type      String
   message   String
   isRead    Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  belongToNotify NotificationsTypes @relation(fields: [notificationId], references: [id])
   byUser    Users    @relation(fields: [userId], references: [id])
-  @@unique([userId, type])
+  @@unique([userId, notificationId])
 }
 
+model NotificationsTypes {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  notifications Notifications[]
+  settings NotificationSettings[]
+}
+
+model NotificationSettings {
+  id        String   @id @default(uuid())
+  userId    String
+  notificationId String
+  isEnabled Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  byUser    Users    @relation(fields: [userId], references: [id])
+  belongToNotify NotificationsTypes @relation(fields: [notificationId], references: [id])
+}
+
+model TopicUserInteresteds { 
+  userId String
+  topicId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  belongsTo Users @relation(fields: [userId], references: [id])
+  inTopic Topics @relation(fields: [topicId], references: [id])
+  @@unique([userId, topicId])
+}
+
+model UserVerification { 
+  id        String   @id @default(uuid())
+  userId    String
+  verificationCode String
+  verificationCodeExpires DateTime
+  isVerified Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  byUser    Users    @relation(fields: [userId], references: [id])
+  @@unique([userId, verificationCode, verificationCodeExpires])
+  
+}

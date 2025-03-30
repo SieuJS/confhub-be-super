@@ -18,11 +18,28 @@ export class AuthController {
     @UseGuards(LocalAuthGuard)
     async login(@Req() req) {
         const user = req.user;
-        return await this.authService.login(user);
+        return await this.authService.loginUser(user);
     }
 
     @Post('/logout')
     async logout() {
+        return {
+            message : "Logout successful"
+        }
+    }
+
+    @Post('/admin/login')
+    @ApiBody({
+        type : LoginInput
+    })
+    @UseGuards(LocalAuthGuard)
+    async loginAdmin(@Req() req) {
+        const admin = req.user;
+        return await this.authService.loginAdmin(admin);
+    }
+    
+    @Post('/admin/logout')
+    async logoutAdmin() {
         return {
             message : "Logout successful"
         }

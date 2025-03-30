@@ -183,6 +183,7 @@ exports.Prisma.ConferencesScalarFieldEnum = {
   title: 'title',
   acronym: 'acronym',
   creatorId: 'creatorId',
+  adminId: 'adminId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   status: 'status'
@@ -298,7 +299,18 @@ exports.Prisma.UsersScalarFieldEnum = {
   firstName: 'firstName',
   lastName: 'lastName',
   dob: 'dob',
-  role: 'role',
+  avatar: 'avatar',
+  aboutMe: 'aboutMe',
+  background: 'background',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AdminsScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  password: 'password',
+  fullName: 'fullName',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -333,10 +345,43 @@ exports.Prisma.JournalCrawlJobsScalarFieldEnum = {
 
 exports.Prisma.NotificationsScalarFieldEnum = {
   id: 'id',
+  notificationId: 'notificationId',
   userId: 'userId',
-  type: 'type',
   message: 'message',
   isRead: 'isRead',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.NotificationsTypesScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.NotificationSettingsScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  notificationId: 'notificationId',
+  isEnabled: 'isEnabled',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TopicUserInterestedsScalarFieldEnum = {
+  userId: 'userId',
+  topicId: 'topicId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.UserVerificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  verificationCode: 'verificationCode',
+  verificationCodeExpires: 'verificationCodeExpires',
+  isVerified: 'isVerified',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -379,10 +424,15 @@ exports.Prisma.ModelName = {
   JournalLikes: 'JournalLikes',
   JournalFollows: 'JournalFollows',
   Users: 'Users',
+  Admins: 'Admins',
   ConferenceCrawlJobs: 'ConferenceCrawlJobs',
   ConferenceBlacklists: 'ConferenceBlacklists',
   JournalCrawlJobs: 'JournalCrawlJobs',
-  Notifications: 'Notifications'
+  Notifications: 'Notifications',
+  NotificationsTypes: 'NotificationsTypes',
+  NotificationSettings: 'NotificationSettings',
+  TopicUserInteresteds: 'TopicUserInteresteds',
+  UserVerification: 'UserVerification'
 };
 
 /**

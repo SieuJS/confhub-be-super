@@ -1,63 +1,82 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail } from "class-validator";
+import { IsEmail, Length, MaxLength, MinLength } from "class-validator";
 
 export class UserDTO {
-    @ApiProperty(
-        {
-            description : "The id of the user",
-            example : "721ccd26-2f72-4623-9bae-27fd3a0f2834"
-        }
-    ) 
-    id : string ; 
-
-    @ApiProperty(
-        {
-            description : "The email of the user",
-            example : "admin@admin.com" 
-        }
-    )
-    @IsEmail() 
-    email : string ;
 
     @ApiProperty({
-        description : "The password of the user",
-        example : "admin"
+        description : "The user's id",
+        required : true
     })
-    password : string ;
+    id : string;
+
+    @Length(3, 20)
+    @ApiProperty({
+        description : "The user's name",
+        required : true
+    })
+    firstName : string; 
+
+    @Length(3, 20)
+    @ApiProperty({
+        description : "The user's last name",
+        required : true})
+    lastName : string;
+
+
+    @IsEmail()
+    @ApiProperty({
+        description : "The user's email",
+        required : true
+    })
+    email : string;
+
+    @MinLength(6)
+    @MaxLength(8)
+    @ApiProperty({
+        description : "The user's password",
+        required : true
+    })
+    password : string;
 
     @ApiProperty({
-        description : "The role of the user",
-        example : "admin"
+        description : "The user's date of birth",
+        required : true
     })
-    role : string ;
+    dob : Date;
 
     @ApiProperty({
-        description : "The createdAt of the user",
-        example : new Date()
+        description : "The avatar of the user",
+        required : false
     })
-    createdAt : Date ;
+    avatar : string;
 
     @ApiProperty({
-        description : "The updatedAt of the user",
-        example : new Date()
+        description : "about me",
+        required : true
     })
-    updatedAt : Date ;
+    aboutMe : string;
 
     @ApiProperty({
-        description : "The first name", 
-        example : "John"
+        description : "The backgound image" , 
+        required : false
     })
-    firstName : string ;
+    background : string;
 
     @ApiProperty({
-        description : "The last name",
-        example : "Doe"
+        description : "Is verifycation" ,
+        required : true
     })
-    lastName : string ;
+    isVerified : boolean
 
     @ApiProperty({
-        description : "The date of birth",
-        example : new Date()
+        description : "The date of creation",
+        required : true
     })
-    dob : Date ;
+    createdAt : Date ; 
+
+    @ApiProperty({
+        description : "The date of update",
+        required : true
+    })
+    updatedAt : Date
 }

@@ -21,15 +21,18 @@ export class UserService {
         });
     }
 
+    async getUserById(id : string) {
+        return await this.prismaService.users.findUnique({
+            where : {
+                id
+            }
+        });
+    }
+
     async createUser(input : UserInput) {
         return await this.prismaService.users.create({
             data : {
-                email : input.email,
-                firstName : input.firstname,
-                lastName : input.lastname,
-                password : input.password,
-                role : "user",
-                dob : new Date()
+                ...input ,
             }
         })
     }

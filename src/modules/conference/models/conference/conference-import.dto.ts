@@ -8,7 +8,7 @@ export class ConferenceImportDTO extends PickType(ConferenceDTO, [
     'source' , 
     'rank',
     'year',
-    'creatorId',
+    'adminId',
 ]) {
     @ApiProperty({
         description : "The field of research codes",

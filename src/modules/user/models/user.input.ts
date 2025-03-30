@@ -1,36 +1,8 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, OmitType } from "@nestjs/swagger";
 import { IsEmail, Length, MaxLength, MinLength } from "class-validator";
+import { UserDTO } from "./user.dto";
 
-export class UserInput {
-    @Length(3, 20)
-    @ApiProperty({
-        description : "The user's name",
-        required : true
-    })
-    firstname : string; 
-
-    @Length(3, 20)
-    @ApiProperty({
-        description : "The user's last name",
-        required : true})
-    lastname : string;
-
-
-    @IsEmail()
-    @ApiProperty({
-        description : "The user's email",
-        required : true
-    })
-    email : string;
-
-    @MinLength(6)
-    @MaxLength(8)
-    @ApiProperty({
-        description : "The user's password",
-        required : true
-    })
-    password : string;
-}
+export class UserInput extends OmitType(UserDTO, ['id', 'createdAt', 'updatedAt','isVerified']) {}
 
 export class UserSigninInput {
     @ApiProperty({
@@ -46,4 +18,5 @@ export class UserSigninInput {
     })
     @MinLength(6)
     password : string;
+    
 }
