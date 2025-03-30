@@ -103,7 +103,7 @@ export class ConferenceController {
   })
   @Post('import')
   async importConferences(
-    @Body() conferenceImport,
+    @Body() conferenceImport : ConferenceImportDTO,
   ): Promise<any> {
     let isExists = true;
     const user = await this.adminService.getAdmin();
@@ -112,7 +112,9 @@ export class ConferenceController {
     }
     conferenceImport.adminId = user.id;
     let conferenceInstance =
-      await this.conferenceService.getConferenceById(conferenceImport.id)
+      await this.conferenceService.getConferenceByAcronymAndTitle(
+        conferenceImport.title,
+        conferenceImport.acronym)
     const year = new Date().getFullYear();
     conferenceImport.year = year;
 
@@ -146,10 +148,17 @@ export class ConferenceController {
         );
       }
     });
-
+    const isCrawled = await this.conferenceService.isCrawledConference(
+      conferenceInstance.id);
+      let status = '';
+    if(!isCrawled) {
+        status = 'not crawled';
+    }else {
+        status = 'crawled';
+    }
     return {
       conferenceId: conferenceInstance.id,
-      isExists,
+      status 
     };
   }
 

@@ -746,4 +746,12 @@ export class ConferenceService {
     }
     return conference.creatorId;
   }
+
+  async isCrawledConference(conferenceId: string) {
+    const conferenceOrganization = await this.conferenceOraganizationService.getConferenceDatesByOrganizedId(conferenceId);
+    if (conferenceOrganization.length > 0) {
+      return true;
+    }
+    return false;
+  }
 }

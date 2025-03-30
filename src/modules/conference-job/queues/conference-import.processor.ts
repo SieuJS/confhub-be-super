@@ -55,7 +55,7 @@ export class ConferenceImportProcessor extends WorkerHost {
                     Title: job.data.conferenceTitle,
                     Acronym: job.data.conferenceAcronym,
                 });
-
+            console.log('response', crawlDataResponse);
             if (crawlDataResponse.data.length === 0) {
                 this.loggerService.error(
                     `No data found for ${job.data.conferenceTitle}`

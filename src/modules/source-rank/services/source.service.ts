@@ -34,7 +34,6 @@ export class SourceService {
         })
 
         if(existingSource) {
-            console.log('source already exists', existingSource)
             return existingSource;
         }
         console.log('create new source')
