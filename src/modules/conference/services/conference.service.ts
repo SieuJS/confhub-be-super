@@ -19,6 +19,7 @@ import { ConferenceFeedBackDTO } from '../models/conference-feedback/conference-
 import { ConferenceFeedBackInputDTO } from '../models/conference-feedback/conference-feedback.input';
 import { PaginatorTypes, paginator } from '@nodeteam/nestjs-prisma-pagination';
 import { ConferencePaginationDTO } from '../models/conference/conference-pagination.dto';
+import { GetConferencesParams } from '../models/conference-request/get-conference-params';
 
 const paginate: PaginatorTypes.PaginateFunction = paginator({ perPage: 10 });
 @Injectable()
@@ -33,7 +34,7 @@ export class ConferenceService {
     private readonly conferenceRankService: ConferenceRankService,
   ) {}
 
-  async getConferences(conferenceFilter?: ConferenceFilter, page? : number, perPage? : number) : 
+  async getConferences(conferenceFilter?: GetConferencesParams) : 
   Promise<ConferencePaginationDTO> {
     const include = {
       ranks: {
@@ -295,8 +296,8 @@ export class ConferenceService {
             include : include,
         },
         {
-            page : page || 1,
-            perPage : perPage || 10,
+            page : conferenceFilter?.page || 1,
+            perPage : conferenceFilter?.perPage || 10,
         }
     )
 
@@ -524,16 +525,12 @@ export class ConferenceService {
     fieldOfResearchId: string,
     year: number,
   ) {
-    const existingRank = await this.prismaService.conferences.findFirst({
+    const existingRank = await this.prismaService.conferenceRanks.findFirst({
       where: {
-        id: conferenceId,
-        ranks: {
-          some: {
-            rankId: rankInstance.id,
-            fieldOfResearchId,
-            year,
-          },
-        },
+        conferenceId,
+        rankId: rankInstance.id,
+        fieldOfResearchId,
+        year,
       },
     });
 
