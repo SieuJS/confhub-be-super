@@ -7491,7 +7491,7 @@ export namespace Prisma {
 
   export type ConferenceOrganizationsGroupByOutputType = {
     id: string
-    year: number
+    year: number | null
     accessType: string
     isAvailable: boolean
     conferenceId: string
@@ -7620,7 +7620,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      year: number
+      year: number | null
       accessType: string
       isAvailable: boolean
       conferenceId: string
@@ -38284,7 +38284,7 @@ export namespace Prisma {
     OR?: ConferenceOrganizationsWhereInput[]
     NOT?: ConferenceOrganizationsWhereInput | ConferenceOrganizationsWhereInput[]
     id?: StringFilter<"ConferenceOrganizations"> | string
-    year?: IntFilter<"ConferenceOrganizations"> | number
+    year?: IntNullableFilter<"ConferenceOrganizations"> | number | null
     accessType?: StringFilter<"ConferenceOrganizations"> | string
     isAvailable?: BoolFilter<"ConferenceOrganizations"> | boolean
     conferenceId?: StringFilter<"ConferenceOrganizations"> | string
@@ -38304,7 +38304,7 @@ export namespace Prisma {
 
   export type ConferenceOrganizationsOrderByWithRelationInput = {
     id?: SortOrder
-    year?: SortOrder
+    year?: SortOrderInput | SortOrder
     accessType?: SortOrder
     isAvailable?: SortOrder
     conferenceId?: SortOrder
@@ -38327,7 +38327,7 @@ export namespace Prisma {
     AND?: ConferenceOrganizationsWhereInput | ConferenceOrganizationsWhereInput[]
     OR?: ConferenceOrganizationsWhereInput[]
     NOT?: ConferenceOrganizationsWhereInput | ConferenceOrganizationsWhereInput[]
-    year?: IntFilter<"ConferenceOrganizations"> | number
+    year?: IntNullableFilter<"ConferenceOrganizations"> | number | null
     accessType?: StringFilter<"ConferenceOrganizations"> | string
     isAvailable?: BoolFilter<"ConferenceOrganizations"> | boolean
     conferenceId?: StringFilter<"ConferenceOrganizations"> | string
@@ -38347,7 +38347,7 @@ export namespace Prisma {
 
   export type ConferenceOrganizationsOrderByWithAggregationInput = {
     id?: SortOrder
-    year?: SortOrder
+    year?: SortOrderInput | SortOrder
     accessType?: SortOrder
     isAvailable?: SortOrder
     conferenceId?: SortOrder
@@ -38371,7 +38371,7 @@ export namespace Prisma {
     OR?: ConferenceOrganizationsScalarWhereWithAggregatesInput[]
     NOT?: ConferenceOrganizationsScalarWhereWithAggregatesInput | ConferenceOrganizationsScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"ConferenceOrganizations"> | string
-    year?: IntWithAggregatesFilter<"ConferenceOrganizations"> | number
+    year?: IntNullableWithAggregatesFilter<"ConferenceOrganizations"> | number | null
     accessType?: StringWithAggregatesFilter<"ConferenceOrganizations"> | string
     isAvailable?: BoolWithAggregatesFilter<"ConferenceOrganizations"> | boolean
     conferenceId?: StringWithAggregatesFilter<"ConferenceOrganizations"> | string
@@ -40265,7 +40265,7 @@ export namespace Prisma {
 
   export type ConferenceOrganizationsCreateInput = {
     id?: string
-    year: number
+    year?: number | null
     accessType: string
     isAvailable: boolean
     publisher: string
@@ -40284,7 +40284,7 @@ export namespace Prisma {
 
   export type ConferenceOrganizationsUncheckedCreateInput = {
     id?: string
-    year: number
+    year?: number | null
     accessType: string
     isAvailable: boolean
     conferenceId: string
@@ -40303,7 +40303,7 @@ export namespace Prisma {
 
   export type ConferenceOrganizationsUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
+    year?: NullableIntFieldUpdateOperationsInput | number | null
     accessType?: StringFieldUpdateOperationsInput | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     publisher?: StringFieldUpdateOperationsInput | string
@@ -40322,7 +40322,7 @@ export namespace Prisma {
 
   export type ConferenceOrganizationsUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
+    year?: NullableIntFieldUpdateOperationsInput | number | null
     accessType?: StringFieldUpdateOperationsInput | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     conferenceId?: StringFieldUpdateOperationsInput | string
@@ -40341,7 +40341,7 @@ export namespace Prisma {
 
   export type ConferenceOrganizationsCreateManyInput = {
     id?: string
-    year: number
+    year?: number | null
     accessType: string
     isAvailable: boolean
     conferenceId: string
@@ -40357,7 +40357,7 @@ export namespace Prisma {
 
   export type ConferenceOrganizationsUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
+    year?: NullableIntFieldUpdateOperationsInput | number | null
     accessType?: StringFieldUpdateOperationsInput | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     publisher?: StringFieldUpdateOperationsInput | string
@@ -40372,7 +40372,7 @@ export namespace Prisma {
 
   export type ConferenceOrganizationsUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
+    year?: NullableIntFieldUpdateOperationsInput | number | null
     accessType?: StringFieldUpdateOperationsInput | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     conferenceId?: StringFieldUpdateOperationsInput | string
@@ -42262,15 +42262,15 @@ export namespace Prisma {
     isAvailable?: SortOrder
   }
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
     lt?: number | IntFieldRefInput<$PrismaModel>
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type ConferenceDatesListRelationFilter = {
@@ -42364,20 +42364,20 @@ export namespace Prisma {
     year?: SortOrder
   }
 
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
     lt?: number | IntFieldRefInput<$PrismaModel>
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type TopicsScalarRelationFilter = {
@@ -42578,6 +42578,17 @@ export namespace Prisma {
     status?: SortOrder
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type FieldOfResearchsScalarRelationFilter = {
     is?: FieldOfResearchsWhereInput
     isNot?: FieldOfResearchsWhereInput
@@ -42618,6 +42629,22 @@ export namespace Prisma {
 
   export type ConferenceRanksSumOrderByAggregateInput = {
     year?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type JournalRanksListRelationFilter = {
@@ -43478,8 +43505,8 @@ export namespace Prisma {
     connect?: ConferenceTopicsWhereUniqueInput | ConferenceTopicsWhereUniqueInput[]
   }
 
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
     increment?: number
     decrement?: number
     multiply?: number
@@ -44116,6 +44143,14 @@ export namespace Prisma {
     create?: XOR<ConferencesCreateWithoutRanksInput, ConferencesUncheckedCreateWithoutRanksInput>
     connectOrCreate?: ConferencesCreateOrConnectWithoutRanksInput
     connect?: ConferencesWhereUniqueInput
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type FieldOfResearchsUpdateOneRequiredWithoutConferenceRanksNestedInput = {
@@ -45776,6 +45811,33 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -45805,7 +45867,7 @@ export namespace Prisma {
 
   export type ConferenceOrganizationsCreateWithoutLocationsInput = {
     id?: string
-    year: number
+    year?: number | null
     accessType: string
     isAvailable: boolean
     publisher: string
@@ -45823,7 +45885,7 @@ export namespace Prisma {
 
   export type ConferenceOrganizationsUncheckedCreateWithoutLocationsInput = {
     id?: string
-    year: number
+    year?: number | null
     accessType: string
     isAvailable: boolean
     conferenceId: string
@@ -45857,7 +45919,7 @@ export namespace Prisma {
 
   export type ConferenceOrganizationsUpdateWithoutLocationsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
+    year?: NullableIntFieldUpdateOperationsInput | number | null
     accessType?: StringFieldUpdateOperationsInput | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     publisher?: StringFieldUpdateOperationsInput | string
@@ -45875,7 +45937,7 @@ export namespace Prisma {
 
   export type ConferenceOrganizationsUncheckedUpdateWithoutLocationsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
+    year?: NullableIntFieldUpdateOperationsInput | number | null
     accessType?: StringFieldUpdateOperationsInput | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     conferenceId?: StringFieldUpdateOperationsInput | string
@@ -45893,7 +45955,7 @@ export namespace Prisma {
 
   export type ConferenceOrganizationsCreateWithoutConferenceDatesInput = {
     id?: string
-    year: number
+    year?: number | null
     accessType: string
     isAvailable: boolean
     publisher: string
@@ -45911,7 +45973,7 @@ export namespace Prisma {
 
   export type ConferenceOrganizationsUncheckedCreateWithoutConferenceDatesInput = {
     id?: string
-    year: number
+    year?: number | null
     accessType: string
     isAvailable: boolean
     conferenceId: string
@@ -45945,7 +46007,7 @@ export namespace Prisma {
 
   export type ConferenceOrganizationsUpdateWithoutConferenceDatesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
+    year?: NullableIntFieldUpdateOperationsInput | number | null
     accessType?: StringFieldUpdateOperationsInput | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     publisher?: StringFieldUpdateOperationsInput | string
@@ -45963,7 +46025,7 @@ export namespace Prisma {
 
   export type ConferenceOrganizationsUncheckedUpdateWithoutConferenceDatesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
+    year?: NullableIntFieldUpdateOperationsInput | number | null
     accessType?: StringFieldUpdateOperationsInput | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     conferenceId?: StringFieldUpdateOperationsInput | string
@@ -46246,7 +46308,7 @@ export namespace Prisma {
 
   export type ConferenceOrganizationsCreateWithoutTopicsInput = {
     id?: string
-    year: number
+    year?: number | null
     accessType: string
     isAvailable: boolean
     publisher: string
@@ -46264,7 +46326,7 @@ export namespace Prisma {
 
   export type ConferenceOrganizationsUncheckedCreateWithoutTopicsInput = {
     id?: string
-    year: number
+    year?: number | null
     accessType: string
     isAvailable: boolean
     conferenceId: string
@@ -46321,7 +46383,7 @@ export namespace Prisma {
 
   export type ConferenceOrganizationsUpdateWithoutTopicsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
+    year?: NullableIntFieldUpdateOperationsInput | number | null
     accessType?: StringFieldUpdateOperationsInput | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     publisher?: StringFieldUpdateOperationsInput | string
@@ -46339,7 +46401,7 @@ export namespace Prisma {
 
   export type ConferenceOrganizationsUncheckedUpdateWithoutTopicsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
+    year?: NullableIntFieldUpdateOperationsInput | number | null
     accessType?: StringFieldUpdateOperationsInput | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     conferenceId?: StringFieldUpdateOperationsInput | string
@@ -46591,7 +46653,7 @@ export namespace Prisma {
 
   export type ConferenceOrganizationsCreateWithoutBelongsToInput = {
     id?: string
-    year: number
+    year?: number | null
     accessType: string
     isAvailable: boolean
     publisher: string
@@ -46609,7 +46671,7 @@ export namespace Prisma {
 
   export type ConferenceOrganizationsUncheckedCreateWithoutBelongsToInput = {
     id?: string
-    year: number
+    year?: number | null
     accessType: string
     isAvailable: boolean
     publisher: string
@@ -46921,7 +46983,7 @@ export namespace Prisma {
     OR?: ConferenceOrganizationsScalarWhereInput[]
     NOT?: ConferenceOrganizationsScalarWhereInput | ConferenceOrganizationsScalarWhereInput[]
     id?: StringFilter<"ConferenceOrganizations"> | string
-    year?: IntFilter<"ConferenceOrganizations"> | number
+    year?: IntNullableFilter<"ConferenceOrganizations"> | number | null
     accessType?: StringFilter<"ConferenceOrganizations"> | string
     isAvailable?: BoolFilter<"ConferenceOrganizations"> | boolean
     conferenceId?: StringFilter<"ConferenceOrganizations"> | string
@@ -51475,7 +51537,7 @@ export namespace Prisma {
 
   export type ConferenceOrganizationsCreateManyBelongsToInput = {
     id?: string
-    year: number
+    year?: number | null
     accessType: string
     isAvailable: boolean
     publisher: string
@@ -51585,7 +51647,7 @@ export namespace Prisma {
 
   export type ConferenceOrganizationsUpdateWithoutBelongsToInput = {
     id?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
+    year?: NullableIntFieldUpdateOperationsInput | number | null
     accessType?: StringFieldUpdateOperationsInput | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     publisher?: StringFieldUpdateOperationsInput | string
@@ -51603,7 +51665,7 @@ export namespace Prisma {
 
   export type ConferenceOrganizationsUncheckedUpdateWithoutBelongsToInput = {
     id?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
+    year?: NullableIntFieldUpdateOperationsInput | number | null
     accessType?: StringFieldUpdateOperationsInput | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     publisher?: StringFieldUpdateOperationsInput | string
@@ -51621,7 +51683,7 @@ export namespace Prisma {
 
   export type ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToInput = {
     id?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
+    year?: NullableIntFieldUpdateOperationsInput | number | null
     accessType?: StringFieldUpdateOperationsInput | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     publisher?: StringFieldUpdateOperationsInput | string

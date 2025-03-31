@@ -5,7 +5,7 @@ export class OrganizedDTO{
     id : string;
     isAvailable : boolean;
     accessType : string
-    year : number;
+    year : number | null;
     conferenceId : string;
     link : string;
     cfpLink: string;

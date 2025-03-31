@@ -45,7 +45,7 @@ model ConferenceDates {
 
 model ConferenceOrganizations {
   id              String             @id @default(uuid())
-  year            Int
+  year            Int?
   accessType      String
   isAvailable     Boolean
   conferenceDates ConferenceDates[]

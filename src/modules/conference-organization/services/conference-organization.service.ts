@@ -89,7 +89,7 @@ export class ConferenceOrganizationSerivce {
 
         const organize = await this.prismaService.conferenceOrganizations.create({
             data : {
-                year    : input.year,
+                year    : isNaN(input.year as number) ? null : input.year,
                 accessType : input.accessType,
                 link : input.link,
                 impLink : input.impLink,
