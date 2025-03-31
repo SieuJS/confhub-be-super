@@ -12,7 +12,6 @@ export class AdminConferenceService {
   convertToPrismaWhereInput(
     params : AdminConferenceParams
   ) :  (Prisma.ConferencesWhereInput) {
-    console.log(params);
     return {
         OR: [
             {
