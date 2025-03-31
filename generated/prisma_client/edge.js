@@ -417,7 +417,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/sieunguyen/Desktop/sieu-works/confhub-2/all the sources of conhuf/confhub-be-super/generated/prisma_client",
+      "value": "D:\\all my subject\\LastProject\\confhub-allsource\\confhub-be-super\\generated\\prisma_client",
       "fromEnvVar": null
     },
     "config": {
@@ -426,12 +426,12 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "darwin-arm64",
+        "value": "windows",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/Users/sieunguyen/Desktop/sieu-works/confhub-2/all the sources of conhuf/confhub-be-super/prisma/schema.prisma",
+    "sourceFilePath": "D:\\all my subject\\LastProject\\confhub-allsource\\confhub-be-super\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
