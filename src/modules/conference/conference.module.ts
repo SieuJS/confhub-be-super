@@ -13,5 +13,6 @@ import { ConferenceRankService } from './services/conference-rank.service';
   imports : [CommonModule, SourceRankModule, ConferenceJobModule, ConferenceOrganizationModule, UserModule ],
   providers: [ ConferenceService, ConferenceDtoToModelPipe, ConferenceRankService],
   controllers: [ConferenceController],
+  exports : [ConferenceService]
 })
 export class ConferencesModule {}

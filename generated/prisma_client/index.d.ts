@@ -14,11 +14,6 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
 
 /**
- * Model Passenger
- * 
- */
-export type Passenger = $Result.DefaultSelection<Prisma.$PassengerPayload>
-/**
  * Model Locations
  * 
  */
@@ -171,8 +166,8 @@ export type UserVerification = $Result.DefaultSelection<Prisma.$UserVerification
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Passengers
- * const passengers = await prisma.passenger.findMany()
+ * // Fetch zero or more Locations
+ * const locations = await prisma.locations.findMany()
  * ```
  *
  *
@@ -192,8 +187,8 @@ export class PrismaClient<
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Passengers
-   * const passengers = await prisma.passenger.findMany()
+   * // Fetch zero or more Locations
+   * const locations = await prisma.locations.findMany()
    * ```
    *
    *
@@ -290,16 +285,6 @@ export class PrismaClient<
   }>>
 
       /**
-   * `prisma.passenger`: Exposes CRUD operations for the **Passenger** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Passengers
-    * const passengers = await prisma.passenger.findMany()
-    * ```
-    */
-  get passenger(): Prisma.PassengerDelegate<ExtArgs, ClientOptions>;
-
-  /**
    * `prisma.locations`: Exposes CRUD operations for the **Locations** model.
     * Example usage:
     * ```ts
@@ -1028,7 +1013,6 @@ export namespace Prisma {
 
 
   export const ModelName: {
-    Passenger: 'Passenger',
     Locations: 'Locations',
     ConferenceDates: 'ConferenceDates',
     ConferenceOrganizations: 'ConferenceOrganizations',
@@ -1076,84 +1060,10 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "passenger" | "locations" | "conferenceDates" | "conferenceOrganizations" | "conferenceTopics" | "topics" | "conferences" | "conferenceRanks" | "fieldOfResearchs" | "ranks" | "sources" | "journalTopics" | "journalRanks" | "journals" | "conferenceFollows" | "conferenceLikes" | "conferenceFeedbacks" | "conferenceCalendars" | "journalLikes" | "journalFollows" | "users" | "admins" | "conferenceCrawlJobs" | "conferenceBlacklists" | "journalCrawlJobs" | "notifications" | "notificationsTypes" | "notificationSettings" | "topicUserInteresteds" | "userVerification"
+      modelProps: "locations" | "conferenceDates" | "conferenceOrganizations" | "conferenceTopics" | "topics" | "conferences" | "conferenceRanks" | "fieldOfResearchs" | "ranks" | "sources" | "journalTopics" | "journalRanks" | "journals" | "conferenceFollows" | "conferenceLikes" | "conferenceFeedbacks" | "conferenceCalendars" | "journalLikes" | "journalFollows" | "users" | "admins" | "conferenceCrawlJobs" | "conferenceBlacklists" | "journalCrawlJobs" | "notifications" | "notificationsTypes" | "notificationSettings" | "topicUserInteresteds" | "userVerification"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
-      Passenger: {
-        payload: Prisma.$PassengerPayload<ExtArgs>
-        fields: Prisma.PassengerFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.PassengerFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PassengerPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.PassengerFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PassengerPayload>
-          }
-          findFirst: {
-            args: Prisma.PassengerFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PassengerPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.PassengerFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PassengerPayload>
-          }
-          findMany: {
-            args: Prisma.PassengerFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PassengerPayload>[]
-          }
-          create: {
-            args: Prisma.PassengerCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PassengerPayload>
-          }
-          createMany: {
-            args: Prisma.PassengerCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.PassengerCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PassengerPayload>[]
-          }
-          delete: {
-            args: Prisma.PassengerDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PassengerPayload>
-          }
-          update: {
-            args: Prisma.PassengerUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PassengerPayload>
-          }
-          deleteMany: {
-            args: Prisma.PassengerDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.PassengerUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.PassengerUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PassengerPayload>[]
-          }
-          upsert: {
-            args: Prisma.PassengerUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PassengerPayload>
-          }
-          aggregate: {
-            args: Prisma.PassengerAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregatePassenger>
-          }
-          groupBy: {
-            args: Prisma.PassengerGroupByArgs<ExtArgs>
-            result: $Utils.Optional<PassengerGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.PassengerCountArgs<ExtArgs>
-            result: $Utils.Optional<PassengerCountAggregateOutputType> | number
-          }
-        }
-      }
       Locations: {
         payload: Prisma.$LocationsPayload<ExtArgs>
         fields: Prisma.LocationsFieldRefs
@@ -3384,7 +3294,6 @@ export namespace Prisma {
     omit?: Prisma.GlobalOmitConfig
   }
   export type GlobalOmitConfig = {
-    passenger?: PassengerOmit
     locations?: LocationsOmit
     conferenceDates?: ConferenceDatesOmit
     conferenceOrganizations?: ConferenceOrganizationsOmit
@@ -3509,14 +3418,14 @@ export namespace Prisma {
 
   export type ConferenceOrganizationsCountOutputType = {
     conferenceDates: number
-    locations: number
     topics: number
+    locations: number
   }
 
   export type ConferenceOrganizationsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     conferenceDates?: boolean | ConferenceOrganizationsCountOutputTypeCountConferenceDatesArgs
-    locations?: boolean | ConferenceOrganizationsCountOutputTypeCountLocationsArgs
     topics?: boolean | ConferenceOrganizationsCountOutputTypeCountTopicsArgs
+    locations?: boolean | ConferenceOrganizationsCountOutputTypeCountLocationsArgs
   }
 
   // Custom InputTypes
@@ -3540,15 +3449,15 @@ export namespace Prisma {
   /**
    * ConferenceOrganizationsCountOutputType without action
    */
-  export type ConferenceOrganizationsCountOutputTypeCountLocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: LocationsWhereInput
+  export type ConferenceOrganizationsCountOutputTypeCountTopicsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConferenceTopicsWhereInput
   }
 
   /**
    * ConferenceOrganizationsCountOutputType without action
    */
-  export type ConferenceOrganizationsCountOutputTypeCountTopicsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ConferenceTopicsWhereInput
+  export type ConferenceOrganizationsCountOutputTypeCountLocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LocationsWhereInput
   }
 
 
@@ -3606,25 +3515,25 @@ export namespace Prisma {
    */
 
   export type ConferencesCountOutputType = {
-    follows: number
-    likes: number
+    blacklists: number
     calendars: number
-    organizations: number
-    ranks: number
     crawlJobs: number
     feedbacks: number
-    blacklists: number
+    follows: number
+    likes: number
+    organizations: number
+    ranks: number
   }
 
   export type ConferencesCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    follows?: boolean | ConferencesCountOutputTypeCountFollowsArgs
-    likes?: boolean | ConferencesCountOutputTypeCountLikesArgs
+    blacklists?: boolean | ConferencesCountOutputTypeCountBlacklistsArgs
     calendars?: boolean | ConferencesCountOutputTypeCountCalendarsArgs
-    organizations?: boolean | ConferencesCountOutputTypeCountOrganizationsArgs
-    ranks?: boolean | ConferencesCountOutputTypeCountRanksArgs
     crawlJobs?: boolean | ConferencesCountOutputTypeCountCrawlJobsArgs
     feedbacks?: boolean | ConferencesCountOutputTypeCountFeedbacksArgs
-    blacklists?: boolean | ConferencesCountOutputTypeCountBlacklistsArgs
+    follows?: boolean | ConferencesCountOutputTypeCountFollowsArgs
+    likes?: boolean | ConferencesCountOutputTypeCountLikesArgs
+    organizations?: boolean | ConferencesCountOutputTypeCountOrganizationsArgs
+    ranks?: boolean | ConferencesCountOutputTypeCountRanksArgs
   }
 
   // Custom InputTypes
@@ -3641,15 +3550,8 @@ export namespace Prisma {
   /**
    * ConferencesCountOutputType without action
    */
-  export type ConferencesCountOutputTypeCountFollowsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ConferenceFollowsWhereInput
-  }
-
-  /**
-   * ConferencesCountOutputType without action
-   */
-  export type ConferencesCountOutputTypeCountLikesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ConferenceLikesWhereInput
+  export type ConferencesCountOutputTypeCountBlacklistsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConferenceBlacklistsWhereInput
   }
 
   /**
@@ -3657,20 +3559,6 @@ export namespace Prisma {
    */
   export type ConferencesCountOutputTypeCountCalendarsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ConferenceCalendarsWhereInput
-  }
-
-  /**
-   * ConferencesCountOutputType without action
-   */
-  export type ConferencesCountOutputTypeCountOrganizationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ConferenceOrganizationsWhereInput
-  }
-
-  /**
-   * ConferencesCountOutputType without action
-   */
-  export type ConferencesCountOutputTypeCountRanksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ConferenceRanksWhereInput
   }
 
   /**
@@ -3690,8 +3578,29 @@ export namespace Prisma {
   /**
    * ConferencesCountOutputType without action
    */
-  export type ConferencesCountOutputTypeCountBlacklistsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ConferenceBlacklistsWhereInput
+  export type ConferencesCountOutputTypeCountFollowsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConferenceFollowsWhereInput
+  }
+
+  /**
+   * ConferencesCountOutputType without action
+   */
+  export type ConferencesCountOutputTypeCountLikesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConferenceLikesWhereInput
+  }
+
+  /**
+   * ConferencesCountOutputType without action
+   */
+  export type ConferencesCountOutputTypeCountOrganizationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConferenceOrganizationsWhereInput
+  }
+
+  /**
+   * ConferencesCountOutputType without action
+   */
+  export type ConferencesCountOutputTypeCountRanksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConferenceRanksWhereInput
   }
 
 
@@ -3700,13 +3609,13 @@ export namespace Prisma {
    */
 
   export type FieldOfResearchsCountOutputType = {
-    journalRanks: number
     conferenceRanks: number
+    journalRanks: number
   }
 
   export type FieldOfResearchsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    journalRanks?: boolean | FieldOfResearchsCountOutputTypeCountJournalRanksArgs
     conferenceRanks?: boolean | FieldOfResearchsCountOutputTypeCountConferenceRanksArgs
+    journalRanks?: boolean | FieldOfResearchsCountOutputTypeCountJournalRanksArgs
   }
 
   // Custom InputTypes
@@ -3723,15 +3632,15 @@ export namespace Prisma {
   /**
    * FieldOfResearchsCountOutputType without action
    */
-  export type FieldOfResearchsCountOutputTypeCountJournalRanksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: JournalRanksWhereInput
+  export type FieldOfResearchsCountOutputTypeCountConferenceRanksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConferenceRanksWhereInput
   }
 
   /**
    * FieldOfResearchsCountOutputType without action
    */
-  export type FieldOfResearchsCountOutputTypeCountConferenceRanksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ConferenceRanksWhereInput
+  export type FieldOfResearchsCountOutputTypeCountJournalRanksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: JournalRanksWhereInput
   }
 
 
@@ -3811,19 +3720,19 @@ export namespace Prisma {
    */
 
   export type JournalsCountOutputType = {
-    topics: number
-    journalRanks: number
-    journalLikes: number
-    journalFollows: number
     crawlJobs: number
+    journalFollows: number
+    journalLikes: number
+    journalRanks: number
+    topics: number
   }
 
   export type JournalsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    topics?: boolean | JournalsCountOutputTypeCountTopicsArgs
-    journalRanks?: boolean | JournalsCountOutputTypeCountJournalRanksArgs
-    journalLikes?: boolean | JournalsCountOutputTypeCountJournalLikesArgs
-    journalFollows?: boolean | JournalsCountOutputTypeCountJournalFollowsArgs
     crawlJobs?: boolean | JournalsCountOutputTypeCountCrawlJobsArgs
+    journalFollows?: boolean | JournalsCountOutputTypeCountJournalFollowsArgs
+    journalLikes?: boolean | JournalsCountOutputTypeCountJournalLikesArgs
+    journalRanks?: boolean | JournalsCountOutputTypeCountJournalRanksArgs
+    topics?: boolean | JournalsCountOutputTypeCountTopicsArgs
   }
 
   // Custom InputTypes
@@ -3840,22 +3749,8 @@ export namespace Prisma {
   /**
    * JournalsCountOutputType without action
    */
-  export type JournalsCountOutputTypeCountTopicsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: JournalTopicsWhereInput
-  }
-
-  /**
-   * JournalsCountOutputType without action
-   */
-  export type JournalsCountOutputTypeCountJournalRanksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: JournalRanksWhereInput
-  }
-
-  /**
-   * JournalsCountOutputType without action
-   */
-  export type JournalsCountOutputTypeCountJournalLikesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: JournalLikesWhereInput
+  export type JournalsCountOutputTypeCountCrawlJobsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: JournalCrawlJobsWhereInput
   }
 
   /**
@@ -3868,8 +3763,22 @@ export namespace Prisma {
   /**
    * JournalsCountOutputType without action
    */
-  export type JournalsCountOutputTypeCountCrawlJobsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: JournalCrawlJobsWhereInput
+  export type JournalsCountOutputTypeCountJournalLikesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: JournalLikesWhereInput
+  }
+
+  /**
+   * JournalsCountOutputType without action
+   */
+  export type JournalsCountOutputTypeCountJournalRanksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: JournalRanksWhereInput
+  }
+
+  /**
+   * JournalsCountOutputType without action
+   */
+  export type JournalsCountOutputTypeCountTopicsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: JournalTopicsWhereInput
   }
 
 
@@ -3878,34 +3787,34 @@ export namespace Prisma {
    */
 
   export type UsersCountOutputType = {
+    blacklists: number
+    calendar: number
+    feedbacks: number
     followConference: number
     likes: number
-    calendar: number
     createdConferences: number
-    interestedTopics: number
-    createdJournals: number
-    journalLikes: number
     journalFollows: number
-    feedbacks: number
-    blacklists: number
-    notifications: number
+    journalLikes: number
+    createdJournals: number
     notificationSettings: number
+    notifications: number
+    interestedTopics: number
     verification: number
   }
 
   export type UsersCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    blacklists?: boolean | UsersCountOutputTypeCountBlacklistsArgs
+    calendar?: boolean | UsersCountOutputTypeCountCalendarArgs
+    feedbacks?: boolean | UsersCountOutputTypeCountFeedbacksArgs
     followConference?: boolean | UsersCountOutputTypeCountFollowConferenceArgs
     likes?: boolean | UsersCountOutputTypeCountLikesArgs
-    calendar?: boolean | UsersCountOutputTypeCountCalendarArgs
     createdConferences?: boolean | UsersCountOutputTypeCountCreatedConferencesArgs
-    interestedTopics?: boolean | UsersCountOutputTypeCountInterestedTopicsArgs
-    createdJournals?: boolean | UsersCountOutputTypeCountCreatedJournalsArgs
-    journalLikes?: boolean | UsersCountOutputTypeCountJournalLikesArgs
     journalFollows?: boolean | UsersCountOutputTypeCountJournalFollowsArgs
-    feedbacks?: boolean | UsersCountOutputTypeCountFeedbacksArgs
-    blacklists?: boolean | UsersCountOutputTypeCountBlacklistsArgs
-    notifications?: boolean | UsersCountOutputTypeCountNotificationsArgs
+    journalLikes?: boolean | UsersCountOutputTypeCountJournalLikesArgs
+    createdJournals?: boolean | UsersCountOutputTypeCountCreatedJournalsArgs
     notificationSettings?: boolean | UsersCountOutputTypeCountNotificationSettingsArgs
+    notifications?: boolean | UsersCountOutputTypeCountNotificationsArgs
+    interestedTopics?: boolean | UsersCountOutputTypeCountInterestedTopicsArgs
     verification?: boolean | UsersCountOutputTypeCountVerificationArgs
   }
 
@@ -3918,6 +3827,27 @@ export namespace Prisma {
      * Select specific fields to fetch from the UsersCountOutputType
      */
     select?: UsersCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * UsersCountOutputType without action
+   */
+  export type UsersCountOutputTypeCountBlacklistsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConferenceBlacklistsWhereInput
+  }
+
+  /**
+   * UsersCountOutputType without action
+   */
+  export type UsersCountOutputTypeCountCalendarArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConferenceCalendarsWhereInput
+  }
+
+  /**
+   * UsersCountOutputType without action
+   */
+  export type UsersCountOutputTypeCountFeedbacksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConferenceFeedbacksWhereInput
   }
 
   /**
@@ -3937,36 +3867,8 @@ export namespace Prisma {
   /**
    * UsersCountOutputType without action
    */
-  export type UsersCountOutputTypeCountCalendarArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ConferenceCalendarsWhereInput
-  }
-
-  /**
-   * UsersCountOutputType without action
-   */
   export type UsersCountOutputTypeCountCreatedConferencesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ConferencesWhereInput
-  }
-
-  /**
-   * UsersCountOutputType without action
-   */
-  export type UsersCountOutputTypeCountInterestedTopicsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: TopicUserInterestedsWhereInput
-  }
-
-  /**
-   * UsersCountOutputType without action
-   */
-  export type UsersCountOutputTypeCountCreatedJournalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: JournalsWhereInput
-  }
-
-  /**
-   * UsersCountOutputType without action
-   */
-  export type UsersCountOutputTypeCountJournalLikesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: JournalLikesWhereInput
   }
 
   /**
@@ -3979,15 +3881,22 @@ export namespace Prisma {
   /**
    * UsersCountOutputType without action
    */
-  export type UsersCountOutputTypeCountFeedbacksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ConferenceFeedbacksWhereInput
+  export type UsersCountOutputTypeCountJournalLikesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: JournalLikesWhereInput
   }
 
   /**
    * UsersCountOutputType without action
    */
-  export type UsersCountOutputTypeCountBlacklistsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ConferenceBlacklistsWhereInput
+  export type UsersCountOutputTypeCountCreatedJournalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: JournalsWhereInput
+  }
+
+  /**
+   * UsersCountOutputType without action
+   */
+  export type UsersCountOutputTypeCountNotificationSettingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NotificationSettingsWhereInput
   }
 
   /**
@@ -4000,8 +3909,8 @@ export namespace Prisma {
   /**
    * UsersCountOutputType without action
    */
-  export type UsersCountOutputTypeCountNotificationSettingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: NotificationSettingsWhereInput
+  export type UsersCountOutputTypeCountInterestedTopicsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TopicUserInterestedsWhereInput
   }
 
   /**
@@ -4018,10 +3927,12 @@ export namespace Prisma {
 
   export type AdminsCountOutputType = {
     createdConferences: number
+    createdJournals: number
   }
 
   export type AdminsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     createdConferences?: boolean | AdminsCountOutputTypeCountCreatedConferencesArgs
+    createdJournals?: boolean | AdminsCountOutputTypeCountCreatedJournalsArgs
   }
 
   // Custom InputTypes
@@ -4042,19 +3953,26 @@ export namespace Prisma {
     where?: ConferencesWhereInput
   }
 
+  /**
+   * AdminsCountOutputType without action
+   */
+  export type AdminsCountOutputTypeCountCreatedJournalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: JournalsWhereInput
+  }
+
 
   /**
    * Count Type NotificationsTypesCountOutputType
    */
 
   export type NotificationsTypesCountOutputType = {
-    notifications: number
     settings: number
+    notifications: number
   }
 
   export type NotificationsTypesCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    notifications?: boolean | NotificationsTypesCountOutputTypeCountNotificationsArgs
     settings?: boolean | NotificationsTypesCountOutputTypeCountSettingsArgs
+    notifications?: boolean | NotificationsTypesCountOutputTypeCountNotificationsArgs
   }
 
   // Custom InputTypes
@@ -4071,990 +3989,21 @@ export namespace Prisma {
   /**
    * NotificationsTypesCountOutputType without action
    */
-  export type NotificationsTypesCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: NotificationsWhereInput
+  export type NotificationsTypesCountOutputTypeCountSettingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NotificationSettingsWhereInput
   }
 
   /**
    * NotificationsTypesCountOutputType without action
    */
-  export type NotificationsTypesCountOutputTypeCountSettingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: NotificationSettingsWhereInput
+  export type NotificationsTypesCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NotificationsWhereInput
   }
 
 
   /**
    * Models
    */
-
-  /**
-   * Model Passenger
-   */
-
-  export type AggregatePassenger = {
-    _count: PassengerCountAggregateOutputType | null
-    _min: PassengerMinAggregateOutputType | null
-    _max: PassengerMaxAggregateOutputType | null
-  }
-
-  export type PassengerMinAggregateOutputType = {
-    id: string | null
-    firstName: string | null
-    lastName: string | null
-  }
-
-  export type PassengerMaxAggregateOutputType = {
-    id: string | null
-    firstName: string | null
-    lastName: string | null
-  }
-
-  export type PassengerCountAggregateOutputType = {
-    id: number
-    firstName: number
-    lastName: number
-    _all: number
-  }
-
-
-  export type PassengerMinAggregateInputType = {
-    id?: true
-    firstName?: true
-    lastName?: true
-  }
-
-  export type PassengerMaxAggregateInputType = {
-    id?: true
-    firstName?: true
-    lastName?: true
-  }
-
-  export type PassengerCountAggregateInputType = {
-    id?: true
-    firstName?: true
-    lastName?: true
-    _all?: true
-  }
-
-  export type PassengerAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Passenger to aggregate.
-     */
-    where?: PassengerWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Passengers to fetch.
-     */
-    orderBy?: PassengerOrderByWithRelationInput | PassengerOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: PassengerWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Passengers from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Passengers.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Passengers
-    **/
-    _count?: true | PassengerCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: PassengerMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: PassengerMaxAggregateInputType
-  }
-
-  export type GetPassengerAggregateType<T extends PassengerAggregateArgs> = {
-        [P in keyof T & keyof AggregatePassenger]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregatePassenger[P]>
-      : GetScalarType<T[P], AggregatePassenger[P]>
-  }
-
-
-
-
-  export type PassengerGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PassengerWhereInput
-    orderBy?: PassengerOrderByWithAggregationInput | PassengerOrderByWithAggregationInput[]
-    by: PassengerScalarFieldEnum[] | PassengerScalarFieldEnum
-    having?: PassengerScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: PassengerCountAggregateInputType | true
-    _min?: PassengerMinAggregateInputType
-    _max?: PassengerMaxAggregateInputType
-  }
-
-  export type PassengerGroupByOutputType = {
-    id: string
-    firstName: string
-    lastName: string
-    _count: PassengerCountAggregateOutputType | null
-    _min: PassengerMinAggregateOutputType | null
-    _max: PassengerMaxAggregateOutputType | null
-  }
-
-  type GetPassengerGroupByPayload<T extends PassengerGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<PassengerGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof PassengerGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], PassengerGroupByOutputType[P]>
-            : GetScalarType<T[P], PassengerGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type PassengerSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    firstName?: boolean
-    lastName?: boolean
-  }, ExtArgs["result"]["passenger"]>
-
-  export type PassengerSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    firstName?: boolean
-    lastName?: boolean
-  }, ExtArgs["result"]["passenger"]>
-
-  export type PassengerSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    firstName?: boolean
-    lastName?: boolean
-  }, ExtArgs["result"]["passenger"]>
-
-  export type PassengerSelectScalar = {
-    id?: boolean
-    firstName?: boolean
-    lastName?: boolean
-  }
-
-  export type PassengerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "firstName" | "lastName", ExtArgs["result"]["passenger"]>
-
-  export type $PassengerPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Passenger"
-    objects: {}
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      firstName: string
-      lastName: string
-    }, ExtArgs["result"]["passenger"]>
-    composites: {}
-  }
-
-  type PassengerGetPayload<S extends boolean | null | undefined | PassengerDefaultArgs> = $Result.GetResult<Prisma.$PassengerPayload, S>
-
-  type PassengerCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<PassengerFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: PassengerCountAggregateInputType | true
-    }
-
-  export interface PassengerDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Passenger'], meta: { name: 'Passenger' } }
-    /**
-     * Find zero or one Passenger that matches the filter.
-     * @param {PassengerFindUniqueArgs} args - Arguments to find a Passenger
-     * @example
-     * // Get one Passenger
-     * const passenger = await prisma.passenger.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends PassengerFindUniqueArgs>(args: SelectSubset<T, PassengerFindUniqueArgs<ExtArgs>>): Prisma__PassengerClient<$Result.GetResult<Prisma.$PassengerPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Passenger that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {PassengerFindUniqueOrThrowArgs} args - Arguments to find a Passenger
-     * @example
-     * // Get one Passenger
-     * const passenger = await prisma.passenger.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends PassengerFindUniqueOrThrowArgs>(args: SelectSubset<T, PassengerFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PassengerClient<$Result.GetResult<Prisma.$PassengerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Passenger that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PassengerFindFirstArgs} args - Arguments to find a Passenger
-     * @example
-     * // Get one Passenger
-     * const passenger = await prisma.passenger.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends PassengerFindFirstArgs>(args?: SelectSubset<T, PassengerFindFirstArgs<ExtArgs>>): Prisma__PassengerClient<$Result.GetResult<Prisma.$PassengerPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Passenger that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PassengerFindFirstOrThrowArgs} args - Arguments to find a Passenger
-     * @example
-     * // Get one Passenger
-     * const passenger = await prisma.passenger.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends PassengerFindFirstOrThrowArgs>(args?: SelectSubset<T, PassengerFindFirstOrThrowArgs<ExtArgs>>): Prisma__PassengerClient<$Result.GetResult<Prisma.$PassengerPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Passengers that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PassengerFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Passengers
-     * const passengers = await prisma.passenger.findMany()
-     * 
-     * // Get first 10 Passengers
-     * const passengers = await prisma.passenger.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const passengerWithIdOnly = await prisma.passenger.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends PassengerFindManyArgs>(args?: SelectSubset<T, PassengerFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PassengerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Passenger.
-     * @param {PassengerCreateArgs} args - Arguments to create a Passenger.
-     * @example
-     * // Create one Passenger
-     * const Passenger = await prisma.passenger.create({
-     *   data: {
-     *     // ... data to create a Passenger
-     *   }
-     * })
-     * 
-     */
-    create<T extends PassengerCreateArgs>(args: SelectSubset<T, PassengerCreateArgs<ExtArgs>>): Prisma__PassengerClient<$Result.GetResult<Prisma.$PassengerPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Passengers.
-     * @param {PassengerCreateManyArgs} args - Arguments to create many Passengers.
-     * @example
-     * // Create many Passengers
-     * const passenger = await prisma.passenger.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends PassengerCreateManyArgs>(args?: SelectSubset<T, PassengerCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Passengers and returns the data saved in the database.
-     * @param {PassengerCreateManyAndReturnArgs} args - Arguments to create many Passengers.
-     * @example
-     * // Create many Passengers
-     * const passenger = await prisma.passenger.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Passengers and only return the `id`
-     * const passengerWithIdOnly = await prisma.passenger.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends PassengerCreateManyAndReturnArgs>(args?: SelectSubset<T, PassengerCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PassengerPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Passenger.
-     * @param {PassengerDeleteArgs} args - Arguments to delete one Passenger.
-     * @example
-     * // Delete one Passenger
-     * const Passenger = await prisma.passenger.delete({
-     *   where: {
-     *     // ... filter to delete one Passenger
-     *   }
-     * })
-     * 
-     */
-    delete<T extends PassengerDeleteArgs>(args: SelectSubset<T, PassengerDeleteArgs<ExtArgs>>): Prisma__PassengerClient<$Result.GetResult<Prisma.$PassengerPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Passenger.
-     * @param {PassengerUpdateArgs} args - Arguments to update one Passenger.
-     * @example
-     * // Update one Passenger
-     * const passenger = await prisma.passenger.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends PassengerUpdateArgs>(args: SelectSubset<T, PassengerUpdateArgs<ExtArgs>>): Prisma__PassengerClient<$Result.GetResult<Prisma.$PassengerPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Passengers.
-     * @param {PassengerDeleteManyArgs} args - Arguments to filter Passengers to delete.
-     * @example
-     * // Delete a few Passengers
-     * const { count } = await prisma.passenger.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends PassengerDeleteManyArgs>(args?: SelectSubset<T, PassengerDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Passengers.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PassengerUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Passengers
-     * const passenger = await prisma.passenger.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends PassengerUpdateManyArgs>(args: SelectSubset<T, PassengerUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Passengers and returns the data updated in the database.
-     * @param {PassengerUpdateManyAndReturnArgs} args - Arguments to update many Passengers.
-     * @example
-     * // Update many Passengers
-     * const passenger = await prisma.passenger.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Passengers and only return the `id`
-     * const passengerWithIdOnly = await prisma.passenger.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends PassengerUpdateManyAndReturnArgs>(args: SelectSubset<T, PassengerUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PassengerPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Passenger.
-     * @param {PassengerUpsertArgs} args - Arguments to update or create a Passenger.
-     * @example
-     * // Update or create a Passenger
-     * const passenger = await prisma.passenger.upsert({
-     *   create: {
-     *     // ... data to create a Passenger
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Passenger we want to update
-     *   }
-     * })
-     */
-    upsert<T extends PassengerUpsertArgs>(args: SelectSubset<T, PassengerUpsertArgs<ExtArgs>>): Prisma__PassengerClient<$Result.GetResult<Prisma.$PassengerPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Passengers.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PassengerCountArgs} args - Arguments to filter Passengers to count.
-     * @example
-     * // Count the number of Passengers
-     * const count = await prisma.passenger.count({
-     *   where: {
-     *     // ... the filter for the Passengers we want to count
-     *   }
-     * })
-    **/
-    count<T extends PassengerCountArgs>(
-      args?: Subset<T, PassengerCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], PassengerCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Passenger.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PassengerAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends PassengerAggregateArgs>(args: Subset<T, PassengerAggregateArgs>): Prisma.PrismaPromise<GetPassengerAggregateType<T>>
-
-    /**
-     * Group by Passenger.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PassengerGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends PassengerGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: PassengerGroupByArgs['orderBy'] }
-        : { orderBy?: PassengerGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, PassengerGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPassengerGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Passenger model
-   */
-  readonly fields: PassengerFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Passenger.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__PassengerClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Passenger model
-   */ 
-  interface PassengerFieldRefs {
-    readonly id: FieldRef<"Passenger", 'String'>
-    readonly firstName: FieldRef<"Passenger", 'String'>
-    readonly lastName: FieldRef<"Passenger", 'String'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Passenger findUnique
-   */
-  export type PassengerFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Passenger
-     */
-    select?: PassengerSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Passenger
-     */
-    omit?: PassengerOmit<ExtArgs> | null
-    /**
-     * Filter, which Passenger to fetch.
-     */
-    where: PassengerWhereUniqueInput
-  }
-
-  /**
-   * Passenger findUniqueOrThrow
-   */
-  export type PassengerFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Passenger
-     */
-    select?: PassengerSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Passenger
-     */
-    omit?: PassengerOmit<ExtArgs> | null
-    /**
-     * Filter, which Passenger to fetch.
-     */
-    where: PassengerWhereUniqueInput
-  }
-
-  /**
-   * Passenger findFirst
-   */
-  export type PassengerFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Passenger
-     */
-    select?: PassengerSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Passenger
-     */
-    omit?: PassengerOmit<ExtArgs> | null
-    /**
-     * Filter, which Passenger to fetch.
-     */
-    where?: PassengerWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Passengers to fetch.
-     */
-    orderBy?: PassengerOrderByWithRelationInput | PassengerOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Passengers.
-     */
-    cursor?: PassengerWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Passengers from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Passengers.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Passengers.
-     */
-    distinct?: PassengerScalarFieldEnum | PassengerScalarFieldEnum[]
-  }
-
-  /**
-   * Passenger findFirstOrThrow
-   */
-  export type PassengerFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Passenger
-     */
-    select?: PassengerSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Passenger
-     */
-    omit?: PassengerOmit<ExtArgs> | null
-    /**
-     * Filter, which Passenger to fetch.
-     */
-    where?: PassengerWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Passengers to fetch.
-     */
-    orderBy?: PassengerOrderByWithRelationInput | PassengerOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Passengers.
-     */
-    cursor?: PassengerWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Passengers from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Passengers.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Passengers.
-     */
-    distinct?: PassengerScalarFieldEnum | PassengerScalarFieldEnum[]
-  }
-
-  /**
-   * Passenger findMany
-   */
-  export type PassengerFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Passenger
-     */
-    select?: PassengerSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Passenger
-     */
-    omit?: PassengerOmit<ExtArgs> | null
-    /**
-     * Filter, which Passengers to fetch.
-     */
-    where?: PassengerWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Passengers to fetch.
-     */
-    orderBy?: PassengerOrderByWithRelationInput | PassengerOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Passengers.
-     */
-    cursor?: PassengerWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Passengers from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Passengers.
-     */
-    skip?: number
-    distinct?: PassengerScalarFieldEnum | PassengerScalarFieldEnum[]
-  }
-
-  /**
-   * Passenger create
-   */
-  export type PassengerCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Passenger
-     */
-    select?: PassengerSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Passenger
-     */
-    omit?: PassengerOmit<ExtArgs> | null
-    /**
-     * The data needed to create a Passenger.
-     */
-    data: XOR<PassengerCreateInput, PassengerUncheckedCreateInput>
-  }
-
-  /**
-   * Passenger createMany
-   */
-  export type PassengerCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Passengers.
-     */
-    data: PassengerCreateManyInput | PassengerCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Passenger createManyAndReturn
-   */
-  export type PassengerCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Passenger
-     */
-    select?: PassengerSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Passenger
-     */
-    omit?: PassengerOmit<ExtArgs> | null
-    /**
-     * The data used to create many Passengers.
-     */
-    data: PassengerCreateManyInput | PassengerCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Passenger update
-   */
-  export type PassengerUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Passenger
-     */
-    select?: PassengerSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Passenger
-     */
-    omit?: PassengerOmit<ExtArgs> | null
-    /**
-     * The data needed to update a Passenger.
-     */
-    data: XOR<PassengerUpdateInput, PassengerUncheckedUpdateInput>
-    /**
-     * Choose, which Passenger to update.
-     */
-    where: PassengerWhereUniqueInput
-  }
-
-  /**
-   * Passenger updateMany
-   */
-  export type PassengerUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Passengers.
-     */
-    data: XOR<PassengerUpdateManyMutationInput, PassengerUncheckedUpdateManyInput>
-    /**
-     * Filter which Passengers to update
-     */
-    where?: PassengerWhereInput
-    /**
-     * Limit how many Passengers to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Passenger updateManyAndReturn
-   */
-  export type PassengerUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Passenger
-     */
-    select?: PassengerSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Passenger
-     */
-    omit?: PassengerOmit<ExtArgs> | null
-    /**
-     * The data used to update Passengers.
-     */
-    data: XOR<PassengerUpdateManyMutationInput, PassengerUncheckedUpdateManyInput>
-    /**
-     * Filter which Passengers to update
-     */
-    where?: PassengerWhereInput
-    /**
-     * Limit how many Passengers to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Passenger upsert
-   */
-  export type PassengerUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Passenger
-     */
-    select?: PassengerSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Passenger
-     */
-    omit?: PassengerOmit<ExtArgs> | null
-    /**
-     * The filter to search for the Passenger to update in case it exists.
-     */
-    where: PassengerWhereUniqueInput
-    /**
-     * In case the Passenger found by the `where` argument doesn't exist, create a new Passenger with this data.
-     */
-    create: XOR<PassengerCreateInput, PassengerUncheckedCreateInput>
-    /**
-     * In case the Passenger was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<PassengerUpdateInput, PassengerUncheckedUpdateInput>
-  }
-
-  /**
-   * Passenger delete
-   */
-  export type PassengerDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Passenger
-     */
-    select?: PassengerSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Passenger
-     */
-    omit?: PassengerOmit<ExtArgs> | null
-    /**
-     * Filter which Passenger to delete.
-     */
-    where: PassengerWhereUniqueInput
-  }
-
-  /**
-   * Passenger deleteMany
-   */
-  export type PassengerDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Passengers to delete
-     */
-    where?: PassengerWhereInput
-    /**
-     * Limit how many Passengers to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * Passenger without action
-   */
-  export type PassengerDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Passenger
-     */
-    select?: PassengerSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Passenger
-     */
-    omit?: PassengerOmit<ExtArgs> | null
-  }
-
 
   /**
    * Model Locations
@@ -6326,8 +5275,8 @@ export namespace Prisma {
   export type ConferenceDatesGroupByOutputType = {
     id: string
     organizedId: string
-    fromDate: Date
-    toDate: Date
+    fromDate: Date | null
+    toDate: Date | null
     type: string
     name: string
     createdAt: Date
@@ -6422,8 +5371,8 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       organizedId: string
-      fromDate: Date
-      toDate: Date
+      fromDate: Date | null
+      toDate: Date | null
       type: string
       name: string
       createdAt: Date
@@ -7539,9 +6488,9 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     conferenceDates?: boolean | ConferenceOrganizations$conferenceDatesArgs<ExtArgs>
-    locations?: boolean | ConferenceOrganizations$locationsArgs<ExtArgs>
-    topics?: boolean | ConferenceOrganizations$topicsArgs<ExtArgs>
     belongsTo?: boolean | ConferencesDefaultArgs<ExtArgs>
+    topics?: boolean | ConferenceOrganizations$topicsArgs<ExtArgs>
+    locations?: boolean | ConferenceOrganizations$locationsArgs<ExtArgs>
     _count?: boolean | ConferenceOrganizationsCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["conferenceOrganizations"]>
 
@@ -7598,9 +6547,9 @@ export namespace Prisma {
   export type ConferenceOrganizationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "year" | "accessType" | "isAvailable" | "conferenceId" | "publisher" | "summerize" | "callForPaper" | "link" | "cfpLink" | "impLink" | "createdAt" | "updatedAt", ExtArgs["result"]["conferenceOrganizations"]>
   export type ConferenceOrganizationsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     conferenceDates?: boolean | ConferenceOrganizations$conferenceDatesArgs<ExtArgs>
-    locations?: boolean | ConferenceOrganizations$locationsArgs<ExtArgs>
-    topics?: boolean | ConferenceOrganizations$topicsArgs<ExtArgs>
     belongsTo?: boolean | ConferencesDefaultArgs<ExtArgs>
+    topics?: boolean | ConferenceOrganizations$topicsArgs<ExtArgs>
+    locations?: boolean | ConferenceOrganizations$locationsArgs<ExtArgs>
     _count?: boolean | ConferenceOrganizationsCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ConferenceOrganizationsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7614,9 +6563,9 @@ export namespace Prisma {
     name: "ConferenceOrganizations"
     objects: {
       conferenceDates: Prisma.$ConferenceDatesPayload<ExtArgs>[]
-      locations: Prisma.$LocationsPayload<ExtArgs>[]
-      topics: Prisma.$ConferenceTopicsPayload<ExtArgs>[]
       belongsTo: Prisma.$ConferencesPayload<ExtArgs>
+      topics: Prisma.$ConferenceTopicsPayload<ExtArgs>[]
+      locations: Prisma.$LocationsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8027,9 +6976,9 @@ export namespace Prisma {
   export interface Prisma__ConferenceOrganizationsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     conferenceDates<T extends ConferenceOrganizations$conferenceDatesArgs<ExtArgs> = {}>(args?: Subset<T, ConferenceOrganizations$conferenceDatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceDatesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    locations<T extends ConferenceOrganizations$locationsArgs<ExtArgs> = {}>(args?: Subset<T, ConferenceOrganizations$locationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LocationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    topics<T extends ConferenceOrganizations$topicsArgs<ExtArgs> = {}>(args?: Subset<T, ConferenceOrganizations$topicsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceTopicsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     belongsTo<T extends ConferencesDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ConferencesDefaultArgs<ExtArgs>>): Prisma__ConferencesClient<$Result.GetResult<Prisma.$ConferencesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    topics<T extends ConferenceOrganizations$topicsArgs<ExtArgs> = {}>(args?: Subset<T, ConferenceOrganizations$topicsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceTopicsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    locations<T extends ConferenceOrganizations$locationsArgs<ExtArgs> = {}>(args?: Subset<T, ConferenceOrganizations$locationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LocationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8492,30 +7441,6 @@ export namespace Prisma {
   }
 
   /**
-   * ConferenceOrganizations.locations
-   */
-  export type ConferenceOrganizations$locationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Locations
-     */
-    select?: LocationsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Locations
-     */
-    omit?: LocationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LocationsInclude<ExtArgs> | null
-    where?: LocationsWhereInput
-    orderBy?: LocationsOrderByWithRelationInput | LocationsOrderByWithRelationInput[]
-    cursor?: LocationsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: LocationsScalarFieldEnum | LocationsScalarFieldEnum[]
-  }
-
-  /**
    * ConferenceOrganizations.topics
    */
   export type ConferenceOrganizations$topicsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8537,6 +7462,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ConferenceTopicsScalarFieldEnum | ConferenceTopicsScalarFieldEnum[]
+  }
+
+  /**
+   * ConferenceOrganizations.locations
+   */
+  export type ConferenceOrganizations$locationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Locations
+     */
+    select?: LocationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Locations
+     */
+    omit?: LocationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LocationsInclude<ExtArgs> | null
+    where?: LocationsWhereInput
+    orderBy?: LocationsOrderByWithRelationInput | LocationsOrderByWithRelationInput[]
+    cursor?: LocationsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LocationsScalarFieldEnum | LocationsScalarFieldEnum[]
   }
 
   /**
@@ -10925,16 +9874,16 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     status?: boolean
+    blacklists?: boolean | Conferences$blacklistsArgs<ExtArgs>
+    calendars?: boolean | Conferences$calendarsArgs<ExtArgs>
+    crawlJobs?: boolean | Conferences$crawlJobsArgs<ExtArgs>
+    feedbacks?: boolean | Conferences$feedbacksArgs<ExtArgs>
     follows?: boolean | Conferences$followsArgs<ExtArgs>
     likes?: boolean | Conferences$likesArgs<ExtArgs>
-    calendars?: boolean | Conferences$calendarsArgs<ExtArgs>
     organizations?: boolean | Conferences$organizationsArgs<ExtArgs>
     ranks?: boolean | Conferences$ranksArgs<ExtArgs>
-    crawlJobs?: boolean | Conferences$crawlJobsArgs<ExtArgs>
     createdByUser?: boolean | Conferences$createdByUserArgs<ExtArgs>
     createByAdmin?: boolean | Conferences$createByAdminArgs<ExtArgs>
-    feedbacks?: boolean | Conferences$feedbacksArgs<ExtArgs>
-    blacklists?: boolean | Conferences$blacklistsArgs<ExtArgs>
     _count?: boolean | ConferencesCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["conferences"]>
 
@@ -10977,16 +9926,16 @@ export namespace Prisma {
 
   export type ConferencesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "acronym" | "creatorId" | "adminId" | "createdAt" | "updatedAt" | "status", ExtArgs["result"]["conferences"]>
   export type ConferencesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    blacklists?: boolean | Conferences$blacklistsArgs<ExtArgs>
+    calendars?: boolean | Conferences$calendarsArgs<ExtArgs>
+    crawlJobs?: boolean | Conferences$crawlJobsArgs<ExtArgs>
+    feedbacks?: boolean | Conferences$feedbacksArgs<ExtArgs>
     follows?: boolean | Conferences$followsArgs<ExtArgs>
     likes?: boolean | Conferences$likesArgs<ExtArgs>
-    calendars?: boolean | Conferences$calendarsArgs<ExtArgs>
     organizations?: boolean | Conferences$organizationsArgs<ExtArgs>
     ranks?: boolean | Conferences$ranksArgs<ExtArgs>
-    crawlJobs?: boolean | Conferences$crawlJobsArgs<ExtArgs>
     createdByUser?: boolean | Conferences$createdByUserArgs<ExtArgs>
     createByAdmin?: boolean | Conferences$createByAdminArgs<ExtArgs>
-    feedbacks?: boolean | Conferences$feedbacksArgs<ExtArgs>
-    blacklists?: boolean | Conferences$blacklistsArgs<ExtArgs>
     _count?: boolean | ConferencesCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ConferencesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11001,16 +9950,16 @@ export namespace Prisma {
   export type $ConferencesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Conferences"
     objects: {
+      blacklists: Prisma.$ConferenceBlacklistsPayload<ExtArgs>[]
+      calendars: Prisma.$ConferenceCalendarsPayload<ExtArgs>[]
+      crawlJobs: Prisma.$ConferenceCrawlJobsPayload<ExtArgs>[]
+      feedbacks: Prisma.$ConferenceFeedbacksPayload<ExtArgs>[]
       follows: Prisma.$ConferenceFollowsPayload<ExtArgs>[]
       likes: Prisma.$ConferenceLikesPayload<ExtArgs>[]
-      calendars: Prisma.$ConferenceCalendarsPayload<ExtArgs>[]
       organizations: Prisma.$ConferenceOrganizationsPayload<ExtArgs>[]
       ranks: Prisma.$ConferenceRanksPayload<ExtArgs>[]
-      crawlJobs: Prisma.$ConferenceCrawlJobsPayload<ExtArgs>[]
       createdByUser: Prisma.$UsersPayload<ExtArgs> | null
       createByAdmin: Prisma.$AdminsPayload<ExtArgs> | null
-      feedbacks: Prisma.$ConferenceFeedbacksPayload<ExtArgs>[]
-      blacklists: Prisma.$ConferenceBlacklistsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -11415,16 +10364,16 @@ export namespace Prisma {
    */
   export interface Prisma__ConferencesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    blacklists<T extends Conferences$blacklistsArgs<ExtArgs> = {}>(args?: Subset<T, Conferences$blacklistsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceBlacklistsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    calendars<T extends Conferences$calendarsArgs<ExtArgs> = {}>(args?: Subset<T, Conferences$calendarsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceCalendarsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    crawlJobs<T extends Conferences$crawlJobsArgs<ExtArgs> = {}>(args?: Subset<T, Conferences$crawlJobsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceCrawlJobsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    feedbacks<T extends Conferences$feedbacksArgs<ExtArgs> = {}>(args?: Subset<T, Conferences$feedbacksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceFeedbacksPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     follows<T extends Conferences$followsArgs<ExtArgs> = {}>(args?: Subset<T, Conferences$followsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceFollowsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     likes<T extends Conferences$likesArgs<ExtArgs> = {}>(args?: Subset<T, Conferences$likesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceLikesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    calendars<T extends Conferences$calendarsArgs<ExtArgs> = {}>(args?: Subset<T, Conferences$calendarsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceCalendarsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     organizations<T extends Conferences$organizationsArgs<ExtArgs> = {}>(args?: Subset<T, Conferences$organizationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceOrganizationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     ranks<T extends Conferences$ranksArgs<ExtArgs> = {}>(args?: Subset<T, Conferences$ranksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceRanksPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    crawlJobs<T extends Conferences$crawlJobsArgs<ExtArgs> = {}>(args?: Subset<T, Conferences$crawlJobsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceCrawlJobsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     createdByUser<T extends Conferences$createdByUserArgs<ExtArgs> = {}>(args?: Subset<T, Conferences$createdByUserArgs<ExtArgs>>): Prisma__UsersClient<$Result.GetResult<Prisma.$UsersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     createByAdmin<T extends Conferences$createByAdminArgs<ExtArgs> = {}>(args?: Subset<T, Conferences$createByAdminArgs<ExtArgs>>): Prisma__AdminsClient<$Result.GetResult<Prisma.$AdminsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    feedbacks<T extends Conferences$feedbacksArgs<ExtArgs> = {}>(args?: Subset<T, Conferences$feedbacksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceFeedbacksPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    blacklists<T extends Conferences$blacklistsArgs<ExtArgs> = {}>(args?: Subset<T, Conferences$blacklistsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceBlacklistsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11858,6 +10807,102 @@ export namespace Prisma {
   }
 
   /**
+   * Conferences.blacklists
+   */
+  export type Conferences$blacklistsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConferenceBlacklists
+     */
+    select?: ConferenceBlacklistsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConferenceBlacklists
+     */
+    omit?: ConferenceBlacklistsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConferenceBlacklistsInclude<ExtArgs> | null
+    where?: ConferenceBlacklistsWhereInput
+    orderBy?: ConferenceBlacklistsOrderByWithRelationInput | ConferenceBlacklistsOrderByWithRelationInput[]
+    cursor?: ConferenceBlacklistsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ConferenceBlacklistsScalarFieldEnum | ConferenceBlacklistsScalarFieldEnum[]
+  }
+
+  /**
+   * Conferences.calendars
+   */
+  export type Conferences$calendarsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConferenceCalendars
+     */
+    select?: ConferenceCalendarsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConferenceCalendars
+     */
+    omit?: ConferenceCalendarsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConferenceCalendarsInclude<ExtArgs> | null
+    where?: ConferenceCalendarsWhereInput
+    orderBy?: ConferenceCalendarsOrderByWithRelationInput | ConferenceCalendarsOrderByWithRelationInput[]
+    cursor?: ConferenceCalendarsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ConferenceCalendarsScalarFieldEnum | ConferenceCalendarsScalarFieldEnum[]
+  }
+
+  /**
+   * Conferences.crawlJobs
+   */
+  export type Conferences$crawlJobsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConferenceCrawlJobs
+     */
+    select?: ConferenceCrawlJobsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConferenceCrawlJobs
+     */
+    omit?: ConferenceCrawlJobsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConferenceCrawlJobsInclude<ExtArgs> | null
+    where?: ConferenceCrawlJobsWhereInput
+    orderBy?: ConferenceCrawlJobsOrderByWithRelationInput | ConferenceCrawlJobsOrderByWithRelationInput[]
+    cursor?: ConferenceCrawlJobsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ConferenceCrawlJobsScalarFieldEnum | ConferenceCrawlJobsScalarFieldEnum[]
+  }
+
+  /**
+   * Conferences.feedbacks
+   */
+  export type Conferences$feedbacksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConferenceFeedbacks
+     */
+    select?: ConferenceFeedbacksSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConferenceFeedbacks
+     */
+    omit?: ConferenceFeedbacksOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConferenceFeedbacksInclude<ExtArgs> | null
+    where?: ConferenceFeedbacksWhereInput
+    orderBy?: ConferenceFeedbacksOrderByWithRelationInput | ConferenceFeedbacksOrderByWithRelationInput[]
+    cursor?: ConferenceFeedbacksWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ConferenceFeedbacksScalarFieldEnum | ConferenceFeedbacksScalarFieldEnum[]
+  }
+
+  /**
    * Conferences.follows
    */
   export type Conferences$followsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11903,30 +10948,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ConferenceLikesScalarFieldEnum | ConferenceLikesScalarFieldEnum[]
-  }
-
-  /**
-   * Conferences.calendars
-   */
-  export type Conferences$calendarsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ConferenceCalendars
-     */
-    select?: ConferenceCalendarsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ConferenceCalendars
-     */
-    omit?: ConferenceCalendarsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ConferenceCalendarsInclude<ExtArgs> | null
-    where?: ConferenceCalendarsWhereInput
-    orderBy?: ConferenceCalendarsOrderByWithRelationInput | ConferenceCalendarsOrderByWithRelationInput[]
-    cursor?: ConferenceCalendarsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ConferenceCalendarsScalarFieldEnum | ConferenceCalendarsScalarFieldEnum[]
   }
 
   /**
@@ -11978,30 +10999,6 @@ export namespace Prisma {
   }
 
   /**
-   * Conferences.crawlJobs
-   */
-  export type Conferences$crawlJobsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ConferenceCrawlJobs
-     */
-    select?: ConferenceCrawlJobsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ConferenceCrawlJobs
-     */
-    omit?: ConferenceCrawlJobsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ConferenceCrawlJobsInclude<ExtArgs> | null
-    where?: ConferenceCrawlJobsWhereInput
-    orderBy?: ConferenceCrawlJobsOrderByWithRelationInput | ConferenceCrawlJobsOrderByWithRelationInput[]
-    cursor?: ConferenceCrawlJobsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ConferenceCrawlJobsScalarFieldEnum | ConferenceCrawlJobsScalarFieldEnum[]
-  }
-
-  /**
    * Conferences.createdByUser
    */
   export type Conferences$createdByUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -12037,54 +11034,6 @@ export namespace Prisma {
      */
     include?: AdminsInclude<ExtArgs> | null
     where?: AdminsWhereInput
-  }
-
-  /**
-   * Conferences.feedbacks
-   */
-  export type Conferences$feedbacksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ConferenceFeedbacks
-     */
-    select?: ConferenceFeedbacksSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ConferenceFeedbacks
-     */
-    omit?: ConferenceFeedbacksOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ConferenceFeedbacksInclude<ExtArgs> | null
-    where?: ConferenceFeedbacksWhereInput
-    orderBy?: ConferenceFeedbacksOrderByWithRelationInput | ConferenceFeedbacksOrderByWithRelationInput[]
-    cursor?: ConferenceFeedbacksWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ConferenceFeedbacksScalarFieldEnum | ConferenceFeedbacksScalarFieldEnum[]
-  }
-
-  /**
-   * Conferences.blacklists
-   */
-  export type Conferences$blacklistsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ConferenceBlacklists
-     */
-    select?: ConferenceBlacklistsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ConferenceBlacklists
-     */
-    omit?: ConferenceBlacklistsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ConferenceBlacklistsInclude<ExtArgs> | null
-    where?: ConferenceBlacklistsWhereInput
-    orderBy?: ConferenceBlacklistsOrderByWithRelationInput | ConferenceBlacklistsOrderByWithRelationInput[]
-    cursor?: ConferenceBlacklistsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ConferenceBlacklistsScalarFieldEnum | ConferenceBlacklistsScalarFieldEnum[]
   }
 
   /**
@@ -12304,9 +11253,9 @@ export namespace Prisma {
     conferenceId?: boolean
     fieldOfResearchId?: boolean
     rankId?: boolean
+    belongsTo?: boolean | ConferencesDefaultArgs<ExtArgs>
     inFieldOfResearch?: boolean | FieldOfResearchsDefaultArgs<ExtArgs>
     byRank?: boolean | RanksDefaultArgs<ExtArgs>
-    belongsTo?: boolean | ConferencesDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["conferenceRanks"]>
 
   export type ConferenceRanksSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -12315,9 +11264,9 @@ export namespace Prisma {
     conferenceId?: boolean
     fieldOfResearchId?: boolean
     rankId?: boolean
+    belongsTo?: boolean | ConferencesDefaultArgs<ExtArgs>
     inFieldOfResearch?: boolean | FieldOfResearchsDefaultArgs<ExtArgs>
     byRank?: boolean | RanksDefaultArgs<ExtArgs>
-    belongsTo?: boolean | ConferencesDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["conferenceRanks"]>
 
   export type ConferenceRanksSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -12326,9 +11275,9 @@ export namespace Prisma {
     conferenceId?: boolean
     fieldOfResearchId?: boolean
     rankId?: boolean
+    belongsTo?: boolean | ConferencesDefaultArgs<ExtArgs>
     inFieldOfResearch?: boolean | FieldOfResearchsDefaultArgs<ExtArgs>
     byRank?: boolean | RanksDefaultArgs<ExtArgs>
-    belongsTo?: boolean | ConferencesDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["conferenceRanks"]>
 
   export type ConferenceRanksSelectScalar = {
@@ -12341,27 +11290,27 @@ export namespace Prisma {
 
   export type ConferenceRanksOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "year" | "conferenceId" | "fieldOfResearchId" | "rankId", ExtArgs["result"]["conferenceRanks"]>
   export type ConferenceRanksInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    belongsTo?: boolean | ConferencesDefaultArgs<ExtArgs>
     inFieldOfResearch?: boolean | FieldOfResearchsDefaultArgs<ExtArgs>
     byRank?: boolean | RanksDefaultArgs<ExtArgs>
-    belongsTo?: boolean | ConferencesDefaultArgs<ExtArgs>
   }
   export type ConferenceRanksIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    belongsTo?: boolean | ConferencesDefaultArgs<ExtArgs>
     inFieldOfResearch?: boolean | FieldOfResearchsDefaultArgs<ExtArgs>
     byRank?: boolean | RanksDefaultArgs<ExtArgs>
-    belongsTo?: boolean | ConferencesDefaultArgs<ExtArgs>
   }
   export type ConferenceRanksIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    belongsTo?: boolean | ConferencesDefaultArgs<ExtArgs>
     inFieldOfResearch?: boolean | FieldOfResearchsDefaultArgs<ExtArgs>
     byRank?: boolean | RanksDefaultArgs<ExtArgs>
-    belongsTo?: boolean | ConferencesDefaultArgs<ExtArgs>
   }
 
   export type $ConferenceRanksPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ConferenceRanks"
     objects: {
+      belongsTo: Prisma.$ConferencesPayload<ExtArgs>
       inFieldOfResearch: Prisma.$FieldOfResearchsPayload<ExtArgs>
       byRank: Prisma.$RanksPayload<ExtArgs>
-      belongsTo: Prisma.$ConferencesPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -12763,9 +11712,9 @@ export namespace Prisma {
    */
   export interface Prisma__ConferenceRanksClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    belongsTo<T extends ConferencesDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ConferencesDefaultArgs<ExtArgs>>): Prisma__ConferencesClient<$Result.GetResult<Prisma.$ConferencesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     inFieldOfResearch<T extends FieldOfResearchsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, FieldOfResearchsDefaultArgs<ExtArgs>>): Prisma__FieldOfResearchsClient<$Result.GetResult<Prisma.$FieldOfResearchsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     byRank<T extends RanksDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RanksDefaultArgs<ExtArgs>>): Prisma__RanksClient<$Result.GetResult<Prisma.$RanksPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    belongsTo<T extends ConferencesDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ConferencesDefaultArgs<ExtArgs>>): Prisma__ConferencesClient<$Result.GetResult<Prisma.$ConferencesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -13362,8 +12311,8 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     code?: boolean
-    journalRanks?: boolean | FieldOfResearchs$journalRanksArgs<ExtArgs>
     conferenceRanks?: boolean | FieldOfResearchs$conferenceRanksArgs<ExtArgs>
+    journalRanks?: boolean | FieldOfResearchs$journalRanksArgs<ExtArgs>
     _count?: boolean | FieldOfResearchsCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["fieldOfResearchs"]>
 
@@ -13387,8 +12336,8 @@ export namespace Prisma {
 
   export type FieldOfResearchsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "code", ExtArgs["result"]["fieldOfResearchs"]>
   export type FieldOfResearchsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    journalRanks?: boolean | FieldOfResearchs$journalRanksArgs<ExtArgs>
     conferenceRanks?: boolean | FieldOfResearchs$conferenceRanksArgs<ExtArgs>
+    journalRanks?: boolean | FieldOfResearchs$journalRanksArgs<ExtArgs>
     _count?: boolean | FieldOfResearchsCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type FieldOfResearchsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -13397,8 +12346,8 @@ export namespace Prisma {
   export type $FieldOfResearchsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "FieldOfResearchs"
     objects: {
-      journalRanks: Prisma.$JournalRanksPayload<ExtArgs>[]
       conferenceRanks: Prisma.$ConferenceRanksPayload<ExtArgs>[]
+      journalRanks: Prisma.$JournalRanksPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -13798,8 +12747,8 @@ export namespace Prisma {
    */
   export interface Prisma__FieldOfResearchsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    journalRanks<T extends FieldOfResearchs$journalRanksArgs<ExtArgs> = {}>(args?: Subset<T, FieldOfResearchs$journalRanksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JournalRanksPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     conferenceRanks<T extends FieldOfResearchs$conferenceRanksArgs<ExtArgs> = {}>(args?: Subset<T, FieldOfResearchs$conferenceRanksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceRanksPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    journalRanks<T extends FieldOfResearchs$journalRanksArgs<ExtArgs> = {}>(args?: Subset<T, FieldOfResearchs$journalRanksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JournalRanksPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -14220,30 +13169,6 @@ export namespace Prisma {
   }
 
   /**
-   * FieldOfResearchs.journalRanks
-   */
-  export type FieldOfResearchs$journalRanksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the JournalRanks
-     */
-    select?: JournalRanksSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the JournalRanks
-     */
-    omit?: JournalRanksOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: JournalRanksInclude<ExtArgs> | null
-    where?: JournalRanksWhereInput
-    orderBy?: JournalRanksOrderByWithRelationInput | JournalRanksOrderByWithRelationInput[]
-    cursor?: JournalRanksWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: JournalRanksScalarFieldEnum | JournalRanksScalarFieldEnum[]
-  }
-
-  /**
    * FieldOfResearchs.conferenceRanks
    */
   export type FieldOfResearchs$conferenceRanksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -14265,6 +13190,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ConferenceRanksScalarFieldEnum | ConferenceRanksScalarFieldEnum[]
+  }
+
+  /**
+   * FieldOfResearchs.journalRanks
+   */
+  export type FieldOfResearchs$journalRanksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JournalRanks
+     */
+    select?: JournalRanksSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JournalRanks
+     */
+    omit?: JournalRanksOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JournalRanksInclude<ExtArgs> | null
+    where?: JournalRanksWhereInput
+    orderBy?: JournalRanksOrderByWithRelationInput | JournalRanksOrderByWithRelationInput[]
+    cursor?: JournalRanksWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: JournalRanksScalarFieldEnum | JournalRanksScalarFieldEnum[]
   }
 
   /**
@@ -16615,24 +15564,24 @@ export namespace Prisma {
     id?: boolean
     journalId?: boolean
     topicId?: boolean
-    belongsToTopics?: boolean | TopicsDefaultArgs<ExtArgs>
     inJournals?: boolean | JournalsDefaultArgs<ExtArgs>
+    belongsToTopics?: boolean | TopicsDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["journalTopics"]>
 
   export type JournalTopicsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     journalId?: boolean
     topicId?: boolean
-    belongsToTopics?: boolean | TopicsDefaultArgs<ExtArgs>
     inJournals?: boolean | JournalsDefaultArgs<ExtArgs>
+    belongsToTopics?: boolean | TopicsDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["journalTopics"]>
 
   export type JournalTopicsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     journalId?: boolean
     topicId?: boolean
-    belongsToTopics?: boolean | TopicsDefaultArgs<ExtArgs>
     inJournals?: boolean | JournalsDefaultArgs<ExtArgs>
+    belongsToTopics?: boolean | TopicsDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["journalTopics"]>
 
   export type JournalTopicsSelectScalar = {
@@ -16643,23 +15592,23 @@ export namespace Prisma {
 
   export type JournalTopicsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "journalId" | "topicId", ExtArgs["result"]["journalTopics"]>
   export type JournalTopicsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    belongsToTopics?: boolean | TopicsDefaultArgs<ExtArgs>
     inJournals?: boolean | JournalsDefaultArgs<ExtArgs>
+    belongsToTopics?: boolean | TopicsDefaultArgs<ExtArgs>
   }
   export type JournalTopicsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    belongsToTopics?: boolean | TopicsDefaultArgs<ExtArgs>
     inJournals?: boolean | JournalsDefaultArgs<ExtArgs>
+    belongsToTopics?: boolean | TopicsDefaultArgs<ExtArgs>
   }
   export type JournalTopicsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    belongsToTopics?: boolean | TopicsDefaultArgs<ExtArgs>
     inJournals?: boolean | JournalsDefaultArgs<ExtArgs>
+    belongsToTopics?: boolean | TopicsDefaultArgs<ExtArgs>
   }
 
   export type $JournalTopicsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "JournalTopics"
     objects: {
-      belongsToTopics: Prisma.$TopicsPayload<ExtArgs>
       inJournals: Prisma.$JournalsPayload<ExtArgs>
+      belongsToTopics: Prisma.$TopicsPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -17059,8 +16008,8 @@ export namespace Prisma {
    */
   export interface Prisma__JournalTopicsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    belongsToTopics<T extends TopicsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TopicsDefaultArgs<ExtArgs>>): Prisma__TopicsClient<$Result.GetResult<Prisma.$TopicsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     inJournals<T extends JournalsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, JournalsDefaultArgs<ExtArgs>>): Prisma__JournalsClient<$Result.GetResult<Prisma.$JournalsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    belongsToTopics<T extends TopicsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TopicsDefaultArgs<ExtArgs>>): Prisma__TopicsClient<$Result.GetResult<Prisma.$TopicsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -17706,8 +16655,8 @@ export namespace Prisma {
     fieldOfResearchId?: boolean
     rankId?: boolean
     inFieldOfResearch?: boolean | FieldOfResearchsDefaultArgs<ExtArgs>
-    byRank?: boolean | RanksDefaultArgs<ExtArgs>
     belongsTo?: boolean | JournalsDefaultArgs<ExtArgs>
+    byRank?: boolean | RanksDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["journalRanks"]>
 
   export type JournalRanksSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -17717,8 +16666,8 @@ export namespace Prisma {
     fieldOfResearchId?: boolean
     rankId?: boolean
     inFieldOfResearch?: boolean | FieldOfResearchsDefaultArgs<ExtArgs>
-    byRank?: boolean | RanksDefaultArgs<ExtArgs>
     belongsTo?: boolean | JournalsDefaultArgs<ExtArgs>
+    byRank?: boolean | RanksDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["journalRanks"]>
 
   export type JournalRanksSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -17728,8 +16677,8 @@ export namespace Prisma {
     fieldOfResearchId?: boolean
     rankId?: boolean
     inFieldOfResearch?: boolean | FieldOfResearchsDefaultArgs<ExtArgs>
-    byRank?: boolean | RanksDefaultArgs<ExtArgs>
     belongsTo?: boolean | JournalsDefaultArgs<ExtArgs>
+    byRank?: boolean | RanksDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["journalRanks"]>
 
   export type JournalRanksSelectScalar = {
@@ -17743,26 +16692,26 @@ export namespace Prisma {
   export type JournalRanksOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "year" | "journalId" | "fieldOfResearchId" | "rankId", ExtArgs["result"]["journalRanks"]>
   export type JournalRanksInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     inFieldOfResearch?: boolean | FieldOfResearchsDefaultArgs<ExtArgs>
-    byRank?: boolean | RanksDefaultArgs<ExtArgs>
     belongsTo?: boolean | JournalsDefaultArgs<ExtArgs>
+    byRank?: boolean | RanksDefaultArgs<ExtArgs>
   }
   export type JournalRanksIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     inFieldOfResearch?: boolean | FieldOfResearchsDefaultArgs<ExtArgs>
-    byRank?: boolean | RanksDefaultArgs<ExtArgs>
     belongsTo?: boolean | JournalsDefaultArgs<ExtArgs>
+    byRank?: boolean | RanksDefaultArgs<ExtArgs>
   }
   export type JournalRanksIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     inFieldOfResearch?: boolean | FieldOfResearchsDefaultArgs<ExtArgs>
-    byRank?: boolean | RanksDefaultArgs<ExtArgs>
     belongsTo?: boolean | JournalsDefaultArgs<ExtArgs>
+    byRank?: boolean | RanksDefaultArgs<ExtArgs>
   }
 
   export type $JournalRanksPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "JournalRanks"
     objects: {
       inFieldOfResearch: Prisma.$FieldOfResearchsPayload<ExtArgs>
-      byRank: Prisma.$RanksPayload<ExtArgs>
       belongsTo: Prisma.$JournalsPayload<ExtArgs>
+      byRank: Prisma.$RanksPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -18165,8 +17114,8 @@ export namespace Prisma {
   export interface Prisma__JournalRanksClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     inFieldOfResearch<T extends FieldOfResearchsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, FieldOfResearchsDefaultArgs<ExtArgs>>): Prisma__FieldOfResearchsClient<$Result.GetResult<Prisma.$FieldOfResearchsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    byRank<T extends RanksDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RanksDefaultArgs<ExtArgs>>): Prisma__RanksClient<$Result.GetResult<Prisma.$RanksPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     belongsTo<T extends JournalsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, JournalsDefaultArgs<ExtArgs>>): Prisma__JournalsClient<$Result.GetResult<Prisma.$JournalsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    byRank<T extends RanksDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RanksDefaultArgs<ExtArgs>>): Prisma__RanksClient<$Result.GetResult<Prisma.$RanksPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -18644,7 +17593,8 @@ export namespace Prisma {
     nation: string | null
     scope: string | null
     emailSubmission: string | null
-    creator: string | null
+    creatorId: string | null
+    adminId: string | null
   }
 
   export type JournalsMaxAggregateOutputType = {
@@ -18656,7 +17606,8 @@ export namespace Prisma {
     nation: string | null
     scope: string | null
     emailSubmission: string | null
-    creator: string | null
+    creatorId: string | null
+    adminId: string | null
   }
 
   export type JournalsCountAggregateOutputType = {
@@ -18668,7 +17619,8 @@ export namespace Prisma {
     nation: number
     scope: number
     emailSubmission: number
-    creator: number
+    creatorId: number
+    adminId: number
     _all: number
   }
 
@@ -18690,7 +17642,8 @@ export namespace Prisma {
     nation?: true
     scope?: true
     emailSubmission?: true
-    creator?: true
+    creatorId?: true
+    adminId?: true
   }
 
   export type JournalsMaxAggregateInputType = {
@@ -18702,7 +17655,8 @@ export namespace Prisma {
     nation?: true
     scope?: true
     emailSubmission?: true
-    creator?: true
+    creatorId?: true
+    adminId?: true
   }
 
   export type JournalsCountAggregateInputType = {
@@ -18714,7 +17668,8 @@ export namespace Prisma {
     nation?: true
     scope?: true
     emailSubmission?: true
-    creator?: true
+    creatorId?: true
+    adminId?: true
     _all?: true
   }
 
@@ -18813,7 +17768,8 @@ export namespace Prisma {
     nation: string
     scope: string
     emailSubmission: string
-    creator: string
+    creatorId: string | null
+    adminId: string | null
     _count: JournalsCountAggregateOutputType | null
     _avg: JournalsAvgAggregateOutputType | null
     _sum: JournalsSumAggregateOutputType | null
@@ -18844,13 +17800,15 @@ export namespace Prisma {
     nation?: boolean
     scope?: boolean
     emailSubmission?: boolean
-    creator?: boolean
-    topics?: boolean | Journals$topicsArgs<ExtArgs>
-    journalRanks?: boolean | Journals$journalRanksArgs<ExtArgs>
-    journalLikes?: boolean | Journals$journalLikesArgs<ExtArgs>
-    journalFollows?: boolean | Journals$journalFollowsArgs<ExtArgs>
+    creatorId?: boolean
+    adminId?: boolean
     crawlJobs?: boolean | Journals$crawlJobsArgs<ExtArgs>
-    createdByUser?: boolean | UsersDefaultArgs<ExtArgs>
+    journalFollows?: boolean | Journals$journalFollowsArgs<ExtArgs>
+    journalLikes?: boolean | Journals$journalLikesArgs<ExtArgs>
+    journalRanks?: boolean | Journals$journalRanksArgs<ExtArgs>
+    topics?: boolean | Journals$topicsArgs<ExtArgs>
+    createdByUser?: boolean | Journals$createdByUserArgs<ExtArgs>
+    createByAdmin?: boolean | Journals$createByAdminArgs<ExtArgs>
     _count?: boolean | JournalsCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["journals"]>
 
@@ -18863,8 +17821,10 @@ export namespace Prisma {
     nation?: boolean
     scope?: boolean
     emailSubmission?: boolean
-    creator?: boolean
-    createdByUser?: boolean | UsersDefaultArgs<ExtArgs>
+    creatorId?: boolean
+    adminId?: boolean
+    createdByUser?: boolean | Journals$createdByUserArgs<ExtArgs>
+    createByAdmin?: boolean | Journals$createByAdminArgs<ExtArgs>
   }, ExtArgs["result"]["journals"]>
 
   export type JournalsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -18876,8 +17836,10 @@ export namespace Prisma {
     nation?: boolean
     scope?: boolean
     emailSubmission?: boolean
-    creator?: boolean
-    createdByUser?: boolean | UsersDefaultArgs<ExtArgs>
+    creatorId?: boolean
+    adminId?: boolean
+    createdByUser?: boolean | Journals$createdByUserArgs<ExtArgs>
+    createByAdmin?: boolean | Journals$createByAdminArgs<ExtArgs>
   }, ExtArgs["result"]["journals"]>
 
   export type JournalsSelectScalar = {
@@ -18889,35 +17851,40 @@ export namespace Prisma {
     nation?: boolean
     scope?: boolean
     emailSubmission?: boolean
-    creator?: boolean
+    creatorId?: boolean
+    adminId?: boolean
   }
 
-  export type JournalsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "issn" | "hIndex" | "publisher" | "nation" | "scope" | "emailSubmission" | "creator", ExtArgs["result"]["journals"]>
+  export type JournalsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "issn" | "hIndex" | "publisher" | "nation" | "scope" | "emailSubmission" | "creatorId" | "adminId", ExtArgs["result"]["journals"]>
   export type JournalsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    topics?: boolean | Journals$topicsArgs<ExtArgs>
-    journalRanks?: boolean | Journals$journalRanksArgs<ExtArgs>
-    journalLikes?: boolean | Journals$journalLikesArgs<ExtArgs>
-    journalFollows?: boolean | Journals$journalFollowsArgs<ExtArgs>
     crawlJobs?: boolean | Journals$crawlJobsArgs<ExtArgs>
-    createdByUser?: boolean | UsersDefaultArgs<ExtArgs>
+    journalFollows?: boolean | Journals$journalFollowsArgs<ExtArgs>
+    journalLikes?: boolean | Journals$journalLikesArgs<ExtArgs>
+    journalRanks?: boolean | Journals$journalRanksArgs<ExtArgs>
+    topics?: boolean | Journals$topicsArgs<ExtArgs>
+    createdByUser?: boolean | Journals$createdByUserArgs<ExtArgs>
+    createByAdmin?: boolean | Journals$createByAdminArgs<ExtArgs>
     _count?: boolean | JournalsCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type JournalsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    createdByUser?: boolean | UsersDefaultArgs<ExtArgs>
+    createdByUser?: boolean | Journals$createdByUserArgs<ExtArgs>
+    createByAdmin?: boolean | Journals$createByAdminArgs<ExtArgs>
   }
   export type JournalsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    createdByUser?: boolean | UsersDefaultArgs<ExtArgs>
+    createdByUser?: boolean | Journals$createdByUserArgs<ExtArgs>
+    createByAdmin?: boolean | Journals$createByAdminArgs<ExtArgs>
   }
 
   export type $JournalsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Journals"
     objects: {
-      topics: Prisma.$JournalTopicsPayload<ExtArgs>[]
-      journalRanks: Prisma.$JournalRanksPayload<ExtArgs>[]
-      journalLikes: Prisma.$JournalLikesPayload<ExtArgs>[]
-      journalFollows: Prisma.$JournalFollowsPayload<ExtArgs>[]
       crawlJobs: Prisma.$JournalCrawlJobsPayload<ExtArgs>[]
-      createdByUser: Prisma.$UsersPayload<ExtArgs>
+      journalFollows: Prisma.$JournalFollowsPayload<ExtArgs>[]
+      journalLikes: Prisma.$JournalLikesPayload<ExtArgs>[]
+      journalRanks: Prisma.$JournalRanksPayload<ExtArgs>[]
+      topics: Prisma.$JournalTopicsPayload<ExtArgs>[]
+      createdByUser: Prisma.$UsersPayload<ExtArgs> | null
+      createByAdmin: Prisma.$AdminsPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -18928,7 +17895,8 @@ export namespace Prisma {
       nation: string
       scope: string
       emailSubmission: string
-      creator: string
+      creatorId: string | null
+      adminId: string | null
     }, ExtArgs["result"]["journals"]>
     composites: {}
   }
@@ -19323,12 +18291,13 @@ export namespace Prisma {
    */
   export interface Prisma__JournalsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    topics<T extends Journals$topicsArgs<ExtArgs> = {}>(args?: Subset<T, Journals$topicsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JournalTopicsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    journalRanks<T extends Journals$journalRanksArgs<ExtArgs> = {}>(args?: Subset<T, Journals$journalRanksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JournalRanksPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    journalLikes<T extends Journals$journalLikesArgs<ExtArgs> = {}>(args?: Subset<T, Journals$journalLikesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JournalLikesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    journalFollows<T extends Journals$journalFollowsArgs<ExtArgs> = {}>(args?: Subset<T, Journals$journalFollowsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JournalFollowsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     crawlJobs<T extends Journals$crawlJobsArgs<ExtArgs> = {}>(args?: Subset<T, Journals$crawlJobsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JournalCrawlJobsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    createdByUser<T extends UsersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsersDefaultArgs<ExtArgs>>): Prisma__UsersClient<$Result.GetResult<Prisma.$UsersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    journalFollows<T extends Journals$journalFollowsArgs<ExtArgs> = {}>(args?: Subset<T, Journals$journalFollowsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JournalFollowsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    journalLikes<T extends Journals$journalLikesArgs<ExtArgs> = {}>(args?: Subset<T, Journals$journalLikesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JournalLikesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    journalRanks<T extends Journals$journalRanksArgs<ExtArgs> = {}>(args?: Subset<T, Journals$journalRanksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JournalRanksPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    topics<T extends Journals$topicsArgs<ExtArgs> = {}>(args?: Subset<T, Journals$topicsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JournalTopicsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    createdByUser<T extends Journals$createdByUserArgs<ExtArgs> = {}>(args?: Subset<T, Journals$createdByUserArgs<ExtArgs>>): Prisma__UsersClient<$Result.GetResult<Prisma.$UsersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    createByAdmin<T extends Journals$createByAdminArgs<ExtArgs> = {}>(args?: Subset<T, Journals$createByAdminArgs<ExtArgs>>): Prisma__AdminsClient<$Result.GetResult<Prisma.$AdminsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -19366,7 +18335,8 @@ export namespace Prisma {
     readonly nation: FieldRef<"Journals", 'String'>
     readonly scope: FieldRef<"Journals", 'String'>
     readonly emailSubmission: FieldRef<"Journals", 'String'>
-    readonly creator: FieldRef<"Journals", 'String'>
+    readonly creatorId: FieldRef<"Journals", 'String'>
+    readonly adminId: FieldRef<"Journals", 'String'>
   }
     
 
@@ -19763,75 +18733,27 @@ export namespace Prisma {
   }
 
   /**
-   * Journals.topics
+   * Journals.crawlJobs
    */
-  export type Journals$topicsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Journals$crawlJobsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the JournalTopics
+     * Select specific fields to fetch from the JournalCrawlJobs
      */
-    select?: JournalTopicsSelect<ExtArgs> | null
+    select?: JournalCrawlJobsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the JournalTopics
+     * Omit specific fields from the JournalCrawlJobs
      */
-    omit?: JournalTopicsOmit<ExtArgs> | null
+    omit?: JournalCrawlJobsOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: JournalTopicsInclude<ExtArgs> | null
-    where?: JournalTopicsWhereInput
-    orderBy?: JournalTopicsOrderByWithRelationInput | JournalTopicsOrderByWithRelationInput[]
-    cursor?: JournalTopicsWhereUniqueInput
+    include?: JournalCrawlJobsInclude<ExtArgs> | null
+    where?: JournalCrawlJobsWhereInput
+    orderBy?: JournalCrawlJobsOrderByWithRelationInput | JournalCrawlJobsOrderByWithRelationInput[]
+    cursor?: JournalCrawlJobsWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: JournalTopicsScalarFieldEnum | JournalTopicsScalarFieldEnum[]
-  }
-
-  /**
-   * Journals.journalRanks
-   */
-  export type Journals$journalRanksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the JournalRanks
-     */
-    select?: JournalRanksSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the JournalRanks
-     */
-    omit?: JournalRanksOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: JournalRanksInclude<ExtArgs> | null
-    where?: JournalRanksWhereInput
-    orderBy?: JournalRanksOrderByWithRelationInput | JournalRanksOrderByWithRelationInput[]
-    cursor?: JournalRanksWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: JournalRanksScalarFieldEnum | JournalRanksScalarFieldEnum[]
-  }
-
-  /**
-   * Journals.journalLikes
-   */
-  export type Journals$journalLikesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the JournalLikes
-     */
-    select?: JournalLikesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the JournalLikes
-     */
-    omit?: JournalLikesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: JournalLikesInclude<ExtArgs> | null
-    where?: JournalLikesWhereInput
-    orderBy?: JournalLikesOrderByWithRelationInput | JournalLikesOrderByWithRelationInput[]
-    cursor?: JournalLikesWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: JournalLikesScalarFieldEnum | JournalLikesScalarFieldEnum[]
+    distinct?: JournalCrawlJobsScalarFieldEnum | JournalCrawlJobsScalarFieldEnum[]
   }
 
   /**
@@ -19859,27 +18781,113 @@ export namespace Prisma {
   }
 
   /**
-   * Journals.crawlJobs
+   * Journals.journalLikes
    */
-  export type Journals$crawlJobsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Journals$journalLikesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the JournalCrawlJobs
+     * Select specific fields to fetch from the JournalLikes
      */
-    select?: JournalCrawlJobsSelect<ExtArgs> | null
+    select?: JournalLikesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the JournalCrawlJobs
+     * Omit specific fields from the JournalLikes
      */
-    omit?: JournalCrawlJobsOmit<ExtArgs> | null
+    omit?: JournalLikesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: JournalCrawlJobsInclude<ExtArgs> | null
-    where?: JournalCrawlJobsWhereInput
-    orderBy?: JournalCrawlJobsOrderByWithRelationInput | JournalCrawlJobsOrderByWithRelationInput[]
-    cursor?: JournalCrawlJobsWhereUniqueInput
+    include?: JournalLikesInclude<ExtArgs> | null
+    where?: JournalLikesWhereInput
+    orderBy?: JournalLikesOrderByWithRelationInput | JournalLikesOrderByWithRelationInput[]
+    cursor?: JournalLikesWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: JournalCrawlJobsScalarFieldEnum | JournalCrawlJobsScalarFieldEnum[]
+    distinct?: JournalLikesScalarFieldEnum | JournalLikesScalarFieldEnum[]
+  }
+
+  /**
+   * Journals.journalRanks
+   */
+  export type Journals$journalRanksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JournalRanks
+     */
+    select?: JournalRanksSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JournalRanks
+     */
+    omit?: JournalRanksOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JournalRanksInclude<ExtArgs> | null
+    where?: JournalRanksWhereInput
+    orderBy?: JournalRanksOrderByWithRelationInput | JournalRanksOrderByWithRelationInput[]
+    cursor?: JournalRanksWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: JournalRanksScalarFieldEnum | JournalRanksScalarFieldEnum[]
+  }
+
+  /**
+   * Journals.topics
+   */
+  export type Journals$topicsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JournalTopics
+     */
+    select?: JournalTopicsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JournalTopics
+     */
+    omit?: JournalTopicsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JournalTopicsInclude<ExtArgs> | null
+    where?: JournalTopicsWhereInput
+    orderBy?: JournalTopicsOrderByWithRelationInput | JournalTopicsOrderByWithRelationInput[]
+    cursor?: JournalTopicsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: JournalTopicsScalarFieldEnum | JournalTopicsScalarFieldEnum[]
+  }
+
+  /**
+   * Journals.createdByUser
+   */
+  export type Journals$createdByUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Users
+     */
+    select?: UsersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Users
+     */
+    omit?: UsersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsersInclude<ExtArgs> | null
+    where?: UsersWhereInput
+  }
+
+  /**
+   * Journals.createByAdmin
+   */
+  export type Journals$createByAdminArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Admins
+     */
+    select?: AdminsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Admins
+     */
+    omit?: AdminsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdminsInclude<ExtArgs> | null
+    where?: AdminsWhereInput
   }
 
   /**
@@ -26569,18 +25577,18 @@ export namespace Prisma {
     background?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    blacklists?: boolean | Users$blacklistsArgs<ExtArgs>
+    calendar?: boolean | Users$calendarArgs<ExtArgs>
+    feedbacks?: boolean | Users$feedbacksArgs<ExtArgs>
     followConference?: boolean | Users$followConferenceArgs<ExtArgs>
     likes?: boolean | Users$likesArgs<ExtArgs>
-    calendar?: boolean | Users$calendarArgs<ExtArgs>
     createdConferences?: boolean | Users$createdConferencesArgs<ExtArgs>
-    interestedTopics?: boolean | Users$interestedTopicsArgs<ExtArgs>
-    createdJournals?: boolean | Users$createdJournalsArgs<ExtArgs>
-    journalLikes?: boolean | Users$journalLikesArgs<ExtArgs>
     journalFollows?: boolean | Users$journalFollowsArgs<ExtArgs>
-    feedbacks?: boolean | Users$feedbacksArgs<ExtArgs>
-    blacklists?: boolean | Users$blacklistsArgs<ExtArgs>
-    notifications?: boolean | Users$notificationsArgs<ExtArgs>
+    journalLikes?: boolean | Users$journalLikesArgs<ExtArgs>
+    createdJournals?: boolean | Users$createdJournalsArgs<ExtArgs>
     notificationSettings?: boolean | Users$notificationSettingsArgs<ExtArgs>
+    notifications?: boolean | Users$notificationsArgs<ExtArgs>
+    interestedTopics?: boolean | Users$interestedTopicsArgs<ExtArgs>
     verification?: boolean | Users$verificationArgs<ExtArgs>
     _count?: boolean | UsersCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["users"]>
@@ -26629,18 +25637,18 @@ export namespace Prisma {
 
   export type UsersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "firstName" | "lastName" | "dob" | "avatar" | "aboutMe" | "background" | "createdAt" | "updatedAt", ExtArgs["result"]["users"]>
   export type UsersInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    blacklists?: boolean | Users$blacklistsArgs<ExtArgs>
+    calendar?: boolean | Users$calendarArgs<ExtArgs>
+    feedbacks?: boolean | Users$feedbacksArgs<ExtArgs>
     followConference?: boolean | Users$followConferenceArgs<ExtArgs>
     likes?: boolean | Users$likesArgs<ExtArgs>
-    calendar?: boolean | Users$calendarArgs<ExtArgs>
     createdConferences?: boolean | Users$createdConferencesArgs<ExtArgs>
-    interestedTopics?: boolean | Users$interestedTopicsArgs<ExtArgs>
-    createdJournals?: boolean | Users$createdJournalsArgs<ExtArgs>
-    journalLikes?: boolean | Users$journalLikesArgs<ExtArgs>
     journalFollows?: boolean | Users$journalFollowsArgs<ExtArgs>
-    feedbacks?: boolean | Users$feedbacksArgs<ExtArgs>
-    blacklists?: boolean | Users$blacklistsArgs<ExtArgs>
-    notifications?: boolean | Users$notificationsArgs<ExtArgs>
+    journalLikes?: boolean | Users$journalLikesArgs<ExtArgs>
+    createdJournals?: boolean | Users$createdJournalsArgs<ExtArgs>
     notificationSettings?: boolean | Users$notificationSettingsArgs<ExtArgs>
+    notifications?: boolean | Users$notificationsArgs<ExtArgs>
+    interestedTopics?: boolean | Users$interestedTopicsArgs<ExtArgs>
     verification?: boolean | Users$verificationArgs<ExtArgs>
     _count?: boolean | UsersCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -26650,18 +25658,18 @@ export namespace Prisma {
   export type $UsersPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Users"
     objects: {
+      blacklists: Prisma.$ConferenceBlacklistsPayload<ExtArgs>[]
+      calendar: Prisma.$ConferenceCalendarsPayload<ExtArgs>[]
+      feedbacks: Prisma.$ConferenceFeedbacksPayload<ExtArgs>[]
       followConference: Prisma.$ConferenceFollowsPayload<ExtArgs>[]
       likes: Prisma.$ConferenceLikesPayload<ExtArgs>[]
-      calendar: Prisma.$ConferenceCalendarsPayload<ExtArgs>[]
       createdConferences: Prisma.$ConferencesPayload<ExtArgs>[]
-      interestedTopics: Prisma.$TopicUserInterestedsPayload<ExtArgs>[]
-      createdJournals: Prisma.$JournalsPayload<ExtArgs>[]
-      journalLikes: Prisma.$JournalLikesPayload<ExtArgs>[]
       journalFollows: Prisma.$JournalFollowsPayload<ExtArgs>[]
-      feedbacks: Prisma.$ConferenceFeedbacksPayload<ExtArgs>[]
-      blacklists: Prisma.$ConferenceBlacklistsPayload<ExtArgs>[]
-      notifications: Prisma.$NotificationsPayload<ExtArgs>[]
+      journalLikes: Prisma.$JournalLikesPayload<ExtArgs>[]
+      createdJournals: Prisma.$JournalsPayload<ExtArgs>[]
       notificationSettings: Prisma.$NotificationSettingsPayload<ExtArgs>[]
+      notifications: Prisma.$NotificationsPayload<ExtArgs>[]
+      interestedTopics: Prisma.$TopicUserInterestedsPayload<ExtArgs>[]
       verification: Prisma.$UserVerificationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -27070,18 +26078,18 @@ export namespace Prisma {
    */
   export interface Prisma__UsersClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    blacklists<T extends Users$blacklistsArgs<ExtArgs> = {}>(args?: Subset<T, Users$blacklistsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceBlacklistsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    calendar<T extends Users$calendarArgs<ExtArgs> = {}>(args?: Subset<T, Users$calendarArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceCalendarsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    feedbacks<T extends Users$feedbacksArgs<ExtArgs> = {}>(args?: Subset<T, Users$feedbacksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceFeedbacksPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     followConference<T extends Users$followConferenceArgs<ExtArgs> = {}>(args?: Subset<T, Users$followConferenceArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceFollowsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     likes<T extends Users$likesArgs<ExtArgs> = {}>(args?: Subset<T, Users$likesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceLikesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    calendar<T extends Users$calendarArgs<ExtArgs> = {}>(args?: Subset<T, Users$calendarArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceCalendarsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     createdConferences<T extends Users$createdConferencesArgs<ExtArgs> = {}>(args?: Subset<T, Users$createdConferencesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferencesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    interestedTopics<T extends Users$interestedTopicsArgs<ExtArgs> = {}>(args?: Subset<T, Users$interestedTopicsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TopicUserInterestedsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    createdJournals<T extends Users$createdJournalsArgs<ExtArgs> = {}>(args?: Subset<T, Users$createdJournalsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JournalsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    journalLikes<T extends Users$journalLikesArgs<ExtArgs> = {}>(args?: Subset<T, Users$journalLikesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JournalLikesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     journalFollows<T extends Users$journalFollowsArgs<ExtArgs> = {}>(args?: Subset<T, Users$journalFollowsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JournalFollowsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    feedbacks<T extends Users$feedbacksArgs<ExtArgs> = {}>(args?: Subset<T, Users$feedbacksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceFeedbacksPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    blacklists<T extends Users$blacklistsArgs<ExtArgs> = {}>(args?: Subset<T, Users$blacklistsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceBlacklistsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    notifications<T extends Users$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, Users$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    journalLikes<T extends Users$journalLikesArgs<ExtArgs> = {}>(args?: Subset<T, Users$journalLikesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JournalLikesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    createdJournals<T extends Users$createdJournalsArgs<ExtArgs> = {}>(args?: Subset<T, Users$createdJournalsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JournalsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notificationSettings<T extends Users$notificationSettingsArgs<ExtArgs> = {}>(args?: Subset<T, Users$notificationSettingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationSettingsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    notifications<T extends Users$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, Users$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    interestedTopics<T extends Users$interestedTopicsArgs<ExtArgs> = {}>(args?: Subset<T, Users$interestedTopicsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TopicUserInterestedsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     verification<T extends Users$verificationArgs<ExtArgs> = {}>(args?: Subset<T, Users$verificationArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserVerificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -27511,6 +26519,78 @@ export namespace Prisma {
   }
 
   /**
+   * Users.blacklists
+   */
+  export type Users$blacklistsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConferenceBlacklists
+     */
+    select?: ConferenceBlacklistsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConferenceBlacklists
+     */
+    omit?: ConferenceBlacklistsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConferenceBlacklistsInclude<ExtArgs> | null
+    where?: ConferenceBlacklistsWhereInput
+    orderBy?: ConferenceBlacklistsOrderByWithRelationInput | ConferenceBlacklistsOrderByWithRelationInput[]
+    cursor?: ConferenceBlacklistsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ConferenceBlacklistsScalarFieldEnum | ConferenceBlacklistsScalarFieldEnum[]
+  }
+
+  /**
+   * Users.calendar
+   */
+  export type Users$calendarArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConferenceCalendars
+     */
+    select?: ConferenceCalendarsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConferenceCalendars
+     */
+    omit?: ConferenceCalendarsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConferenceCalendarsInclude<ExtArgs> | null
+    where?: ConferenceCalendarsWhereInput
+    orderBy?: ConferenceCalendarsOrderByWithRelationInput | ConferenceCalendarsOrderByWithRelationInput[]
+    cursor?: ConferenceCalendarsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ConferenceCalendarsScalarFieldEnum | ConferenceCalendarsScalarFieldEnum[]
+  }
+
+  /**
+   * Users.feedbacks
+   */
+  export type Users$feedbacksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConferenceFeedbacks
+     */
+    select?: ConferenceFeedbacksSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConferenceFeedbacks
+     */
+    omit?: ConferenceFeedbacksOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConferenceFeedbacksInclude<ExtArgs> | null
+    where?: ConferenceFeedbacksWhereInput
+    orderBy?: ConferenceFeedbacksOrderByWithRelationInput | ConferenceFeedbacksOrderByWithRelationInput[]
+    cursor?: ConferenceFeedbacksWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ConferenceFeedbacksScalarFieldEnum | ConferenceFeedbacksScalarFieldEnum[]
+  }
+
+  /**
    * Users.followConference
    */
   export type Users$followConferenceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -27559,30 +26639,6 @@ export namespace Prisma {
   }
 
   /**
-   * Users.calendar
-   */
-  export type Users$calendarArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ConferenceCalendars
-     */
-    select?: ConferenceCalendarsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ConferenceCalendars
-     */
-    omit?: ConferenceCalendarsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ConferenceCalendarsInclude<ExtArgs> | null
-    where?: ConferenceCalendarsWhereInput
-    orderBy?: ConferenceCalendarsOrderByWithRelationInput | ConferenceCalendarsOrderByWithRelationInput[]
-    cursor?: ConferenceCalendarsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ConferenceCalendarsScalarFieldEnum | ConferenceCalendarsScalarFieldEnum[]
-  }
-
-  /**
    * Users.createdConferences
    */
   export type Users$createdConferencesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -27604,78 +26660,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ConferencesScalarFieldEnum | ConferencesScalarFieldEnum[]
-  }
-
-  /**
-   * Users.interestedTopics
-   */
-  export type Users$interestedTopicsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TopicUserInteresteds
-     */
-    select?: TopicUserInterestedsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the TopicUserInteresteds
-     */
-    omit?: TopicUserInterestedsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TopicUserInterestedsInclude<ExtArgs> | null
-    where?: TopicUserInterestedsWhereInput
-    orderBy?: TopicUserInterestedsOrderByWithRelationInput | TopicUserInterestedsOrderByWithRelationInput[]
-    cursor?: TopicUserInterestedsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: TopicUserInterestedsScalarFieldEnum | TopicUserInterestedsScalarFieldEnum[]
-  }
-
-  /**
-   * Users.createdJournals
-   */
-  export type Users$createdJournalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Journals
-     */
-    select?: JournalsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Journals
-     */
-    omit?: JournalsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: JournalsInclude<ExtArgs> | null
-    where?: JournalsWhereInput
-    orderBy?: JournalsOrderByWithRelationInput | JournalsOrderByWithRelationInput[]
-    cursor?: JournalsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: JournalsScalarFieldEnum | JournalsScalarFieldEnum[]
-  }
-
-  /**
-   * Users.journalLikes
-   */
-  export type Users$journalLikesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the JournalLikes
-     */
-    select?: JournalLikesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the JournalLikes
-     */
-    omit?: JournalLikesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: JournalLikesInclude<ExtArgs> | null
-    where?: JournalLikesWhereInput
-    orderBy?: JournalLikesOrderByWithRelationInput | JournalLikesOrderByWithRelationInput[]
-    cursor?: JournalLikesWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: JournalLikesScalarFieldEnum | JournalLikesScalarFieldEnum[]
   }
 
   /**
@@ -27703,51 +26687,75 @@ export namespace Prisma {
   }
 
   /**
-   * Users.feedbacks
+   * Users.journalLikes
    */
-  export type Users$feedbacksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Users$journalLikesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ConferenceFeedbacks
+     * Select specific fields to fetch from the JournalLikes
      */
-    select?: ConferenceFeedbacksSelect<ExtArgs> | null
+    select?: JournalLikesSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ConferenceFeedbacks
+     * Omit specific fields from the JournalLikes
      */
-    omit?: ConferenceFeedbacksOmit<ExtArgs> | null
+    omit?: JournalLikesOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ConferenceFeedbacksInclude<ExtArgs> | null
-    where?: ConferenceFeedbacksWhereInput
-    orderBy?: ConferenceFeedbacksOrderByWithRelationInput | ConferenceFeedbacksOrderByWithRelationInput[]
-    cursor?: ConferenceFeedbacksWhereUniqueInput
+    include?: JournalLikesInclude<ExtArgs> | null
+    where?: JournalLikesWhereInput
+    orderBy?: JournalLikesOrderByWithRelationInput | JournalLikesOrderByWithRelationInput[]
+    cursor?: JournalLikesWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: ConferenceFeedbacksScalarFieldEnum | ConferenceFeedbacksScalarFieldEnum[]
+    distinct?: JournalLikesScalarFieldEnum | JournalLikesScalarFieldEnum[]
   }
 
   /**
-   * Users.blacklists
+   * Users.createdJournals
    */
-  export type Users$blacklistsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Users$createdJournalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ConferenceBlacklists
+     * Select specific fields to fetch from the Journals
      */
-    select?: ConferenceBlacklistsSelect<ExtArgs> | null
+    select?: JournalsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ConferenceBlacklists
+     * Omit specific fields from the Journals
      */
-    omit?: ConferenceBlacklistsOmit<ExtArgs> | null
+    omit?: JournalsOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ConferenceBlacklistsInclude<ExtArgs> | null
-    where?: ConferenceBlacklistsWhereInput
-    orderBy?: ConferenceBlacklistsOrderByWithRelationInput | ConferenceBlacklistsOrderByWithRelationInput[]
-    cursor?: ConferenceBlacklistsWhereUniqueInput
+    include?: JournalsInclude<ExtArgs> | null
+    where?: JournalsWhereInput
+    orderBy?: JournalsOrderByWithRelationInput | JournalsOrderByWithRelationInput[]
+    cursor?: JournalsWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: ConferenceBlacklistsScalarFieldEnum | ConferenceBlacklistsScalarFieldEnum[]
+    distinct?: JournalsScalarFieldEnum | JournalsScalarFieldEnum[]
+  }
+
+  /**
+   * Users.notificationSettings
+   */
+  export type Users$notificationSettingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NotificationSettings
+     */
+    select?: NotificationSettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NotificationSettings
+     */
+    omit?: NotificationSettingsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationSettingsInclude<ExtArgs> | null
+    where?: NotificationSettingsWhereInput
+    orderBy?: NotificationSettingsOrderByWithRelationInput | NotificationSettingsOrderByWithRelationInput[]
+    cursor?: NotificationSettingsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NotificationSettingsScalarFieldEnum | NotificationSettingsScalarFieldEnum[]
   }
 
   /**
@@ -27775,27 +26783,27 @@ export namespace Prisma {
   }
 
   /**
-   * Users.notificationSettings
+   * Users.interestedTopics
    */
-  export type Users$notificationSettingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Users$interestedTopicsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the NotificationSettings
+     * Select specific fields to fetch from the TopicUserInteresteds
      */
-    select?: NotificationSettingsSelect<ExtArgs> | null
+    select?: TopicUserInterestedsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the NotificationSettings
+     * Omit specific fields from the TopicUserInteresteds
      */
-    omit?: NotificationSettingsOmit<ExtArgs> | null
+    omit?: TopicUserInterestedsOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: NotificationSettingsInclude<ExtArgs> | null
-    where?: NotificationSettingsWhereInput
-    orderBy?: NotificationSettingsOrderByWithRelationInput | NotificationSettingsOrderByWithRelationInput[]
-    cursor?: NotificationSettingsWhereUniqueInput
+    include?: TopicUserInterestedsInclude<ExtArgs> | null
+    where?: TopicUserInterestedsWhereInput
+    orderBy?: TopicUserInterestedsOrderByWithRelationInput | TopicUserInterestedsOrderByWithRelationInput[]
+    cursor?: TopicUserInterestedsWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: NotificationSettingsScalarFieldEnum | NotificationSettingsScalarFieldEnum[]
+    distinct?: TopicUserInterestedsScalarFieldEnum | TopicUserInterestedsScalarFieldEnum[]
   }
 
   /**
@@ -28014,6 +27022,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     createdConferences?: boolean | Admins$createdConferencesArgs<ExtArgs>
+    createdJournals?: boolean | Admins$createdJournalsArgs<ExtArgs>
     _count?: boolean | AdminsCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["admins"]>
 
@@ -28047,6 +27056,7 @@ export namespace Prisma {
   export type AdminsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "fullName" | "createdAt" | "updatedAt", ExtArgs["result"]["admins"]>
   export type AdminsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     createdConferences?: boolean | Admins$createdConferencesArgs<ExtArgs>
+    createdJournals?: boolean | Admins$createdJournalsArgs<ExtArgs>
     _count?: boolean | AdminsCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type AdminsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -28056,6 +27066,7 @@ export namespace Prisma {
     name: "Admins"
     objects: {
       createdConferences: Prisma.$ConferencesPayload<ExtArgs>[]
+      createdJournals: Prisma.$JournalsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -28459,6 +27470,7 @@ export namespace Prisma {
   export interface Prisma__AdminsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     createdConferences<T extends Admins$createdConferencesArgs<ExtArgs> = {}>(args?: Subset<T, Admins$createdConferencesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferencesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    createdJournals<T extends Admins$createdJournalsArgs<ExtArgs> = {}>(args?: Subset<T, Admins$createdJournalsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JournalsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -28903,6 +27915,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ConferencesScalarFieldEnum | ConferencesScalarFieldEnum[]
+  }
+
+  /**
+   * Admins.createdJournals
+   */
+  export type Admins$createdJournalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Journals
+     */
+    select?: JournalsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Journals
+     */
+    omit?: JournalsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JournalsInclude<ExtArgs> | null
+    where?: JournalsWhereInput
+    orderBy?: JournalsOrderByWithRelationInput | JournalsOrderByWithRelationInput[]
+    cursor?: JournalsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: JournalsScalarFieldEnum | JournalsScalarFieldEnum[]
   }
 
   /**
@@ -33474,8 +32510,8 @@ export namespace Prisma {
     name?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    notifications?: boolean | NotificationsTypes$notificationsArgs<ExtArgs>
     settings?: boolean | NotificationsTypes$settingsArgs<ExtArgs>
+    notifications?: boolean | NotificationsTypes$notificationsArgs<ExtArgs>
     _count?: boolean | NotificationsTypesCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["notificationsTypes"]>
 
@@ -33502,8 +32538,8 @@ export namespace Prisma {
 
   export type NotificationsTypesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "createdAt" | "updatedAt", ExtArgs["result"]["notificationsTypes"]>
   export type NotificationsTypesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    notifications?: boolean | NotificationsTypes$notificationsArgs<ExtArgs>
     settings?: boolean | NotificationsTypes$settingsArgs<ExtArgs>
+    notifications?: boolean | NotificationsTypes$notificationsArgs<ExtArgs>
     _count?: boolean | NotificationsTypesCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type NotificationsTypesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -33512,8 +32548,8 @@ export namespace Prisma {
   export type $NotificationsTypesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "NotificationsTypes"
     objects: {
-      notifications: Prisma.$NotificationsPayload<ExtArgs>[]
       settings: Prisma.$NotificationSettingsPayload<ExtArgs>[]
+      notifications: Prisma.$NotificationsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -33914,8 +32950,8 @@ export namespace Prisma {
    */
   export interface Prisma__NotificationsTypesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    notifications<T extends NotificationsTypes$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, NotificationsTypes$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     settings<T extends NotificationsTypes$settingsArgs<ExtArgs> = {}>(args?: Subset<T, NotificationsTypes$settingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationSettingsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    notifications<T extends NotificationsTypes$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, NotificationsTypes$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -34337,30 +33373,6 @@ export namespace Prisma {
   }
 
   /**
-   * NotificationsTypes.notifications
-   */
-  export type NotificationsTypes$notificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Notifications
-     */
-    select?: NotificationsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Notifications
-     */
-    omit?: NotificationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: NotificationsInclude<ExtArgs> | null
-    where?: NotificationsWhereInput
-    orderBy?: NotificationsOrderByWithRelationInput | NotificationsOrderByWithRelationInput[]
-    cursor?: NotificationsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: NotificationsScalarFieldEnum | NotificationsScalarFieldEnum[]
-  }
-
-  /**
    * NotificationsTypes.settings
    */
   export type NotificationsTypes$settingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -34382,6 +33394,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: NotificationSettingsScalarFieldEnum | NotificationSettingsScalarFieldEnum[]
+  }
+
+  /**
+   * NotificationsTypes.notifications
+   */
+  export type NotificationsTypes$notificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notifications
+     */
+    select?: NotificationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notifications
+     */
+    omit?: NotificationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationsInclude<ExtArgs> | null
+    where?: NotificationsWhereInput
+    orderBy?: NotificationsOrderByWithRelationInput | NotificationsOrderByWithRelationInput[]
+    cursor?: NotificationsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NotificationsScalarFieldEnum | NotificationsScalarFieldEnum[]
   }
 
   /**
@@ -34575,8 +33611,8 @@ export namespace Prisma {
     isEnabled?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    byUser?: boolean | UsersDefaultArgs<ExtArgs>
     belongToNotify?: boolean | NotificationsTypesDefaultArgs<ExtArgs>
+    byUser?: boolean | UsersDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["notificationSettings"]>
 
   export type NotificationSettingsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -34586,8 +33622,8 @@ export namespace Prisma {
     isEnabled?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    byUser?: boolean | UsersDefaultArgs<ExtArgs>
     belongToNotify?: boolean | NotificationsTypesDefaultArgs<ExtArgs>
+    byUser?: boolean | UsersDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["notificationSettings"]>
 
   export type NotificationSettingsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -34597,8 +33633,8 @@ export namespace Prisma {
     isEnabled?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    byUser?: boolean | UsersDefaultArgs<ExtArgs>
     belongToNotify?: boolean | NotificationsTypesDefaultArgs<ExtArgs>
+    byUser?: boolean | UsersDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["notificationSettings"]>
 
   export type NotificationSettingsSelectScalar = {
@@ -34612,23 +33648,23 @@ export namespace Prisma {
 
   export type NotificationSettingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "notificationId" | "isEnabled" | "createdAt" | "updatedAt", ExtArgs["result"]["notificationSettings"]>
   export type NotificationSettingsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    byUser?: boolean | UsersDefaultArgs<ExtArgs>
     belongToNotify?: boolean | NotificationsTypesDefaultArgs<ExtArgs>
+    byUser?: boolean | UsersDefaultArgs<ExtArgs>
   }
   export type NotificationSettingsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    byUser?: boolean | UsersDefaultArgs<ExtArgs>
     belongToNotify?: boolean | NotificationsTypesDefaultArgs<ExtArgs>
+    byUser?: boolean | UsersDefaultArgs<ExtArgs>
   }
   export type NotificationSettingsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    byUser?: boolean | UsersDefaultArgs<ExtArgs>
     belongToNotify?: boolean | NotificationsTypesDefaultArgs<ExtArgs>
+    byUser?: boolean | UsersDefaultArgs<ExtArgs>
   }
 
   export type $NotificationSettingsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "NotificationSettings"
     objects: {
-      byUser: Prisma.$UsersPayload<ExtArgs>
       belongToNotify: Prisma.$NotificationsTypesPayload<ExtArgs>
+      byUser: Prisma.$UsersPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -35031,8 +34067,8 @@ export namespace Prisma {
    */
   export interface Prisma__NotificationSettingsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    byUser<T extends UsersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsersDefaultArgs<ExtArgs>>): Prisma__UsersClient<$Result.GetResult<Prisma.$UsersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     belongToNotify<T extends NotificationsTypesDefaultArgs<ExtArgs> = {}>(args?: Subset<T, NotificationsTypesDefaultArgs<ExtArgs>>): Prisma__NotificationsTypesClient<$Result.GetResult<Prisma.$NotificationsTypesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    byUser<T extends UsersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsersDefaultArgs<ExtArgs>>): Prisma__UsersClient<$Result.GetResult<Prisma.$UsersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -35638,8 +34674,8 @@ export namespace Prisma {
     topicId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    belongsTo?: boolean | UsersDefaultArgs<ExtArgs>
     inTopic?: boolean | TopicsDefaultArgs<ExtArgs>
+    belongsTo?: boolean | UsersDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["topicUserInteresteds"]>
 
   export type TopicUserInterestedsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -35647,8 +34683,8 @@ export namespace Prisma {
     topicId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    belongsTo?: boolean | UsersDefaultArgs<ExtArgs>
     inTopic?: boolean | TopicsDefaultArgs<ExtArgs>
+    belongsTo?: boolean | UsersDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["topicUserInteresteds"]>
 
   export type TopicUserInterestedsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -35656,8 +34692,8 @@ export namespace Prisma {
     topicId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    belongsTo?: boolean | UsersDefaultArgs<ExtArgs>
     inTopic?: boolean | TopicsDefaultArgs<ExtArgs>
+    belongsTo?: boolean | UsersDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["topicUserInteresteds"]>
 
   export type TopicUserInterestedsSelectScalar = {
@@ -35669,23 +34705,23 @@ export namespace Prisma {
 
   export type TopicUserInterestedsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"userId" | "topicId" | "createdAt" | "updatedAt", ExtArgs["result"]["topicUserInteresteds"]>
   export type TopicUserInterestedsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    belongsTo?: boolean | UsersDefaultArgs<ExtArgs>
     inTopic?: boolean | TopicsDefaultArgs<ExtArgs>
+    belongsTo?: boolean | UsersDefaultArgs<ExtArgs>
   }
   export type TopicUserInterestedsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    belongsTo?: boolean | UsersDefaultArgs<ExtArgs>
     inTopic?: boolean | TopicsDefaultArgs<ExtArgs>
+    belongsTo?: boolean | UsersDefaultArgs<ExtArgs>
   }
   export type TopicUserInterestedsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    belongsTo?: boolean | UsersDefaultArgs<ExtArgs>
     inTopic?: boolean | TopicsDefaultArgs<ExtArgs>
+    belongsTo?: boolean | UsersDefaultArgs<ExtArgs>
   }
 
   export type $TopicUserInterestedsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "TopicUserInteresteds"
     objects: {
-      belongsTo: Prisma.$UsersPayload<ExtArgs>
       inTopic: Prisma.$TopicsPayload<ExtArgs>
+      belongsTo: Prisma.$UsersPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       userId: string
@@ -36086,8 +35122,8 @@ export namespace Prisma {
    */
   export interface Prisma__TopicUserInterestedsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    belongsTo<T extends UsersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsersDefaultArgs<ExtArgs>>): Prisma__UsersClient<$Result.GetResult<Prisma.$UsersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     inTopic<T extends TopicsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TopicsDefaultArgs<ExtArgs>>): Prisma__TopicsClient<$Result.GetResult<Prisma.$TopicsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    belongsTo<T extends UsersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsersDefaultArgs<ExtArgs>>): Prisma__UsersClient<$Result.GetResult<Prisma.$UsersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -37633,15 +36669,6 @@ export namespace Prisma {
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-  export const PassengerScalarFieldEnum: {
-    id: 'id',
-    firstName: 'firstName',
-    lastName: 'lastName'
-  };
-
-  export type PassengerScalarFieldEnum = (typeof PassengerScalarFieldEnum)[keyof typeof PassengerScalarFieldEnum]
-
-
   export const LocationsScalarFieldEnum: {
     id: 'id',
     address: 'address',
@@ -37794,7 +36821,8 @@ export namespace Prisma {
     nation: 'nation',
     scope: 'scope',
     emailSubmission: 'emailSubmission',
-    creator: 'creator'
+    creatorId: 'creatorId',
+    adminId: 'adminId'
   };
 
   export type JournalsScalarFieldEnum = (typeof JournalsScalarFieldEnum)[keyof typeof JournalsScalarFieldEnum]
@@ -38087,48 +37115,6 @@ export namespace Prisma {
    */
 
 
-  export type PassengerWhereInput = {
-    AND?: PassengerWhereInput | PassengerWhereInput[]
-    OR?: PassengerWhereInput[]
-    NOT?: PassengerWhereInput | PassengerWhereInput[]
-    id?: StringFilter<"Passenger"> | string
-    firstName?: StringFilter<"Passenger"> | string
-    lastName?: StringFilter<"Passenger"> | string
-  }
-
-  export type PassengerOrderByWithRelationInput = {
-    id?: SortOrder
-    firstName?: SortOrder
-    lastName?: SortOrder
-  }
-
-  export type PassengerWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    firstName?: string
-    AND?: PassengerWhereInput | PassengerWhereInput[]
-    OR?: PassengerWhereInput[]
-    NOT?: PassengerWhereInput | PassengerWhereInput[]
-    lastName?: StringFilter<"Passenger"> | string
-  }, "id" | "firstName">
-
-  export type PassengerOrderByWithAggregationInput = {
-    id?: SortOrder
-    firstName?: SortOrder
-    lastName?: SortOrder
-    _count?: PassengerCountOrderByAggregateInput
-    _max?: PassengerMaxOrderByAggregateInput
-    _min?: PassengerMinOrderByAggregateInput
-  }
-
-  export type PassengerScalarWhereWithAggregatesInput = {
-    AND?: PassengerScalarWhereWithAggregatesInput | PassengerScalarWhereWithAggregatesInput[]
-    OR?: PassengerScalarWhereWithAggregatesInput[]
-    NOT?: PassengerScalarWhereWithAggregatesInput | PassengerScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Passenger"> | string
-    firstName?: StringWithAggregatesFilter<"Passenger"> | string
-    lastName?: StringWithAggregatesFilter<"Passenger"> | string
-  }
-
   export type LocationsWhereInput = {
     AND?: LocationsWhereInput | LocationsWhereInput[]
     OR?: LocationsWhereInput[]
@@ -38210,8 +37196,8 @@ export namespace Prisma {
     NOT?: ConferenceDatesWhereInput | ConferenceDatesWhereInput[]
     id?: StringFilter<"ConferenceDates"> | string
     organizedId?: StringFilter<"ConferenceDates"> | string
-    fromDate?: DateTimeFilter<"ConferenceDates"> | Date | string
-    toDate?: DateTimeFilter<"ConferenceDates"> | Date | string
+    fromDate?: DateTimeNullableFilter<"ConferenceDates"> | Date | string | null
+    toDate?: DateTimeNullableFilter<"ConferenceDates"> | Date | string | null
     type?: StringFilter<"ConferenceDates"> | string
     name?: StringFilter<"ConferenceDates"> | string
     createdAt?: DateTimeFilter<"ConferenceDates"> | Date | string
@@ -38223,8 +37209,8 @@ export namespace Prisma {
   export type ConferenceDatesOrderByWithRelationInput = {
     id?: SortOrder
     organizedId?: SortOrder
-    fromDate?: SortOrder
-    toDate?: SortOrder
+    fromDate?: SortOrderInput | SortOrder
+    toDate?: SortOrderInput | SortOrder
     type?: SortOrder
     name?: SortOrder
     createdAt?: SortOrder
@@ -38239,8 +37225,8 @@ export namespace Prisma {
     OR?: ConferenceDatesWhereInput[]
     NOT?: ConferenceDatesWhereInput | ConferenceDatesWhereInput[]
     organizedId?: StringFilter<"ConferenceDates"> | string
-    fromDate?: DateTimeFilter<"ConferenceDates"> | Date | string
-    toDate?: DateTimeFilter<"ConferenceDates"> | Date | string
+    fromDate?: DateTimeNullableFilter<"ConferenceDates"> | Date | string | null
+    toDate?: DateTimeNullableFilter<"ConferenceDates"> | Date | string | null
     type?: StringFilter<"ConferenceDates"> | string
     name?: StringFilter<"ConferenceDates"> | string
     createdAt?: DateTimeFilter<"ConferenceDates"> | Date | string
@@ -38252,8 +37238,8 @@ export namespace Prisma {
   export type ConferenceDatesOrderByWithAggregationInput = {
     id?: SortOrder
     organizedId?: SortOrder
-    fromDate?: SortOrder
-    toDate?: SortOrder
+    fromDate?: SortOrderInput | SortOrder
+    toDate?: SortOrderInput | SortOrder
     type?: SortOrder
     name?: SortOrder
     createdAt?: SortOrder
@@ -38270,8 +37256,8 @@ export namespace Prisma {
     NOT?: ConferenceDatesScalarWhereWithAggregatesInput | ConferenceDatesScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"ConferenceDates"> | string
     organizedId?: StringWithAggregatesFilter<"ConferenceDates"> | string
-    fromDate?: DateTimeWithAggregatesFilter<"ConferenceDates"> | Date | string
-    toDate?: DateTimeWithAggregatesFilter<"ConferenceDates"> | Date | string
+    fromDate?: DateTimeNullableWithAggregatesFilter<"ConferenceDates"> | Date | string | null
+    toDate?: DateTimeNullableWithAggregatesFilter<"ConferenceDates"> | Date | string | null
     type?: StringWithAggregatesFilter<"ConferenceDates"> | string
     name?: StringWithAggregatesFilter<"ConferenceDates"> | string
     createdAt?: DateTimeWithAggregatesFilter<"ConferenceDates"> | Date | string
@@ -38297,9 +37283,9 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"ConferenceOrganizations"> | Date | string
     updatedAt?: DateTimeFilter<"ConferenceOrganizations"> | Date | string
     conferenceDates?: ConferenceDatesListRelationFilter
-    locations?: LocationsListRelationFilter
-    topics?: ConferenceTopicsListRelationFilter
     belongsTo?: XOR<ConferencesScalarRelationFilter, ConferencesWhereInput>
+    topics?: ConferenceTopicsListRelationFilter
+    locations?: LocationsListRelationFilter
   }
 
   export type ConferenceOrganizationsOrderByWithRelationInput = {
@@ -38317,9 +37303,9 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     conferenceDates?: ConferenceDatesOrderByRelationAggregateInput
-    locations?: LocationsOrderByRelationAggregateInput
-    topics?: ConferenceTopicsOrderByRelationAggregateInput
     belongsTo?: ConferencesOrderByWithRelationInput
+    topics?: ConferenceTopicsOrderByRelationAggregateInput
+    locations?: LocationsOrderByRelationAggregateInput
   }
 
   export type ConferenceOrganizationsWhereUniqueInput = Prisma.AtLeast<{
@@ -38340,9 +37326,9 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"ConferenceOrganizations"> | Date | string
     updatedAt?: DateTimeFilter<"ConferenceOrganizations"> | Date | string
     conferenceDates?: ConferenceDatesListRelationFilter
-    locations?: LocationsListRelationFilter
-    topics?: ConferenceTopicsListRelationFilter
     belongsTo?: XOR<ConferencesScalarRelationFilter, ConferencesWhereInput>
+    topics?: ConferenceTopicsListRelationFilter
+    locations?: LocationsListRelationFilter
   }, "id">
 
   export type ConferenceOrganizationsOrderByWithAggregationInput = {
@@ -38511,16 +37497,16 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Conferences"> | Date | string
     updatedAt?: DateTimeFilter<"Conferences"> | Date | string
     status?: StringFilter<"Conferences"> | string
+    blacklists?: ConferenceBlacklistsListRelationFilter
+    calendars?: ConferenceCalendarsListRelationFilter
+    crawlJobs?: ConferenceCrawlJobsListRelationFilter
+    feedbacks?: ConferenceFeedbacksListRelationFilter
     follows?: ConferenceFollowsListRelationFilter
     likes?: ConferenceLikesListRelationFilter
-    calendars?: ConferenceCalendarsListRelationFilter
     organizations?: ConferenceOrganizationsListRelationFilter
     ranks?: ConferenceRanksListRelationFilter
-    crawlJobs?: ConferenceCrawlJobsListRelationFilter
     createdByUser?: XOR<UsersNullableScalarRelationFilter, UsersWhereInput> | null
     createByAdmin?: XOR<AdminsNullableScalarRelationFilter, AdminsWhereInput> | null
-    feedbacks?: ConferenceFeedbacksListRelationFilter
-    blacklists?: ConferenceBlacklistsListRelationFilter
   }
 
   export type ConferencesOrderByWithRelationInput = {
@@ -38532,16 +37518,16 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     status?: SortOrder
+    blacklists?: ConferenceBlacklistsOrderByRelationAggregateInput
+    calendars?: ConferenceCalendarsOrderByRelationAggregateInput
+    crawlJobs?: ConferenceCrawlJobsOrderByRelationAggregateInput
+    feedbacks?: ConferenceFeedbacksOrderByRelationAggregateInput
     follows?: ConferenceFollowsOrderByRelationAggregateInput
     likes?: ConferenceLikesOrderByRelationAggregateInput
-    calendars?: ConferenceCalendarsOrderByRelationAggregateInput
     organizations?: ConferenceOrganizationsOrderByRelationAggregateInput
     ranks?: ConferenceRanksOrderByRelationAggregateInput
-    crawlJobs?: ConferenceCrawlJobsOrderByRelationAggregateInput
     createdByUser?: UsersOrderByWithRelationInput
     createByAdmin?: AdminsOrderByWithRelationInput
-    feedbacks?: ConferenceFeedbacksOrderByRelationAggregateInput
-    blacklists?: ConferenceBlacklistsOrderByRelationAggregateInput
   }
 
   export type ConferencesWhereUniqueInput = Prisma.AtLeast<{
@@ -38557,16 +37543,16 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Conferences"> | Date | string
     updatedAt?: DateTimeFilter<"Conferences"> | Date | string
     status?: StringFilter<"Conferences"> | string
+    blacklists?: ConferenceBlacklistsListRelationFilter
+    calendars?: ConferenceCalendarsListRelationFilter
+    crawlJobs?: ConferenceCrawlJobsListRelationFilter
+    feedbacks?: ConferenceFeedbacksListRelationFilter
     follows?: ConferenceFollowsListRelationFilter
     likes?: ConferenceLikesListRelationFilter
-    calendars?: ConferenceCalendarsListRelationFilter
     organizations?: ConferenceOrganizationsListRelationFilter
     ranks?: ConferenceRanksListRelationFilter
-    crawlJobs?: ConferenceCrawlJobsListRelationFilter
     createdByUser?: XOR<UsersNullableScalarRelationFilter, UsersWhereInput> | null
     createByAdmin?: XOR<AdminsNullableScalarRelationFilter, AdminsWhereInput> | null
-    feedbacks?: ConferenceFeedbacksListRelationFilter
-    blacklists?: ConferenceBlacklistsListRelationFilter
   }, "id" | "title_acronym">
 
   export type ConferencesOrderByWithAggregationInput = {
@@ -38606,9 +37592,9 @@ export namespace Prisma {
     conferenceId?: StringFilter<"ConferenceRanks"> | string
     fieldOfResearchId?: StringFilter<"ConferenceRanks"> | string
     rankId?: StringFilter<"ConferenceRanks"> | string
+    belongsTo?: XOR<ConferencesScalarRelationFilter, ConferencesWhereInput>
     inFieldOfResearch?: XOR<FieldOfResearchsScalarRelationFilter, FieldOfResearchsWhereInput>
     byRank?: XOR<RanksScalarRelationFilter, RanksWhereInput>
-    belongsTo?: XOR<ConferencesScalarRelationFilter, ConferencesWhereInput>
   }
 
   export type ConferenceRanksOrderByWithRelationInput = {
@@ -38617,9 +37603,9 @@ export namespace Prisma {
     conferenceId?: SortOrder
     fieldOfResearchId?: SortOrder
     rankId?: SortOrder
+    belongsTo?: ConferencesOrderByWithRelationInput
     inFieldOfResearch?: FieldOfResearchsOrderByWithRelationInput
     byRank?: RanksOrderByWithRelationInput
-    belongsTo?: ConferencesOrderByWithRelationInput
   }
 
   export type ConferenceRanksWhereUniqueInput = Prisma.AtLeast<{
@@ -38631,9 +37617,9 @@ export namespace Prisma {
     conferenceId?: StringFilter<"ConferenceRanks"> | string
     fieldOfResearchId?: StringFilter<"ConferenceRanks"> | string
     rankId?: StringFilter<"ConferenceRanks"> | string
+    belongsTo?: XOR<ConferencesScalarRelationFilter, ConferencesWhereInput>
     inFieldOfResearch?: XOR<FieldOfResearchsScalarRelationFilter, FieldOfResearchsWhereInput>
     byRank?: XOR<RanksScalarRelationFilter, RanksWhereInput>
-    belongsTo?: XOR<ConferencesScalarRelationFilter, ConferencesWhereInput>
   }, "id">
 
   export type ConferenceRanksOrderByWithAggregationInput = {
@@ -38667,16 +37653,16 @@ export namespace Prisma {
     id?: StringFilter<"FieldOfResearchs"> | string
     name?: StringFilter<"FieldOfResearchs"> | string
     code?: StringFilter<"FieldOfResearchs"> | string
-    journalRanks?: JournalRanksListRelationFilter
     conferenceRanks?: ConferenceRanksListRelationFilter
+    journalRanks?: JournalRanksListRelationFilter
   }
 
   export type FieldOfResearchsOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
     code?: SortOrder
-    journalRanks?: JournalRanksOrderByRelationAggregateInput
     conferenceRanks?: ConferenceRanksOrderByRelationAggregateInput
+    journalRanks?: JournalRanksOrderByRelationAggregateInput
   }
 
   export type FieldOfResearchsWhereUniqueInput = Prisma.AtLeast<{
@@ -38686,8 +37672,8 @@ export namespace Prisma {
     NOT?: FieldOfResearchsWhereInput | FieldOfResearchsWhereInput[]
     name?: StringFilter<"FieldOfResearchs"> | string
     code?: StringFilter<"FieldOfResearchs"> | string
-    journalRanks?: JournalRanksListRelationFilter
     conferenceRanks?: ConferenceRanksListRelationFilter
+    journalRanks?: JournalRanksListRelationFilter
   }, "id">
 
   export type FieldOfResearchsOrderByWithAggregationInput = {
@@ -38818,16 +37804,16 @@ export namespace Prisma {
     id?: StringFilter<"JournalTopics"> | string
     journalId?: StringFilter<"JournalTopics"> | string
     topicId?: StringFilter<"JournalTopics"> | string
-    belongsToTopics?: XOR<TopicsScalarRelationFilter, TopicsWhereInput>
     inJournals?: XOR<JournalsScalarRelationFilter, JournalsWhereInput>
+    belongsToTopics?: XOR<TopicsScalarRelationFilter, TopicsWhereInput>
   }
 
   export type JournalTopicsOrderByWithRelationInput = {
     id?: SortOrder
     journalId?: SortOrder
     topicId?: SortOrder
-    belongsToTopics?: TopicsOrderByWithRelationInput
     inJournals?: JournalsOrderByWithRelationInput
+    belongsToTopics?: TopicsOrderByWithRelationInput
   }
 
   export type JournalTopicsWhereUniqueInput = Prisma.AtLeast<{
@@ -38837,8 +37823,8 @@ export namespace Prisma {
     NOT?: JournalTopicsWhereInput | JournalTopicsWhereInput[]
     journalId?: StringFilter<"JournalTopics"> | string
     topicId?: StringFilter<"JournalTopics"> | string
-    belongsToTopics?: XOR<TopicsScalarRelationFilter, TopicsWhereInput>
     inJournals?: XOR<JournalsScalarRelationFilter, JournalsWhereInput>
+    belongsToTopics?: XOR<TopicsScalarRelationFilter, TopicsWhereInput>
   }, "id">
 
   export type JournalTopicsOrderByWithAggregationInput = {
@@ -38869,8 +37855,8 @@ export namespace Prisma {
     fieldOfResearchId?: StringFilter<"JournalRanks"> | string
     rankId?: StringFilter<"JournalRanks"> | string
     inFieldOfResearch?: XOR<FieldOfResearchsScalarRelationFilter, FieldOfResearchsWhereInput>
-    byRank?: XOR<RanksScalarRelationFilter, RanksWhereInput>
     belongsTo?: XOR<JournalsScalarRelationFilter, JournalsWhereInput>
+    byRank?: XOR<RanksScalarRelationFilter, RanksWhereInput>
   }
 
   export type JournalRanksOrderByWithRelationInput = {
@@ -38880,8 +37866,8 @@ export namespace Prisma {
     fieldOfResearchId?: SortOrder
     rankId?: SortOrder
     inFieldOfResearch?: FieldOfResearchsOrderByWithRelationInput
-    byRank?: RanksOrderByWithRelationInput
     belongsTo?: JournalsOrderByWithRelationInput
+    byRank?: RanksOrderByWithRelationInput
   }
 
   export type JournalRanksWhereUniqueInput = Prisma.AtLeast<{
@@ -38894,8 +37880,8 @@ export namespace Prisma {
     fieldOfResearchId?: StringFilter<"JournalRanks"> | string
     rankId?: StringFilter<"JournalRanks"> | string
     inFieldOfResearch?: XOR<FieldOfResearchsScalarRelationFilter, FieldOfResearchsWhereInput>
-    byRank?: XOR<RanksScalarRelationFilter, RanksWhereInput>
     belongsTo?: XOR<JournalsScalarRelationFilter, JournalsWhereInput>
+    byRank?: XOR<RanksScalarRelationFilter, RanksWhereInput>
   }, "id">
 
   export type JournalRanksOrderByWithAggregationInput = {
@@ -38934,13 +37920,15 @@ export namespace Prisma {
     nation?: StringFilter<"Journals"> | string
     scope?: StringFilter<"Journals"> | string
     emailSubmission?: StringFilter<"Journals"> | string
-    creator?: StringFilter<"Journals"> | string
-    topics?: JournalTopicsListRelationFilter
-    journalRanks?: JournalRanksListRelationFilter
-    journalLikes?: JournalLikesListRelationFilter
-    journalFollows?: JournalFollowsListRelationFilter
+    creatorId?: StringNullableFilter<"Journals"> | string | null
+    adminId?: StringNullableFilter<"Journals"> | string | null
     crawlJobs?: JournalCrawlJobsListRelationFilter
-    createdByUser?: XOR<UsersScalarRelationFilter, UsersWhereInput>
+    journalFollows?: JournalFollowsListRelationFilter
+    journalLikes?: JournalLikesListRelationFilter
+    journalRanks?: JournalRanksListRelationFilter
+    topics?: JournalTopicsListRelationFilter
+    createdByUser?: XOR<UsersNullableScalarRelationFilter, UsersWhereInput> | null
+    createByAdmin?: XOR<AdminsNullableScalarRelationFilter, AdminsWhereInput> | null
   }
 
   export type JournalsOrderByWithRelationInput = {
@@ -38952,13 +37940,15 @@ export namespace Prisma {
     nation?: SortOrder
     scope?: SortOrder
     emailSubmission?: SortOrder
-    creator?: SortOrder
-    topics?: JournalTopicsOrderByRelationAggregateInput
-    journalRanks?: JournalRanksOrderByRelationAggregateInput
-    journalLikes?: JournalLikesOrderByRelationAggregateInput
-    journalFollows?: JournalFollowsOrderByRelationAggregateInput
+    creatorId?: SortOrderInput | SortOrder
+    adminId?: SortOrderInput | SortOrder
     crawlJobs?: JournalCrawlJobsOrderByRelationAggregateInput
+    journalFollows?: JournalFollowsOrderByRelationAggregateInput
+    journalLikes?: JournalLikesOrderByRelationAggregateInput
+    journalRanks?: JournalRanksOrderByRelationAggregateInput
+    topics?: JournalTopicsOrderByRelationAggregateInput
     createdByUser?: UsersOrderByWithRelationInput
+    createByAdmin?: AdminsOrderByWithRelationInput
   }
 
   export type JournalsWhereUniqueInput = Prisma.AtLeast<{
@@ -38973,13 +37963,15 @@ export namespace Prisma {
     nation?: StringFilter<"Journals"> | string
     scope?: StringFilter<"Journals"> | string
     emailSubmission?: StringFilter<"Journals"> | string
-    creator?: StringFilter<"Journals"> | string
-    topics?: JournalTopicsListRelationFilter
-    journalRanks?: JournalRanksListRelationFilter
-    journalLikes?: JournalLikesListRelationFilter
-    journalFollows?: JournalFollowsListRelationFilter
+    creatorId?: StringNullableFilter<"Journals"> | string | null
+    adminId?: StringNullableFilter<"Journals"> | string | null
     crawlJobs?: JournalCrawlJobsListRelationFilter
-    createdByUser?: XOR<UsersScalarRelationFilter, UsersWhereInput>
+    journalFollows?: JournalFollowsListRelationFilter
+    journalLikes?: JournalLikesListRelationFilter
+    journalRanks?: JournalRanksListRelationFilter
+    topics?: JournalTopicsListRelationFilter
+    createdByUser?: XOR<UsersNullableScalarRelationFilter, UsersWhereInput> | null
+    createByAdmin?: XOR<AdminsNullableScalarRelationFilter, AdminsWhereInput> | null
   }, "id">
 
   export type JournalsOrderByWithAggregationInput = {
@@ -38991,7 +37983,8 @@ export namespace Prisma {
     nation?: SortOrder
     scope?: SortOrder
     emailSubmission?: SortOrder
-    creator?: SortOrder
+    creatorId?: SortOrderInput | SortOrder
+    adminId?: SortOrderInput | SortOrder
     _count?: JournalsCountOrderByAggregateInput
     _avg?: JournalsAvgOrderByAggregateInput
     _max?: JournalsMaxOrderByAggregateInput
@@ -39011,7 +38004,8 @@ export namespace Prisma {
     nation?: StringWithAggregatesFilter<"Journals"> | string
     scope?: StringWithAggregatesFilter<"Journals"> | string
     emailSubmission?: StringWithAggregatesFilter<"Journals"> | string
-    creator?: StringWithAggregatesFilter<"Journals"> | string
+    creatorId?: StringNullableWithAggregatesFilter<"Journals"> | string | null
+    adminId?: StringNullableWithAggregatesFilter<"Journals"> | string | null
   }
 
   export type ConferenceFollowsWhereInput = {
@@ -39392,18 +38386,18 @@ export namespace Prisma {
     background?: StringFilter<"Users"> | string
     createdAt?: DateTimeFilter<"Users"> | Date | string
     updatedAt?: DateTimeFilter<"Users"> | Date | string
+    blacklists?: ConferenceBlacklistsListRelationFilter
+    calendar?: ConferenceCalendarsListRelationFilter
+    feedbacks?: ConferenceFeedbacksListRelationFilter
     followConference?: ConferenceFollowsListRelationFilter
     likes?: ConferenceLikesListRelationFilter
-    calendar?: ConferenceCalendarsListRelationFilter
     createdConferences?: ConferencesListRelationFilter
-    interestedTopics?: TopicUserInterestedsListRelationFilter
-    createdJournals?: JournalsListRelationFilter
-    journalLikes?: JournalLikesListRelationFilter
     journalFollows?: JournalFollowsListRelationFilter
-    feedbacks?: ConferenceFeedbacksListRelationFilter
-    blacklists?: ConferenceBlacklistsListRelationFilter
-    notifications?: NotificationsListRelationFilter
+    journalLikes?: JournalLikesListRelationFilter
+    createdJournals?: JournalsListRelationFilter
     notificationSettings?: NotificationSettingsListRelationFilter
+    notifications?: NotificationsListRelationFilter
+    interestedTopics?: TopicUserInterestedsListRelationFilter
     verification?: UserVerificationListRelationFilter
   }
 
@@ -39419,18 +38413,18 @@ export namespace Prisma {
     background?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    blacklists?: ConferenceBlacklistsOrderByRelationAggregateInput
+    calendar?: ConferenceCalendarsOrderByRelationAggregateInput
+    feedbacks?: ConferenceFeedbacksOrderByRelationAggregateInput
     followConference?: ConferenceFollowsOrderByRelationAggregateInput
     likes?: ConferenceLikesOrderByRelationAggregateInput
-    calendar?: ConferenceCalendarsOrderByRelationAggregateInput
     createdConferences?: ConferencesOrderByRelationAggregateInput
-    interestedTopics?: TopicUserInterestedsOrderByRelationAggregateInput
-    createdJournals?: JournalsOrderByRelationAggregateInput
-    journalLikes?: JournalLikesOrderByRelationAggregateInput
     journalFollows?: JournalFollowsOrderByRelationAggregateInput
-    feedbacks?: ConferenceFeedbacksOrderByRelationAggregateInput
-    blacklists?: ConferenceBlacklistsOrderByRelationAggregateInput
-    notifications?: NotificationsOrderByRelationAggregateInput
+    journalLikes?: JournalLikesOrderByRelationAggregateInput
+    createdJournals?: JournalsOrderByRelationAggregateInput
     notificationSettings?: NotificationSettingsOrderByRelationAggregateInput
+    notifications?: NotificationsOrderByRelationAggregateInput
+    interestedTopics?: TopicUserInterestedsOrderByRelationAggregateInput
     verification?: UserVerificationOrderByRelationAggregateInput
   }
 
@@ -39449,18 +38443,18 @@ export namespace Prisma {
     background?: StringFilter<"Users"> | string
     createdAt?: DateTimeFilter<"Users"> | Date | string
     updatedAt?: DateTimeFilter<"Users"> | Date | string
+    blacklists?: ConferenceBlacklistsListRelationFilter
+    calendar?: ConferenceCalendarsListRelationFilter
+    feedbacks?: ConferenceFeedbacksListRelationFilter
     followConference?: ConferenceFollowsListRelationFilter
     likes?: ConferenceLikesListRelationFilter
-    calendar?: ConferenceCalendarsListRelationFilter
     createdConferences?: ConferencesListRelationFilter
-    interestedTopics?: TopicUserInterestedsListRelationFilter
-    createdJournals?: JournalsListRelationFilter
-    journalLikes?: JournalLikesListRelationFilter
     journalFollows?: JournalFollowsListRelationFilter
-    feedbacks?: ConferenceFeedbacksListRelationFilter
-    blacklists?: ConferenceBlacklistsListRelationFilter
-    notifications?: NotificationsListRelationFilter
+    journalLikes?: JournalLikesListRelationFilter
+    createdJournals?: JournalsListRelationFilter
     notificationSettings?: NotificationSettingsListRelationFilter
+    notifications?: NotificationsListRelationFilter
+    interestedTopics?: TopicUserInterestedsListRelationFilter
     verification?: UserVerificationListRelationFilter
   }, "id" | "email">
 
@@ -39509,6 +38503,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Admins"> | Date | string
     updatedAt?: DateTimeFilter<"Admins"> | Date | string
     createdConferences?: ConferencesListRelationFilter
+    createdJournals?: JournalsListRelationFilter
   }
 
   export type AdminsOrderByWithRelationInput = {
@@ -39519,6 +38514,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     createdConferences?: ConferencesOrderByRelationAggregateInput
+    createdJournals?: JournalsOrderByRelationAggregateInput
   }
 
   export type AdminsWhereUniqueInput = Prisma.AtLeast<{
@@ -39532,6 +38528,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Admins"> | Date | string
     updatedAt?: DateTimeFilter<"Admins"> | Date | string
     createdConferences?: ConferencesListRelationFilter
+    createdJournals?: JournalsListRelationFilter
   }, "id" | "email">
 
   export type AdminsOrderByWithAggregationInput = {
@@ -39827,8 +38824,8 @@ export namespace Prisma {
     name?: StringFilter<"NotificationsTypes"> | string
     createdAt?: DateTimeFilter<"NotificationsTypes"> | Date | string
     updatedAt?: DateTimeFilter<"NotificationsTypes"> | Date | string
-    notifications?: NotificationsListRelationFilter
     settings?: NotificationSettingsListRelationFilter
+    notifications?: NotificationsListRelationFilter
   }
 
   export type NotificationsTypesOrderByWithRelationInput = {
@@ -39836,8 +38833,8 @@ export namespace Prisma {
     name?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    notifications?: NotificationsOrderByRelationAggregateInput
     settings?: NotificationSettingsOrderByRelationAggregateInput
+    notifications?: NotificationsOrderByRelationAggregateInput
   }
 
   export type NotificationsTypesWhereUniqueInput = Prisma.AtLeast<{
@@ -39848,8 +38845,8 @@ export namespace Prisma {
     NOT?: NotificationsTypesWhereInput | NotificationsTypesWhereInput[]
     createdAt?: DateTimeFilter<"NotificationsTypes"> | Date | string
     updatedAt?: DateTimeFilter<"NotificationsTypes"> | Date | string
-    notifications?: NotificationsListRelationFilter
     settings?: NotificationSettingsListRelationFilter
+    notifications?: NotificationsListRelationFilter
   }, "id" | "name">
 
   export type NotificationsTypesOrderByWithAggregationInput = {
@@ -39882,8 +38879,8 @@ export namespace Prisma {
     isEnabled?: BoolFilter<"NotificationSettings"> | boolean
     createdAt?: DateTimeFilter<"NotificationSettings"> | Date | string
     updatedAt?: DateTimeFilter<"NotificationSettings"> | Date | string
-    byUser?: XOR<UsersScalarRelationFilter, UsersWhereInput>
     belongToNotify?: XOR<NotificationsTypesScalarRelationFilter, NotificationsTypesWhereInput>
+    byUser?: XOR<UsersScalarRelationFilter, UsersWhereInput>
   }
 
   export type NotificationSettingsOrderByWithRelationInput = {
@@ -39893,8 +38890,8 @@ export namespace Prisma {
     isEnabled?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    byUser?: UsersOrderByWithRelationInput
     belongToNotify?: NotificationsTypesOrderByWithRelationInput
+    byUser?: UsersOrderByWithRelationInput
   }
 
   export type NotificationSettingsWhereUniqueInput = Prisma.AtLeast<{
@@ -39907,8 +38904,8 @@ export namespace Prisma {
     isEnabled?: BoolFilter<"NotificationSettings"> | boolean
     createdAt?: DateTimeFilter<"NotificationSettings"> | Date | string
     updatedAt?: DateTimeFilter<"NotificationSettings"> | Date | string
-    byUser?: XOR<UsersScalarRelationFilter, UsersWhereInput>
     belongToNotify?: XOR<NotificationsTypesScalarRelationFilter, NotificationsTypesWhereInput>
+    byUser?: XOR<UsersScalarRelationFilter, UsersWhereInput>
   }, "id">
 
   export type NotificationSettingsOrderByWithAggregationInput = {
@@ -39943,8 +38940,8 @@ export namespace Prisma {
     topicId?: StringFilter<"TopicUserInteresteds"> | string
     createdAt?: DateTimeFilter<"TopicUserInteresteds"> | Date | string
     updatedAt?: DateTimeFilter<"TopicUserInteresteds"> | Date | string
-    belongsTo?: XOR<UsersScalarRelationFilter, UsersWhereInput>
     inTopic?: XOR<TopicsScalarRelationFilter, TopicsWhereInput>
+    belongsTo?: XOR<UsersScalarRelationFilter, UsersWhereInput>
   }
 
   export type TopicUserInterestedsOrderByWithRelationInput = {
@@ -39952,8 +38949,8 @@ export namespace Prisma {
     topicId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    belongsTo?: UsersOrderByWithRelationInput
     inTopic?: TopicsOrderByWithRelationInput
+    belongsTo?: UsersOrderByWithRelationInput
   }
 
   export type TopicUserInterestedsWhereUniqueInput = Prisma.AtLeast<{
@@ -39965,8 +38962,8 @@ export namespace Prisma {
     topicId?: StringFilter<"TopicUserInteresteds"> | string
     createdAt?: DateTimeFilter<"TopicUserInteresteds"> | Date | string
     updatedAt?: DateTimeFilter<"TopicUserInteresteds"> | Date | string
-    belongsTo?: XOR<UsersScalarRelationFilter, UsersWhereInput>
     inTopic?: XOR<TopicsScalarRelationFilter, TopicsWhereInput>
+    belongsTo?: XOR<UsersScalarRelationFilter, UsersWhereInput>
   }, "userId_topicId">
 
   export type TopicUserInterestedsOrderByWithAggregationInput = {
@@ -40055,48 +39052,6 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"UserVerification"> | Date | string
   }
 
-  export type PassengerCreateInput = {
-    id?: string
-    firstName: string
-    lastName: string
-  }
-
-  export type PassengerUncheckedCreateInput = {
-    id?: string
-    firstName: string
-    lastName: string
-  }
-
-  export type PassengerUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type PassengerUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type PassengerCreateManyInput = {
-    id?: string
-    firstName: string
-    lastName: string
-  }
-
-  export type PassengerUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type PassengerUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
-  }
-
   export type LocationsCreateInput = {
     id?: string
     address?: string | null
@@ -40182,8 +39137,8 @@ export namespace Prisma {
 
   export type ConferenceDatesCreateInput = {
     id?: string
-    fromDate: Date | string
-    toDate: Date | string
+    fromDate?: Date | string | null
+    toDate?: Date | string | null
     type: string
     name: string
     createdAt?: Date | string
@@ -40195,8 +39150,8 @@ export namespace Prisma {
   export type ConferenceDatesUncheckedCreateInput = {
     id?: string
     organizedId: string
-    fromDate: Date | string
-    toDate: Date | string
+    fromDate?: Date | string | null
+    toDate?: Date | string | null
     type: string
     name: string
     createdAt?: Date | string
@@ -40206,8 +39161,8 @@ export namespace Prisma {
 
   export type ConferenceDatesUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    fromDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    toDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    fromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    toDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     type?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -40219,8 +39174,8 @@ export namespace Prisma {
   export type ConferenceDatesUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     organizedId?: StringFieldUpdateOperationsInput | string
-    fromDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    toDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    fromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    toDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     type?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -40231,8 +39186,8 @@ export namespace Prisma {
   export type ConferenceDatesCreateManyInput = {
     id?: string
     organizedId: string
-    fromDate: Date | string
-    toDate: Date | string
+    fromDate?: Date | string | null
+    toDate?: Date | string | null
     type: string
     name: string
     createdAt?: Date | string
@@ -40242,8 +39197,8 @@ export namespace Prisma {
 
   export type ConferenceDatesUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    fromDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    toDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    fromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    toDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     type?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -40254,8 +39209,8 @@ export namespace Prisma {
   export type ConferenceDatesUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     organizedId?: StringFieldUpdateOperationsInput | string
-    fromDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    toDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    fromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    toDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     type?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -40277,9 +39232,9 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     conferenceDates?: ConferenceDatesCreateNestedManyWithoutBelongsToInput
-    locations?: LocationsCreateNestedManyWithoutBelongsToInput
-    topics?: ConferenceTopicsCreateNestedManyWithoutBelongsToInput
     belongsTo: ConferencesCreateNestedOneWithoutOrganizationsInput
+    topics?: ConferenceTopicsCreateNestedManyWithoutBelongsToInput
+    locations?: LocationsCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferenceOrganizationsUncheckedCreateInput = {
@@ -40297,8 +39252,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     conferenceDates?: ConferenceDatesUncheckedCreateNestedManyWithoutBelongsToInput
-    locations?: LocationsUncheckedCreateNestedManyWithoutBelongsToInput
     topics?: ConferenceTopicsUncheckedCreateNestedManyWithoutBelongsToInput
+    locations?: LocationsUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferenceOrganizationsUpdateInput = {
@@ -40315,9 +39270,9 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     conferenceDates?: ConferenceDatesUpdateManyWithoutBelongsToNestedInput
-    locations?: LocationsUpdateManyWithoutBelongsToNestedInput
-    topics?: ConferenceTopicsUpdateManyWithoutBelongsToNestedInput
     belongsTo?: ConferencesUpdateOneRequiredWithoutOrganizationsNestedInput
+    topics?: ConferenceTopicsUpdateManyWithoutBelongsToNestedInput
+    locations?: LocationsUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferenceOrganizationsUncheckedUpdateInput = {
@@ -40335,8 +39290,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     conferenceDates?: ConferenceDatesUncheckedUpdateManyWithoutBelongsToNestedInput
-    locations?: LocationsUncheckedUpdateManyWithoutBelongsToNestedInput
     topics?: ConferenceTopicsUncheckedUpdateManyWithoutBelongsToNestedInput
+    locations?: LocationsUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferenceOrganizationsCreateManyInput = {
@@ -40507,17 +39462,17 @@ export namespace Prisma {
     acronym: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    status: string
+    status?: string
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutBelongsToInput
+    calendars?: ConferenceCalendarsCreateNestedManyWithoutBelongsToInput
+    crawlJobs?: ConferenceCrawlJobsCreateNestedManyWithoutBelongsToInput
+    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutBelongsToInput
     follows?: ConferenceFollowsCreateNestedManyWithoutBelongsToInput
     likes?: ConferenceLikesCreateNestedManyWithoutBelongsToInput
-    calendars?: ConferenceCalendarsCreateNestedManyWithoutBelongsToInput
     organizations?: ConferenceOrganizationsCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
-    crawlJobs?: ConferenceCrawlJobsCreateNestedManyWithoutBelongsToInput
     createdByUser?: UsersCreateNestedOneWithoutCreatedConferencesInput
     createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
-    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutBelongsToInput
-    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesUncheckedCreateInput = {
@@ -40528,15 +39483,15 @@ export namespace Prisma {
     adminId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    status: string
-    follows?: ConferenceFollowsUncheckedCreateNestedManyWithoutBelongsToInput
-    likes?: ConferenceLikesUncheckedCreateNestedManyWithoutBelongsToInput
+    status?: string
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput
     calendars?: ConferenceCalendarsUncheckedCreateNestedManyWithoutBelongsToInput
-    organizations?: ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput
-    ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
     crawlJobs?: ConferenceCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
     feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutBelongsToInput
-    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput
+    follows?: ConferenceFollowsUncheckedCreateNestedManyWithoutBelongsToInput
+    likes?: ConferenceLikesUncheckedCreateNestedManyWithoutBelongsToInput
+    organizations?: ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput
+    ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesUpdateInput = {
@@ -40546,16 +39501,16 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput
+    calendars?: ConferenceCalendarsUpdateManyWithoutBelongsToNestedInput
+    crawlJobs?: ConferenceCrawlJobsUpdateManyWithoutBelongsToNestedInput
+    feedbacks?: ConferenceFeedbacksUpdateManyWithoutBelongsToNestedInput
     follows?: ConferenceFollowsUpdateManyWithoutBelongsToNestedInput
     likes?: ConferenceLikesUpdateManyWithoutBelongsToNestedInput
-    calendars?: ConferenceCalendarsUpdateManyWithoutBelongsToNestedInput
     organizations?: ConferenceOrganizationsUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
-    crawlJobs?: ConferenceCrawlJobsUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneWithoutCreatedConferencesNestedInput
     createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
-    feedbacks?: ConferenceFeedbacksUpdateManyWithoutBelongsToNestedInput
-    blacklists?: ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateInput = {
@@ -40567,14 +39522,14 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
-    follows?: ConferenceFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
-    likes?: ConferenceLikesUncheckedUpdateManyWithoutBelongsToNestedInput
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput
     calendars?: ConferenceCalendarsUncheckedUpdateManyWithoutBelongsToNestedInput
-    organizations?: ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput
-    ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
     crawlJobs?: ConferenceCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
     feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutBelongsToNestedInput
-    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput
+    follows?: ConferenceFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
+    likes?: ConferenceLikesUncheckedUpdateManyWithoutBelongsToNestedInput
+    organizations?: ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput
+    ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesCreateManyInput = {
@@ -40585,7 +39540,7 @@ export namespace Prisma {
     adminId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    status: string
+    status?: string
   }
 
   export type ConferencesUpdateManyMutationInput = {
@@ -40611,9 +39566,9 @@ export namespace Prisma {
   export type ConferenceRanksCreateInput = {
     id?: string
     year: number
+    belongsTo: ConferencesCreateNestedOneWithoutRanksInput
     inFieldOfResearch: FieldOfResearchsCreateNestedOneWithoutConferenceRanksInput
     byRank: RanksCreateNestedOneWithoutConferenceRanksInput
-    belongsTo: ConferencesCreateNestedOneWithoutRanksInput
   }
 
   export type ConferenceRanksUncheckedCreateInput = {
@@ -40627,9 +39582,9 @@ export namespace Prisma {
   export type ConferenceRanksUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     year?: IntFieldUpdateOperationsInput | number
+    belongsTo?: ConferencesUpdateOneRequiredWithoutRanksNestedInput
     inFieldOfResearch?: FieldOfResearchsUpdateOneRequiredWithoutConferenceRanksNestedInput
     byRank?: RanksUpdateOneRequiredWithoutConferenceRanksNestedInput
-    belongsTo?: ConferencesUpdateOneRequiredWithoutRanksNestedInput
   }
 
   export type ConferenceRanksUncheckedUpdateInput = {
@@ -40665,32 +39620,32 @@ export namespace Prisma {
     id?: string
     name: string
     code: string
-    journalRanks?: JournalRanksCreateNestedManyWithoutInFieldOfResearchInput
     conferenceRanks?: ConferenceRanksCreateNestedManyWithoutInFieldOfResearchInput
+    journalRanks?: JournalRanksCreateNestedManyWithoutInFieldOfResearchInput
   }
 
   export type FieldOfResearchsUncheckedCreateInput = {
     id?: string
     name: string
     code: string
-    journalRanks?: JournalRanksUncheckedCreateNestedManyWithoutInFieldOfResearchInput
     conferenceRanks?: ConferenceRanksUncheckedCreateNestedManyWithoutInFieldOfResearchInput
+    journalRanks?: JournalRanksUncheckedCreateNestedManyWithoutInFieldOfResearchInput
   }
 
   export type FieldOfResearchsUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    journalRanks?: JournalRanksUpdateManyWithoutInFieldOfResearchNestedInput
     conferenceRanks?: ConferenceRanksUpdateManyWithoutInFieldOfResearchNestedInput
+    journalRanks?: JournalRanksUpdateManyWithoutInFieldOfResearchNestedInput
   }
 
   export type FieldOfResearchsUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    journalRanks?: JournalRanksUncheckedUpdateManyWithoutInFieldOfResearchNestedInput
     conferenceRanks?: ConferenceRanksUncheckedUpdateManyWithoutInFieldOfResearchNestedInput
+    journalRanks?: JournalRanksUncheckedUpdateManyWithoutInFieldOfResearchNestedInput
   }
 
   export type FieldOfResearchsCreateManyInput = {
@@ -40815,8 +39770,8 @@ export namespace Prisma {
 
   export type JournalTopicsCreateInput = {
     id?: string
-    belongsToTopics: TopicsCreateNestedOneWithoutInJournalTopicsInput
     inJournals: JournalsCreateNestedOneWithoutTopicsInput
+    belongsToTopics: TopicsCreateNestedOneWithoutInJournalTopicsInput
   }
 
   export type JournalTopicsUncheckedCreateInput = {
@@ -40827,8 +39782,8 @@ export namespace Prisma {
 
   export type JournalTopicsUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    belongsToTopics?: TopicsUpdateOneRequiredWithoutInJournalTopicsNestedInput
     inJournals?: JournalsUpdateOneRequiredWithoutTopicsNestedInput
+    belongsToTopics?: TopicsUpdateOneRequiredWithoutInJournalTopicsNestedInput
   }
 
   export type JournalTopicsUncheckedUpdateInput = {
@@ -40857,8 +39812,8 @@ export namespace Prisma {
     id?: string
     year: number
     inFieldOfResearch: FieldOfResearchsCreateNestedOneWithoutJournalRanksInput
-    byRank: RanksCreateNestedOneWithoutJournalRanksInput
     belongsTo: JournalsCreateNestedOneWithoutJournalRanksInput
+    byRank: RanksCreateNestedOneWithoutJournalRanksInput
   }
 
   export type JournalRanksUncheckedCreateInput = {
@@ -40873,8 +39828,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     year?: IntFieldUpdateOperationsInput | number
     inFieldOfResearch?: FieldOfResearchsUpdateOneRequiredWithoutJournalRanksNestedInput
-    byRank?: RanksUpdateOneRequiredWithoutJournalRanksNestedInput
     belongsTo?: JournalsUpdateOneRequiredWithoutJournalRanksNestedInput
+    byRank?: RanksUpdateOneRequiredWithoutJournalRanksNestedInput
   }
 
   export type JournalRanksUncheckedUpdateInput = {
@@ -40915,12 +39870,13 @@ export namespace Prisma {
     nation: string
     scope: string
     emailSubmission: string
-    topics?: JournalTopicsCreateNestedManyWithoutInJournalsInput
-    journalRanks?: JournalRanksCreateNestedManyWithoutBelongsToInput
-    journalLikes?: JournalLikesCreateNestedManyWithoutBelongsToInput
-    journalFollows?: JournalFollowsCreateNestedManyWithoutBelongsToInput
     crawlJobs?: JournalCrawlJobsCreateNestedManyWithoutBelongsToInput
-    createdByUser: UsersCreateNestedOneWithoutCreatedJournalsInput
+    journalFollows?: JournalFollowsCreateNestedManyWithoutBelongsToInput
+    journalLikes?: JournalLikesCreateNestedManyWithoutBelongsToInput
+    journalRanks?: JournalRanksCreateNestedManyWithoutBelongsToInput
+    topics?: JournalTopicsCreateNestedManyWithoutInJournalsInput
+    createdByUser?: UsersCreateNestedOneWithoutCreatedJournalsInput
+    createByAdmin?: AdminsCreateNestedOneWithoutCreatedJournalsInput
   }
 
   export type JournalsUncheckedCreateInput = {
@@ -40932,12 +39888,13 @@ export namespace Prisma {
     nation: string
     scope: string
     emailSubmission: string
-    creator: string
-    topics?: JournalTopicsUncheckedCreateNestedManyWithoutInJournalsInput
-    journalRanks?: JournalRanksUncheckedCreateNestedManyWithoutBelongsToInput
-    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutBelongsToInput
-    journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutBelongsToInput
+    creatorId?: string | null
+    adminId?: string | null
     crawlJobs?: JournalCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
+    journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutBelongsToInput
+    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutBelongsToInput
+    journalRanks?: JournalRanksUncheckedCreateNestedManyWithoutBelongsToInput
+    topics?: JournalTopicsUncheckedCreateNestedManyWithoutInJournalsInput
   }
 
   export type JournalsUpdateInput = {
@@ -40949,12 +39906,13 @@ export namespace Prisma {
     nation?: StringFieldUpdateOperationsInput | string
     scope?: StringFieldUpdateOperationsInput | string
     emailSubmission?: StringFieldUpdateOperationsInput | string
-    topics?: JournalTopicsUpdateManyWithoutInJournalsNestedInput
-    journalRanks?: JournalRanksUpdateManyWithoutBelongsToNestedInput
-    journalLikes?: JournalLikesUpdateManyWithoutBelongsToNestedInput
-    journalFollows?: JournalFollowsUpdateManyWithoutBelongsToNestedInput
     crawlJobs?: JournalCrawlJobsUpdateManyWithoutBelongsToNestedInput
-    createdByUser?: UsersUpdateOneRequiredWithoutCreatedJournalsNestedInput
+    journalFollows?: JournalFollowsUpdateManyWithoutBelongsToNestedInput
+    journalLikes?: JournalLikesUpdateManyWithoutBelongsToNestedInput
+    journalRanks?: JournalRanksUpdateManyWithoutBelongsToNestedInput
+    topics?: JournalTopicsUpdateManyWithoutInJournalsNestedInput
+    createdByUser?: UsersUpdateOneWithoutCreatedJournalsNestedInput
+    createByAdmin?: AdminsUpdateOneWithoutCreatedJournalsNestedInput
   }
 
   export type JournalsUncheckedUpdateInput = {
@@ -40966,12 +39924,13 @@ export namespace Prisma {
     nation?: StringFieldUpdateOperationsInput | string
     scope?: StringFieldUpdateOperationsInput | string
     emailSubmission?: StringFieldUpdateOperationsInput | string
-    creator?: StringFieldUpdateOperationsInput | string
-    topics?: JournalTopicsUncheckedUpdateManyWithoutInJournalsNestedInput
-    journalRanks?: JournalRanksUncheckedUpdateManyWithoutBelongsToNestedInput
-    journalLikes?: JournalLikesUncheckedUpdateManyWithoutBelongsToNestedInput
-    journalFollows?: JournalFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
+    creatorId?: NullableStringFieldUpdateOperationsInput | string | null
+    adminId?: NullableStringFieldUpdateOperationsInput | string | null
     crawlJobs?: JournalCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
+    journalFollows?: JournalFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
+    journalLikes?: JournalLikesUncheckedUpdateManyWithoutBelongsToNestedInput
+    journalRanks?: JournalRanksUncheckedUpdateManyWithoutBelongsToNestedInput
+    topics?: JournalTopicsUncheckedUpdateManyWithoutInJournalsNestedInput
   }
 
   export type JournalsCreateManyInput = {
@@ -40983,7 +39942,8 @@ export namespace Prisma {
     nation: string
     scope: string
     emailSubmission: string
-    creator: string
+    creatorId?: string | null
+    adminId?: string | null
   }
 
   export type JournalsUpdateManyMutationInput = {
@@ -41006,7 +39966,8 @@ export namespace Prisma {
     nation?: StringFieldUpdateOperationsInput | string
     scope?: StringFieldUpdateOperationsInput | string
     emailSubmission?: StringFieldUpdateOperationsInput | string
-    creator?: StringFieldUpdateOperationsInput | string
+    creatorId?: NullableStringFieldUpdateOperationsInput | string | null
+    adminId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ConferenceFollowsCreateInput = {
@@ -41359,18 +40320,18 @@ export namespace Prisma {
     background: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
+    calendar?: ConferenceCalendarsCreateNestedManyWithoutByUserInput
+    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
     followConference?: ConferenceFollowsCreateNestedManyWithoutByUserInput
     likes?: ConferenceLikesCreateNestedManyWithoutByUserInput
-    calendar?: ConferenceCalendarsCreateNestedManyWithoutByUserInput
     createdConferences?: ConferencesCreateNestedManyWithoutCreatedByUserInput
-    interestedTopics?: TopicUserInterestedsCreateNestedManyWithoutBelongsToInput
-    createdJournals?: JournalsCreateNestedManyWithoutCreatedByUserInput
-    journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
     journalFollows?: JournalFollowsCreateNestedManyWithoutByUserInput
-    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
-    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
-    notifications?: NotificationsCreateNestedManyWithoutByUserInput
+    journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
+    createdJournals?: JournalsCreateNestedManyWithoutCreatedByUserInput
     notificationSettings?: NotificationSettingsCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsCreateNestedManyWithoutByUserInput
+    interestedTopics?: TopicUserInterestedsCreateNestedManyWithoutBelongsToInput
     verification?: UserVerificationCreateNestedManyWithoutByUserInput
   }
 
@@ -41386,18 +40347,18 @@ export namespace Prisma {
     background: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
+    calendar?: ConferenceCalendarsUncheckedCreateNestedManyWithoutByUserInput
+    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
     followConference?: ConferenceFollowsUncheckedCreateNestedManyWithoutByUserInput
     likes?: ConferenceLikesUncheckedCreateNestedManyWithoutByUserInput
-    calendar?: ConferenceCalendarsUncheckedCreateNestedManyWithoutByUserInput
     createdConferences?: ConferencesUncheckedCreateNestedManyWithoutCreatedByUserInput
-    interestedTopics?: TopicUserInterestedsUncheckedCreateNestedManyWithoutBelongsToInput
-    createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreatedByUserInput
-    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
     journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutByUserInput
-    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
-    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
-    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
+    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
+    createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreatedByUserInput
     notificationSettings?: NotificationSettingsUncheckedCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
+    interestedTopics?: TopicUserInterestedsUncheckedCreateNestedManyWithoutBelongsToInput
     verification?: UserVerificationUncheckedCreateNestedManyWithoutByUserInput
   }
 
@@ -41413,18 +40374,18 @@ export namespace Prisma {
     background?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
+    calendar?: ConferenceCalendarsUpdateManyWithoutByUserNestedInput
+    feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
     followConference?: ConferenceFollowsUpdateManyWithoutByUserNestedInput
     likes?: ConferenceLikesUpdateManyWithoutByUserNestedInput
-    calendar?: ConferenceCalendarsUpdateManyWithoutByUserNestedInput
     createdConferences?: ConferencesUpdateManyWithoutCreatedByUserNestedInput
-    interestedTopics?: TopicUserInterestedsUpdateManyWithoutBelongsToNestedInput
-    createdJournals?: JournalsUpdateManyWithoutCreatedByUserNestedInput
-    journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
     journalFollows?: JournalFollowsUpdateManyWithoutByUserNestedInput
-    feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
-    blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
-    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
+    journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
+    createdJournals?: JournalsUpdateManyWithoutCreatedByUserNestedInput
     notificationSettings?: NotificationSettingsUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
+    interestedTopics?: TopicUserInterestedsUpdateManyWithoutBelongsToNestedInput
     verification?: UserVerificationUpdateManyWithoutByUserNestedInput
   }
 
@@ -41440,18 +40401,18 @@ export namespace Prisma {
     background?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
+    calendar?: ConferenceCalendarsUncheckedUpdateManyWithoutByUserNestedInput
+    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
     followConference?: ConferenceFollowsUncheckedUpdateManyWithoutByUserNestedInput
     likes?: ConferenceLikesUncheckedUpdateManyWithoutByUserNestedInput
-    calendar?: ConferenceCalendarsUncheckedUpdateManyWithoutByUserNestedInput
     createdConferences?: ConferencesUncheckedUpdateManyWithoutCreatedByUserNestedInput
-    interestedTopics?: TopicUserInterestedsUncheckedUpdateManyWithoutBelongsToNestedInput
-    createdJournals?: JournalsUncheckedUpdateManyWithoutCreatedByUserNestedInput
-    journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
     journalFollows?: JournalFollowsUncheckedUpdateManyWithoutByUserNestedInput
-    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
-    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
-    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
+    journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
+    createdJournals?: JournalsUncheckedUpdateManyWithoutCreatedByUserNestedInput
     notificationSettings?: NotificationSettingsUncheckedUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
+    interestedTopics?: TopicUserInterestedsUncheckedUpdateManyWithoutBelongsToNestedInput
     verification?: UserVerificationUncheckedUpdateManyWithoutByUserNestedInput
   }
 
@@ -41505,6 +40466,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     createdConferences?: ConferencesCreateNestedManyWithoutCreateByAdminInput
+    createdJournals?: JournalsCreateNestedManyWithoutCreateByAdminInput
   }
 
   export type AdminsUncheckedCreateInput = {
@@ -41515,6 +40477,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     createdConferences?: ConferencesUncheckedCreateNestedManyWithoutCreateByAdminInput
+    createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreateByAdminInput
   }
 
   export type AdminsUpdateInput = {
@@ -41525,6 +40488,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdConferences?: ConferencesUpdateManyWithoutCreateByAdminNestedInput
+    createdJournals?: JournalsUpdateManyWithoutCreateByAdminNestedInput
   }
 
   export type AdminsUncheckedUpdateInput = {
@@ -41535,6 +40499,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdConferences?: ConferencesUncheckedUpdateManyWithoutCreateByAdminNestedInput
+    createdJournals?: JournalsUncheckedUpdateManyWithoutCreateByAdminNestedInput
   }
 
   export type AdminsCreateManyInput = {
@@ -41829,8 +40794,8 @@ export namespace Prisma {
     name: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    notifications?: NotificationsCreateNestedManyWithoutBelongToNotifyInput
     settings?: NotificationSettingsCreateNestedManyWithoutBelongToNotifyInput
+    notifications?: NotificationsCreateNestedManyWithoutBelongToNotifyInput
   }
 
   export type NotificationsTypesUncheckedCreateInput = {
@@ -41838,8 +40803,8 @@ export namespace Prisma {
     name: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    notifications?: NotificationsUncheckedCreateNestedManyWithoutBelongToNotifyInput
     settings?: NotificationSettingsUncheckedCreateNestedManyWithoutBelongToNotifyInput
+    notifications?: NotificationsUncheckedCreateNestedManyWithoutBelongToNotifyInput
   }
 
   export type NotificationsTypesUpdateInput = {
@@ -41847,8 +40812,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    notifications?: NotificationsUpdateManyWithoutBelongToNotifyNestedInput
     settings?: NotificationSettingsUpdateManyWithoutBelongToNotifyNestedInput
+    notifications?: NotificationsUpdateManyWithoutBelongToNotifyNestedInput
   }
 
   export type NotificationsTypesUncheckedUpdateInput = {
@@ -41856,8 +40821,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    notifications?: NotificationsUncheckedUpdateManyWithoutBelongToNotifyNestedInput
     settings?: NotificationSettingsUncheckedUpdateManyWithoutBelongToNotifyNestedInput
+    notifications?: NotificationsUncheckedUpdateManyWithoutBelongToNotifyNestedInput
   }
 
   export type NotificationsTypesCreateManyInput = {
@@ -41886,8 +40851,8 @@ export namespace Prisma {
     isEnabled?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    byUser: UsersCreateNestedOneWithoutNotificationSettingsInput
     belongToNotify: NotificationsTypesCreateNestedOneWithoutSettingsInput
+    byUser: UsersCreateNestedOneWithoutNotificationSettingsInput
   }
 
   export type NotificationSettingsUncheckedCreateInput = {
@@ -41904,8 +40869,8 @@ export namespace Prisma {
     isEnabled?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    byUser?: UsersUpdateOneRequiredWithoutNotificationSettingsNestedInput
     belongToNotify?: NotificationsTypesUpdateOneRequiredWithoutSettingsNestedInput
+    byUser?: UsersUpdateOneRequiredWithoutNotificationSettingsNestedInput
   }
 
   export type NotificationSettingsUncheckedUpdateInput = {
@@ -41945,8 +40910,8 @@ export namespace Prisma {
   export type TopicUserInterestedsCreateInput = {
     createdAt?: Date | string
     updatedAt?: Date | string
-    belongsTo: UsersCreateNestedOneWithoutInterestedTopicsInput
     inTopic: TopicsCreateNestedOneWithoutInInterestedInput
+    belongsTo: UsersCreateNestedOneWithoutInterestedTopicsInput
   }
 
   export type TopicUserInterestedsUncheckedCreateInput = {
@@ -41959,8 +40924,8 @@ export namespace Prisma {
   export type TopicUserInterestedsUpdateInput = {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    belongsTo?: UsersUpdateOneRequiredWithoutInterestedTopicsNestedInput
     inTopic?: TopicsUpdateOneRequiredWithoutInInterestedNestedInput
+    belongsTo?: UsersUpdateOneRequiredWithoutInterestedTopicsNestedInput
   }
 
   export type TopicUserInterestedsUncheckedUpdateInput = {
@@ -42073,42 +41038,6 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type PassengerCountOrderByAggregateInput = {
-    id?: SortOrder
-    firstName?: SortOrder
-    lastName?: SortOrder
-  }
-
-  export type PassengerMaxOrderByAggregateInput = {
-    id?: SortOrder
-    firstName?: SortOrder
-    lastName?: SortOrder
-  }
-
-  export type PassengerMinOrderByAggregateInput = {
-    id?: SortOrder
-    firstName?: SortOrder
-    lastName?: SortOrder
-  }
-
-  export type StringWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
-  }
-
   export type StringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -42186,6 +41115,24 @@ export namespace Prisma {
     organizeId?: SortOrder
   }
 
+  export type StringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
+  }
+
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -42226,6 +41173,17 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type ConferenceDatesCountOrderByAggregateInput = {
     id?: SortOrder
     organizedId?: SortOrder
@@ -42262,6 +41220,20 @@ export namespace Prisma {
     isAvailable?: SortOrder
   }
 
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type IntNullableFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
@@ -42279,10 +41251,9 @@ export namespace Prisma {
     none?: ConferenceDatesWhereInput
   }
 
-  export type LocationsListRelationFilter = {
-    every?: LocationsWhereInput
-    some?: LocationsWhereInput
-    none?: LocationsWhereInput
+  export type ConferencesScalarRelationFilter = {
+    is?: ConferencesWhereInput
+    isNot?: ConferencesWhereInput
   }
 
   export type ConferenceTopicsListRelationFilter = {
@@ -42291,20 +41262,21 @@ export namespace Prisma {
     none?: ConferenceTopicsWhereInput
   }
 
-  export type ConferencesScalarRelationFilter = {
-    is?: ConferencesWhereInput
-    isNot?: ConferencesWhereInput
+  export type LocationsListRelationFilter = {
+    every?: LocationsWhereInput
+    some?: LocationsWhereInput
+    none?: LocationsWhereInput
   }
 
   export type ConferenceDatesOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type LocationsOrderByRelationAggregateInput = {
+  export type ConferenceTopicsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type ConferenceTopicsOrderByRelationAggregateInput = {
+  export type LocationsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -42450,6 +41422,30 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type ConferenceBlacklistsListRelationFilter = {
+    every?: ConferenceBlacklistsWhereInput
+    some?: ConferenceBlacklistsWhereInput
+    none?: ConferenceBlacklistsWhereInput
+  }
+
+  export type ConferenceCalendarsListRelationFilter = {
+    every?: ConferenceCalendarsWhereInput
+    some?: ConferenceCalendarsWhereInput
+    none?: ConferenceCalendarsWhereInput
+  }
+
+  export type ConferenceCrawlJobsListRelationFilter = {
+    every?: ConferenceCrawlJobsWhereInput
+    some?: ConferenceCrawlJobsWhereInput
+    none?: ConferenceCrawlJobsWhereInput
+  }
+
+  export type ConferenceFeedbacksListRelationFilter = {
+    every?: ConferenceFeedbacksWhereInput
+    some?: ConferenceFeedbacksWhereInput
+    none?: ConferenceFeedbacksWhereInput
+  }
+
   export type ConferenceFollowsListRelationFilter = {
     every?: ConferenceFollowsWhereInput
     some?: ConferenceFollowsWhereInput
@@ -42460,12 +41456,6 @@ export namespace Prisma {
     every?: ConferenceLikesWhereInput
     some?: ConferenceLikesWhereInput
     none?: ConferenceLikesWhereInput
-  }
-
-  export type ConferenceCalendarsListRelationFilter = {
-    every?: ConferenceCalendarsWhereInput
-    some?: ConferenceCalendarsWhereInput
-    none?: ConferenceCalendarsWhereInput
   }
 
   export type ConferenceOrganizationsListRelationFilter = {
@@ -42480,12 +41470,6 @@ export namespace Prisma {
     none?: ConferenceRanksWhereInput
   }
 
-  export type ConferenceCrawlJobsListRelationFilter = {
-    every?: ConferenceCrawlJobsWhereInput
-    some?: ConferenceCrawlJobsWhereInput
-    none?: ConferenceCrawlJobsWhereInput
-  }
-
   export type UsersNullableScalarRelationFilter = {
     is?: UsersWhereInput | null
     isNot?: UsersWhereInput | null
@@ -42496,35 +41480,11 @@ export namespace Prisma {
     isNot?: AdminsWhereInput | null
   }
 
-  export type ConferenceFeedbacksListRelationFilter = {
-    every?: ConferenceFeedbacksWhereInput
-    some?: ConferenceFeedbacksWhereInput
-    none?: ConferenceFeedbacksWhereInput
-  }
-
-  export type ConferenceBlacklistsListRelationFilter = {
-    every?: ConferenceBlacklistsWhereInput
-    some?: ConferenceBlacklistsWhereInput
-    none?: ConferenceBlacklistsWhereInput
-  }
-
-  export type ConferenceFollowsOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type ConferenceLikesOrderByRelationAggregateInput = {
+  export type ConferenceBlacklistsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type ConferenceCalendarsOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type ConferenceOrganizationsOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type ConferenceRanksOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -42536,7 +41496,19 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type ConferenceBlacklistsOrderByRelationAggregateInput = {
+  export type ConferenceFollowsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ConferenceLikesOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ConferenceOrganizationsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ConferenceRanksOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -42792,10 +41764,10 @@ export namespace Prisma {
     year?: SortOrder
   }
 
-  export type JournalLikesListRelationFilter = {
-    every?: JournalLikesWhereInput
-    some?: JournalLikesWhereInput
-    none?: JournalLikesWhereInput
+  export type JournalCrawlJobsListRelationFilter = {
+    every?: JournalCrawlJobsWhereInput
+    some?: JournalCrawlJobsWhereInput
+    none?: JournalCrawlJobsWhereInput
   }
 
   export type JournalFollowsListRelationFilter = {
@@ -42804,18 +41776,13 @@ export namespace Prisma {
     none?: JournalFollowsWhereInput
   }
 
-  export type JournalCrawlJobsListRelationFilter = {
-    every?: JournalCrawlJobsWhereInput
-    some?: JournalCrawlJobsWhereInput
-    none?: JournalCrawlJobsWhereInput
+  export type JournalLikesListRelationFilter = {
+    every?: JournalLikesWhereInput
+    some?: JournalLikesWhereInput
+    none?: JournalLikesWhereInput
   }
 
-  export type UsersScalarRelationFilter = {
-    is?: UsersWhereInput
-    isNot?: UsersWhereInput
-  }
-
-  export type JournalLikesOrderByRelationAggregateInput = {
+  export type JournalCrawlJobsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -42823,7 +41790,7 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type JournalCrawlJobsOrderByRelationAggregateInput = {
+  export type JournalLikesOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -42836,7 +41803,8 @@ export namespace Prisma {
     nation?: SortOrder
     scope?: SortOrder
     emailSubmission?: SortOrder
-    creator?: SortOrder
+    creatorId?: SortOrder
+    adminId?: SortOrder
   }
 
   export type JournalsAvgOrderByAggregateInput = {
@@ -42852,7 +41820,8 @@ export namespace Prisma {
     nation?: SortOrder
     scope?: SortOrder
     emailSubmission?: SortOrder
-    creator?: SortOrder
+    creatorId?: SortOrder
+    adminId?: SortOrder
   }
 
   export type JournalsMinOrderByAggregateInput = {
@@ -42864,11 +41833,17 @@ export namespace Prisma {
     nation?: SortOrder
     scope?: SortOrder
     emailSubmission?: SortOrder
-    creator?: SortOrder
+    creatorId?: SortOrder
+    adminId?: SortOrder
   }
 
   export type JournalsSumOrderByAggregateInput = {
     hIndex?: SortOrder
+  }
+
+  export type UsersScalarRelationFilter = {
+    is?: UsersWhereInput
+    isNot?: UsersWhereInput
   }
 
   export type ConferenceFollowsConferenceIdUserIdCompoundUniqueInput = {
@@ -43056,16 +42031,16 @@ export namespace Prisma {
     none?: JournalsWhereInput
   }
 
-  export type NotificationsListRelationFilter = {
-    every?: NotificationsWhereInput
-    some?: NotificationsWhereInput
-    none?: NotificationsWhereInput
-  }
-
   export type NotificationSettingsListRelationFilter = {
     every?: NotificationSettingsWhereInput
     some?: NotificationSettingsWhereInput
     none?: NotificationSettingsWhereInput
+  }
+
+  export type NotificationsListRelationFilter = {
+    every?: NotificationsWhereInput
+    some?: NotificationsWhereInput
+    none?: NotificationsWhereInput
   }
 
   export type UserVerificationListRelationFilter = {
@@ -43082,11 +42057,11 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type NotificationsOrderByRelationAggregateInput = {
+  export type NotificationSettingsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type NotificationSettingsOrderByRelationAggregateInput = {
+  export type NotificationsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -43413,14 +42388,14 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type StringFieldUpdateOperationsInput = {
-    set?: string
-  }
-
   export type ConferenceOrganizationsCreateNestedOneWithoutLocationsInput = {
     create?: XOR<ConferenceOrganizationsCreateWithoutLocationsInput, ConferenceOrganizationsUncheckedCreateWithoutLocationsInput>
     connectOrCreate?: ConferenceOrganizationsCreateOrConnectWithoutLocationsInput
     connect?: ConferenceOrganizationsWhereUniqueInput
+  }
+
+  export type StringFieldUpdateOperationsInput = {
+    set?: string
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -43449,6 +42424,10 @@ export namespace Prisma {
     connect?: ConferenceOrganizationsWhereUniqueInput
   }
 
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
   export type ConferenceOrganizationsUpdateOneRequiredWithoutConferenceDatesNestedInput = {
     create?: XOR<ConferenceOrganizationsCreateWithoutConferenceDatesInput, ConferenceOrganizationsUncheckedCreateWithoutConferenceDatesInput>
     connectOrCreate?: ConferenceOrganizationsCreateOrConnectWithoutConferenceDatesInput
@@ -43464,11 +42443,10 @@ export namespace Prisma {
     connect?: ConferenceDatesWhereUniqueInput | ConferenceDatesWhereUniqueInput[]
   }
 
-  export type LocationsCreateNestedManyWithoutBelongsToInput = {
-    create?: XOR<LocationsCreateWithoutBelongsToInput, LocationsUncheckedCreateWithoutBelongsToInput> | LocationsCreateWithoutBelongsToInput[] | LocationsUncheckedCreateWithoutBelongsToInput[]
-    connectOrCreate?: LocationsCreateOrConnectWithoutBelongsToInput | LocationsCreateOrConnectWithoutBelongsToInput[]
-    createMany?: LocationsCreateManyBelongsToInputEnvelope
-    connect?: LocationsWhereUniqueInput | LocationsWhereUniqueInput[]
+  export type ConferencesCreateNestedOneWithoutOrganizationsInput = {
+    create?: XOR<ConferencesCreateWithoutOrganizationsInput, ConferencesUncheckedCreateWithoutOrganizationsInput>
+    connectOrCreate?: ConferencesCreateOrConnectWithoutOrganizationsInput
+    connect?: ConferencesWhereUniqueInput
   }
 
   export type ConferenceTopicsCreateNestedManyWithoutBelongsToInput = {
@@ -43478,10 +42456,11 @@ export namespace Prisma {
     connect?: ConferenceTopicsWhereUniqueInput | ConferenceTopicsWhereUniqueInput[]
   }
 
-  export type ConferencesCreateNestedOneWithoutOrganizationsInput = {
-    create?: XOR<ConferencesCreateWithoutOrganizationsInput, ConferencesUncheckedCreateWithoutOrganizationsInput>
-    connectOrCreate?: ConferencesCreateOrConnectWithoutOrganizationsInput
-    connect?: ConferencesWhereUniqueInput
+  export type LocationsCreateNestedManyWithoutBelongsToInput = {
+    create?: XOR<LocationsCreateWithoutBelongsToInput, LocationsUncheckedCreateWithoutBelongsToInput> | LocationsCreateWithoutBelongsToInput[] | LocationsUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: LocationsCreateOrConnectWithoutBelongsToInput | LocationsCreateOrConnectWithoutBelongsToInput[]
+    createMany?: LocationsCreateManyBelongsToInputEnvelope
+    connect?: LocationsWhereUniqueInput | LocationsWhereUniqueInput[]
   }
 
   export type ConferenceDatesUncheckedCreateNestedManyWithoutBelongsToInput = {
@@ -43491,18 +42470,18 @@ export namespace Prisma {
     connect?: ConferenceDatesWhereUniqueInput | ConferenceDatesWhereUniqueInput[]
   }
 
-  export type LocationsUncheckedCreateNestedManyWithoutBelongsToInput = {
-    create?: XOR<LocationsCreateWithoutBelongsToInput, LocationsUncheckedCreateWithoutBelongsToInput> | LocationsCreateWithoutBelongsToInput[] | LocationsUncheckedCreateWithoutBelongsToInput[]
-    connectOrCreate?: LocationsCreateOrConnectWithoutBelongsToInput | LocationsCreateOrConnectWithoutBelongsToInput[]
-    createMany?: LocationsCreateManyBelongsToInputEnvelope
-    connect?: LocationsWhereUniqueInput | LocationsWhereUniqueInput[]
-  }
-
   export type ConferenceTopicsUncheckedCreateNestedManyWithoutBelongsToInput = {
     create?: XOR<ConferenceTopicsCreateWithoutBelongsToInput, ConferenceTopicsUncheckedCreateWithoutBelongsToInput> | ConferenceTopicsCreateWithoutBelongsToInput[] | ConferenceTopicsUncheckedCreateWithoutBelongsToInput[]
     connectOrCreate?: ConferenceTopicsCreateOrConnectWithoutBelongsToInput | ConferenceTopicsCreateOrConnectWithoutBelongsToInput[]
     createMany?: ConferenceTopicsCreateManyBelongsToInputEnvelope
     connect?: ConferenceTopicsWhereUniqueInput | ConferenceTopicsWhereUniqueInput[]
+  }
+
+  export type LocationsUncheckedCreateNestedManyWithoutBelongsToInput = {
+    create?: XOR<LocationsCreateWithoutBelongsToInput, LocationsUncheckedCreateWithoutBelongsToInput> | LocationsCreateWithoutBelongsToInput[] | LocationsUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: LocationsCreateOrConnectWithoutBelongsToInput | LocationsCreateOrConnectWithoutBelongsToInput[]
+    createMany?: LocationsCreateManyBelongsToInputEnvelope
+    connect?: LocationsWhereUniqueInput | LocationsWhereUniqueInput[]
   }
 
   export type NullableIntFieldUpdateOperationsInput = {
@@ -43527,18 +42506,12 @@ export namespace Prisma {
     deleteMany?: ConferenceDatesScalarWhereInput | ConferenceDatesScalarWhereInput[]
   }
 
-  export type LocationsUpdateManyWithoutBelongsToNestedInput = {
-    create?: XOR<LocationsCreateWithoutBelongsToInput, LocationsUncheckedCreateWithoutBelongsToInput> | LocationsCreateWithoutBelongsToInput[] | LocationsUncheckedCreateWithoutBelongsToInput[]
-    connectOrCreate?: LocationsCreateOrConnectWithoutBelongsToInput | LocationsCreateOrConnectWithoutBelongsToInput[]
-    upsert?: LocationsUpsertWithWhereUniqueWithoutBelongsToInput | LocationsUpsertWithWhereUniqueWithoutBelongsToInput[]
-    createMany?: LocationsCreateManyBelongsToInputEnvelope
-    set?: LocationsWhereUniqueInput | LocationsWhereUniqueInput[]
-    disconnect?: LocationsWhereUniqueInput | LocationsWhereUniqueInput[]
-    delete?: LocationsWhereUniqueInput | LocationsWhereUniqueInput[]
-    connect?: LocationsWhereUniqueInput | LocationsWhereUniqueInput[]
-    update?: LocationsUpdateWithWhereUniqueWithoutBelongsToInput | LocationsUpdateWithWhereUniqueWithoutBelongsToInput[]
-    updateMany?: LocationsUpdateManyWithWhereWithoutBelongsToInput | LocationsUpdateManyWithWhereWithoutBelongsToInput[]
-    deleteMany?: LocationsScalarWhereInput | LocationsScalarWhereInput[]
+  export type ConferencesUpdateOneRequiredWithoutOrganizationsNestedInput = {
+    create?: XOR<ConferencesCreateWithoutOrganizationsInput, ConferencesUncheckedCreateWithoutOrganizationsInput>
+    connectOrCreate?: ConferencesCreateOrConnectWithoutOrganizationsInput
+    upsert?: ConferencesUpsertWithoutOrganizationsInput
+    connect?: ConferencesWhereUniqueInput
+    update?: XOR<XOR<ConferencesUpdateToOneWithWhereWithoutOrganizationsInput, ConferencesUpdateWithoutOrganizationsInput>, ConferencesUncheckedUpdateWithoutOrganizationsInput>
   }
 
   export type ConferenceTopicsUpdateManyWithoutBelongsToNestedInput = {
@@ -43555,12 +42528,18 @@ export namespace Prisma {
     deleteMany?: ConferenceTopicsScalarWhereInput | ConferenceTopicsScalarWhereInput[]
   }
 
-  export type ConferencesUpdateOneRequiredWithoutOrganizationsNestedInput = {
-    create?: XOR<ConferencesCreateWithoutOrganizationsInput, ConferencesUncheckedCreateWithoutOrganizationsInput>
-    connectOrCreate?: ConferencesCreateOrConnectWithoutOrganizationsInput
-    upsert?: ConferencesUpsertWithoutOrganizationsInput
-    connect?: ConferencesWhereUniqueInput
-    update?: XOR<XOR<ConferencesUpdateToOneWithWhereWithoutOrganizationsInput, ConferencesUpdateWithoutOrganizationsInput>, ConferencesUncheckedUpdateWithoutOrganizationsInput>
+  export type LocationsUpdateManyWithoutBelongsToNestedInput = {
+    create?: XOR<LocationsCreateWithoutBelongsToInput, LocationsUncheckedCreateWithoutBelongsToInput> | LocationsCreateWithoutBelongsToInput[] | LocationsUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: LocationsCreateOrConnectWithoutBelongsToInput | LocationsCreateOrConnectWithoutBelongsToInput[]
+    upsert?: LocationsUpsertWithWhereUniqueWithoutBelongsToInput | LocationsUpsertWithWhereUniqueWithoutBelongsToInput[]
+    createMany?: LocationsCreateManyBelongsToInputEnvelope
+    set?: LocationsWhereUniqueInput | LocationsWhereUniqueInput[]
+    disconnect?: LocationsWhereUniqueInput | LocationsWhereUniqueInput[]
+    delete?: LocationsWhereUniqueInput | LocationsWhereUniqueInput[]
+    connect?: LocationsWhereUniqueInput | LocationsWhereUniqueInput[]
+    update?: LocationsUpdateWithWhereUniqueWithoutBelongsToInput | LocationsUpdateWithWhereUniqueWithoutBelongsToInput[]
+    updateMany?: LocationsUpdateManyWithWhereWithoutBelongsToInput | LocationsUpdateManyWithWhereWithoutBelongsToInput[]
+    deleteMany?: LocationsScalarWhereInput | LocationsScalarWhereInput[]
   }
 
   export type ConferenceDatesUncheckedUpdateManyWithoutBelongsToNestedInput = {
@@ -43577,20 +42556,6 @@ export namespace Prisma {
     deleteMany?: ConferenceDatesScalarWhereInput | ConferenceDatesScalarWhereInput[]
   }
 
-  export type LocationsUncheckedUpdateManyWithoutBelongsToNestedInput = {
-    create?: XOR<LocationsCreateWithoutBelongsToInput, LocationsUncheckedCreateWithoutBelongsToInput> | LocationsCreateWithoutBelongsToInput[] | LocationsUncheckedCreateWithoutBelongsToInput[]
-    connectOrCreate?: LocationsCreateOrConnectWithoutBelongsToInput | LocationsCreateOrConnectWithoutBelongsToInput[]
-    upsert?: LocationsUpsertWithWhereUniqueWithoutBelongsToInput | LocationsUpsertWithWhereUniqueWithoutBelongsToInput[]
-    createMany?: LocationsCreateManyBelongsToInputEnvelope
-    set?: LocationsWhereUniqueInput | LocationsWhereUniqueInput[]
-    disconnect?: LocationsWhereUniqueInput | LocationsWhereUniqueInput[]
-    delete?: LocationsWhereUniqueInput | LocationsWhereUniqueInput[]
-    connect?: LocationsWhereUniqueInput | LocationsWhereUniqueInput[]
-    update?: LocationsUpdateWithWhereUniqueWithoutBelongsToInput | LocationsUpdateWithWhereUniqueWithoutBelongsToInput[]
-    updateMany?: LocationsUpdateManyWithWhereWithoutBelongsToInput | LocationsUpdateManyWithWhereWithoutBelongsToInput[]
-    deleteMany?: LocationsScalarWhereInput | LocationsScalarWhereInput[]
-  }
-
   export type ConferenceTopicsUncheckedUpdateManyWithoutBelongsToNestedInput = {
     create?: XOR<ConferenceTopicsCreateWithoutBelongsToInput, ConferenceTopicsUncheckedCreateWithoutBelongsToInput> | ConferenceTopicsCreateWithoutBelongsToInput[] | ConferenceTopicsUncheckedCreateWithoutBelongsToInput[]
     connectOrCreate?: ConferenceTopicsCreateOrConnectWithoutBelongsToInput | ConferenceTopicsCreateOrConnectWithoutBelongsToInput[]
@@ -43603,6 +42568,20 @@ export namespace Prisma {
     update?: ConferenceTopicsUpdateWithWhereUniqueWithoutBelongsToInput | ConferenceTopicsUpdateWithWhereUniqueWithoutBelongsToInput[]
     updateMany?: ConferenceTopicsUpdateManyWithWhereWithoutBelongsToInput | ConferenceTopicsUpdateManyWithWhereWithoutBelongsToInput[]
     deleteMany?: ConferenceTopicsScalarWhereInput | ConferenceTopicsScalarWhereInput[]
+  }
+
+  export type LocationsUncheckedUpdateManyWithoutBelongsToNestedInput = {
+    create?: XOR<LocationsCreateWithoutBelongsToInput, LocationsUncheckedCreateWithoutBelongsToInput> | LocationsCreateWithoutBelongsToInput[] | LocationsUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: LocationsCreateOrConnectWithoutBelongsToInput | LocationsCreateOrConnectWithoutBelongsToInput[]
+    upsert?: LocationsUpsertWithWhereUniqueWithoutBelongsToInput | LocationsUpsertWithWhereUniqueWithoutBelongsToInput[]
+    createMany?: LocationsCreateManyBelongsToInputEnvelope
+    set?: LocationsWhereUniqueInput | LocationsWhereUniqueInput[]
+    disconnect?: LocationsWhereUniqueInput | LocationsWhereUniqueInput[]
+    delete?: LocationsWhereUniqueInput | LocationsWhereUniqueInput[]
+    connect?: LocationsWhereUniqueInput | LocationsWhereUniqueInput[]
+    update?: LocationsUpdateWithWhereUniqueWithoutBelongsToInput | LocationsUpdateWithWhereUniqueWithoutBelongsToInput[]
+    updateMany?: LocationsUpdateManyWithWhereWithoutBelongsToInput | LocationsUpdateManyWithWhereWithoutBelongsToInput[]
+    deleteMany?: LocationsScalarWhereInput | LocationsScalarWhereInput[]
   }
 
   export type ConferenceOrganizationsCreateNestedOneWithoutTopicsInput = {
@@ -43759,6 +42738,34 @@ export namespace Prisma {
     deleteMany?: TopicUserInterestedsScalarWhereInput | TopicUserInterestedsScalarWhereInput[]
   }
 
+  export type ConferenceBlacklistsCreateNestedManyWithoutBelongsToInput = {
+    create?: XOR<ConferenceBlacklistsCreateWithoutBelongsToInput, ConferenceBlacklistsUncheckedCreateWithoutBelongsToInput> | ConferenceBlacklistsCreateWithoutBelongsToInput[] | ConferenceBlacklistsUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: ConferenceBlacklistsCreateOrConnectWithoutBelongsToInput | ConferenceBlacklistsCreateOrConnectWithoutBelongsToInput[]
+    createMany?: ConferenceBlacklistsCreateManyBelongsToInputEnvelope
+    connect?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
+  }
+
+  export type ConferenceCalendarsCreateNestedManyWithoutBelongsToInput = {
+    create?: XOR<ConferenceCalendarsCreateWithoutBelongsToInput, ConferenceCalendarsUncheckedCreateWithoutBelongsToInput> | ConferenceCalendarsCreateWithoutBelongsToInput[] | ConferenceCalendarsUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: ConferenceCalendarsCreateOrConnectWithoutBelongsToInput | ConferenceCalendarsCreateOrConnectWithoutBelongsToInput[]
+    createMany?: ConferenceCalendarsCreateManyBelongsToInputEnvelope
+    connect?: ConferenceCalendarsWhereUniqueInput | ConferenceCalendarsWhereUniqueInput[]
+  }
+
+  export type ConferenceCrawlJobsCreateNestedManyWithoutBelongsToInput = {
+    create?: XOR<ConferenceCrawlJobsCreateWithoutBelongsToInput, ConferenceCrawlJobsUncheckedCreateWithoutBelongsToInput> | ConferenceCrawlJobsCreateWithoutBelongsToInput[] | ConferenceCrawlJobsUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: ConferenceCrawlJobsCreateOrConnectWithoutBelongsToInput | ConferenceCrawlJobsCreateOrConnectWithoutBelongsToInput[]
+    createMany?: ConferenceCrawlJobsCreateManyBelongsToInputEnvelope
+    connect?: ConferenceCrawlJobsWhereUniqueInput | ConferenceCrawlJobsWhereUniqueInput[]
+  }
+
+  export type ConferenceFeedbacksCreateNestedManyWithoutBelongsToInput = {
+    create?: XOR<ConferenceFeedbacksCreateWithoutBelongsToInput, ConferenceFeedbacksUncheckedCreateWithoutBelongsToInput> | ConferenceFeedbacksCreateWithoutBelongsToInput[] | ConferenceFeedbacksUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: ConferenceFeedbacksCreateOrConnectWithoutBelongsToInput | ConferenceFeedbacksCreateOrConnectWithoutBelongsToInput[]
+    createMany?: ConferenceFeedbacksCreateManyBelongsToInputEnvelope
+    connect?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
+  }
+
   export type ConferenceFollowsCreateNestedManyWithoutBelongsToInput = {
     create?: XOR<ConferenceFollowsCreateWithoutBelongsToInput, ConferenceFollowsUncheckedCreateWithoutBelongsToInput> | ConferenceFollowsCreateWithoutBelongsToInput[] | ConferenceFollowsUncheckedCreateWithoutBelongsToInput[]
     connectOrCreate?: ConferenceFollowsCreateOrConnectWithoutBelongsToInput | ConferenceFollowsCreateOrConnectWithoutBelongsToInput[]
@@ -43771,13 +42778,6 @@ export namespace Prisma {
     connectOrCreate?: ConferenceLikesCreateOrConnectWithoutBelongsToInput | ConferenceLikesCreateOrConnectWithoutBelongsToInput[]
     createMany?: ConferenceLikesCreateManyBelongsToInputEnvelope
     connect?: ConferenceLikesWhereUniqueInput | ConferenceLikesWhereUniqueInput[]
-  }
-
-  export type ConferenceCalendarsCreateNestedManyWithoutBelongsToInput = {
-    create?: XOR<ConferenceCalendarsCreateWithoutBelongsToInput, ConferenceCalendarsUncheckedCreateWithoutBelongsToInput> | ConferenceCalendarsCreateWithoutBelongsToInput[] | ConferenceCalendarsUncheckedCreateWithoutBelongsToInput[]
-    connectOrCreate?: ConferenceCalendarsCreateOrConnectWithoutBelongsToInput | ConferenceCalendarsCreateOrConnectWithoutBelongsToInput[]
-    createMany?: ConferenceCalendarsCreateManyBelongsToInputEnvelope
-    connect?: ConferenceCalendarsWhereUniqueInput | ConferenceCalendarsWhereUniqueInput[]
   }
 
   export type ConferenceOrganizationsCreateNestedManyWithoutBelongsToInput = {
@@ -43794,13 +42794,6 @@ export namespace Prisma {
     connect?: ConferenceRanksWhereUniqueInput | ConferenceRanksWhereUniqueInput[]
   }
 
-  export type ConferenceCrawlJobsCreateNestedManyWithoutBelongsToInput = {
-    create?: XOR<ConferenceCrawlJobsCreateWithoutBelongsToInput, ConferenceCrawlJobsUncheckedCreateWithoutBelongsToInput> | ConferenceCrawlJobsCreateWithoutBelongsToInput[] | ConferenceCrawlJobsUncheckedCreateWithoutBelongsToInput[]
-    connectOrCreate?: ConferenceCrawlJobsCreateOrConnectWithoutBelongsToInput | ConferenceCrawlJobsCreateOrConnectWithoutBelongsToInput[]
-    createMany?: ConferenceCrawlJobsCreateManyBelongsToInputEnvelope
-    connect?: ConferenceCrawlJobsWhereUniqueInput | ConferenceCrawlJobsWhereUniqueInput[]
-  }
-
   export type UsersCreateNestedOneWithoutCreatedConferencesInput = {
     create?: XOR<UsersCreateWithoutCreatedConferencesInput, UsersUncheckedCreateWithoutCreatedConferencesInput>
     connectOrCreate?: UsersCreateOrConnectWithoutCreatedConferencesInput
@@ -43813,32 +42806,11 @@ export namespace Prisma {
     connect?: AdminsWhereUniqueInput
   }
 
-  export type ConferenceFeedbacksCreateNestedManyWithoutBelongsToInput = {
-    create?: XOR<ConferenceFeedbacksCreateWithoutBelongsToInput, ConferenceFeedbacksUncheckedCreateWithoutBelongsToInput> | ConferenceFeedbacksCreateWithoutBelongsToInput[] | ConferenceFeedbacksUncheckedCreateWithoutBelongsToInput[]
-    connectOrCreate?: ConferenceFeedbacksCreateOrConnectWithoutBelongsToInput | ConferenceFeedbacksCreateOrConnectWithoutBelongsToInput[]
-    createMany?: ConferenceFeedbacksCreateManyBelongsToInputEnvelope
-    connect?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
-  }
-
-  export type ConferenceBlacklistsCreateNestedManyWithoutBelongsToInput = {
+  export type ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput = {
     create?: XOR<ConferenceBlacklistsCreateWithoutBelongsToInput, ConferenceBlacklistsUncheckedCreateWithoutBelongsToInput> | ConferenceBlacklistsCreateWithoutBelongsToInput[] | ConferenceBlacklistsUncheckedCreateWithoutBelongsToInput[]
     connectOrCreate?: ConferenceBlacklistsCreateOrConnectWithoutBelongsToInput | ConferenceBlacklistsCreateOrConnectWithoutBelongsToInput[]
     createMany?: ConferenceBlacklistsCreateManyBelongsToInputEnvelope
     connect?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
-  }
-
-  export type ConferenceFollowsUncheckedCreateNestedManyWithoutBelongsToInput = {
-    create?: XOR<ConferenceFollowsCreateWithoutBelongsToInput, ConferenceFollowsUncheckedCreateWithoutBelongsToInput> | ConferenceFollowsCreateWithoutBelongsToInput[] | ConferenceFollowsUncheckedCreateWithoutBelongsToInput[]
-    connectOrCreate?: ConferenceFollowsCreateOrConnectWithoutBelongsToInput | ConferenceFollowsCreateOrConnectWithoutBelongsToInput[]
-    createMany?: ConferenceFollowsCreateManyBelongsToInputEnvelope
-    connect?: ConferenceFollowsWhereUniqueInput | ConferenceFollowsWhereUniqueInput[]
-  }
-
-  export type ConferenceLikesUncheckedCreateNestedManyWithoutBelongsToInput = {
-    create?: XOR<ConferenceLikesCreateWithoutBelongsToInput, ConferenceLikesUncheckedCreateWithoutBelongsToInput> | ConferenceLikesCreateWithoutBelongsToInput[] | ConferenceLikesUncheckedCreateWithoutBelongsToInput[]
-    connectOrCreate?: ConferenceLikesCreateOrConnectWithoutBelongsToInput | ConferenceLikesCreateOrConnectWithoutBelongsToInput[]
-    createMany?: ConferenceLikesCreateManyBelongsToInputEnvelope
-    connect?: ConferenceLikesWhereUniqueInput | ConferenceLikesWhereUniqueInput[]
   }
 
   export type ConferenceCalendarsUncheckedCreateNestedManyWithoutBelongsToInput = {
@@ -43846,20 +42818,6 @@ export namespace Prisma {
     connectOrCreate?: ConferenceCalendarsCreateOrConnectWithoutBelongsToInput | ConferenceCalendarsCreateOrConnectWithoutBelongsToInput[]
     createMany?: ConferenceCalendarsCreateManyBelongsToInputEnvelope
     connect?: ConferenceCalendarsWhereUniqueInput | ConferenceCalendarsWhereUniqueInput[]
-  }
-
-  export type ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput = {
-    create?: XOR<ConferenceOrganizationsCreateWithoutBelongsToInput, ConferenceOrganizationsUncheckedCreateWithoutBelongsToInput> | ConferenceOrganizationsCreateWithoutBelongsToInput[] | ConferenceOrganizationsUncheckedCreateWithoutBelongsToInput[]
-    connectOrCreate?: ConferenceOrganizationsCreateOrConnectWithoutBelongsToInput | ConferenceOrganizationsCreateOrConnectWithoutBelongsToInput[]
-    createMany?: ConferenceOrganizationsCreateManyBelongsToInputEnvelope
-    connect?: ConferenceOrganizationsWhereUniqueInput | ConferenceOrganizationsWhereUniqueInput[]
-  }
-
-  export type ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput = {
-    create?: XOR<ConferenceRanksCreateWithoutBelongsToInput, ConferenceRanksUncheckedCreateWithoutBelongsToInput> | ConferenceRanksCreateWithoutBelongsToInput[] | ConferenceRanksUncheckedCreateWithoutBelongsToInput[]
-    connectOrCreate?: ConferenceRanksCreateOrConnectWithoutBelongsToInput | ConferenceRanksCreateOrConnectWithoutBelongsToInput[]
-    createMany?: ConferenceRanksCreateManyBelongsToInputEnvelope
-    connect?: ConferenceRanksWhereUniqueInput | ConferenceRanksWhereUniqueInput[]
   }
 
   export type ConferenceCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput = {
@@ -43876,11 +42834,88 @@ export namespace Prisma {
     connect?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
   }
 
-  export type ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput = {
+  export type ConferenceFollowsUncheckedCreateNestedManyWithoutBelongsToInput = {
+    create?: XOR<ConferenceFollowsCreateWithoutBelongsToInput, ConferenceFollowsUncheckedCreateWithoutBelongsToInput> | ConferenceFollowsCreateWithoutBelongsToInput[] | ConferenceFollowsUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: ConferenceFollowsCreateOrConnectWithoutBelongsToInput | ConferenceFollowsCreateOrConnectWithoutBelongsToInput[]
+    createMany?: ConferenceFollowsCreateManyBelongsToInputEnvelope
+    connect?: ConferenceFollowsWhereUniqueInput | ConferenceFollowsWhereUniqueInput[]
+  }
+
+  export type ConferenceLikesUncheckedCreateNestedManyWithoutBelongsToInput = {
+    create?: XOR<ConferenceLikesCreateWithoutBelongsToInput, ConferenceLikesUncheckedCreateWithoutBelongsToInput> | ConferenceLikesCreateWithoutBelongsToInput[] | ConferenceLikesUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: ConferenceLikesCreateOrConnectWithoutBelongsToInput | ConferenceLikesCreateOrConnectWithoutBelongsToInput[]
+    createMany?: ConferenceLikesCreateManyBelongsToInputEnvelope
+    connect?: ConferenceLikesWhereUniqueInput | ConferenceLikesWhereUniqueInput[]
+  }
+
+  export type ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput = {
+    create?: XOR<ConferenceOrganizationsCreateWithoutBelongsToInput, ConferenceOrganizationsUncheckedCreateWithoutBelongsToInput> | ConferenceOrganizationsCreateWithoutBelongsToInput[] | ConferenceOrganizationsUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: ConferenceOrganizationsCreateOrConnectWithoutBelongsToInput | ConferenceOrganizationsCreateOrConnectWithoutBelongsToInput[]
+    createMany?: ConferenceOrganizationsCreateManyBelongsToInputEnvelope
+    connect?: ConferenceOrganizationsWhereUniqueInput | ConferenceOrganizationsWhereUniqueInput[]
+  }
+
+  export type ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput = {
+    create?: XOR<ConferenceRanksCreateWithoutBelongsToInput, ConferenceRanksUncheckedCreateWithoutBelongsToInput> | ConferenceRanksCreateWithoutBelongsToInput[] | ConferenceRanksUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: ConferenceRanksCreateOrConnectWithoutBelongsToInput | ConferenceRanksCreateOrConnectWithoutBelongsToInput[]
+    createMany?: ConferenceRanksCreateManyBelongsToInputEnvelope
+    connect?: ConferenceRanksWhereUniqueInput | ConferenceRanksWhereUniqueInput[]
+  }
+
+  export type ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput = {
     create?: XOR<ConferenceBlacklistsCreateWithoutBelongsToInput, ConferenceBlacklistsUncheckedCreateWithoutBelongsToInput> | ConferenceBlacklistsCreateWithoutBelongsToInput[] | ConferenceBlacklistsUncheckedCreateWithoutBelongsToInput[]
     connectOrCreate?: ConferenceBlacklistsCreateOrConnectWithoutBelongsToInput | ConferenceBlacklistsCreateOrConnectWithoutBelongsToInput[]
+    upsert?: ConferenceBlacklistsUpsertWithWhereUniqueWithoutBelongsToInput | ConferenceBlacklistsUpsertWithWhereUniqueWithoutBelongsToInput[]
     createMany?: ConferenceBlacklistsCreateManyBelongsToInputEnvelope
+    set?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
+    disconnect?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
+    delete?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
     connect?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
+    update?: ConferenceBlacklistsUpdateWithWhereUniqueWithoutBelongsToInput | ConferenceBlacklistsUpdateWithWhereUniqueWithoutBelongsToInput[]
+    updateMany?: ConferenceBlacklistsUpdateManyWithWhereWithoutBelongsToInput | ConferenceBlacklistsUpdateManyWithWhereWithoutBelongsToInput[]
+    deleteMany?: ConferenceBlacklistsScalarWhereInput | ConferenceBlacklistsScalarWhereInput[]
+  }
+
+  export type ConferenceCalendarsUpdateManyWithoutBelongsToNestedInput = {
+    create?: XOR<ConferenceCalendarsCreateWithoutBelongsToInput, ConferenceCalendarsUncheckedCreateWithoutBelongsToInput> | ConferenceCalendarsCreateWithoutBelongsToInput[] | ConferenceCalendarsUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: ConferenceCalendarsCreateOrConnectWithoutBelongsToInput | ConferenceCalendarsCreateOrConnectWithoutBelongsToInput[]
+    upsert?: ConferenceCalendarsUpsertWithWhereUniqueWithoutBelongsToInput | ConferenceCalendarsUpsertWithWhereUniqueWithoutBelongsToInput[]
+    createMany?: ConferenceCalendarsCreateManyBelongsToInputEnvelope
+    set?: ConferenceCalendarsWhereUniqueInput | ConferenceCalendarsWhereUniqueInput[]
+    disconnect?: ConferenceCalendarsWhereUniqueInput | ConferenceCalendarsWhereUniqueInput[]
+    delete?: ConferenceCalendarsWhereUniqueInput | ConferenceCalendarsWhereUniqueInput[]
+    connect?: ConferenceCalendarsWhereUniqueInput | ConferenceCalendarsWhereUniqueInput[]
+    update?: ConferenceCalendarsUpdateWithWhereUniqueWithoutBelongsToInput | ConferenceCalendarsUpdateWithWhereUniqueWithoutBelongsToInput[]
+    updateMany?: ConferenceCalendarsUpdateManyWithWhereWithoutBelongsToInput | ConferenceCalendarsUpdateManyWithWhereWithoutBelongsToInput[]
+    deleteMany?: ConferenceCalendarsScalarWhereInput | ConferenceCalendarsScalarWhereInput[]
+  }
+
+  export type ConferenceCrawlJobsUpdateManyWithoutBelongsToNestedInput = {
+    create?: XOR<ConferenceCrawlJobsCreateWithoutBelongsToInput, ConferenceCrawlJobsUncheckedCreateWithoutBelongsToInput> | ConferenceCrawlJobsCreateWithoutBelongsToInput[] | ConferenceCrawlJobsUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: ConferenceCrawlJobsCreateOrConnectWithoutBelongsToInput | ConferenceCrawlJobsCreateOrConnectWithoutBelongsToInput[]
+    upsert?: ConferenceCrawlJobsUpsertWithWhereUniqueWithoutBelongsToInput | ConferenceCrawlJobsUpsertWithWhereUniqueWithoutBelongsToInput[]
+    createMany?: ConferenceCrawlJobsCreateManyBelongsToInputEnvelope
+    set?: ConferenceCrawlJobsWhereUniqueInput | ConferenceCrawlJobsWhereUniqueInput[]
+    disconnect?: ConferenceCrawlJobsWhereUniqueInput | ConferenceCrawlJobsWhereUniqueInput[]
+    delete?: ConferenceCrawlJobsWhereUniqueInput | ConferenceCrawlJobsWhereUniqueInput[]
+    connect?: ConferenceCrawlJobsWhereUniqueInput | ConferenceCrawlJobsWhereUniqueInput[]
+    update?: ConferenceCrawlJobsUpdateWithWhereUniqueWithoutBelongsToInput | ConferenceCrawlJobsUpdateWithWhereUniqueWithoutBelongsToInput[]
+    updateMany?: ConferenceCrawlJobsUpdateManyWithWhereWithoutBelongsToInput | ConferenceCrawlJobsUpdateManyWithWhereWithoutBelongsToInput[]
+    deleteMany?: ConferenceCrawlJobsScalarWhereInput | ConferenceCrawlJobsScalarWhereInput[]
+  }
+
+  export type ConferenceFeedbacksUpdateManyWithoutBelongsToNestedInput = {
+    create?: XOR<ConferenceFeedbacksCreateWithoutBelongsToInput, ConferenceFeedbacksUncheckedCreateWithoutBelongsToInput> | ConferenceFeedbacksCreateWithoutBelongsToInput[] | ConferenceFeedbacksUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: ConferenceFeedbacksCreateOrConnectWithoutBelongsToInput | ConferenceFeedbacksCreateOrConnectWithoutBelongsToInput[]
+    upsert?: ConferenceFeedbacksUpsertWithWhereUniqueWithoutBelongsToInput | ConferenceFeedbacksUpsertWithWhereUniqueWithoutBelongsToInput[]
+    createMany?: ConferenceFeedbacksCreateManyBelongsToInputEnvelope
+    set?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
+    disconnect?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
+    delete?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
+    connect?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
+    update?: ConferenceFeedbacksUpdateWithWhereUniqueWithoutBelongsToInput | ConferenceFeedbacksUpdateWithWhereUniqueWithoutBelongsToInput[]
+    updateMany?: ConferenceFeedbacksUpdateManyWithWhereWithoutBelongsToInput | ConferenceFeedbacksUpdateManyWithWhereWithoutBelongsToInput[]
+    deleteMany?: ConferenceFeedbacksScalarWhereInput | ConferenceFeedbacksScalarWhereInput[]
   }
 
   export type ConferenceFollowsUpdateManyWithoutBelongsToNestedInput = {
@@ -43911,20 +42946,6 @@ export namespace Prisma {
     deleteMany?: ConferenceLikesScalarWhereInput | ConferenceLikesScalarWhereInput[]
   }
 
-  export type ConferenceCalendarsUpdateManyWithoutBelongsToNestedInput = {
-    create?: XOR<ConferenceCalendarsCreateWithoutBelongsToInput, ConferenceCalendarsUncheckedCreateWithoutBelongsToInput> | ConferenceCalendarsCreateWithoutBelongsToInput[] | ConferenceCalendarsUncheckedCreateWithoutBelongsToInput[]
-    connectOrCreate?: ConferenceCalendarsCreateOrConnectWithoutBelongsToInput | ConferenceCalendarsCreateOrConnectWithoutBelongsToInput[]
-    upsert?: ConferenceCalendarsUpsertWithWhereUniqueWithoutBelongsToInput | ConferenceCalendarsUpsertWithWhereUniqueWithoutBelongsToInput[]
-    createMany?: ConferenceCalendarsCreateManyBelongsToInputEnvelope
-    set?: ConferenceCalendarsWhereUniqueInput | ConferenceCalendarsWhereUniqueInput[]
-    disconnect?: ConferenceCalendarsWhereUniqueInput | ConferenceCalendarsWhereUniqueInput[]
-    delete?: ConferenceCalendarsWhereUniqueInput | ConferenceCalendarsWhereUniqueInput[]
-    connect?: ConferenceCalendarsWhereUniqueInput | ConferenceCalendarsWhereUniqueInput[]
-    update?: ConferenceCalendarsUpdateWithWhereUniqueWithoutBelongsToInput | ConferenceCalendarsUpdateWithWhereUniqueWithoutBelongsToInput[]
-    updateMany?: ConferenceCalendarsUpdateManyWithWhereWithoutBelongsToInput | ConferenceCalendarsUpdateManyWithWhereWithoutBelongsToInput[]
-    deleteMany?: ConferenceCalendarsScalarWhereInput | ConferenceCalendarsScalarWhereInput[]
-  }
-
   export type ConferenceOrganizationsUpdateManyWithoutBelongsToNestedInput = {
     create?: XOR<ConferenceOrganizationsCreateWithoutBelongsToInput, ConferenceOrganizationsUncheckedCreateWithoutBelongsToInput> | ConferenceOrganizationsCreateWithoutBelongsToInput[] | ConferenceOrganizationsUncheckedCreateWithoutBelongsToInput[]
     connectOrCreate?: ConferenceOrganizationsCreateOrConnectWithoutBelongsToInput | ConferenceOrganizationsCreateOrConnectWithoutBelongsToInput[]
@@ -43953,20 +42974,6 @@ export namespace Prisma {
     deleteMany?: ConferenceRanksScalarWhereInput | ConferenceRanksScalarWhereInput[]
   }
 
-  export type ConferenceCrawlJobsUpdateManyWithoutBelongsToNestedInput = {
-    create?: XOR<ConferenceCrawlJobsCreateWithoutBelongsToInput, ConferenceCrawlJobsUncheckedCreateWithoutBelongsToInput> | ConferenceCrawlJobsCreateWithoutBelongsToInput[] | ConferenceCrawlJobsUncheckedCreateWithoutBelongsToInput[]
-    connectOrCreate?: ConferenceCrawlJobsCreateOrConnectWithoutBelongsToInput | ConferenceCrawlJobsCreateOrConnectWithoutBelongsToInput[]
-    upsert?: ConferenceCrawlJobsUpsertWithWhereUniqueWithoutBelongsToInput | ConferenceCrawlJobsUpsertWithWhereUniqueWithoutBelongsToInput[]
-    createMany?: ConferenceCrawlJobsCreateManyBelongsToInputEnvelope
-    set?: ConferenceCrawlJobsWhereUniqueInput | ConferenceCrawlJobsWhereUniqueInput[]
-    disconnect?: ConferenceCrawlJobsWhereUniqueInput | ConferenceCrawlJobsWhereUniqueInput[]
-    delete?: ConferenceCrawlJobsWhereUniqueInput | ConferenceCrawlJobsWhereUniqueInput[]
-    connect?: ConferenceCrawlJobsWhereUniqueInput | ConferenceCrawlJobsWhereUniqueInput[]
-    update?: ConferenceCrawlJobsUpdateWithWhereUniqueWithoutBelongsToInput | ConferenceCrawlJobsUpdateWithWhereUniqueWithoutBelongsToInput[]
-    updateMany?: ConferenceCrawlJobsUpdateManyWithWhereWithoutBelongsToInput | ConferenceCrawlJobsUpdateManyWithWhereWithoutBelongsToInput[]
-    deleteMany?: ConferenceCrawlJobsScalarWhereInput | ConferenceCrawlJobsScalarWhereInput[]
-  }
-
   export type UsersUpdateOneWithoutCreatedConferencesNestedInput = {
     create?: XOR<UsersCreateWithoutCreatedConferencesInput, UsersUncheckedCreateWithoutCreatedConferencesInput>
     connectOrCreate?: UsersCreateOrConnectWithoutCreatedConferencesInput
@@ -43987,21 +42994,7 @@ export namespace Prisma {
     update?: XOR<XOR<AdminsUpdateToOneWithWhereWithoutCreatedConferencesInput, AdminsUpdateWithoutCreatedConferencesInput>, AdminsUncheckedUpdateWithoutCreatedConferencesInput>
   }
 
-  export type ConferenceFeedbacksUpdateManyWithoutBelongsToNestedInput = {
-    create?: XOR<ConferenceFeedbacksCreateWithoutBelongsToInput, ConferenceFeedbacksUncheckedCreateWithoutBelongsToInput> | ConferenceFeedbacksCreateWithoutBelongsToInput[] | ConferenceFeedbacksUncheckedCreateWithoutBelongsToInput[]
-    connectOrCreate?: ConferenceFeedbacksCreateOrConnectWithoutBelongsToInput | ConferenceFeedbacksCreateOrConnectWithoutBelongsToInput[]
-    upsert?: ConferenceFeedbacksUpsertWithWhereUniqueWithoutBelongsToInput | ConferenceFeedbacksUpsertWithWhereUniqueWithoutBelongsToInput[]
-    createMany?: ConferenceFeedbacksCreateManyBelongsToInputEnvelope
-    set?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
-    disconnect?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
-    delete?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
-    connect?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
-    update?: ConferenceFeedbacksUpdateWithWhereUniqueWithoutBelongsToInput | ConferenceFeedbacksUpdateWithWhereUniqueWithoutBelongsToInput[]
-    updateMany?: ConferenceFeedbacksUpdateManyWithWhereWithoutBelongsToInput | ConferenceFeedbacksUpdateManyWithWhereWithoutBelongsToInput[]
-    deleteMany?: ConferenceFeedbacksScalarWhereInput | ConferenceFeedbacksScalarWhereInput[]
-  }
-
-  export type ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput = {
+  export type ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput = {
     create?: XOR<ConferenceBlacklistsCreateWithoutBelongsToInput, ConferenceBlacklistsUncheckedCreateWithoutBelongsToInput> | ConferenceBlacklistsCreateWithoutBelongsToInput[] | ConferenceBlacklistsUncheckedCreateWithoutBelongsToInput[]
     connectOrCreate?: ConferenceBlacklistsCreateOrConnectWithoutBelongsToInput | ConferenceBlacklistsCreateOrConnectWithoutBelongsToInput[]
     upsert?: ConferenceBlacklistsUpsertWithWhereUniqueWithoutBelongsToInput | ConferenceBlacklistsUpsertWithWhereUniqueWithoutBelongsToInput[]
@@ -44013,34 +43006,6 @@ export namespace Prisma {
     update?: ConferenceBlacklistsUpdateWithWhereUniqueWithoutBelongsToInput | ConferenceBlacklistsUpdateWithWhereUniqueWithoutBelongsToInput[]
     updateMany?: ConferenceBlacklistsUpdateManyWithWhereWithoutBelongsToInput | ConferenceBlacklistsUpdateManyWithWhereWithoutBelongsToInput[]
     deleteMany?: ConferenceBlacklistsScalarWhereInput | ConferenceBlacklistsScalarWhereInput[]
-  }
-
-  export type ConferenceFollowsUncheckedUpdateManyWithoutBelongsToNestedInput = {
-    create?: XOR<ConferenceFollowsCreateWithoutBelongsToInput, ConferenceFollowsUncheckedCreateWithoutBelongsToInput> | ConferenceFollowsCreateWithoutBelongsToInput[] | ConferenceFollowsUncheckedCreateWithoutBelongsToInput[]
-    connectOrCreate?: ConferenceFollowsCreateOrConnectWithoutBelongsToInput | ConferenceFollowsCreateOrConnectWithoutBelongsToInput[]
-    upsert?: ConferenceFollowsUpsertWithWhereUniqueWithoutBelongsToInput | ConferenceFollowsUpsertWithWhereUniqueWithoutBelongsToInput[]
-    createMany?: ConferenceFollowsCreateManyBelongsToInputEnvelope
-    set?: ConferenceFollowsWhereUniqueInput | ConferenceFollowsWhereUniqueInput[]
-    disconnect?: ConferenceFollowsWhereUniqueInput | ConferenceFollowsWhereUniqueInput[]
-    delete?: ConferenceFollowsWhereUniqueInput | ConferenceFollowsWhereUniqueInput[]
-    connect?: ConferenceFollowsWhereUniqueInput | ConferenceFollowsWhereUniqueInput[]
-    update?: ConferenceFollowsUpdateWithWhereUniqueWithoutBelongsToInput | ConferenceFollowsUpdateWithWhereUniqueWithoutBelongsToInput[]
-    updateMany?: ConferenceFollowsUpdateManyWithWhereWithoutBelongsToInput | ConferenceFollowsUpdateManyWithWhereWithoutBelongsToInput[]
-    deleteMany?: ConferenceFollowsScalarWhereInput | ConferenceFollowsScalarWhereInput[]
-  }
-
-  export type ConferenceLikesUncheckedUpdateManyWithoutBelongsToNestedInput = {
-    create?: XOR<ConferenceLikesCreateWithoutBelongsToInput, ConferenceLikesUncheckedCreateWithoutBelongsToInput> | ConferenceLikesCreateWithoutBelongsToInput[] | ConferenceLikesUncheckedCreateWithoutBelongsToInput[]
-    connectOrCreate?: ConferenceLikesCreateOrConnectWithoutBelongsToInput | ConferenceLikesCreateOrConnectWithoutBelongsToInput[]
-    upsert?: ConferenceLikesUpsertWithWhereUniqueWithoutBelongsToInput | ConferenceLikesUpsertWithWhereUniqueWithoutBelongsToInput[]
-    createMany?: ConferenceLikesCreateManyBelongsToInputEnvelope
-    set?: ConferenceLikesWhereUniqueInput | ConferenceLikesWhereUniqueInput[]
-    disconnect?: ConferenceLikesWhereUniqueInput | ConferenceLikesWhereUniqueInput[]
-    delete?: ConferenceLikesWhereUniqueInput | ConferenceLikesWhereUniqueInput[]
-    connect?: ConferenceLikesWhereUniqueInput | ConferenceLikesWhereUniqueInput[]
-    update?: ConferenceLikesUpdateWithWhereUniqueWithoutBelongsToInput | ConferenceLikesUpdateWithWhereUniqueWithoutBelongsToInput[]
-    updateMany?: ConferenceLikesUpdateManyWithWhereWithoutBelongsToInput | ConferenceLikesUpdateManyWithWhereWithoutBelongsToInput[]
-    deleteMany?: ConferenceLikesScalarWhereInput | ConferenceLikesScalarWhereInput[]
   }
 
   export type ConferenceCalendarsUncheckedUpdateManyWithoutBelongsToNestedInput = {
@@ -44055,34 +43020,6 @@ export namespace Prisma {
     update?: ConferenceCalendarsUpdateWithWhereUniqueWithoutBelongsToInput | ConferenceCalendarsUpdateWithWhereUniqueWithoutBelongsToInput[]
     updateMany?: ConferenceCalendarsUpdateManyWithWhereWithoutBelongsToInput | ConferenceCalendarsUpdateManyWithWhereWithoutBelongsToInput[]
     deleteMany?: ConferenceCalendarsScalarWhereInput | ConferenceCalendarsScalarWhereInput[]
-  }
-
-  export type ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput = {
-    create?: XOR<ConferenceOrganizationsCreateWithoutBelongsToInput, ConferenceOrganizationsUncheckedCreateWithoutBelongsToInput> | ConferenceOrganizationsCreateWithoutBelongsToInput[] | ConferenceOrganizationsUncheckedCreateWithoutBelongsToInput[]
-    connectOrCreate?: ConferenceOrganizationsCreateOrConnectWithoutBelongsToInput | ConferenceOrganizationsCreateOrConnectWithoutBelongsToInput[]
-    upsert?: ConferenceOrganizationsUpsertWithWhereUniqueWithoutBelongsToInput | ConferenceOrganizationsUpsertWithWhereUniqueWithoutBelongsToInput[]
-    createMany?: ConferenceOrganizationsCreateManyBelongsToInputEnvelope
-    set?: ConferenceOrganizationsWhereUniqueInput | ConferenceOrganizationsWhereUniqueInput[]
-    disconnect?: ConferenceOrganizationsWhereUniqueInput | ConferenceOrganizationsWhereUniqueInput[]
-    delete?: ConferenceOrganizationsWhereUniqueInput | ConferenceOrganizationsWhereUniqueInput[]
-    connect?: ConferenceOrganizationsWhereUniqueInput | ConferenceOrganizationsWhereUniqueInput[]
-    update?: ConferenceOrganizationsUpdateWithWhereUniqueWithoutBelongsToInput | ConferenceOrganizationsUpdateWithWhereUniqueWithoutBelongsToInput[]
-    updateMany?: ConferenceOrganizationsUpdateManyWithWhereWithoutBelongsToInput | ConferenceOrganizationsUpdateManyWithWhereWithoutBelongsToInput[]
-    deleteMany?: ConferenceOrganizationsScalarWhereInput | ConferenceOrganizationsScalarWhereInput[]
-  }
-
-  export type ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput = {
-    create?: XOR<ConferenceRanksCreateWithoutBelongsToInput, ConferenceRanksUncheckedCreateWithoutBelongsToInput> | ConferenceRanksCreateWithoutBelongsToInput[] | ConferenceRanksUncheckedCreateWithoutBelongsToInput[]
-    connectOrCreate?: ConferenceRanksCreateOrConnectWithoutBelongsToInput | ConferenceRanksCreateOrConnectWithoutBelongsToInput[]
-    upsert?: ConferenceRanksUpsertWithWhereUniqueWithoutBelongsToInput | ConferenceRanksUpsertWithWhereUniqueWithoutBelongsToInput[]
-    createMany?: ConferenceRanksCreateManyBelongsToInputEnvelope
-    set?: ConferenceRanksWhereUniqueInput | ConferenceRanksWhereUniqueInput[]
-    disconnect?: ConferenceRanksWhereUniqueInput | ConferenceRanksWhereUniqueInput[]
-    delete?: ConferenceRanksWhereUniqueInput | ConferenceRanksWhereUniqueInput[]
-    connect?: ConferenceRanksWhereUniqueInput | ConferenceRanksWhereUniqueInput[]
-    update?: ConferenceRanksUpdateWithWhereUniqueWithoutBelongsToInput | ConferenceRanksUpdateWithWhereUniqueWithoutBelongsToInput[]
-    updateMany?: ConferenceRanksUpdateManyWithWhereWithoutBelongsToInput | ConferenceRanksUpdateManyWithWhereWithoutBelongsToInput[]
-    deleteMany?: ConferenceRanksScalarWhereInput | ConferenceRanksScalarWhereInput[]
   }
 
   export type ConferenceCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput = {
@@ -44113,18 +43050,66 @@ export namespace Prisma {
     deleteMany?: ConferenceFeedbacksScalarWhereInput | ConferenceFeedbacksScalarWhereInput[]
   }
 
-  export type ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput = {
-    create?: XOR<ConferenceBlacklistsCreateWithoutBelongsToInput, ConferenceBlacklistsUncheckedCreateWithoutBelongsToInput> | ConferenceBlacklistsCreateWithoutBelongsToInput[] | ConferenceBlacklistsUncheckedCreateWithoutBelongsToInput[]
-    connectOrCreate?: ConferenceBlacklistsCreateOrConnectWithoutBelongsToInput | ConferenceBlacklistsCreateOrConnectWithoutBelongsToInput[]
-    upsert?: ConferenceBlacklistsUpsertWithWhereUniqueWithoutBelongsToInput | ConferenceBlacklistsUpsertWithWhereUniqueWithoutBelongsToInput[]
-    createMany?: ConferenceBlacklistsCreateManyBelongsToInputEnvelope
-    set?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
-    disconnect?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
-    delete?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
-    connect?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
-    update?: ConferenceBlacklistsUpdateWithWhereUniqueWithoutBelongsToInput | ConferenceBlacklistsUpdateWithWhereUniqueWithoutBelongsToInput[]
-    updateMany?: ConferenceBlacklistsUpdateManyWithWhereWithoutBelongsToInput | ConferenceBlacklistsUpdateManyWithWhereWithoutBelongsToInput[]
-    deleteMany?: ConferenceBlacklistsScalarWhereInput | ConferenceBlacklistsScalarWhereInput[]
+  export type ConferenceFollowsUncheckedUpdateManyWithoutBelongsToNestedInput = {
+    create?: XOR<ConferenceFollowsCreateWithoutBelongsToInput, ConferenceFollowsUncheckedCreateWithoutBelongsToInput> | ConferenceFollowsCreateWithoutBelongsToInput[] | ConferenceFollowsUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: ConferenceFollowsCreateOrConnectWithoutBelongsToInput | ConferenceFollowsCreateOrConnectWithoutBelongsToInput[]
+    upsert?: ConferenceFollowsUpsertWithWhereUniqueWithoutBelongsToInput | ConferenceFollowsUpsertWithWhereUniqueWithoutBelongsToInput[]
+    createMany?: ConferenceFollowsCreateManyBelongsToInputEnvelope
+    set?: ConferenceFollowsWhereUniqueInput | ConferenceFollowsWhereUniqueInput[]
+    disconnect?: ConferenceFollowsWhereUniqueInput | ConferenceFollowsWhereUniqueInput[]
+    delete?: ConferenceFollowsWhereUniqueInput | ConferenceFollowsWhereUniqueInput[]
+    connect?: ConferenceFollowsWhereUniqueInput | ConferenceFollowsWhereUniqueInput[]
+    update?: ConferenceFollowsUpdateWithWhereUniqueWithoutBelongsToInput | ConferenceFollowsUpdateWithWhereUniqueWithoutBelongsToInput[]
+    updateMany?: ConferenceFollowsUpdateManyWithWhereWithoutBelongsToInput | ConferenceFollowsUpdateManyWithWhereWithoutBelongsToInput[]
+    deleteMany?: ConferenceFollowsScalarWhereInput | ConferenceFollowsScalarWhereInput[]
+  }
+
+  export type ConferenceLikesUncheckedUpdateManyWithoutBelongsToNestedInput = {
+    create?: XOR<ConferenceLikesCreateWithoutBelongsToInput, ConferenceLikesUncheckedCreateWithoutBelongsToInput> | ConferenceLikesCreateWithoutBelongsToInput[] | ConferenceLikesUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: ConferenceLikesCreateOrConnectWithoutBelongsToInput | ConferenceLikesCreateOrConnectWithoutBelongsToInput[]
+    upsert?: ConferenceLikesUpsertWithWhereUniqueWithoutBelongsToInput | ConferenceLikesUpsertWithWhereUniqueWithoutBelongsToInput[]
+    createMany?: ConferenceLikesCreateManyBelongsToInputEnvelope
+    set?: ConferenceLikesWhereUniqueInput | ConferenceLikesWhereUniqueInput[]
+    disconnect?: ConferenceLikesWhereUniqueInput | ConferenceLikesWhereUniqueInput[]
+    delete?: ConferenceLikesWhereUniqueInput | ConferenceLikesWhereUniqueInput[]
+    connect?: ConferenceLikesWhereUniqueInput | ConferenceLikesWhereUniqueInput[]
+    update?: ConferenceLikesUpdateWithWhereUniqueWithoutBelongsToInput | ConferenceLikesUpdateWithWhereUniqueWithoutBelongsToInput[]
+    updateMany?: ConferenceLikesUpdateManyWithWhereWithoutBelongsToInput | ConferenceLikesUpdateManyWithWhereWithoutBelongsToInput[]
+    deleteMany?: ConferenceLikesScalarWhereInput | ConferenceLikesScalarWhereInput[]
+  }
+
+  export type ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput = {
+    create?: XOR<ConferenceOrganizationsCreateWithoutBelongsToInput, ConferenceOrganizationsUncheckedCreateWithoutBelongsToInput> | ConferenceOrganizationsCreateWithoutBelongsToInput[] | ConferenceOrganizationsUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: ConferenceOrganizationsCreateOrConnectWithoutBelongsToInput | ConferenceOrganizationsCreateOrConnectWithoutBelongsToInput[]
+    upsert?: ConferenceOrganizationsUpsertWithWhereUniqueWithoutBelongsToInput | ConferenceOrganizationsUpsertWithWhereUniqueWithoutBelongsToInput[]
+    createMany?: ConferenceOrganizationsCreateManyBelongsToInputEnvelope
+    set?: ConferenceOrganizationsWhereUniqueInput | ConferenceOrganizationsWhereUniqueInput[]
+    disconnect?: ConferenceOrganizationsWhereUniqueInput | ConferenceOrganizationsWhereUniqueInput[]
+    delete?: ConferenceOrganizationsWhereUniqueInput | ConferenceOrganizationsWhereUniqueInput[]
+    connect?: ConferenceOrganizationsWhereUniqueInput | ConferenceOrganizationsWhereUniqueInput[]
+    update?: ConferenceOrganizationsUpdateWithWhereUniqueWithoutBelongsToInput | ConferenceOrganizationsUpdateWithWhereUniqueWithoutBelongsToInput[]
+    updateMany?: ConferenceOrganizationsUpdateManyWithWhereWithoutBelongsToInput | ConferenceOrganizationsUpdateManyWithWhereWithoutBelongsToInput[]
+    deleteMany?: ConferenceOrganizationsScalarWhereInput | ConferenceOrganizationsScalarWhereInput[]
+  }
+
+  export type ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput = {
+    create?: XOR<ConferenceRanksCreateWithoutBelongsToInput, ConferenceRanksUncheckedCreateWithoutBelongsToInput> | ConferenceRanksCreateWithoutBelongsToInput[] | ConferenceRanksUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: ConferenceRanksCreateOrConnectWithoutBelongsToInput | ConferenceRanksCreateOrConnectWithoutBelongsToInput[]
+    upsert?: ConferenceRanksUpsertWithWhereUniqueWithoutBelongsToInput | ConferenceRanksUpsertWithWhereUniqueWithoutBelongsToInput[]
+    createMany?: ConferenceRanksCreateManyBelongsToInputEnvelope
+    set?: ConferenceRanksWhereUniqueInput | ConferenceRanksWhereUniqueInput[]
+    disconnect?: ConferenceRanksWhereUniqueInput | ConferenceRanksWhereUniqueInput[]
+    delete?: ConferenceRanksWhereUniqueInput | ConferenceRanksWhereUniqueInput[]
+    connect?: ConferenceRanksWhereUniqueInput | ConferenceRanksWhereUniqueInput[]
+    update?: ConferenceRanksUpdateWithWhereUniqueWithoutBelongsToInput | ConferenceRanksUpdateWithWhereUniqueWithoutBelongsToInput[]
+    updateMany?: ConferenceRanksUpdateManyWithWhereWithoutBelongsToInput | ConferenceRanksUpdateManyWithWhereWithoutBelongsToInput[]
+    deleteMany?: ConferenceRanksScalarWhereInput | ConferenceRanksScalarWhereInput[]
+  }
+
+  export type ConferencesCreateNestedOneWithoutRanksInput = {
+    create?: XOR<ConferencesCreateWithoutRanksInput, ConferencesUncheckedCreateWithoutRanksInput>
+    connectOrCreate?: ConferencesCreateOrConnectWithoutRanksInput
+    connect?: ConferencesWhereUniqueInput
   }
 
   export type FieldOfResearchsCreateNestedOneWithoutConferenceRanksInput = {
@@ -44139,18 +43124,20 @@ export namespace Prisma {
     connect?: RanksWhereUniqueInput
   }
 
-  export type ConferencesCreateNestedOneWithoutRanksInput = {
-    create?: XOR<ConferencesCreateWithoutRanksInput, ConferencesUncheckedCreateWithoutRanksInput>
-    connectOrCreate?: ConferencesCreateOrConnectWithoutRanksInput
-    connect?: ConferencesWhereUniqueInput
-  }
-
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type ConferencesUpdateOneRequiredWithoutRanksNestedInput = {
+    create?: XOR<ConferencesCreateWithoutRanksInput, ConferencesUncheckedCreateWithoutRanksInput>
+    connectOrCreate?: ConferencesCreateOrConnectWithoutRanksInput
+    upsert?: ConferencesUpsertWithoutRanksInput
+    connect?: ConferencesWhereUniqueInput
+    update?: XOR<XOR<ConferencesUpdateToOneWithWhereWithoutRanksInput, ConferencesUpdateWithoutRanksInput>, ConferencesUncheckedUpdateWithoutRanksInput>
   }
 
   export type FieldOfResearchsUpdateOneRequiredWithoutConferenceRanksNestedInput = {
@@ -44169,21 +43156,6 @@ export namespace Prisma {
     update?: XOR<XOR<RanksUpdateToOneWithWhereWithoutConferenceRanksInput, RanksUpdateWithoutConferenceRanksInput>, RanksUncheckedUpdateWithoutConferenceRanksInput>
   }
 
-  export type ConferencesUpdateOneRequiredWithoutRanksNestedInput = {
-    create?: XOR<ConferencesCreateWithoutRanksInput, ConferencesUncheckedCreateWithoutRanksInput>
-    connectOrCreate?: ConferencesCreateOrConnectWithoutRanksInput
-    upsert?: ConferencesUpsertWithoutRanksInput
-    connect?: ConferencesWhereUniqueInput
-    update?: XOR<XOR<ConferencesUpdateToOneWithWhereWithoutRanksInput, ConferencesUpdateWithoutRanksInput>, ConferencesUncheckedUpdateWithoutRanksInput>
-  }
-
-  export type JournalRanksCreateNestedManyWithoutInFieldOfResearchInput = {
-    create?: XOR<JournalRanksCreateWithoutInFieldOfResearchInput, JournalRanksUncheckedCreateWithoutInFieldOfResearchInput> | JournalRanksCreateWithoutInFieldOfResearchInput[] | JournalRanksUncheckedCreateWithoutInFieldOfResearchInput[]
-    connectOrCreate?: JournalRanksCreateOrConnectWithoutInFieldOfResearchInput | JournalRanksCreateOrConnectWithoutInFieldOfResearchInput[]
-    createMany?: JournalRanksCreateManyInFieldOfResearchInputEnvelope
-    connect?: JournalRanksWhereUniqueInput | JournalRanksWhereUniqueInput[]
-  }
-
   export type ConferenceRanksCreateNestedManyWithoutInFieldOfResearchInput = {
     create?: XOR<ConferenceRanksCreateWithoutInFieldOfResearchInput, ConferenceRanksUncheckedCreateWithoutInFieldOfResearchInput> | ConferenceRanksCreateWithoutInFieldOfResearchInput[] | ConferenceRanksUncheckedCreateWithoutInFieldOfResearchInput[]
     connectOrCreate?: ConferenceRanksCreateOrConnectWithoutInFieldOfResearchInput | ConferenceRanksCreateOrConnectWithoutInFieldOfResearchInput[]
@@ -44191,7 +43163,7 @@ export namespace Prisma {
     connect?: ConferenceRanksWhereUniqueInput | ConferenceRanksWhereUniqueInput[]
   }
 
-  export type JournalRanksUncheckedCreateNestedManyWithoutInFieldOfResearchInput = {
+  export type JournalRanksCreateNestedManyWithoutInFieldOfResearchInput = {
     create?: XOR<JournalRanksCreateWithoutInFieldOfResearchInput, JournalRanksUncheckedCreateWithoutInFieldOfResearchInput> | JournalRanksCreateWithoutInFieldOfResearchInput[] | JournalRanksUncheckedCreateWithoutInFieldOfResearchInput[]
     connectOrCreate?: JournalRanksCreateOrConnectWithoutInFieldOfResearchInput | JournalRanksCreateOrConnectWithoutInFieldOfResearchInput[]
     createMany?: JournalRanksCreateManyInFieldOfResearchInputEnvelope
@@ -44205,18 +43177,11 @@ export namespace Prisma {
     connect?: ConferenceRanksWhereUniqueInput | ConferenceRanksWhereUniqueInput[]
   }
 
-  export type JournalRanksUpdateManyWithoutInFieldOfResearchNestedInput = {
+  export type JournalRanksUncheckedCreateNestedManyWithoutInFieldOfResearchInput = {
     create?: XOR<JournalRanksCreateWithoutInFieldOfResearchInput, JournalRanksUncheckedCreateWithoutInFieldOfResearchInput> | JournalRanksCreateWithoutInFieldOfResearchInput[] | JournalRanksUncheckedCreateWithoutInFieldOfResearchInput[]
     connectOrCreate?: JournalRanksCreateOrConnectWithoutInFieldOfResearchInput | JournalRanksCreateOrConnectWithoutInFieldOfResearchInput[]
-    upsert?: JournalRanksUpsertWithWhereUniqueWithoutInFieldOfResearchInput | JournalRanksUpsertWithWhereUniqueWithoutInFieldOfResearchInput[]
     createMany?: JournalRanksCreateManyInFieldOfResearchInputEnvelope
-    set?: JournalRanksWhereUniqueInput | JournalRanksWhereUniqueInput[]
-    disconnect?: JournalRanksWhereUniqueInput | JournalRanksWhereUniqueInput[]
-    delete?: JournalRanksWhereUniqueInput | JournalRanksWhereUniqueInput[]
     connect?: JournalRanksWhereUniqueInput | JournalRanksWhereUniqueInput[]
-    update?: JournalRanksUpdateWithWhereUniqueWithoutInFieldOfResearchInput | JournalRanksUpdateWithWhereUniqueWithoutInFieldOfResearchInput[]
-    updateMany?: JournalRanksUpdateManyWithWhereWithoutInFieldOfResearchInput | JournalRanksUpdateManyWithWhereWithoutInFieldOfResearchInput[]
-    deleteMany?: JournalRanksScalarWhereInput | JournalRanksScalarWhereInput[]
   }
 
   export type ConferenceRanksUpdateManyWithoutInFieldOfResearchNestedInput = {
@@ -44233,7 +43198,7 @@ export namespace Prisma {
     deleteMany?: ConferenceRanksScalarWhereInput | ConferenceRanksScalarWhereInput[]
   }
 
-  export type JournalRanksUncheckedUpdateManyWithoutInFieldOfResearchNestedInput = {
+  export type JournalRanksUpdateManyWithoutInFieldOfResearchNestedInput = {
     create?: XOR<JournalRanksCreateWithoutInFieldOfResearchInput, JournalRanksUncheckedCreateWithoutInFieldOfResearchInput> | JournalRanksCreateWithoutInFieldOfResearchInput[] | JournalRanksUncheckedCreateWithoutInFieldOfResearchInput[]
     connectOrCreate?: JournalRanksCreateOrConnectWithoutInFieldOfResearchInput | JournalRanksCreateOrConnectWithoutInFieldOfResearchInput[]
     upsert?: JournalRanksUpsertWithWhereUniqueWithoutInFieldOfResearchInput | JournalRanksUpsertWithWhereUniqueWithoutInFieldOfResearchInput[]
@@ -44259,6 +43224,20 @@ export namespace Prisma {
     update?: ConferenceRanksUpdateWithWhereUniqueWithoutInFieldOfResearchInput | ConferenceRanksUpdateWithWhereUniqueWithoutInFieldOfResearchInput[]
     updateMany?: ConferenceRanksUpdateManyWithWhereWithoutInFieldOfResearchInput | ConferenceRanksUpdateManyWithWhereWithoutInFieldOfResearchInput[]
     deleteMany?: ConferenceRanksScalarWhereInput | ConferenceRanksScalarWhereInput[]
+  }
+
+  export type JournalRanksUncheckedUpdateManyWithoutInFieldOfResearchNestedInput = {
+    create?: XOR<JournalRanksCreateWithoutInFieldOfResearchInput, JournalRanksUncheckedCreateWithoutInFieldOfResearchInput> | JournalRanksCreateWithoutInFieldOfResearchInput[] | JournalRanksUncheckedCreateWithoutInFieldOfResearchInput[]
+    connectOrCreate?: JournalRanksCreateOrConnectWithoutInFieldOfResearchInput | JournalRanksCreateOrConnectWithoutInFieldOfResearchInput[]
+    upsert?: JournalRanksUpsertWithWhereUniqueWithoutInFieldOfResearchInput | JournalRanksUpsertWithWhereUniqueWithoutInFieldOfResearchInput[]
+    createMany?: JournalRanksCreateManyInFieldOfResearchInputEnvelope
+    set?: JournalRanksWhereUniqueInput | JournalRanksWhereUniqueInput[]
+    disconnect?: JournalRanksWhereUniqueInput | JournalRanksWhereUniqueInput[]
+    delete?: JournalRanksWhereUniqueInput | JournalRanksWhereUniqueInput[]
+    connect?: JournalRanksWhereUniqueInput | JournalRanksWhereUniqueInput[]
+    update?: JournalRanksUpdateWithWhereUniqueWithoutInFieldOfResearchInput | JournalRanksUpdateWithWhereUniqueWithoutInFieldOfResearchInput[]
+    updateMany?: JournalRanksUpdateManyWithWhereWithoutInFieldOfResearchInput | JournalRanksUpdateManyWithWhereWithoutInFieldOfResearchInput[]
+    deleteMany?: JournalRanksScalarWhereInput | JournalRanksScalarWhereInput[]
   }
 
   export type ConferenceRanksCreateNestedManyWithoutByRankInput = {
@@ -44401,24 +43380,16 @@ export namespace Prisma {
     deleteMany?: RanksScalarWhereInput | RanksScalarWhereInput[]
   }
 
-  export type TopicsCreateNestedOneWithoutInJournalTopicsInput = {
-    create?: XOR<TopicsCreateWithoutInJournalTopicsInput, TopicsUncheckedCreateWithoutInJournalTopicsInput>
-    connectOrCreate?: TopicsCreateOrConnectWithoutInJournalTopicsInput
-    connect?: TopicsWhereUniqueInput
-  }
-
   export type JournalsCreateNestedOneWithoutTopicsInput = {
     create?: XOR<JournalsCreateWithoutTopicsInput, JournalsUncheckedCreateWithoutTopicsInput>
     connectOrCreate?: JournalsCreateOrConnectWithoutTopicsInput
     connect?: JournalsWhereUniqueInput
   }
 
-  export type TopicsUpdateOneRequiredWithoutInJournalTopicsNestedInput = {
+  export type TopicsCreateNestedOneWithoutInJournalTopicsInput = {
     create?: XOR<TopicsCreateWithoutInJournalTopicsInput, TopicsUncheckedCreateWithoutInJournalTopicsInput>
     connectOrCreate?: TopicsCreateOrConnectWithoutInJournalTopicsInput
-    upsert?: TopicsUpsertWithoutInJournalTopicsInput
     connect?: TopicsWhereUniqueInput
-    update?: XOR<XOR<TopicsUpdateToOneWithWhereWithoutInJournalTopicsInput, TopicsUpdateWithoutInJournalTopicsInput>, TopicsUncheckedUpdateWithoutInJournalTopicsInput>
   }
 
   export type JournalsUpdateOneRequiredWithoutTopicsNestedInput = {
@@ -44429,22 +43400,30 @@ export namespace Prisma {
     update?: XOR<XOR<JournalsUpdateToOneWithWhereWithoutTopicsInput, JournalsUpdateWithoutTopicsInput>, JournalsUncheckedUpdateWithoutTopicsInput>
   }
 
+  export type TopicsUpdateOneRequiredWithoutInJournalTopicsNestedInput = {
+    create?: XOR<TopicsCreateWithoutInJournalTopicsInput, TopicsUncheckedCreateWithoutInJournalTopicsInput>
+    connectOrCreate?: TopicsCreateOrConnectWithoutInJournalTopicsInput
+    upsert?: TopicsUpsertWithoutInJournalTopicsInput
+    connect?: TopicsWhereUniqueInput
+    update?: XOR<XOR<TopicsUpdateToOneWithWhereWithoutInJournalTopicsInput, TopicsUpdateWithoutInJournalTopicsInput>, TopicsUncheckedUpdateWithoutInJournalTopicsInput>
+  }
+
   export type FieldOfResearchsCreateNestedOneWithoutJournalRanksInput = {
     create?: XOR<FieldOfResearchsCreateWithoutJournalRanksInput, FieldOfResearchsUncheckedCreateWithoutJournalRanksInput>
     connectOrCreate?: FieldOfResearchsCreateOrConnectWithoutJournalRanksInput
     connect?: FieldOfResearchsWhereUniqueInput
   }
 
-  export type RanksCreateNestedOneWithoutJournalRanksInput = {
-    create?: XOR<RanksCreateWithoutJournalRanksInput, RanksUncheckedCreateWithoutJournalRanksInput>
-    connectOrCreate?: RanksCreateOrConnectWithoutJournalRanksInput
-    connect?: RanksWhereUniqueInput
-  }
-
   export type JournalsCreateNestedOneWithoutJournalRanksInput = {
     create?: XOR<JournalsCreateWithoutJournalRanksInput, JournalsUncheckedCreateWithoutJournalRanksInput>
     connectOrCreate?: JournalsCreateOrConnectWithoutJournalRanksInput
     connect?: JournalsWhereUniqueInput
+  }
+
+  export type RanksCreateNestedOneWithoutJournalRanksInput = {
+    create?: XOR<RanksCreateWithoutJournalRanksInput, RanksUncheckedCreateWithoutJournalRanksInput>
+    connectOrCreate?: RanksCreateOrConnectWithoutJournalRanksInput
+    connect?: RanksWhereUniqueInput
   }
 
   export type FieldOfResearchsUpdateOneRequiredWithoutJournalRanksNestedInput = {
@@ -44455,14 +43434,6 @@ export namespace Prisma {
     update?: XOR<XOR<FieldOfResearchsUpdateToOneWithWhereWithoutJournalRanksInput, FieldOfResearchsUpdateWithoutJournalRanksInput>, FieldOfResearchsUncheckedUpdateWithoutJournalRanksInput>
   }
 
-  export type RanksUpdateOneRequiredWithoutJournalRanksNestedInput = {
-    create?: XOR<RanksCreateWithoutJournalRanksInput, RanksUncheckedCreateWithoutJournalRanksInput>
-    connectOrCreate?: RanksCreateOrConnectWithoutJournalRanksInput
-    upsert?: RanksUpsertWithoutJournalRanksInput
-    connect?: RanksWhereUniqueInput
-    update?: XOR<XOR<RanksUpdateToOneWithWhereWithoutJournalRanksInput, RanksUpdateWithoutJournalRanksInput>, RanksUncheckedUpdateWithoutJournalRanksInput>
-  }
-
   export type JournalsUpdateOneRequiredWithoutJournalRanksNestedInput = {
     create?: XOR<JournalsCreateWithoutJournalRanksInput, JournalsUncheckedCreateWithoutJournalRanksInput>
     connectOrCreate?: JournalsCreateOrConnectWithoutJournalRanksInput
@@ -44471,32 +43442,12 @@ export namespace Prisma {
     update?: XOR<XOR<JournalsUpdateToOneWithWhereWithoutJournalRanksInput, JournalsUpdateWithoutJournalRanksInput>, JournalsUncheckedUpdateWithoutJournalRanksInput>
   }
 
-  export type JournalTopicsCreateNestedManyWithoutInJournalsInput = {
-    create?: XOR<JournalTopicsCreateWithoutInJournalsInput, JournalTopicsUncheckedCreateWithoutInJournalsInput> | JournalTopicsCreateWithoutInJournalsInput[] | JournalTopicsUncheckedCreateWithoutInJournalsInput[]
-    connectOrCreate?: JournalTopicsCreateOrConnectWithoutInJournalsInput | JournalTopicsCreateOrConnectWithoutInJournalsInput[]
-    createMany?: JournalTopicsCreateManyInJournalsInputEnvelope
-    connect?: JournalTopicsWhereUniqueInput | JournalTopicsWhereUniqueInput[]
-  }
-
-  export type JournalRanksCreateNestedManyWithoutBelongsToInput = {
-    create?: XOR<JournalRanksCreateWithoutBelongsToInput, JournalRanksUncheckedCreateWithoutBelongsToInput> | JournalRanksCreateWithoutBelongsToInput[] | JournalRanksUncheckedCreateWithoutBelongsToInput[]
-    connectOrCreate?: JournalRanksCreateOrConnectWithoutBelongsToInput | JournalRanksCreateOrConnectWithoutBelongsToInput[]
-    createMany?: JournalRanksCreateManyBelongsToInputEnvelope
-    connect?: JournalRanksWhereUniqueInput | JournalRanksWhereUniqueInput[]
-  }
-
-  export type JournalLikesCreateNestedManyWithoutBelongsToInput = {
-    create?: XOR<JournalLikesCreateWithoutBelongsToInput, JournalLikesUncheckedCreateWithoutBelongsToInput> | JournalLikesCreateWithoutBelongsToInput[] | JournalLikesUncheckedCreateWithoutBelongsToInput[]
-    connectOrCreate?: JournalLikesCreateOrConnectWithoutBelongsToInput | JournalLikesCreateOrConnectWithoutBelongsToInput[]
-    createMany?: JournalLikesCreateManyBelongsToInputEnvelope
-    connect?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
-  }
-
-  export type JournalFollowsCreateNestedManyWithoutBelongsToInput = {
-    create?: XOR<JournalFollowsCreateWithoutBelongsToInput, JournalFollowsUncheckedCreateWithoutBelongsToInput> | JournalFollowsCreateWithoutBelongsToInput[] | JournalFollowsUncheckedCreateWithoutBelongsToInput[]
-    connectOrCreate?: JournalFollowsCreateOrConnectWithoutBelongsToInput | JournalFollowsCreateOrConnectWithoutBelongsToInput[]
-    createMany?: JournalFollowsCreateManyBelongsToInputEnvelope
-    connect?: JournalFollowsWhereUniqueInput | JournalFollowsWhereUniqueInput[]
+  export type RanksUpdateOneRequiredWithoutJournalRanksNestedInput = {
+    create?: XOR<RanksCreateWithoutJournalRanksInput, RanksUncheckedCreateWithoutJournalRanksInput>
+    connectOrCreate?: RanksCreateOrConnectWithoutJournalRanksInput
+    upsert?: RanksUpsertWithoutJournalRanksInput
+    connect?: RanksWhereUniqueInput
+    update?: XOR<XOR<RanksUpdateToOneWithWhereWithoutJournalRanksInput, RanksUpdateWithoutJournalRanksInput>, RanksUncheckedUpdateWithoutJournalRanksInput>
   }
 
   export type JournalCrawlJobsCreateNestedManyWithoutBelongsToInput = {
@@ -44506,38 +43457,44 @@ export namespace Prisma {
     connect?: JournalCrawlJobsWhereUniqueInput | JournalCrawlJobsWhereUniqueInput[]
   }
 
-  export type UsersCreateNestedOneWithoutCreatedJournalsInput = {
-    create?: XOR<UsersCreateWithoutCreatedJournalsInput, UsersUncheckedCreateWithoutCreatedJournalsInput>
-    connectOrCreate?: UsersCreateOrConnectWithoutCreatedJournalsInput
-    connect?: UsersWhereUniqueInput
+  export type JournalFollowsCreateNestedManyWithoutBelongsToInput = {
+    create?: XOR<JournalFollowsCreateWithoutBelongsToInput, JournalFollowsUncheckedCreateWithoutBelongsToInput> | JournalFollowsCreateWithoutBelongsToInput[] | JournalFollowsUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: JournalFollowsCreateOrConnectWithoutBelongsToInput | JournalFollowsCreateOrConnectWithoutBelongsToInput[]
+    createMany?: JournalFollowsCreateManyBelongsToInputEnvelope
+    connect?: JournalFollowsWhereUniqueInput | JournalFollowsWhereUniqueInput[]
   }
 
-  export type JournalTopicsUncheckedCreateNestedManyWithoutInJournalsInput = {
-    create?: XOR<JournalTopicsCreateWithoutInJournalsInput, JournalTopicsUncheckedCreateWithoutInJournalsInput> | JournalTopicsCreateWithoutInJournalsInput[] | JournalTopicsUncheckedCreateWithoutInJournalsInput[]
-    connectOrCreate?: JournalTopicsCreateOrConnectWithoutInJournalsInput | JournalTopicsCreateOrConnectWithoutInJournalsInput[]
-    createMany?: JournalTopicsCreateManyInJournalsInputEnvelope
-    connect?: JournalTopicsWhereUniqueInput | JournalTopicsWhereUniqueInput[]
-  }
-
-  export type JournalRanksUncheckedCreateNestedManyWithoutBelongsToInput = {
-    create?: XOR<JournalRanksCreateWithoutBelongsToInput, JournalRanksUncheckedCreateWithoutBelongsToInput> | JournalRanksCreateWithoutBelongsToInput[] | JournalRanksUncheckedCreateWithoutBelongsToInput[]
-    connectOrCreate?: JournalRanksCreateOrConnectWithoutBelongsToInput | JournalRanksCreateOrConnectWithoutBelongsToInput[]
-    createMany?: JournalRanksCreateManyBelongsToInputEnvelope
-    connect?: JournalRanksWhereUniqueInput | JournalRanksWhereUniqueInput[]
-  }
-
-  export type JournalLikesUncheckedCreateNestedManyWithoutBelongsToInput = {
+  export type JournalLikesCreateNestedManyWithoutBelongsToInput = {
     create?: XOR<JournalLikesCreateWithoutBelongsToInput, JournalLikesUncheckedCreateWithoutBelongsToInput> | JournalLikesCreateWithoutBelongsToInput[] | JournalLikesUncheckedCreateWithoutBelongsToInput[]
     connectOrCreate?: JournalLikesCreateOrConnectWithoutBelongsToInput | JournalLikesCreateOrConnectWithoutBelongsToInput[]
     createMany?: JournalLikesCreateManyBelongsToInputEnvelope
     connect?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
   }
 
-  export type JournalFollowsUncheckedCreateNestedManyWithoutBelongsToInput = {
-    create?: XOR<JournalFollowsCreateWithoutBelongsToInput, JournalFollowsUncheckedCreateWithoutBelongsToInput> | JournalFollowsCreateWithoutBelongsToInput[] | JournalFollowsUncheckedCreateWithoutBelongsToInput[]
-    connectOrCreate?: JournalFollowsCreateOrConnectWithoutBelongsToInput | JournalFollowsCreateOrConnectWithoutBelongsToInput[]
-    createMany?: JournalFollowsCreateManyBelongsToInputEnvelope
-    connect?: JournalFollowsWhereUniqueInput | JournalFollowsWhereUniqueInput[]
+  export type JournalRanksCreateNestedManyWithoutBelongsToInput = {
+    create?: XOR<JournalRanksCreateWithoutBelongsToInput, JournalRanksUncheckedCreateWithoutBelongsToInput> | JournalRanksCreateWithoutBelongsToInput[] | JournalRanksUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: JournalRanksCreateOrConnectWithoutBelongsToInput | JournalRanksCreateOrConnectWithoutBelongsToInput[]
+    createMany?: JournalRanksCreateManyBelongsToInputEnvelope
+    connect?: JournalRanksWhereUniqueInput | JournalRanksWhereUniqueInput[]
+  }
+
+  export type JournalTopicsCreateNestedManyWithoutInJournalsInput = {
+    create?: XOR<JournalTopicsCreateWithoutInJournalsInput, JournalTopicsUncheckedCreateWithoutInJournalsInput> | JournalTopicsCreateWithoutInJournalsInput[] | JournalTopicsUncheckedCreateWithoutInJournalsInput[]
+    connectOrCreate?: JournalTopicsCreateOrConnectWithoutInJournalsInput | JournalTopicsCreateOrConnectWithoutInJournalsInput[]
+    createMany?: JournalTopicsCreateManyInJournalsInputEnvelope
+    connect?: JournalTopicsWhereUniqueInput | JournalTopicsWhereUniqueInput[]
+  }
+
+  export type UsersCreateNestedOneWithoutCreatedJournalsInput = {
+    create?: XOR<UsersCreateWithoutCreatedJournalsInput, UsersUncheckedCreateWithoutCreatedJournalsInput>
+    connectOrCreate?: UsersCreateOrConnectWithoutCreatedJournalsInput
+    connect?: UsersWhereUniqueInput
+  }
+
+  export type AdminsCreateNestedOneWithoutCreatedJournalsInput = {
+    create?: XOR<AdminsCreateWithoutCreatedJournalsInput, AdminsUncheckedCreateWithoutCreatedJournalsInput>
+    connectOrCreate?: AdminsCreateOrConnectWithoutCreatedJournalsInput
+    connect?: AdminsWhereUniqueInput
   }
 
   export type JournalCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput = {
@@ -44547,60 +43504,32 @@ export namespace Prisma {
     connect?: JournalCrawlJobsWhereUniqueInput | JournalCrawlJobsWhereUniqueInput[]
   }
 
-  export type JournalTopicsUpdateManyWithoutInJournalsNestedInput = {
-    create?: XOR<JournalTopicsCreateWithoutInJournalsInput, JournalTopicsUncheckedCreateWithoutInJournalsInput> | JournalTopicsCreateWithoutInJournalsInput[] | JournalTopicsUncheckedCreateWithoutInJournalsInput[]
-    connectOrCreate?: JournalTopicsCreateOrConnectWithoutInJournalsInput | JournalTopicsCreateOrConnectWithoutInJournalsInput[]
-    upsert?: JournalTopicsUpsertWithWhereUniqueWithoutInJournalsInput | JournalTopicsUpsertWithWhereUniqueWithoutInJournalsInput[]
-    createMany?: JournalTopicsCreateManyInJournalsInputEnvelope
-    set?: JournalTopicsWhereUniqueInput | JournalTopicsWhereUniqueInput[]
-    disconnect?: JournalTopicsWhereUniqueInput | JournalTopicsWhereUniqueInput[]
-    delete?: JournalTopicsWhereUniqueInput | JournalTopicsWhereUniqueInput[]
-    connect?: JournalTopicsWhereUniqueInput | JournalTopicsWhereUniqueInput[]
-    update?: JournalTopicsUpdateWithWhereUniqueWithoutInJournalsInput | JournalTopicsUpdateWithWhereUniqueWithoutInJournalsInput[]
-    updateMany?: JournalTopicsUpdateManyWithWhereWithoutInJournalsInput | JournalTopicsUpdateManyWithWhereWithoutInJournalsInput[]
-    deleteMany?: JournalTopicsScalarWhereInput | JournalTopicsScalarWhereInput[]
-  }
-
-  export type JournalRanksUpdateManyWithoutBelongsToNestedInput = {
-    create?: XOR<JournalRanksCreateWithoutBelongsToInput, JournalRanksUncheckedCreateWithoutBelongsToInput> | JournalRanksCreateWithoutBelongsToInput[] | JournalRanksUncheckedCreateWithoutBelongsToInput[]
-    connectOrCreate?: JournalRanksCreateOrConnectWithoutBelongsToInput | JournalRanksCreateOrConnectWithoutBelongsToInput[]
-    upsert?: JournalRanksUpsertWithWhereUniqueWithoutBelongsToInput | JournalRanksUpsertWithWhereUniqueWithoutBelongsToInput[]
-    createMany?: JournalRanksCreateManyBelongsToInputEnvelope
-    set?: JournalRanksWhereUniqueInput | JournalRanksWhereUniqueInput[]
-    disconnect?: JournalRanksWhereUniqueInput | JournalRanksWhereUniqueInput[]
-    delete?: JournalRanksWhereUniqueInput | JournalRanksWhereUniqueInput[]
-    connect?: JournalRanksWhereUniqueInput | JournalRanksWhereUniqueInput[]
-    update?: JournalRanksUpdateWithWhereUniqueWithoutBelongsToInput | JournalRanksUpdateWithWhereUniqueWithoutBelongsToInput[]
-    updateMany?: JournalRanksUpdateManyWithWhereWithoutBelongsToInput | JournalRanksUpdateManyWithWhereWithoutBelongsToInput[]
-    deleteMany?: JournalRanksScalarWhereInput | JournalRanksScalarWhereInput[]
-  }
-
-  export type JournalLikesUpdateManyWithoutBelongsToNestedInput = {
-    create?: XOR<JournalLikesCreateWithoutBelongsToInput, JournalLikesUncheckedCreateWithoutBelongsToInput> | JournalLikesCreateWithoutBelongsToInput[] | JournalLikesUncheckedCreateWithoutBelongsToInput[]
-    connectOrCreate?: JournalLikesCreateOrConnectWithoutBelongsToInput | JournalLikesCreateOrConnectWithoutBelongsToInput[]
-    upsert?: JournalLikesUpsertWithWhereUniqueWithoutBelongsToInput | JournalLikesUpsertWithWhereUniqueWithoutBelongsToInput[]
-    createMany?: JournalLikesCreateManyBelongsToInputEnvelope
-    set?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
-    disconnect?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
-    delete?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
-    connect?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
-    update?: JournalLikesUpdateWithWhereUniqueWithoutBelongsToInput | JournalLikesUpdateWithWhereUniqueWithoutBelongsToInput[]
-    updateMany?: JournalLikesUpdateManyWithWhereWithoutBelongsToInput | JournalLikesUpdateManyWithWhereWithoutBelongsToInput[]
-    deleteMany?: JournalLikesScalarWhereInput | JournalLikesScalarWhereInput[]
-  }
-
-  export type JournalFollowsUpdateManyWithoutBelongsToNestedInput = {
+  export type JournalFollowsUncheckedCreateNestedManyWithoutBelongsToInput = {
     create?: XOR<JournalFollowsCreateWithoutBelongsToInput, JournalFollowsUncheckedCreateWithoutBelongsToInput> | JournalFollowsCreateWithoutBelongsToInput[] | JournalFollowsUncheckedCreateWithoutBelongsToInput[]
     connectOrCreate?: JournalFollowsCreateOrConnectWithoutBelongsToInput | JournalFollowsCreateOrConnectWithoutBelongsToInput[]
-    upsert?: JournalFollowsUpsertWithWhereUniqueWithoutBelongsToInput | JournalFollowsUpsertWithWhereUniqueWithoutBelongsToInput[]
     createMany?: JournalFollowsCreateManyBelongsToInputEnvelope
-    set?: JournalFollowsWhereUniqueInput | JournalFollowsWhereUniqueInput[]
-    disconnect?: JournalFollowsWhereUniqueInput | JournalFollowsWhereUniqueInput[]
-    delete?: JournalFollowsWhereUniqueInput | JournalFollowsWhereUniqueInput[]
     connect?: JournalFollowsWhereUniqueInput | JournalFollowsWhereUniqueInput[]
-    update?: JournalFollowsUpdateWithWhereUniqueWithoutBelongsToInput | JournalFollowsUpdateWithWhereUniqueWithoutBelongsToInput[]
-    updateMany?: JournalFollowsUpdateManyWithWhereWithoutBelongsToInput | JournalFollowsUpdateManyWithWhereWithoutBelongsToInput[]
-    deleteMany?: JournalFollowsScalarWhereInput | JournalFollowsScalarWhereInput[]
+  }
+
+  export type JournalLikesUncheckedCreateNestedManyWithoutBelongsToInput = {
+    create?: XOR<JournalLikesCreateWithoutBelongsToInput, JournalLikesUncheckedCreateWithoutBelongsToInput> | JournalLikesCreateWithoutBelongsToInput[] | JournalLikesUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: JournalLikesCreateOrConnectWithoutBelongsToInput | JournalLikesCreateOrConnectWithoutBelongsToInput[]
+    createMany?: JournalLikesCreateManyBelongsToInputEnvelope
+    connect?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
+  }
+
+  export type JournalRanksUncheckedCreateNestedManyWithoutBelongsToInput = {
+    create?: XOR<JournalRanksCreateWithoutBelongsToInput, JournalRanksUncheckedCreateWithoutBelongsToInput> | JournalRanksCreateWithoutBelongsToInput[] | JournalRanksUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: JournalRanksCreateOrConnectWithoutBelongsToInput | JournalRanksCreateOrConnectWithoutBelongsToInput[]
+    createMany?: JournalRanksCreateManyBelongsToInputEnvelope
+    connect?: JournalRanksWhereUniqueInput | JournalRanksWhereUniqueInput[]
+  }
+
+  export type JournalTopicsUncheckedCreateNestedManyWithoutInJournalsInput = {
+    create?: XOR<JournalTopicsCreateWithoutInJournalsInput, JournalTopicsUncheckedCreateWithoutInJournalsInput> | JournalTopicsCreateWithoutInJournalsInput[] | JournalTopicsUncheckedCreateWithoutInJournalsInput[]
+    connectOrCreate?: JournalTopicsCreateOrConnectWithoutInJournalsInput | JournalTopicsCreateOrConnectWithoutInJournalsInput[]
+    createMany?: JournalTopicsCreateManyInJournalsInputEnvelope
+    connect?: JournalTopicsWhereUniqueInput | JournalTopicsWhereUniqueInput[]
   }
 
   export type JournalCrawlJobsUpdateManyWithoutBelongsToNestedInput = {
@@ -44617,29 +43546,35 @@ export namespace Prisma {
     deleteMany?: JournalCrawlJobsScalarWhereInput | JournalCrawlJobsScalarWhereInput[]
   }
 
-  export type UsersUpdateOneRequiredWithoutCreatedJournalsNestedInput = {
-    create?: XOR<UsersCreateWithoutCreatedJournalsInput, UsersUncheckedCreateWithoutCreatedJournalsInput>
-    connectOrCreate?: UsersCreateOrConnectWithoutCreatedJournalsInput
-    upsert?: UsersUpsertWithoutCreatedJournalsInput
-    connect?: UsersWhereUniqueInput
-    update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutCreatedJournalsInput, UsersUpdateWithoutCreatedJournalsInput>, UsersUncheckedUpdateWithoutCreatedJournalsInput>
+  export type JournalFollowsUpdateManyWithoutBelongsToNestedInput = {
+    create?: XOR<JournalFollowsCreateWithoutBelongsToInput, JournalFollowsUncheckedCreateWithoutBelongsToInput> | JournalFollowsCreateWithoutBelongsToInput[] | JournalFollowsUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: JournalFollowsCreateOrConnectWithoutBelongsToInput | JournalFollowsCreateOrConnectWithoutBelongsToInput[]
+    upsert?: JournalFollowsUpsertWithWhereUniqueWithoutBelongsToInput | JournalFollowsUpsertWithWhereUniqueWithoutBelongsToInput[]
+    createMany?: JournalFollowsCreateManyBelongsToInputEnvelope
+    set?: JournalFollowsWhereUniqueInput | JournalFollowsWhereUniqueInput[]
+    disconnect?: JournalFollowsWhereUniqueInput | JournalFollowsWhereUniqueInput[]
+    delete?: JournalFollowsWhereUniqueInput | JournalFollowsWhereUniqueInput[]
+    connect?: JournalFollowsWhereUniqueInput | JournalFollowsWhereUniqueInput[]
+    update?: JournalFollowsUpdateWithWhereUniqueWithoutBelongsToInput | JournalFollowsUpdateWithWhereUniqueWithoutBelongsToInput[]
+    updateMany?: JournalFollowsUpdateManyWithWhereWithoutBelongsToInput | JournalFollowsUpdateManyWithWhereWithoutBelongsToInput[]
+    deleteMany?: JournalFollowsScalarWhereInput | JournalFollowsScalarWhereInput[]
   }
 
-  export type JournalTopicsUncheckedUpdateManyWithoutInJournalsNestedInput = {
-    create?: XOR<JournalTopicsCreateWithoutInJournalsInput, JournalTopicsUncheckedCreateWithoutInJournalsInput> | JournalTopicsCreateWithoutInJournalsInput[] | JournalTopicsUncheckedCreateWithoutInJournalsInput[]
-    connectOrCreate?: JournalTopicsCreateOrConnectWithoutInJournalsInput | JournalTopicsCreateOrConnectWithoutInJournalsInput[]
-    upsert?: JournalTopicsUpsertWithWhereUniqueWithoutInJournalsInput | JournalTopicsUpsertWithWhereUniqueWithoutInJournalsInput[]
-    createMany?: JournalTopicsCreateManyInJournalsInputEnvelope
-    set?: JournalTopicsWhereUniqueInput | JournalTopicsWhereUniqueInput[]
-    disconnect?: JournalTopicsWhereUniqueInput | JournalTopicsWhereUniqueInput[]
-    delete?: JournalTopicsWhereUniqueInput | JournalTopicsWhereUniqueInput[]
-    connect?: JournalTopicsWhereUniqueInput | JournalTopicsWhereUniqueInput[]
-    update?: JournalTopicsUpdateWithWhereUniqueWithoutInJournalsInput | JournalTopicsUpdateWithWhereUniqueWithoutInJournalsInput[]
-    updateMany?: JournalTopicsUpdateManyWithWhereWithoutInJournalsInput | JournalTopicsUpdateManyWithWhereWithoutInJournalsInput[]
-    deleteMany?: JournalTopicsScalarWhereInput | JournalTopicsScalarWhereInput[]
+  export type JournalLikesUpdateManyWithoutBelongsToNestedInput = {
+    create?: XOR<JournalLikesCreateWithoutBelongsToInput, JournalLikesUncheckedCreateWithoutBelongsToInput> | JournalLikesCreateWithoutBelongsToInput[] | JournalLikesUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: JournalLikesCreateOrConnectWithoutBelongsToInput | JournalLikesCreateOrConnectWithoutBelongsToInput[]
+    upsert?: JournalLikesUpsertWithWhereUniqueWithoutBelongsToInput | JournalLikesUpsertWithWhereUniqueWithoutBelongsToInput[]
+    createMany?: JournalLikesCreateManyBelongsToInputEnvelope
+    set?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
+    disconnect?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
+    delete?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
+    connect?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
+    update?: JournalLikesUpdateWithWhereUniqueWithoutBelongsToInput | JournalLikesUpdateWithWhereUniqueWithoutBelongsToInput[]
+    updateMany?: JournalLikesUpdateManyWithWhereWithoutBelongsToInput | JournalLikesUpdateManyWithWhereWithoutBelongsToInput[]
+    deleteMany?: JournalLikesScalarWhereInput | JournalLikesScalarWhereInput[]
   }
 
-  export type JournalRanksUncheckedUpdateManyWithoutBelongsToNestedInput = {
+  export type JournalRanksUpdateManyWithoutBelongsToNestedInput = {
     create?: XOR<JournalRanksCreateWithoutBelongsToInput, JournalRanksUncheckedCreateWithoutBelongsToInput> | JournalRanksCreateWithoutBelongsToInput[] | JournalRanksUncheckedCreateWithoutBelongsToInput[]
     connectOrCreate?: JournalRanksCreateOrConnectWithoutBelongsToInput | JournalRanksCreateOrConnectWithoutBelongsToInput[]
     upsert?: JournalRanksUpsertWithWhereUniqueWithoutBelongsToInput | JournalRanksUpsertWithWhereUniqueWithoutBelongsToInput[]
@@ -44653,18 +43588,52 @@ export namespace Prisma {
     deleteMany?: JournalRanksScalarWhereInput | JournalRanksScalarWhereInput[]
   }
 
-  export type JournalLikesUncheckedUpdateManyWithoutBelongsToNestedInput = {
-    create?: XOR<JournalLikesCreateWithoutBelongsToInput, JournalLikesUncheckedCreateWithoutBelongsToInput> | JournalLikesCreateWithoutBelongsToInput[] | JournalLikesUncheckedCreateWithoutBelongsToInput[]
-    connectOrCreate?: JournalLikesCreateOrConnectWithoutBelongsToInput | JournalLikesCreateOrConnectWithoutBelongsToInput[]
-    upsert?: JournalLikesUpsertWithWhereUniqueWithoutBelongsToInput | JournalLikesUpsertWithWhereUniqueWithoutBelongsToInput[]
-    createMany?: JournalLikesCreateManyBelongsToInputEnvelope
-    set?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
-    disconnect?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
-    delete?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
-    connect?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
-    update?: JournalLikesUpdateWithWhereUniqueWithoutBelongsToInput | JournalLikesUpdateWithWhereUniqueWithoutBelongsToInput[]
-    updateMany?: JournalLikesUpdateManyWithWhereWithoutBelongsToInput | JournalLikesUpdateManyWithWhereWithoutBelongsToInput[]
-    deleteMany?: JournalLikesScalarWhereInput | JournalLikesScalarWhereInput[]
+  export type JournalTopicsUpdateManyWithoutInJournalsNestedInput = {
+    create?: XOR<JournalTopicsCreateWithoutInJournalsInput, JournalTopicsUncheckedCreateWithoutInJournalsInput> | JournalTopicsCreateWithoutInJournalsInput[] | JournalTopicsUncheckedCreateWithoutInJournalsInput[]
+    connectOrCreate?: JournalTopicsCreateOrConnectWithoutInJournalsInput | JournalTopicsCreateOrConnectWithoutInJournalsInput[]
+    upsert?: JournalTopicsUpsertWithWhereUniqueWithoutInJournalsInput | JournalTopicsUpsertWithWhereUniqueWithoutInJournalsInput[]
+    createMany?: JournalTopicsCreateManyInJournalsInputEnvelope
+    set?: JournalTopicsWhereUniqueInput | JournalTopicsWhereUniqueInput[]
+    disconnect?: JournalTopicsWhereUniqueInput | JournalTopicsWhereUniqueInput[]
+    delete?: JournalTopicsWhereUniqueInput | JournalTopicsWhereUniqueInput[]
+    connect?: JournalTopicsWhereUniqueInput | JournalTopicsWhereUniqueInput[]
+    update?: JournalTopicsUpdateWithWhereUniqueWithoutInJournalsInput | JournalTopicsUpdateWithWhereUniqueWithoutInJournalsInput[]
+    updateMany?: JournalTopicsUpdateManyWithWhereWithoutInJournalsInput | JournalTopicsUpdateManyWithWhereWithoutInJournalsInput[]
+    deleteMany?: JournalTopicsScalarWhereInput | JournalTopicsScalarWhereInput[]
+  }
+
+  export type UsersUpdateOneWithoutCreatedJournalsNestedInput = {
+    create?: XOR<UsersCreateWithoutCreatedJournalsInput, UsersUncheckedCreateWithoutCreatedJournalsInput>
+    connectOrCreate?: UsersCreateOrConnectWithoutCreatedJournalsInput
+    upsert?: UsersUpsertWithoutCreatedJournalsInput
+    disconnect?: UsersWhereInput | boolean
+    delete?: UsersWhereInput | boolean
+    connect?: UsersWhereUniqueInput
+    update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutCreatedJournalsInput, UsersUpdateWithoutCreatedJournalsInput>, UsersUncheckedUpdateWithoutCreatedJournalsInput>
+  }
+
+  export type AdminsUpdateOneWithoutCreatedJournalsNestedInput = {
+    create?: XOR<AdminsCreateWithoutCreatedJournalsInput, AdminsUncheckedCreateWithoutCreatedJournalsInput>
+    connectOrCreate?: AdminsCreateOrConnectWithoutCreatedJournalsInput
+    upsert?: AdminsUpsertWithoutCreatedJournalsInput
+    disconnect?: AdminsWhereInput | boolean
+    delete?: AdminsWhereInput | boolean
+    connect?: AdminsWhereUniqueInput
+    update?: XOR<XOR<AdminsUpdateToOneWithWhereWithoutCreatedJournalsInput, AdminsUpdateWithoutCreatedJournalsInput>, AdminsUncheckedUpdateWithoutCreatedJournalsInput>
+  }
+
+  export type JournalCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput = {
+    create?: XOR<JournalCrawlJobsCreateWithoutBelongsToInput, JournalCrawlJobsUncheckedCreateWithoutBelongsToInput> | JournalCrawlJobsCreateWithoutBelongsToInput[] | JournalCrawlJobsUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: JournalCrawlJobsCreateOrConnectWithoutBelongsToInput | JournalCrawlJobsCreateOrConnectWithoutBelongsToInput[]
+    upsert?: JournalCrawlJobsUpsertWithWhereUniqueWithoutBelongsToInput | JournalCrawlJobsUpsertWithWhereUniqueWithoutBelongsToInput[]
+    createMany?: JournalCrawlJobsCreateManyBelongsToInputEnvelope
+    set?: JournalCrawlJobsWhereUniqueInput | JournalCrawlJobsWhereUniqueInput[]
+    disconnect?: JournalCrawlJobsWhereUniqueInput | JournalCrawlJobsWhereUniqueInput[]
+    delete?: JournalCrawlJobsWhereUniqueInput | JournalCrawlJobsWhereUniqueInput[]
+    connect?: JournalCrawlJobsWhereUniqueInput | JournalCrawlJobsWhereUniqueInput[]
+    update?: JournalCrawlJobsUpdateWithWhereUniqueWithoutBelongsToInput | JournalCrawlJobsUpdateWithWhereUniqueWithoutBelongsToInput[]
+    updateMany?: JournalCrawlJobsUpdateManyWithWhereWithoutBelongsToInput | JournalCrawlJobsUpdateManyWithWhereWithoutBelongsToInput[]
+    deleteMany?: JournalCrawlJobsScalarWhereInput | JournalCrawlJobsScalarWhereInput[]
   }
 
   export type JournalFollowsUncheckedUpdateManyWithoutBelongsToNestedInput = {
@@ -44681,18 +43650,46 @@ export namespace Prisma {
     deleteMany?: JournalFollowsScalarWhereInput | JournalFollowsScalarWhereInput[]
   }
 
-  export type JournalCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput = {
-    create?: XOR<JournalCrawlJobsCreateWithoutBelongsToInput, JournalCrawlJobsUncheckedCreateWithoutBelongsToInput> | JournalCrawlJobsCreateWithoutBelongsToInput[] | JournalCrawlJobsUncheckedCreateWithoutBelongsToInput[]
-    connectOrCreate?: JournalCrawlJobsCreateOrConnectWithoutBelongsToInput | JournalCrawlJobsCreateOrConnectWithoutBelongsToInput[]
-    upsert?: JournalCrawlJobsUpsertWithWhereUniqueWithoutBelongsToInput | JournalCrawlJobsUpsertWithWhereUniqueWithoutBelongsToInput[]
-    createMany?: JournalCrawlJobsCreateManyBelongsToInputEnvelope
-    set?: JournalCrawlJobsWhereUniqueInput | JournalCrawlJobsWhereUniqueInput[]
-    disconnect?: JournalCrawlJobsWhereUniqueInput | JournalCrawlJobsWhereUniqueInput[]
-    delete?: JournalCrawlJobsWhereUniqueInput | JournalCrawlJobsWhereUniqueInput[]
-    connect?: JournalCrawlJobsWhereUniqueInput | JournalCrawlJobsWhereUniqueInput[]
-    update?: JournalCrawlJobsUpdateWithWhereUniqueWithoutBelongsToInput | JournalCrawlJobsUpdateWithWhereUniqueWithoutBelongsToInput[]
-    updateMany?: JournalCrawlJobsUpdateManyWithWhereWithoutBelongsToInput | JournalCrawlJobsUpdateManyWithWhereWithoutBelongsToInput[]
-    deleteMany?: JournalCrawlJobsScalarWhereInput | JournalCrawlJobsScalarWhereInput[]
+  export type JournalLikesUncheckedUpdateManyWithoutBelongsToNestedInput = {
+    create?: XOR<JournalLikesCreateWithoutBelongsToInput, JournalLikesUncheckedCreateWithoutBelongsToInput> | JournalLikesCreateWithoutBelongsToInput[] | JournalLikesUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: JournalLikesCreateOrConnectWithoutBelongsToInput | JournalLikesCreateOrConnectWithoutBelongsToInput[]
+    upsert?: JournalLikesUpsertWithWhereUniqueWithoutBelongsToInput | JournalLikesUpsertWithWhereUniqueWithoutBelongsToInput[]
+    createMany?: JournalLikesCreateManyBelongsToInputEnvelope
+    set?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
+    disconnect?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
+    delete?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
+    connect?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
+    update?: JournalLikesUpdateWithWhereUniqueWithoutBelongsToInput | JournalLikesUpdateWithWhereUniqueWithoutBelongsToInput[]
+    updateMany?: JournalLikesUpdateManyWithWhereWithoutBelongsToInput | JournalLikesUpdateManyWithWhereWithoutBelongsToInput[]
+    deleteMany?: JournalLikesScalarWhereInput | JournalLikesScalarWhereInput[]
+  }
+
+  export type JournalRanksUncheckedUpdateManyWithoutBelongsToNestedInput = {
+    create?: XOR<JournalRanksCreateWithoutBelongsToInput, JournalRanksUncheckedCreateWithoutBelongsToInput> | JournalRanksCreateWithoutBelongsToInput[] | JournalRanksUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: JournalRanksCreateOrConnectWithoutBelongsToInput | JournalRanksCreateOrConnectWithoutBelongsToInput[]
+    upsert?: JournalRanksUpsertWithWhereUniqueWithoutBelongsToInput | JournalRanksUpsertWithWhereUniqueWithoutBelongsToInput[]
+    createMany?: JournalRanksCreateManyBelongsToInputEnvelope
+    set?: JournalRanksWhereUniqueInput | JournalRanksWhereUniqueInput[]
+    disconnect?: JournalRanksWhereUniqueInput | JournalRanksWhereUniqueInput[]
+    delete?: JournalRanksWhereUniqueInput | JournalRanksWhereUniqueInput[]
+    connect?: JournalRanksWhereUniqueInput | JournalRanksWhereUniqueInput[]
+    update?: JournalRanksUpdateWithWhereUniqueWithoutBelongsToInput | JournalRanksUpdateWithWhereUniqueWithoutBelongsToInput[]
+    updateMany?: JournalRanksUpdateManyWithWhereWithoutBelongsToInput | JournalRanksUpdateManyWithWhereWithoutBelongsToInput[]
+    deleteMany?: JournalRanksScalarWhereInput | JournalRanksScalarWhereInput[]
+  }
+
+  export type JournalTopicsUncheckedUpdateManyWithoutInJournalsNestedInput = {
+    create?: XOR<JournalTopicsCreateWithoutInJournalsInput, JournalTopicsUncheckedCreateWithoutInJournalsInput> | JournalTopicsCreateWithoutInJournalsInput[] | JournalTopicsUncheckedCreateWithoutInJournalsInput[]
+    connectOrCreate?: JournalTopicsCreateOrConnectWithoutInJournalsInput | JournalTopicsCreateOrConnectWithoutInJournalsInput[]
+    upsert?: JournalTopicsUpsertWithWhereUniqueWithoutInJournalsInput | JournalTopicsUpsertWithWhereUniqueWithoutInJournalsInput[]
+    createMany?: JournalTopicsCreateManyInJournalsInputEnvelope
+    set?: JournalTopicsWhereUniqueInput | JournalTopicsWhereUniqueInput[]
+    disconnect?: JournalTopicsWhereUniqueInput | JournalTopicsWhereUniqueInput[]
+    delete?: JournalTopicsWhereUniqueInput | JournalTopicsWhereUniqueInput[]
+    connect?: JournalTopicsWhereUniqueInput | JournalTopicsWhereUniqueInput[]
+    update?: JournalTopicsUpdateWithWhereUniqueWithoutInJournalsInput | JournalTopicsUpdateWithWhereUniqueWithoutInJournalsInput[]
+    updateMany?: JournalTopicsUpdateManyWithWhereWithoutInJournalsInput | JournalTopicsUpdateManyWithWhereWithoutInJournalsInput[]
+    deleteMany?: JournalTopicsScalarWhereInput | JournalTopicsScalarWhereInput[]
   }
 
   export type ConferencesCreateNestedOneWithoutFollowsInput = {
@@ -44863,6 +43860,27 @@ export namespace Prisma {
     update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutJournalFollowsInput, UsersUpdateWithoutJournalFollowsInput>, UsersUncheckedUpdateWithoutJournalFollowsInput>
   }
 
+  export type ConferenceBlacklistsCreateNestedManyWithoutByUserInput = {
+    create?: XOR<ConferenceBlacklistsCreateWithoutByUserInput, ConferenceBlacklistsUncheckedCreateWithoutByUserInput> | ConferenceBlacklistsCreateWithoutByUserInput[] | ConferenceBlacklistsUncheckedCreateWithoutByUserInput[]
+    connectOrCreate?: ConferenceBlacklistsCreateOrConnectWithoutByUserInput | ConferenceBlacklistsCreateOrConnectWithoutByUserInput[]
+    createMany?: ConferenceBlacklistsCreateManyByUserInputEnvelope
+    connect?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
+  }
+
+  export type ConferenceCalendarsCreateNestedManyWithoutByUserInput = {
+    create?: XOR<ConferenceCalendarsCreateWithoutByUserInput, ConferenceCalendarsUncheckedCreateWithoutByUserInput> | ConferenceCalendarsCreateWithoutByUserInput[] | ConferenceCalendarsUncheckedCreateWithoutByUserInput[]
+    connectOrCreate?: ConferenceCalendarsCreateOrConnectWithoutByUserInput | ConferenceCalendarsCreateOrConnectWithoutByUserInput[]
+    createMany?: ConferenceCalendarsCreateManyByUserInputEnvelope
+    connect?: ConferenceCalendarsWhereUniqueInput | ConferenceCalendarsWhereUniqueInput[]
+  }
+
+  export type ConferenceFeedbacksCreateNestedManyWithoutByUserInput = {
+    create?: XOR<ConferenceFeedbacksCreateWithoutByUserInput, ConferenceFeedbacksUncheckedCreateWithoutByUserInput> | ConferenceFeedbacksCreateWithoutByUserInput[] | ConferenceFeedbacksUncheckedCreateWithoutByUserInput[]
+    connectOrCreate?: ConferenceFeedbacksCreateOrConnectWithoutByUserInput | ConferenceFeedbacksCreateOrConnectWithoutByUserInput[]
+    createMany?: ConferenceFeedbacksCreateManyByUserInputEnvelope
+    connect?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
+  }
+
   export type ConferenceFollowsCreateNestedManyWithoutByUserInput = {
     create?: XOR<ConferenceFollowsCreateWithoutByUserInput, ConferenceFollowsUncheckedCreateWithoutByUserInput> | ConferenceFollowsCreateWithoutByUserInput[] | ConferenceFollowsUncheckedCreateWithoutByUserInput[]
     connectOrCreate?: ConferenceFollowsCreateOrConnectWithoutByUserInput | ConferenceFollowsCreateOrConnectWithoutByUserInput[]
@@ -44877,39 +43895,11 @@ export namespace Prisma {
     connect?: ConferenceLikesWhereUniqueInput | ConferenceLikesWhereUniqueInput[]
   }
 
-  export type ConferenceCalendarsCreateNestedManyWithoutByUserInput = {
-    create?: XOR<ConferenceCalendarsCreateWithoutByUserInput, ConferenceCalendarsUncheckedCreateWithoutByUserInput> | ConferenceCalendarsCreateWithoutByUserInput[] | ConferenceCalendarsUncheckedCreateWithoutByUserInput[]
-    connectOrCreate?: ConferenceCalendarsCreateOrConnectWithoutByUserInput | ConferenceCalendarsCreateOrConnectWithoutByUserInput[]
-    createMany?: ConferenceCalendarsCreateManyByUserInputEnvelope
-    connect?: ConferenceCalendarsWhereUniqueInput | ConferenceCalendarsWhereUniqueInput[]
-  }
-
   export type ConferencesCreateNestedManyWithoutCreatedByUserInput = {
     create?: XOR<ConferencesCreateWithoutCreatedByUserInput, ConferencesUncheckedCreateWithoutCreatedByUserInput> | ConferencesCreateWithoutCreatedByUserInput[] | ConferencesUncheckedCreateWithoutCreatedByUserInput[]
     connectOrCreate?: ConferencesCreateOrConnectWithoutCreatedByUserInput | ConferencesCreateOrConnectWithoutCreatedByUserInput[]
     createMany?: ConferencesCreateManyCreatedByUserInputEnvelope
     connect?: ConferencesWhereUniqueInput | ConferencesWhereUniqueInput[]
-  }
-
-  export type TopicUserInterestedsCreateNestedManyWithoutBelongsToInput = {
-    create?: XOR<TopicUserInterestedsCreateWithoutBelongsToInput, TopicUserInterestedsUncheckedCreateWithoutBelongsToInput> | TopicUserInterestedsCreateWithoutBelongsToInput[] | TopicUserInterestedsUncheckedCreateWithoutBelongsToInput[]
-    connectOrCreate?: TopicUserInterestedsCreateOrConnectWithoutBelongsToInput | TopicUserInterestedsCreateOrConnectWithoutBelongsToInput[]
-    createMany?: TopicUserInterestedsCreateManyBelongsToInputEnvelope
-    connect?: TopicUserInterestedsWhereUniqueInput | TopicUserInterestedsWhereUniqueInput[]
-  }
-
-  export type JournalsCreateNestedManyWithoutCreatedByUserInput = {
-    create?: XOR<JournalsCreateWithoutCreatedByUserInput, JournalsUncheckedCreateWithoutCreatedByUserInput> | JournalsCreateWithoutCreatedByUserInput[] | JournalsUncheckedCreateWithoutCreatedByUserInput[]
-    connectOrCreate?: JournalsCreateOrConnectWithoutCreatedByUserInput | JournalsCreateOrConnectWithoutCreatedByUserInput[]
-    createMany?: JournalsCreateManyCreatedByUserInputEnvelope
-    connect?: JournalsWhereUniqueInput | JournalsWhereUniqueInput[]
-  }
-
-  export type JournalLikesCreateNestedManyWithoutByUserInput = {
-    create?: XOR<JournalLikesCreateWithoutByUserInput, JournalLikesUncheckedCreateWithoutByUserInput> | JournalLikesCreateWithoutByUserInput[] | JournalLikesUncheckedCreateWithoutByUserInput[]
-    connectOrCreate?: JournalLikesCreateOrConnectWithoutByUserInput | JournalLikesCreateOrConnectWithoutByUserInput[]
-    createMany?: JournalLikesCreateManyByUserInputEnvelope
-    connect?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
   }
 
   export type JournalFollowsCreateNestedManyWithoutByUserInput = {
@@ -44919,25 +43909,18 @@ export namespace Prisma {
     connect?: JournalFollowsWhereUniqueInput | JournalFollowsWhereUniqueInput[]
   }
 
-  export type ConferenceFeedbacksCreateNestedManyWithoutByUserInput = {
-    create?: XOR<ConferenceFeedbacksCreateWithoutByUserInput, ConferenceFeedbacksUncheckedCreateWithoutByUserInput> | ConferenceFeedbacksCreateWithoutByUserInput[] | ConferenceFeedbacksUncheckedCreateWithoutByUserInput[]
-    connectOrCreate?: ConferenceFeedbacksCreateOrConnectWithoutByUserInput | ConferenceFeedbacksCreateOrConnectWithoutByUserInput[]
-    createMany?: ConferenceFeedbacksCreateManyByUserInputEnvelope
-    connect?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
+  export type JournalLikesCreateNestedManyWithoutByUserInput = {
+    create?: XOR<JournalLikesCreateWithoutByUserInput, JournalLikesUncheckedCreateWithoutByUserInput> | JournalLikesCreateWithoutByUserInput[] | JournalLikesUncheckedCreateWithoutByUserInput[]
+    connectOrCreate?: JournalLikesCreateOrConnectWithoutByUserInput | JournalLikesCreateOrConnectWithoutByUserInput[]
+    createMany?: JournalLikesCreateManyByUserInputEnvelope
+    connect?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
   }
 
-  export type ConferenceBlacklistsCreateNestedManyWithoutByUserInput = {
-    create?: XOR<ConferenceBlacklistsCreateWithoutByUserInput, ConferenceBlacklistsUncheckedCreateWithoutByUserInput> | ConferenceBlacklistsCreateWithoutByUserInput[] | ConferenceBlacklistsUncheckedCreateWithoutByUserInput[]
-    connectOrCreate?: ConferenceBlacklistsCreateOrConnectWithoutByUserInput | ConferenceBlacklistsCreateOrConnectWithoutByUserInput[]
-    createMany?: ConferenceBlacklistsCreateManyByUserInputEnvelope
-    connect?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
-  }
-
-  export type NotificationsCreateNestedManyWithoutByUserInput = {
-    create?: XOR<NotificationsCreateWithoutByUserInput, NotificationsUncheckedCreateWithoutByUserInput> | NotificationsCreateWithoutByUserInput[] | NotificationsUncheckedCreateWithoutByUserInput[]
-    connectOrCreate?: NotificationsCreateOrConnectWithoutByUserInput | NotificationsCreateOrConnectWithoutByUserInput[]
-    createMany?: NotificationsCreateManyByUserInputEnvelope
-    connect?: NotificationsWhereUniqueInput | NotificationsWhereUniqueInput[]
+  export type JournalsCreateNestedManyWithoutCreatedByUserInput = {
+    create?: XOR<JournalsCreateWithoutCreatedByUserInput, JournalsUncheckedCreateWithoutCreatedByUserInput> | JournalsCreateWithoutCreatedByUserInput[] | JournalsUncheckedCreateWithoutCreatedByUserInput[]
+    connectOrCreate?: JournalsCreateOrConnectWithoutCreatedByUserInput | JournalsCreateOrConnectWithoutCreatedByUserInput[]
+    createMany?: JournalsCreateManyCreatedByUserInputEnvelope
+    connect?: JournalsWhereUniqueInput | JournalsWhereUniqueInput[]
   }
 
   export type NotificationSettingsCreateNestedManyWithoutByUserInput = {
@@ -44947,11 +43930,46 @@ export namespace Prisma {
     connect?: NotificationSettingsWhereUniqueInput | NotificationSettingsWhereUniqueInput[]
   }
 
+  export type NotificationsCreateNestedManyWithoutByUserInput = {
+    create?: XOR<NotificationsCreateWithoutByUserInput, NotificationsUncheckedCreateWithoutByUserInput> | NotificationsCreateWithoutByUserInput[] | NotificationsUncheckedCreateWithoutByUserInput[]
+    connectOrCreate?: NotificationsCreateOrConnectWithoutByUserInput | NotificationsCreateOrConnectWithoutByUserInput[]
+    createMany?: NotificationsCreateManyByUserInputEnvelope
+    connect?: NotificationsWhereUniqueInput | NotificationsWhereUniqueInput[]
+  }
+
+  export type TopicUserInterestedsCreateNestedManyWithoutBelongsToInput = {
+    create?: XOR<TopicUserInterestedsCreateWithoutBelongsToInput, TopicUserInterestedsUncheckedCreateWithoutBelongsToInput> | TopicUserInterestedsCreateWithoutBelongsToInput[] | TopicUserInterestedsUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: TopicUserInterestedsCreateOrConnectWithoutBelongsToInput | TopicUserInterestedsCreateOrConnectWithoutBelongsToInput[]
+    createMany?: TopicUserInterestedsCreateManyBelongsToInputEnvelope
+    connect?: TopicUserInterestedsWhereUniqueInput | TopicUserInterestedsWhereUniqueInput[]
+  }
+
   export type UserVerificationCreateNestedManyWithoutByUserInput = {
     create?: XOR<UserVerificationCreateWithoutByUserInput, UserVerificationUncheckedCreateWithoutByUserInput> | UserVerificationCreateWithoutByUserInput[] | UserVerificationUncheckedCreateWithoutByUserInput[]
     connectOrCreate?: UserVerificationCreateOrConnectWithoutByUserInput | UserVerificationCreateOrConnectWithoutByUserInput[]
     createMany?: UserVerificationCreateManyByUserInputEnvelope
     connect?: UserVerificationWhereUniqueInput | UserVerificationWhereUniqueInput[]
+  }
+
+  export type ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput = {
+    create?: XOR<ConferenceBlacklistsCreateWithoutByUserInput, ConferenceBlacklistsUncheckedCreateWithoutByUserInput> | ConferenceBlacklistsCreateWithoutByUserInput[] | ConferenceBlacklistsUncheckedCreateWithoutByUserInput[]
+    connectOrCreate?: ConferenceBlacklistsCreateOrConnectWithoutByUserInput | ConferenceBlacklistsCreateOrConnectWithoutByUserInput[]
+    createMany?: ConferenceBlacklistsCreateManyByUserInputEnvelope
+    connect?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
+  }
+
+  export type ConferenceCalendarsUncheckedCreateNestedManyWithoutByUserInput = {
+    create?: XOR<ConferenceCalendarsCreateWithoutByUserInput, ConferenceCalendarsUncheckedCreateWithoutByUserInput> | ConferenceCalendarsCreateWithoutByUserInput[] | ConferenceCalendarsUncheckedCreateWithoutByUserInput[]
+    connectOrCreate?: ConferenceCalendarsCreateOrConnectWithoutByUserInput | ConferenceCalendarsCreateOrConnectWithoutByUserInput[]
+    createMany?: ConferenceCalendarsCreateManyByUserInputEnvelope
+    connect?: ConferenceCalendarsWhereUniqueInput | ConferenceCalendarsWhereUniqueInput[]
+  }
+
+  export type ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput = {
+    create?: XOR<ConferenceFeedbacksCreateWithoutByUserInput, ConferenceFeedbacksUncheckedCreateWithoutByUserInput> | ConferenceFeedbacksCreateWithoutByUserInput[] | ConferenceFeedbacksUncheckedCreateWithoutByUserInput[]
+    connectOrCreate?: ConferenceFeedbacksCreateOrConnectWithoutByUserInput | ConferenceFeedbacksCreateOrConnectWithoutByUserInput[]
+    createMany?: ConferenceFeedbacksCreateManyByUserInputEnvelope
+    connect?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
   }
 
   export type ConferenceFollowsUncheckedCreateNestedManyWithoutByUserInput = {
@@ -44968,39 +43986,11 @@ export namespace Prisma {
     connect?: ConferenceLikesWhereUniqueInput | ConferenceLikesWhereUniqueInput[]
   }
 
-  export type ConferenceCalendarsUncheckedCreateNestedManyWithoutByUserInput = {
-    create?: XOR<ConferenceCalendarsCreateWithoutByUserInput, ConferenceCalendarsUncheckedCreateWithoutByUserInput> | ConferenceCalendarsCreateWithoutByUserInput[] | ConferenceCalendarsUncheckedCreateWithoutByUserInput[]
-    connectOrCreate?: ConferenceCalendarsCreateOrConnectWithoutByUserInput | ConferenceCalendarsCreateOrConnectWithoutByUserInput[]
-    createMany?: ConferenceCalendarsCreateManyByUserInputEnvelope
-    connect?: ConferenceCalendarsWhereUniqueInput | ConferenceCalendarsWhereUniqueInput[]
-  }
-
   export type ConferencesUncheckedCreateNestedManyWithoutCreatedByUserInput = {
     create?: XOR<ConferencesCreateWithoutCreatedByUserInput, ConferencesUncheckedCreateWithoutCreatedByUserInput> | ConferencesCreateWithoutCreatedByUserInput[] | ConferencesUncheckedCreateWithoutCreatedByUserInput[]
     connectOrCreate?: ConferencesCreateOrConnectWithoutCreatedByUserInput | ConferencesCreateOrConnectWithoutCreatedByUserInput[]
     createMany?: ConferencesCreateManyCreatedByUserInputEnvelope
     connect?: ConferencesWhereUniqueInput | ConferencesWhereUniqueInput[]
-  }
-
-  export type TopicUserInterestedsUncheckedCreateNestedManyWithoutBelongsToInput = {
-    create?: XOR<TopicUserInterestedsCreateWithoutBelongsToInput, TopicUserInterestedsUncheckedCreateWithoutBelongsToInput> | TopicUserInterestedsCreateWithoutBelongsToInput[] | TopicUserInterestedsUncheckedCreateWithoutBelongsToInput[]
-    connectOrCreate?: TopicUserInterestedsCreateOrConnectWithoutBelongsToInput | TopicUserInterestedsCreateOrConnectWithoutBelongsToInput[]
-    createMany?: TopicUserInterestedsCreateManyBelongsToInputEnvelope
-    connect?: TopicUserInterestedsWhereUniqueInput | TopicUserInterestedsWhereUniqueInput[]
-  }
-
-  export type JournalsUncheckedCreateNestedManyWithoutCreatedByUserInput = {
-    create?: XOR<JournalsCreateWithoutCreatedByUserInput, JournalsUncheckedCreateWithoutCreatedByUserInput> | JournalsCreateWithoutCreatedByUserInput[] | JournalsUncheckedCreateWithoutCreatedByUserInput[]
-    connectOrCreate?: JournalsCreateOrConnectWithoutCreatedByUserInput | JournalsCreateOrConnectWithoutCreatedByUserInput[]
-    createMany?: JournalsCreateManyCreatedByUserInputEnvelope
-    connect?: JournalsWhereUniqueInput | JournalsWhereUniqueInput[]
-  }
-
-  export type JournalLikesUncheckedCreateNestedManyWithoutByUserInput = {
-    create?: XOR<JournalLikesCreateWithoutByUserInput, JournalLikesUncheckedCreateWithoutByUserInput> | JournalLikesCreateWithoutByUserInput[] | JournalLikesUncheckedCreateWithoutByUserInput[]
-    connectOrCreate?: JournalLikesCreateOrConnectWithoutByUserInput | JournalLikesCreateOrConnectWithoutByUserInput[]
-    createMany?: JournalLikesCreateManyByUserInputEnvelope
-    connect?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
   }
 
   export type JournalFollowsUncheckedCreateNestedManyWithoutByUserInput = {
@@ -45010,25 +44000,18 @@ export namespace Prisma {
     connect?: JournalFollowsWhereUniqueInput | JournalFollowsWhereUniqueInput[]
   }
 
-  export type ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput = {
-    create?: XOR<ConferenceFeedbacksCreateWithoutByUserInput, ConferenceFeedbacksUncheckedCreateWithoutByUserInput> | ConferenceFeedbacksCreateWithoutByUserInput[] | ConferenceFeedbacksUncheckedCreateWithoutByUserInput[]
-    connectOrCreate?: ConferenceFeedbacksCreateOrConnectWithoutByUserInput | ConferenceFeedbacksCreateOrConnectWithoutByUserInput[]
-    createMany?: ConferenceFeedbacksCreateManyByUserInputEnvelope
-    connect?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
+  export type JournalLikesUncheckedCreateNestedManyWithoutByUserInput = {
+    create?: XOR<JournalLikesCreateWithoutByUserInput, JournalLikesUncheckedCreateWithoutByUserInput> | JournalLikesCreateWithoutByUserInput[] | JournalLikesUncheckedCreateWithoutByUserInput[]
+    connectOrCreate?: JournalLikesCreateOrConnectWithoutByUserInput | JournalLikesCreateOrConnectWithoutByUserInput[]
+    createMany?: JournalLikesCreateManyByUserInputEnvelope
+    connect?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
   }
 
-  export type ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput = {
-    create?: XOR<ConferenceBlacklistsCreateWithoutByUserInput, ConferenceBlacklistsUncheckedCreateWithoutByUserInput> | ConferenceBlacklistsCreateWithoutByUserInput[] | ConferenceBlacklistsUncheckedCreateWithoutByUserInput[]
-    connectOrCreate?: ConferenceBlacklistsCreateOrConnectWithoutByUserInput | ConferenceBlacklistsCreateOrConnectWithoutByUserInput[]
-    createMany?: ConferenceBlacklistsCreateManyByUserInputEnvelope
-    connect?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
-  }
-
-  export type NotificationsUncheckedCreateNestedManyWithoutByUserInput = {
-    create?: XOR<NotificationsCreateWithoutByUserInput, NotificationsUncheckedCreateWithoutByUserInput> | NotificationsCreateWithoutByUserInput[] | NotificationsUncheckedCreateWithoutByUserInput[]
-    connectOrCreate?: NotificationsCreateOrConnectWithoutByUserInput | NotificationsCreateOrConnectWithoutByUserInput[]
-    createMany?: NotificationsCreateManyByUserInputEnvelope
-    connect?: NotificationsWhereUniqueInput | NotificationsWhereUniqueInput[]
+  export type JournalsUncheckedCreateNestedManyWithoutCreatedByUserInput = {
+    create?: XOR<JournalsCreateWithoutCreatedByUserInput, JournalsUncheckedCreateWithoutCreatedByUserInput> | JournalsCreateWithoutCreatedByUserInput[] | JournalsUncheckedCreateWithoutCreatedByUserInput[]
+    connectOrCreate?: JournalsCreateOrConnectWithoutCreatedByUserInput | JournalsCreateOrConnectWithoutCreatedByUserInput[]
+    createMany?: JournalsCreateManyCreatedByUserInputEnvelope
+    connect?: JournalsWhereUniqueInput | JournalsWhereUniqueInput[]
   }
 
   export type NotificationSettingsUncheckedCreateNestedManyWithoutByUserInput = {
@@ -45038,11 +44021,67 @@ export namespace Prisma {
     connect?: NotificationSettingsWhereUniqueInput | NotificationSettingsWhereUniqueInput[]
   }
 
+  export type NotificationsUncheckedCreateNestedManyWithoutByUserInput = {
+    create?: XOR<NotificationsCreateWithoutByUserInput, NotificationsUncheckedCreateWithoutByUserInput> | NotificationsCreateWithoutByUserInput[] | NotificationsUncheckedCreateWithoutByUserInput[]
+    connectOrCreate?: NotificationsCreateOrConnectWithoutByUserInput | NotificationsCreateOrConnectWithoutByUserInput[]
+    createMany?: NotificationsCreateManyByUserInputEnvelope
+    connect?: NotificationsWhereUniqueInput | NotificationsWhereUniqueInput[]
+  }
+
+  export type TopicUserInterestedsUncheckedCreateNestedManyWithoutBelongsToInput = {
+    create?: XOR<TopicUserInterestedsCreateWithoutBelongsToInput, TopicUserInterestedsUncheckedCreateWithoutBelongsToInput> | TopicUserInterestedsCreateWithoutBelongsToInput[] | TopicUserInterestedsUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: TopicUserInterestedsCreateOrConnectWithoutBelongsToInput | TopicUserInterestedsCreateOrConnectWithoutBelongsToInput[]
+    createMany?: TopicUserInterestedsCreateManyBelongsToInputEnvelope
+    connect?: TopicUserInterestedsWhereUniqueInput | TopicUserInterestedsWhereUniqueInput[]
+  }
+
   export type UserVerificationUncheckedCreateNestedManyWithoutByUserInput = {
     create?: XOR<UserVerificationCreateWithoutByUserInput, UserVerificationUncheckedCreateWithoutByUserInput> | UserVerificationCreateWithoutByUserInput[] | UserVerificationUncheckedCreateWithoutByUserInput[]
     connectOrCreate?: UserVerificationCreateOrConnectWithoutByUserInput | UserVerificationCreateOrConnectWithoutByUserInput[]
     createMany?: UserVerificationCreateManyByUserInputEnvelope
     connect?: UserVerificationWhereUniqueInput | UserVerificationWhereUniqueInput[]
+  }
+
+  export type ConferenceBlacklistsUpdateManyWithoutByUserNestedInput = {
+    create?: XOR<ConferenceBlacklistsCreateWithoutByUserInput, ConferenceBlacklistsUncheckedCreateWithoutByUserInput> | ConferenceBlacklistsCreateWithoutByUserInput[] | ConferenceBlacklistsUncheckedCreateWithoutByUserInput[]
+    connectOrCreate?: ConferenceBlacklistsCreateOrConnectWithoutByUserInput | ConferenceBlacklistsCreateOrConnectWithoutByUserInput[]
+    upsert?: ConferenceBlacklistsUpsertWithWhereUniqueWithoutByUserInput | ConferenceBlacklistsUpsertWithWhereUniqueWithoutByUserInput[]
+    createMany?: ConferenceBlacklistsCreateManyByUserInputEnvelope
+    set?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
+    disconnect?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
+    delete?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
+    connect?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
+    update?: ConferenceBlacklistsUpdateWithWhereUniqueWithoutByUserInput | ConferenceBlacklistsUpdateWithWhereUniqueWithoutByUserInput[]
+    updateMany?: ConferenceBlacklistsUpdateManyWithWhereWithoutByUserInput | ConferenceBlacklistsUpdateManyWithWhereWithoutByUserInput[]
+    deleteMany?: ConferenceBlacklistsScalarWhereInput | ConferenceBlacklistsScalarWhereInput[]
+  }
+
+  export type ConferenceCalendarsUpdateManyWithoutByUserNestedInput = {
+    create?: XOR<ConferenceCalendarsCreateWithoutByUserInput, ConferenceCalendarsUncheckedCreateWithoutByUserInput> | ConferenceCalendarsCreateWithoutByUserInput[] | ConferenceCalendarsUncheckedCreateWithoutByUserInput[]
+    connectOrCreate?: ConferenceCalendarsCreateOrConnectWithoutByUserInput | ConferenceCalendarsCreateOrConnectWithoutByUserInput[]
+    upsert?: ConferenceCalendarsUpsertWithWhereUniqueWithoutByUserInput | ConferenceCalendarsUpsertWithWhereUniqueWithoutByUserInput[]
+    createMany?: ConferenceCalendarsCreateManyByUserInputEnvelope
+    set?: ConferenceCalendarsWhereUniqueInput | ConferenceCalendarsWhereUniqueInput[]
+    disconnect?: ConferenceCalendarsWhereUniqueInput | ConferenceCalendarsWhereUniqueInput[]
+    delete?: ConferenceCalendarsWhereUniqueInput | ConferenceCalendarsWhereUniqueInput[]
+    connect?: ConferenceCalendarsWhereUniqueInput | ConferenceCalendarsWhereUniqueInput[]
+    update?: ConferenceCalendarsUpdateWithWhereUniqueWithoutByUserInput | ConferenceCalendarsUpdateWithWhereUniqueWithoutByUserInput[]
+    updateMany?: ConferenceCalendarsUpdateManyWithWhereWithoutByUserInput | ConferenceCalendarsUpdateManyWithWhereWithoutByUserInput[]
+    deleteMany?: ConferenceCalendarsScalarWhereInput | ConferenceCalendarsScalarWhereInput[]
+  }
+
+  export type ConferenceFeedbacksUpdateManyWithoutByUserNestedInput = {
+    create?: XOR<ConferenceFeedbacksCreateWithoutByUserInput, ConferenceFeedbacksUncheckedCreateWithoutByUserInput> | ConferenceFeedbacksCreateWithoutByUserInput[] | ConferenceFeedbacksUncheckedCreateWithoutByUserInput[]
+    connectOrCreate?: ConferenceFeedbacksCreateOrConnectWithoutByUserInput | ConferenceFeedbacksCreateOrConnectWithoutByUserInput[]
+    upsert?: ConferenceFeedbacksUpsertWithWhereUniqueWithoutByUserInput | ConferenceFeedbacksUpsertWithWhereUniqueWithoutByUserInput[]
+    createMany?: ConferenceFeedbacksCreateManyByUserInputEnvelope
+    set?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
+    disconnect?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
+    delete?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
+    connect?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
+    update?: ConferenceFeedbacksUpdateWithWhereUniqueWithoutByUserInput | ConferenceFeedbacksUpdateWithWhereUniqueWithoutByUserInput[]
+    updateMany?: ConferenceFeedbacksUpdateManyWithWhereWithoutByUserInput | ConferenceFeedbacksUpdateManyWithWhereWithoutByUserInput[]
+    deleteMany?: ConferenceFeedbacksScalarWhereInput | ConferenceFeedbacksScalarWhereInput[]
   }
 
   export type ConferenceFollowsUpdateManyWithoutByUserNestedInput = {
@@ -45073,20 +44112,6 @@ export namespace Prisma {
     deleteMany?: ConferenceLikesScalarWhereInput | ConferenceLikesScalarWhereInput[]
   }
 
-  export type ConferenceCalendarsUpdateManyWithoutByUserNestedInput = {
-    create?: XOR<ConferenceCalendarsCreateWithoutByUserInput, ConferenceCalendarsUncheckedCreateWithoutByUserInput> | ConferenceCalendarsCreateWithoutByUserInput[] | ConferenceCalendarsUncheckedCreateWithoutByUserInput[]
-    connectOrCreate?: ConferenceCalendarsCreateOrConnectWithoutByUserInput | ConferenceCalendarsCreateOrConnectWithoutByUserInput[]
-    upsert?: ConferenceCalendarsUpsertWithWhereUniqueWithoutByUserInput | ConferenceCalendarsUpsertWithWhereUniqueWithoutByUserInput[]
-    createMany?: ConferenceCalendarsCreateManyByUserInputEnvelope
-    set?: ConferenceCalendarsWhereUniqueInput | ConferenceCalendarsWhereUniqueInput[]
-    disconnect?: ConferenceCalendarsWhereUniqueInput | ConferenceCalendarsWhereUniqueInput[]
-    delete?: ConferenceCalendarsWhereUniqueInput | ConferenceCalendarsWhereUniqueInput[]
-    connect?: ConferenceCalendarsWhereUniqueInput | ConferenceCalendarsWhereUniqueInput[]
-    update?: ConferenceCalendarsUpdateWithWhereUniqueWithoutByUserInput | ConferenceCalendarsUpdateWithWhereUniqueWithoutByUserInput[]
-    updateMany?: ConferenceCalendarsUpdateManyWithWhereWithoutByUserInput | ConferenceCalendarsUpdateManyWithWhereWithoutByUserInput[]
-    deleteMany?: ConferenceCalendarsScalarWhereInput | ConferenceCalendarsScalarWhereInput[]
-  }
-
   export type ConferencesUpdateManyWithoutCreatedByUserNestedInput = {
     create?: XOR<ConferencesCreateWithoutCreatedByUserInput, ConferencesUncheckedCreateWithoutCreatedByUserInput> | ConferencesCreateWithoutCreatedByUserInput[] | ConferencesUncheckedCreateWithoutCreatedByUserInput[]
     connectOrCreate?: ConferencesCreateOrConnectWithoutCreatedByUserInput | ConferencesCreateOrConnectWithoutCreatedByUserInput[]
@@ -45099,48 +44124,6 @@ export namespace Prisma {
     update?: ConferencesUpdateWithWhereUniqueWithoutCreatedByUserInput | ConferencesUpdateWithWhereUniqueWithoutCreatedByUserInput[]
     updateMany?: ConferencesUpdateManyWithWhereWithoutCreatedByUserInput | ConferencesUpdateManyWithWhereWithoutCreatedByUserInput[]
     deleteMany?: ConferencesScalarWhereInput | ConferencesScalarWhereInput[]
-  }
-
-  export type TopicUserInterestedsUpdateManyWithoutBelongsToNestedInput = {
-    create?: XOR<TopicUserInterestedsCreateWithoutBelongsToInput, TopicUserInterestedsUncheckedCreateWithoutBelongsToInput> | TopicUserInterestedsCreateWithoutBelongsToInput[] | TopicUserInterestedsUncheckedCreateWithoutBelongsToInput[]
-    connectOrCreate?: TopicUserInterestedsCreateOrConnectWithoutBelongsToInput | TopicUserInterestedsCreateOrConnectWithoutBelongsToInput[]
-    upsert?: TopicUserInterestedsUpsertWithWhereUniqueWithoutBelongsToInput | TopicUserInterestedsUpsertWithWhereUniqueWithoutBelongsToInput[]
-    createMany?: TopicUserInterestedsCreateManyBelongsToInputEnvelope
-    set?: TopicUserInterestedsWhereUniqueInput | TopicUserInterestedsWhereUniqueInput[]
-    disconnect?: TopicUserInterestedsWhereUniqueInput | TopicUserInterestedsWhereUniqueInput[]
-    delete?: TopicUserInterestedsWhereUniqueInput | TopicUserInterestedsWhereUniqueInput[]
-    connect?: TopicUserInterestedsWhereUniqueInput | TopicUserInterestedsWhereUniqueInput[]
-    update?: TopicUserInterestedsUpdateWithWhereUniqueWithoutBelongsToInput | TopicUserInterestedsUpdateWithWhereUniqueWithoutBelongsToInput[]
-    updateMany?: TopicUserInterestedsUpdateManyWithWhereWithoutBelongsToInput | TopicUserInterestedsUpdateManyWithWhereWithoutBelongsToInput[]
-    deleteMany?: TopicUserInterestedsScalarWhereInput | TopicUserInterestedsScalarWhereInput[]
-  }
-
-  export type JournalsUpdateManyWithoutCreatedByUserNestedInput = {
-    create?: XOR<JournalsCreateWithoutCreatedByUserInput, JournalsUncheckedCreateWithoutCreatedByUserInput> | JournalsCreateWithoutCreatedByUserInput[] | JournalsUncheckedCreateWithoutCreatedByUserInput[]
-    connectOrCreate?: JournalsCreateOrConnectWithoutCreatedByUserInput | JournalsCreateOrConnectWithoutCreatedByUserInput[]
-    upsert?: JournalsUpsertWithWhereUniqueWithoutCreatedByUserInput | JournalsUpsertWithWhereUniqueWithoutCreatedByUserInput[]
-    createMany?: JournalsCreateManyCreatedByUserInputEnvelope
-    set?: JournalsWhereUniqueInput | JournalsWhereUniqueInput[]
-    disconnect?: JournalsWhereUniqueInput | JournalsWhereUniqueInput[]
-    delete?: JournalsWhereUniqueInput | JournalsWhereUniqueInput[]
-    connect?: JournalsWhereUniqueInput | JournalsWhereUniqueInput[]
-    update?: JournalsUpdateWithWhereUniqueWithoutCreatedByUserInput | JournalsUpdateWithWhereUniqueWithoutCreatedByUserInput[]
-    updateMany?: JournalsUpdateManyWithWhereWithoutCreatedByUserInput | JournalsUpdateManyWithWhereWithoutCreatedByUserInput[]
-    deleteMany?: JournalsScalarWhereInput | JournalsScalarWhereInput[]
-  }
-
-  export type JournalLikesUpdateManyWithoutByUserNestedInput = {
-    create?: XOR<JournalLikesCreateWithoutByUserInput, JournalLikesUncheckedCreateWithoutByUserInput> | JournalLikesCreateWithoutByUserInput[] | JournalLikesUncheckedCreateWithoutByUserInput[]
-    connectOrCreate?: JournalLikesCreateOrConnectWithoutByUserInput | JournalLikesCreateOrConnectWithoutByUserInput[]
-    upsert?: JournalLikesUpsertWithWhereUniqueWithoutByUserInput | JournalLikesUpsertWithWhereUniqueWithoutByUserInput[]
-    createMany?: JournalLikesCreateManyByUserInputEnvelope
-    set?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
-    disconnect?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
-    delete?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
-    connect?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
-    update?: JournalLikesUpdateWithWhereUniqueWithoutByUserInput | JournalLikesUpdateWithWhereUniqueWithoutByUserInput[]
-    updateMany?: JournalLikesUpdateManyWithWhereWithoutByUserInput | JournalLikesUpdateManyWithWhereWithoutByUserInput[]
-    deleteMany?: JournalLikesScalarWhereInput | JournalLikesScalarWhereInput[]
   }
 
   export type JournalFollowsUpdateManyWithoutByUserNestedInput = {
@@ -45157,46 +44140,32 @@ export namespace Prisma {
     deleteMany?: JournalFollowsScalarWhereInput | JournalFollowsScalarWhereInput[]
   }
 
-  export type ConferenceFeedbacksUpdateManyWithoutByUserNestedInput = {
-    create?: XOR<ConferenceFeedbacksCreateWithoutByUserInput, ConferenceFeedbacksUncheckedCreateWithoutByUserInput> | ConferenceFeedbacksCreateWithoutByUserInput[] | ConferenceFeedbacksUncheckedCreateWithoutByUserInput[]
-    connectOrCreate?: ConferenceFeedbacksCreateOrConnectWithoutByUserInput | ConferenceFeedbacksCreateOrConnectWithoutByUserInput[]
-    upsert?: ConferenceFeedbacksUpsertWithWhereUniqueWithoutByUserInput | ConferenceFeedbacksUpsertWithWhereUniqueWithoutByUserInput[]
-    createMany?: ConferenceFeedbacksCreateManyByUserInputEnvelope
-    set?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
-    disconnect?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
-    delete?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
-    connect?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
-    update?: ConferenceFeedbacksUpdateWithWhereUniqueWithoutByUserInput | ConferenceFeedbacksUpdateWithWhereUniqueWithoutByUserInput[]
-    updateMany?: ConferenceFeedbacksUpdateManyWithWhereWithoutByUserInput | ConferenceFeedbacksUpdateManyWithWhereWithoutByUserInput[]
-    deleteMany?: ConferenceFeedbacksScalarWhereInput | ConferenceFeedbacksScalarWhereInput[]
+  export type JournalLikesUpdateManyWithoutByUserNestedInput = {
+    create?: XOR<JournalLikesCreateWithoutByUserInput, JournalLikesUncheckedCreateWithoutByUserInput> | JournalLikesCreateWithoutByUserInput[] | JournalLikesUncheckedCreateWithoutByUserInput[]
+    connectOrCreate?: JournalLikesCreateOrConnectWithoutByUserInput | JournalLikesCreateOrConnectWithoutByUserInput[]
+    upsert?: JournalLikesUpsertWithWhereUniqueWithoutByUserInput | JournalLikesUpsertWithWhereUniqueWithoutByUserInput[]
+    createMany?: JournalLikesCreateManyByUserInputEnvelope
+    set?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
+    disconnect?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
+    delete?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
+    connect?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
+    update?: JournalLikesUpdateWithWhereUniqueWithoutByUserInput | JournalLikesUpdateWithWhereUniqueWithoutByUserInput[]
+    updateMany?: JournalLikesUpdateManyWithWhereWithoutByUserInput | JournalLikesUpdateManyWithWhereWithoutByUserInput[]
+    deleteMany?: JournalLikesScalarWhereInput | JournalLikesScalarWhereInput[]
   }
 
-  export type ConferenceBlacklistsUpdateManyWithoutByUserNestedInput = {
-    create?: XOR<ConferenceBlacklistsCreateWithoutByUserInput, ConferenceBlacklistsUncheckedCreateWithoutByUserInput> | ConferenceBlacklistsCreateWithoutByUserInput[] | ConferenceBlacklistsUncheckedCreateWithoutByUserInput[]
-    connectOrCreate?: ConferenceBlacklistsCreateOrConnectWithoutByUserInput | ConferenceBlacklistsCreateOrConnectWithoutByUserInput[]
-    upsert?: ConferenceBlacklistsUpsertWithWhereUniqueWithoutByUserInput | ConferenceBlacklistsUpsertWithWhereUniqueWithoutByUserInput[]
-    createMany?: ConferenceBlacklistsCreateManyByUserInputEnvelope
-    set?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
-    disconnect?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
-    delete?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
-    connect?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
-    update?: ConferenceBlacklistsUpdateWithWhereUniqueWithoutByUserInput | ConferenceBlacklistsUpdateWithWhereUniqueWithoutByUserInput[]
-    updateMany?: ConferenceBlacklistsUpdateManyWithWhereWithoutByUserInput | ConferenceBlacklistsUpdateManyWithWhereWithoutByUserInput[]
-    deleteMany?: ConferenceBlacklistsScalarWhereInput | ConferenceBlacklistsScalarWhereInput[]
-  }
-
-  export type NotificationsUpdateManyWithoutByUserNestedInput = {
-    create?: XOR<NotificationsCreateWithoutByUserInput, NotificationsUncheckedCreateWithoutByUserInput> | NotificationsCreateWithoutByUserInput[] | NotificationsUncheckedCreateWithoutByUserInput[]
-    connectOrCreate?: NotificationsCreateOrConnectWithoutByUserInput | NotificationsCreateOrConnectWithoutByUserInput[]
-    upsert?: NotificationsUpsertWithWhereUniqueWithoutByUserInput | NotificationsUpsertWithWhereUniqueWithoutByUserInput[]
-    createMany?: NotificationsCreateManyByUserInputEnvelope
-    set?: NotificationsWhereUniqueInput | NotificationsWhereUniqueInput[]
-    disconnect?: NotificationsWhereUniqueInput | NotificationsWhereUniqueInput[]
-    delete?: NotificationsWhereUniqueInput | NotificationsWhereUniqueInput[]
-    connect?: NotificationsWhereUniqueInput | NotificationsWhereUniqueInput[]
-    update?: NotificationsUpdateWithWhereUniqueWithoutByUserInput | NotificationsUpdateWithWhereUniqueWithoutByUserInput[]
-    updateMany?: NotificationsUpdateManyWithWhereWithoutByUserInput | NotificationsUpdateManyWithWhereWithoutByUserInput[]
-    deleteMany?: NotificationsScalarWhereInput | NotificationsScalarWhereInput[]
+  export type JournalsUpdateManyWithoutCreatedByUserNestedInput = {
+    create?: XOR<JournalsCreateWithoutCreatedByUserInput, JournalsUncheckedCreateWithoutCreatedByUserInput> | JournalsCreateWithoutCreatedByUserInput[] | JournalsUncheckedCreateWithoutCreatedByUserInput[]
+    connectOrCreate?: JournalsCreateOrConnectWithoutCreatedByUserInput | JournalsCreateOrConnectWithoutCreatedByUserInput[]
+    upsert?: JournalsUpsertWithWhereUniqueWithoutCreatedByUserInput | JournalsUpsertWithWhereUniqueWithoutCreatedByUserInput[]
+    createMany?: JournalsCreateManyCreatedByUserInputEnvelope
+    set?: JournalsWhereUniqueInput | JournalsWhereUniqueInput[]
+    disconnect?: JournalsWhereUniqueInput | JournalsWhereUniqueInput[]
+    delete?: JournalsWhereUniqueInput | JournalsWhereUniqueInput[]
+    connect?: JournalsWhereUniqueInput | JournalsWhereUniqueInput[]
+    update?: JournalsUpdateWithWhereUniqueWithoutCreatedByUserInput | JournalsUpdateWithWhereUniqueWithoutCreatedByUserInput[]
+    updateMany?: JournalsUpdateManyWithWhereWithoutCreatedByUserInput | JournalsUpdateManyWithWhereWithoutCreatedByUserInput[]
+    deleteMany?: JournalsScalarWhereInput | JournalsScalarWhereInput[]
   }
 
   export type NotificationSettingsUpdateManyWithoutByUserNestedInput = {
@@ -45213,6 +44182,34 @@ export namespace Prisma {
     deleteMany?: NotificationSettingsScalarWhereInput | NotificationSettingsScalarWhereInput[]
   }
 
+  export type NotificationsUpdateManyWithoutByUserNestedInput = {
+    create?: XOR<NotificationsCreateWithoutByUserInput, NotificationsUncheckedCreateWithoutByUserInput> | NotificationsCreateWithoutByUserInput[] | NotificationsUncheckedCreateWithoutByUserInput[]
+    connectOrCreate?: NotificationsCreateOrConnectWithoutByUserInput | NotificationsCreateOrConnectWithoutByUserInput[]
+    upsert?: NotificationsUpsertWithWhereUniqueWithoutByUserInput | NotificationsUpsertWithWhereUniqueWithoutByUserInput[]
+    createMany?: NotificationsCreateManyByUserInputEnvelope
+    set?: NotificationsWhereUniqueInput | NotificationsWhereUniqueInput[]
+    disconnect?: NotificationsWhereUniqueInput | NotificationsWhereUniqueInput[]
+    delete?: NotificationsWhereUniqueInput | NotificationsWhereUniqueInput[]
+    connect?: NotificationsWhereUniqueInput | NotificationsWhereUniqueInput[]
+    update?: NotificationsUpdateWithWhereUniqueWithoutByUserInput | NotificationsUpdateWithWhereUniqueWithoutByUserInput[]
+    updateMany?: NotificationsUpdateManyWithWhereWithoutByUserInput | NotificationsUpdateManyWithWhereWithoutByUserInput[]
+    deleteMany?: NotificationsScalarWhereInput | NotificationsScalarWhereInput[]
+  }
+
+  export type TopicUserInterestedsUpdateManyWithoutBelongsToNestedInput = {
+    create?: XOR<TopicUserInterestedsCreateWithoutBelongsToInput, TopicUserInterestedsUncheckedCreateWithoutBelongsToInput> | TopicUserInterestedsCreateWithoutBelongsToInput[] | TopicUserInterestedsUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: TopicUserInterestedsCreateOrConnectWithoutBelongsToInput | TopicUserInterestedsCreateOrConnectWithoutBelongsToInput[]
+    upsert?: TopicUserInterestedsUpsertWithWhereUniqueWithoutBelongsToInput | TopicUserInterestedsUpsertWithWhereUniqueWithoutBelongsToInput[]
+    createMany?: TopicUserInterestedsCreateManyBelongsToInputEnvelope
+    set?: TopicUserInterestedsWhereUniqueInput | TopicUserInterestedsWhereUniqueInput[]
+    disconnect?: TopicUserInterestedsWhereUniqueInput | TopicUserInterestedsWhereUniqueInput[]
+    delete?: TopicUserInterestedsWhereUniqueInput | TopicUserInterestedsWhereUniqueInput[]
+    connect?: TopicUserInterestedsWhereUniqueInput | TopicUserInterestedsWhereUniqueInput[]
+    update?: TopicUserInterestedsUpdateWithWhereUniqueWithoutBelongsToInput | TopicUserInterestedsUpdateWithWhereUniqueWithoutBelongsToInput[]
+    updateMany?: TopicUserInterestedsUpdateManyWithWhereWithoutBelongsToInput | TopicUserInterestedsUpdateManyWithWhereWithoutBelongsToInput[]
+    deleteMany?: TopicUserInterestedsScalarWhereInput | TopicUserInterestedsScalarWhereInput[]
+  }
+
   export type UserVerificationUpdateManyWithoutByUserNestedInput = {
     create?: XOR<UserVerificationCreateWithoutByUserInput, UserVerificationUncheckedCreateWithoutByUserInput> | UserVerificationCreateWithoutByUserInput[] | UserVerificationUncheckedCreateWithoutByUserInput[]
     connectOrCreate?: UserVerificationCreateOrConnectWithoutByUserInput | UserVerificationCreateOrConnectWithoutByUserInput[]
@@ -45225,6 +44222,48 @@ export namespace Prisma {
     update?: UserVerificationUpdateWithWhereUniqueWithoutByUserInput | UserVerificationUpdateWithWhereUniqueWithoutByUserInput[]
     updateMany?: UserVerificationUpdateManyWithWhereWithoutByUserInput | UserVerificationUpdateManyWithWhereWithoutByUserInput[]
     deleteMany?: UserVerificationScalarWhereInput | UserVerificationScalarWhereInput[]
+  }
+
+  export type ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput = {
+    create?: XOR<ConferenceBlacklistsCreateWithoutByUserInput, ConferenceBlacklistsUncheckedCreateWithoutByUserInput> | ConferenceBlacklistsCreateWithoutByUserInput[] | ConferenceBlacklistsUncheckedCreateWithoutByUserInput[]
+    connectOrCreate?: ConferenceBlacklistsCreateOrConnectWithoutByUserInput | ConferenceBlacklistsCreateOrConnectWithoutByUserInput[]
+    upsert?: ConferenceBlacklistsUpsertWithWhereUniqueWithoutByUserInput | ConferenceBlacklistsUpsertWithWhereUniqueWithoutByUserInput[]
+    createMany?: ConferenceBlacklistsCreateManyByUserInputEnvelope
+    set?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
+    disconnect?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
+    delete?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
+    connect?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
+    update?: ConferenceBlacklistsUpdateWithWhereUniqueWithoutByUserInput | ConferenceBlacklistsUpdateWithWhereUniqueWithoutByUserInput[]
+    updateMany?: ConferenceBlacklistsUpdateManyWithWhereWithoutByUserInput | ConferenceBlacklistsUpdateManyWithWhereWithoutByUserInput[]
+    deleteMany?: ConferenceBlacklistsScalarWhereInput | ConferenceBlacklistsScalarWhereInput[]
+  }
+
+  export type ConferenceCalendarsUncheckedUpdateManyWithoutByUserNestedInput = {
+    create?: XOR<ConferenceCalendarsCreateWithoutByUserInput, ConferenceCalendarsUncheckedCreateWithoutByUserInput> | ConferenceCalendarsCreateWithoutByUserInput[] | ConferenceCalendarsUncheckedCreateWithoutByUserInput[]
+    connectOrCreate?: ConferenceCalendarsCreateOrConnectWithoutByUserInput | ConferenceCalendarsCreateOrConnectWithoutByUserInput[]
+    upsert?: ConferenceCalendarsUpsertWithWhereUniqueWithoutByUserInput | ConferenceCalendarsUpsertWithWhereUniqueWithoutByUserInput[]
+    createMany?: ConferenceCalendarsCreateManyByUserInputEnvelope
+    set?: ConferenceCalendarsWhereUniqueInput | ConferenceCalendarsWhereUniqueInput[]
+    disconnect?: ConferenceCalendarsWhereUniqueInput | ConferenceCalendarsWhereUniqueInput[]
+    delete?: ConferenceCalendarsWhereUniqueInput | ConferenceCalendarsWhereUniqueInput[]
+    connect?: ConferenceCalendarsWhereUniqueInput | ConferenceCalendarsWhereUniqueInput[]
+    update?: ConferenceCalendarsUpdateWithWhereUniqueWithoutByUserInput | ConferenceCalendarsUpdateWithWhereUniqueWithoutByUserInput[]
+    updateMany?: ConferenceCalendarsUpdateManyWithWhereWithoutByUserInput | ConferenceCalendarsUpdateManyWithWhereWithoutByUserInput[]
+    deleteMany?: ConferenceCalendarsScalarWhereInput | ConferenceCalendarsScalarWhereInput[]
+  }
+
+  export type ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput = {
+    create?: XOR<ConferenceFeedbacksCreateWithoutByUserInput, ConferenceFeedbacksUncheckedCreateWithoutByUserInput> | ConferenceFeedbacksCreateWithoutByUserInput[] | ConferenceFeedbacksUncheckedCreateWithoutByUserInput[]
+    connectOrCreate?: ConferenceFeedbacksCreateOrConnectWithoutByUserInput | ConferenceFeedbacksCreateOrConnectWithoutByUserInput[]
+    upsert?: ConferenceFeedbacksUpsertWithWhereUniqueWithoutByUserInput | ConferenceFeedbacksUpsertWithWhereUniqueWithoutByUserInput[]
+    createMany?: ConferenceFeedbacksCreateManyByUserInputEnvelope
+    set?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
+    disconnect?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
+    delete?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
+    connect?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
+    update?: ConferenceFeedbacksUpdateWithWhereUniqueWithoutByUserInput | ConferenceFeedbacksUpdateWithWhereUniqueWithoutByUserInput[]
+    updateMany?: ConferenceFeedbacksUpdateManyWithWhereWithoutByUserInput | ConferenceFeedbacksUpdateManyWithWhereWithoutByUserInput[]
+    deleteMany?: ConferenceFeedbacksScalarWhereInput | ConferenceFeedbacksScalarWhereInput[]
   }
 
   export type ConferenceFollowsUncheckedUpdateManyWithoutByUserNestedInput = {
@@ -45255,20 +44294,6 @@ export namespace Prisma {
     deleteMany?: ConferenceLikesScalarWhereInput | ConferenceLikesScalarWhereInput[]
   }
 
-  export type ConferenceCalendarsUncheckedUpdateManyWithoutByUserNestedInput = {
-    create?: XOR<ConferenceCalendarsCreateWithoutByUserInput, ConferenceCalendarsUncheckedCreateWithoutByUserInput> | ConferenceCalendarsCreateWithoutByUserInput[] | ConferenceCalendarsUncheckedCreateWithoutByUserInput[]
-    connectOrCreate?: ConferenceCalendarsCreateOrConnectWithoutByUserInput | ConferenceCalendarsCreateOrConnectWithoutByUserInput[]
-    upsert?: ConferenceCalendarsUpsertWithWhereUniqueWithoutByUserInput | ConferenceCalendarsUpsertWithWhereUniqueWithoutByUserInput[]
-    createMany?: ConferenceCalendarsCreateManyByUserInputEnvelope
-    set?: ConferenceCalendarsWhereUniqueInput | ConferenceCalendarsWhereUniqueInput[]
-    disconnect?: ConferenceCalendarsWhereUniqueInput | ConferenceCalendarsWhereUniqueInput[]
-    delete?: ConferenceCalendarsWhereUniqueInput | ConferenceCalendarsWhereUniqueInput[]
-    connect?: ConferenceCalendarsWhereUniqueInput | ConferenceCalendarsWhereUniqueInput[]
-    update?: ConferenceCalendarsUpdateWithWhereUniqueWithoutByUserInput | ConferenceCalendarsUpdateWithWhereUniqueWithoutByUserInput[]
-    updateMany?: ConferenceCalendarsUpdateManyWithWhereWithoutByUserInput | ConferenceCalendarsUpdateManyWithWhereWithoutByUserInput[]
-    deleteMany?: ConferenceCalendarsScalarWhereInput | ConferenceCalendarsScalarWhereInput[]
-  }
-
   export type ConferencesUncheckedUpdateManyWithoutCreatedByUserNestedInput = {
     create?: XOR<ConferencesCreateWithoutCreatedByUserInput, ConferencesUncheckedCreateWithoutCreatedByUserInput> | ConferencesCreateWithoutCreatedByUserInput[] | ConferencesUncheckedCreateWithoutCreatedByUserInput[]
     connectOrCreate?: ConferencesCreateOrConnectWithoutCreatedByUserInput | ConferencesCreateOrConnectWithoutCreatedByUserInput[]
@@ -45281,48 +44306,6 @@ export namespace Prisma {
     update?: ConferencesUpdateWithWhereUniqueWithoutCreatedByUserInput | ConferencesUpdateWithWhereUniqueWithoutCreatedByUserInput[]
     updateMany?: ConferencesUpdateManyWithWhereWithoutCreatedByUserInput | ConferencesUpdateManyWithWhereWithoutCreatedByUserInput[]
     deleteMany?: ConferencesScalarWhereInput | ConferencesScalarWhereInput[]
-  }
-
-  export type TopicUserInterestedsUncheckedUpdateManyWithoutBelongsToNestedInput = {
-    create?: XOR<TopicUserInterestedsCreateWithoutBelongsToInput, TopicUserInterestedsUncheckedCreateWithoutBelongsToInput> | TopicUserInterestedsCreateWithoutBelongsToInput[] | TopicUserInterestedsUncheckedCreateWithoutBelongsToInput[]
-    connectOrCreate?: TopicUserInterestedsCreateOrConnectWithoutBelongsToInput | TopicUserInterestedsCreateOrConnectWithoutBelongsToInput[]
-    upsert?: TopicUserInterestedsUpsertWithWhereUniqueWithoutBelongsToInput | TopicUserInterestedsUpsertWithWhereUniqueWithoutBelongsToInput[]
-    createMany?: TopicUserInterestedsCreateManyBelongsToInputEnvelope
-    set?: TopicUserInterestedsWhereUniqueInput | TopicUserInterestedsWhereUniqueInput[]
-    disconnect?: TopicUserInterestedsWhereUniqueInput | TopicUserInterestedsWhereUniqueInput[]
-    delete?: TopicUserInterestedsWhereUniqueInput | TopicUserInterestedsWhereUniqueInput[]
-    connect?: TopicUserInterestedsWhereUniqueInput | TopicUserInterestedsWhereUniqueInput[]
-    update?: TopicUserInterestedsUpdateWithWhereUniqueWithoutBelongsToInput | TopicUserInterestedsUpdateWithWhereUniqueWithoutBelongsToInput[]
-    updateMany?: TopicUserInterestedsUpdateManyWithWhereWithoutBelongsToInput | TopicUserInterestedsUpdateManyWithWhereWithoutBelongsToInput[]
-    deleteMany?: TopicUserInterestedsScalarWhereInput | TopicUserInterestedsScalarWhereInput[]
-  }
-
-  export type JournalsUncheckedUpdateManyWithoutCreatedByUserNestedInput = {
-    create?: XOR<JournalsCreateWithoutCreatedByUserInput, JournalsUncheckedCreateWithoutCreatedByUserInput> | JournalsCreateWithoutCreatedByUserInput[] | JournalsUncheckedCreateWithoutCreatedByUserInput[]
-    connectOrCreate?: JournalsCreateOrConnectWithoutCreatedByUserInput | JournalsCreateOrConnectWithoutCreatedByUserInput[]
-    upsert?: JournalsUpsertWithWhereUniqueWithoutCreatedByUserInput | JournalsUpsertWithWhereUniqueWithoutCreatedByUserInput[]
-    createMany?: JournalsCreateManyCreatedByUserInputEnvelope
-    set?: JournalsWhereUniqueInput | JournalsWhereUniqueInput[]
-    disconnect?: JournalsWhereUniqueInput | JournalsWhereUniqueInput[]
-    delete?: JournalsWhereUniqueInput | JournalsWhereUniqueInput[]
-    connect?: JournalsWhereUniqueInput | JournalsWhereUniqueInput[]
-    update?: JournalsUpdateWithWhereUniqueWithoutCreatedByUserInput | JournalsUpdateWithWhereUniqueWithoutCreatedByUserInput[]
-    updateMany?: JournalsUpdateManyWithWhereWithoutCreatedByUserInput | JournalsUpdateManyWithWhereWithoutCreatedByUserInput[]
-    deleteMany?: JournalsScalarWhereInput | JournalsScalarWhereInput[]
-  }
-
-  export type JournalLikesUncheckedUpdateManyWithoutByUserNestedInput = {
-    create?: XOR<JournalLikesCreateWithoutByUserInput, JournalLikesUncheckedCreateWithoutByUserInput> | JournalLikesCreateWithoutByUserInput[] | JournalLikesUncheckedCreateWithoutByUserInput[]
-    connectOrCreate?: JournalLikesCreateOrConnectWithoutByUserInput | JournalLikesCreateOrConnectWithoutByUserInput[]
-    upsert?: JournalLikesUpsertWithWhereUniqueWithoutByUserInput | JournalLikesUpsertWithWhereUniqueWithoutByUserInput[]
-    createMany?: JournalLikesCreateManyByUserInputEnvelope
-    set?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
-    disconnect?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
-    delete?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
-    connect?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
-    update?: JournalLikesUpdateWithWhereUniqueWithoutByUserInput | JournalLikesUpdateWithWhereUniqueWithoutByUserInput[]
-    updateMany?: JournalLikesUpdateManyWithWhereWithoutByUserInput | JournalLikesUpdateManyWithWhereWithoutByUserInput[]
-    deleteMany?: JournalLikesScalarWhereInput | JournalLikesScalarWhereInput[]
   }
 
   export type JournalFollowsUncheckedUpdateManyWithoutByUserNestedInput = {
@@ -45339,32 +44322,46 @@ export namespace Prisma {
     deleteMany?: JournalFollowsScalarWhereInput | JournalFollowsScalarWhereInput[]
   }
 
-  export type ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput = {
-    create?: XOR<ConferenceFeedbacksCreateWithoutByUserInput, ConferenceFeedbacksUncheckedCreateWithoutByUserInput> | ConferenceFeedbacksCreateWithoutByUserInput[] | ConferenceFeedbacksUncheckedCreateWithoutByUserInput[]
-    connectOrCreate?: ConferenceFeedbacksCreateOrConnectWithoutByUserInput | ConferenceFeedbacksCreateOrConnectWithoutByUserInput[]
-    upsert?: ConferenceFeedbacksUpsertWithWhereUniqueWithoutByUserInput | ConferenceFeedbacksUpsertWithWhereUniqueWithoutByUserInput[]
-    createMany?: ConferenceFeedbacksCreateManyByUserInputEnvelope
-    set?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
-    disconnect?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
-    delete?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
-    connect?: ConferenceFeedbacksWhereUniqueInput | ConferenceFeedbacksWhereUniqueInput[]
-    update?: ConferenceFeedbacksUpdateWithWhereUniqueWithoutByUserInput | ConferenceFeedbacksUpdateWithWhereUniqueWithoutByUserInput[]
-    updateMany?: ConferenceFeedbacksUpdateManyWithWhereWithoutByUserInput | ConferenceFeedbacksUpdateManyWithWhereWithoutByUserInput[]
-    deleteMany?: ConferenceFeedbacksScalarWhereInput | ConferenceFeedbacksScalarWhereInput[]
+  export type JournalLikesUncheckedUpdateManyWithoutByUserNestedInput = {
+    create?: XOR<JournalLikesCreateWithoutByUserInput, JournalLikesUncheckedCreateWithoutByUserInput> | JournalLikesCreateWithoutByUserInput[] | JournalLikesUncheckedCreateWithoutByUserInput[]
+    connectOrCreate?: JournalLikesCreateOrConnectWithoutByUserInput | JournalLikesCreateOrConnectWithoutByUserInput[]
+    upsert?: JournalLikesUpsertWithWhereUniqueWithoutByUserInput | JournalLikesUpsertWithWhereUniqueWithoutByUserInput[]
+    createMany?: JournalLikesCreateManyByUserInputEnvelope
+    set?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
+    disconnect?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
+    delete?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
+    connect?: JournalLikesWhereUniqueInput | JournalLikesWhereUniqueInput[]
+    update?: JournalLikesUpdateWithWhereUniqueWithoutByUserInput | JournalLikesUpdateWithWhereUniqueWithoutByUserInput[]
+    updateMany?: JournalLikesUpdateManyWithWhereWithoutByUserInput | JournalLikesUpdateManyWithWhereWithoutByUserInput[]
+    deleteMany?: JournalLikesScalarWhereInput | JournalLikesScalarWhereInput[]
   }
 
-  export type ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput = {
-    create?: XOR<ConferenceBlacklistsCreateWithoutByUserInput, ConferenceBlacklistsUncheckedCreateWithoutByUserInput> | ConferenceBlacklistsCreateWithoutByUserInput[] | ConferenceBlacklistsUncheckedCreateWithoutByUserInput[]
-    connectOrCreate?: ConferenceBlacklistsCreateOrConnectWithoutByUserInput | ConferenceBlacklistsCreateOrConnectWithoutByUserInput[]
-    upsert?: ConferenceBlacklistsUpsertWithWhereUniqueWithoutByUserInput | ConferenceBlacklistsUpsertWithWhereUniqueWithoutByUserInput[]
-    createMany?: ConferenceBlacklistsCreateManyByUserInputEnvelope
-    set?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
-    disconnect?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
-    delete?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
-    connect?: ConferenceBlacklistsWhereUniqueInput | ConferenceBlacklistsWhereUniqueInput[]
-    update?: ConferenceBlacklistsUpdateWithWhereUniqueWithoutByUserInput | ConferenceBlacklistsUpdateWithWhereUniqueWithoutByUserInput[]
-    updateMany?: ConferenceBlacklistsUpdateManyWithWhereWithoutByUserInput | ConferenceBlacklistsUpdateManyWithWhereWithoutByUserInput[]
-    deleteMany?: ConferenceBlacklistsScalarWhereInput | ConferenceBlacklistsScalarWhereInput[]
+  export type JournalsUncheckedUpdateManyWithoutCreatedByUserNestedInput = {
+    create?: XOR<JournalsCreateWithoutCreatedByUserInput, JournalsUncheckedCreateWithoutCreatedByUserInput> | JournalsCreateWithoutCreatedByUserInput[] | JournalsUncheckedCreateWithoutCreatedByUserInput[]
+    connectOrCreate?: JournalsCreateOrConnectWithoutCreatedByUserInput | JournalsCreateOrConnectWithoutCreatedByUserInput[]
+    upsert?: JournalsUpsertWithWhereUniqueWithoutCreatedByUserInput | JournalsUpsertWithWhereUniqueWithoutCreatedByUserInput[]
+    createMany?: JournalsCreateManyCreatedByUserInputEnvelope
+    set?: JournalsWhereUniqueInput | JournalsWhereUniqueInput[]
+    disconnect?: JournalsWhereUniqueInput | JournalsWhereUniqueInput[]
+    delete?: JournalsWhereUniqueInput | JournalsWhereUniqueInput[]
+    connect?: JournalsWhereUniqueInput | JournalsWhereUniqueInput[]
+    update?: JournalsUpdateWithWhereUniqueWithoutCreatedByUserInput | JournalsUpdateWithWhereUniqueWithoutCreatedByUserInput[]
+    updateMany?: JournalsUpdateManyWithWhereWithoutCreatedByUserInput | JournalsUpdateManyWithWhereWithoutCreatedByUserInput[]
+    deleteMany?: JournalsScalarWhereInput | JournalsScalarWhereInput[]
+  }
+
+  export type NotificationSettingsUncheckedUpdateManyWithoutByUserNestedInput = {
+    create?: XOR<NotificationSettingsCreateWithoutByUserInput, NotificationSettingsUncheckedCreateWithoutByUserInput> | NotificationSettingsCreateWithoutByUserInput[] | NotificationSettingsUncheckedCreateWithoutByUserInput[]
+    connectOrCreate?: NotificationSettingsCreateOrConnectWithoutByUserInput | NotificationSettingsCreateOrConnectWithoutByUserInput[]
+    upsert?: NotificationSettingsUpsertWithWhereUniqueWithoutByUserInput | NotificationSettingsUpsertWithWhereUniqueWithoutByUserInput[]
+    createMany?: NotificationSettingsCreateManyByUserInputEnvelope
+    set?: NotificationSettingsWhereUniqueInput | NotificationSettingsWhereUniqueInput[]
+    disconnect?: NotificationSettingsWhereUniqueInput | NotificationSettingsWhereUniqueInput[]
+    delete?: NotificationSettingsWhereUniqueInput | NotificationSettingsWhereUniqueInput[]
+    connect?: NotificationSettingsWhereUniqueInput | NotificationSettingsWhereUniqueInput[]
+    update?: NotificationSettingsUpdateWithWhereUniqueWithoutByUserInput | NotificationSettingsUpdateWithWhereUniqueWithoutByUserInput[]
+    updateMany?: NotificationSettingsUpdateManyWithWhereWithoutByUserInput | NotificationSettingsUpdateManyWithWhereWithoutByUserInput[]
+    deleteMany?: NotificationSettingsScalarWhereInput | NotificationSettingsScalarWhereInput[]
   }
 
   export type NotificationsUncheckedUpdateManyWithoutByUserNestedInput = {
@@ -45381,18 +44378,18 @@ export namespace Prisma {
     deleteMany?: NotificationsScalarWhereInput | NotificationsScalarWhereInput[]
   }
 
-  export type NotificationSettingsUncheckedUpdateManyWithoutByUserNestedInput = {
-    create?: XOR<NotificationSettingsCreateWithoutByUserInput, NotificationSettingsUncheckedCreateWithoutByUserInput> | NotificationSettingsCreateWithoutByUserInput[] | NotificationSettingsUncheckedCreateWithoutByUserInput[]
-    connectOrCreate?: NotificationSettingsCreateOrConnectWithoutByUserInput | NotificationSettingsCreateOrConnectWithoutByUserInput[]
-    upsert?: NotificationSettingsUpsertWithWhereUniqueWithoutByUserInput | NotificationSettingsUpsertWithWhereUniqueWithoutByUserInput[]
-    createMany?: NotificationSettingsCreateManyByUserInputEnvelope
-    set?: NotificationSettingsWhereUniqueInput | NotificationSettingsWhereUniqueInput[]
-    disconnect?: NotificationSettingsWhereUniqueInput | NotificationSettingsWhereUniqueInput[]
-    delete?: NotificationSettingsWhereUniqueInput | NotificationSettingsWhereUniqueInput[]
-    connect?: NotificationSettingsWhereUniqueInput | NotificationSettingsWhereUniqueInput[]
-    update?: NotificationSettingsUpdateWithWhereUniqueWithoutByUserInput | NotificationSettingsUpdateWithWhereUniqueWithoutByUserInput[]
-    updateMany?: NotificationSettingsUpdateManyWithWhereWithoutByUserInput | NotificationSettingsUpdateManyWithWhereWithoutByUserInput[]
-    deleteMany?: NotificationSettingsScalarWhereInput | NotificationSettingsScalarWhereInput[]
+  export type TopicUserInterestedsUncheckedUpdateManyWithoutBelongsToNestedInput = {
+    create?: XOR<TopicUserInterestedsCreateWithoutBelongsToInput, TopicUserInterestedsUncheckedCreateWithoutBelongsToInput> | TopicUserInterestedsCreateWithoutBelongsToInput[] | TopicUserInterestedsUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: TopicUserInterestedsCreateOrConnectWithoutBelongsToInput | TopicUserInterestedsCreateOrConnectWithoutBelongsToInput[]
+    upsert?: TopicUserInterestedsUpsertWithWhereUniqueWithoutBelongsToInput | TopicUserInterestedsUpsertWithWhereUniqueWithoutBelongsToInput[]
+    createMany?: TopicUserInterestedsCreateManyBelongsToInputEnvelope
+    set?: TopicUserInterestedsWhereUniqueInput | TopicUserInterestedsWhereUniqueInput[]
+    disconnect?: TopicUserInterestedsWhereUniqueInput | TopicUserInterestedsWhereUniqueInput[]
+    delete?: TopicUserInterestedsWhereUniqueInput | TopicUserInterestedsWhereUniqueInput[]
+    connect?: TopicUserInterestedsWhereUniqueInput | TopicUserInterestedsWhereUniqueInput[]
+    update?: TopicUserInterestedsUpdateWithWhereUniqueWithoutBelongsToInput | TopicUserInterestedsUpdateWithWhereUniqueWithoutBelongsToInput[]
+    updateMany?: TopicUserInterestedsUpdateManyWithWhereWithoutBelongsToInput | TopicUserInterestedsUpdateManyWithWhereWithoutBelongsToInput[]
+    deleteMany?: TopicUserInterestedsScalarWhereInput | TopicUserInterestedsScalarWhereInput[]
   }
 
   export type UserVerificationUncheckedUpdateManyWithoutByUserNestedInput = {
@@ -45416,11 +44413,25 @@ export namespace Prisma {
     connect?: ConferencesWhereUniqueInput | ConferencesWhereUniqueInput[]
   }
 
+  export type JournalsCreateNestedManyWithoutCreateByAdminInput = {
+    create?: XOR<JournalsCreateWithoutCreateByAdminInput, JournalsUncheckedCreateWithoutCreateByAdminInput> | JournalsCreateWithoutCreateByAdminInput[] | JournalsUncheckedCreateWithoutCreateByAdminInput[]
+    connectOrCreate?: JournalsCreateOrConnectWithoutCreateByAdminInput | JournalsCreateOrConnectWithoutCreateByAdminInput[]
+    createMany?: JournalsCreateManyCreateByAdminInputEnvelope
+    connect?: JournalsWhereUniqueInput | JournalsWhereUniqueInput[]
+  }
+
   export type ConferencesUncheckedCreateNestedManyWithoutCreateByAdminInput = {
     create?: XOR<ConferencesCreateWithoutCreateByAdminInput, ConferencesUncheckedCreateWithoutCreateByAdminInput> | ConferencesCreateWithoutCreateByAdminInput[] | ConferencesUncheckedCreateWithoutCreateByAdminInput[]
     connectOrCreate?: ConferencesCreateOrConnectWithoutCreateByAdminInput | ConferencesCreateOrConnectWithoutCreateByAdminInput[]
     createMany?: ConferencesCreateManyCreateByAdminInputEnvelope
     connect?: ConferencesWhereUniqueInput | ConferencesWhereUniqueInput[]
+  }
+
+  export type JournalsUncheckedCreateNestedManyWithoutCreateByAdminInput = {
+    create?: XOR<JournalsCreateWithoutCreateByAdminInput, JournalsUncheckedCreateWithoutCreateByAdminInput> | JournalsCreateWithoutCreateByAdminInput[] | JournalsUncheckedCreateWithoutCreateByAdminInput[]
+    connectOrCreate?: JournalsCreateOrConnectWithoutCreateByAdminInput | JournalsCreateOrConnectWithoutCreateByAdminInput[]
+    createMany?: JournalsCreateManyCreateByAdminInputEnvelope
+    connect?: JournalsWhereUniqueInput | JournalsWhereUniqueInput[]
   }
 
   export type ConferencesUpdateManyWithoutCreateByAdminNestedInput = {
@@ -45437,6 +44448,20 @@ export namespace Prisma {
     deleteMany?: ConferencesScalarWhereInput | ConferencesScalarWhereInput[]
   }
 
+  export type JournalsUpdateManyWithoutCreateByAdminNestedInput = {
+    create?: XOR<JournalsCreateWithoutCreateByAdminInput, JournalsUncheckedCreateWithoutCreateByAdminInput> | JournalsCreateWithoutCreateByAdminInput[] | JournalsUncheckedCreateWithoutCreateByAdminInput[]
+    connectOrCreate?: JournalsCreateOrConnectWithoutCreateByAdminInput | JournalsCreateOrConnectWithoutCreateByAdminInput[]
+    upsert?: JournalsUpsertWithWhereUniqueWithoutCreateByAdminInput | JournalsUpsertWithWhereUniqueWithoutCreateByAdminInput[]
+    createMany?: JournalsCreateManyCreateByAdminInputEnvelope
+    set?: JournalsWhereUniqueInput | JournalsWhereUniqueInput[]
+    disconnect?: JournalsWhereUniqueInput | JournalsWhereUniqueInput[]
+    delete?: JournalsWhereUniqueInput | JournalsWhereUniqueInput[]
+    connect?: JournalsWhereUniqueInput | JournalsWhereUniqueInput[]
+    update?: JournalsUpdateWithWhereUniqueWithoutCreateByAdminInput | JournalsUpdateWithWhereUniqueWithoutCreateByAdminInput[]
+    updateMany?: JournalsUpdateManyWithWhereWithoutCreateByAdminInput | JournalsUpdateManyWithWhereWithoutCreateByAdminInput[]
+    deleteMany?: JournalsScalarWhereInput | JournalsScalarWhereInput[]
+  }
+
   export type ConferencesUncheckedUpdateManyWithoutCreateByAdminNestedInput = {
     create?: XOR<ConferencesCreateWithoutCreateByAdminInput, ConferencesUncheckedCreateWithoutCreateByAdminInput> | ConferencesCreateWithoutCreateByAdminInput[] | ConferencesUncheckedCreateWithoutCreateByAdminInput[]
     connectOrCreate?: ConferencesCreateOrConnectWithoutCreateByAdminInput | ConferencesCreateOrConnectWithoutCreateByAdminInput[]
@@ -45449,6 +44474,20 @@ export namespace Prisma {
     update?: ConferencesUpdateWithWhereUniqueWithoutCreateByAdminInput | ConferencesUpdateWithWhereUniqueWithoutCreateByAdminInput[]
     updateMany?: ConferencesUpdateManyWithWhereWithoutCreateByAdminInput | ConferencesUpdateManyWithWhereWithoutCreateByAdminInput[]
     deleteMany?: ConferencesScalarWhereInput | ConferencesScalarWhereInput[]
+  }
+
+  export type JournalsUncheckedUpdateManyWithoutCreateByAdminNestedInput = {
+    create?: XOR<JournalsCreateWithoutCreateByAdminInput, JournalsUncheckedCreateWithoutCreateByAdminInput> | JournalsCreateWithoutCreateByAdminInput[] | JournalsUncheckedCreateWithoutCreateByAdminInput[]
+    connectOrCreate?: JournalsCreateOrConnectWithoutCreateByAdminInput | JournalsCreateOrConnectWithoutCreateByAdminInput[]
+    upsert?: JournalsUpsertWithWhereUniqueWithoutCreateByAdminInput | JournalsUpsertWithWhereUniqueWithoutCreateByAdminInput[]
+    createMany?: JournalsCreateManyCreateByAdminInputEnvelope
+    set?: JournalsWhereUniqueInput | JournalsWhereUniqueInput[]
+    disconnect?: JournalsWhereUniqueInput | JournalsWhereUniqueInput[]
+    delete?: JournalsWhereUniqueInput | JournalsWhereUniqueInput[]
+    connect?: JournalsWhereUniqueInput | JournalsWhereUniqueInput[]
+    update?: JournalsUpdateWithWhereUniqueWithoutCreateByAdminInput | JournalsUpdateWithWhereUniqueWithoutCreateByAdminInput[]
+    updateMany?: JournalsUpdateManyWithWhereWithoutCreateByAdminInput | JournalsUpdateManyWithWhereWithoutCreateByAdminInput[]
+    deleteMany?: JournalsScalarWhereInput | JournalsScalarWhereInput[]
   }
 
   export type ConferencesCreateNestedOneWithoutCrawlJobsInput = {
@@ -45535,13 +44574,6 @@ export namespace Prisma {
     update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutNotificationsInput, UsersUpdateWithoutNotificationsInput>, UsersUncheckedUpdateWithoutNotificationsInput>
   }
 
-  export type NotificationsCreateNestedManyWithoutBelongToNotifyInput = {
-    create?: XOR<NotificationsCreateWithoutBelongToNotifyInput, NotificationsUncheckedCreateWithoutBelongToNotifyInput> | NotificationsCreateWithoutBelongToNotifyInput[] | NotificationsUncheckedCreateWithoutBelongToNotifyInput[]
-    connectOrCreate?: NotificationsCreateOrConnectWithoutBelongToNotifyInput | NotificationsCreateOrConnectWithoutBelongToNotifyInput[]
-    createMany?: NotificationsCreateManyBelongToNotifyInputEnvelope
-    connect?: NotificationsWhereUniqueInput | NotificationsWhereUniqueInput[]
-  }
-
   export type NotificationSettingsCreateNestedManyWithoutBelongToNotifyInput = {
     create?: XOR<NotificationSettingsCreateWithoutBelongToNotifyInput, NotificationSettingsUncheckedCreateWithoutBelongToNotifyInput> | NotificationSettingsCreateWithoutBelongToNotifyInput[] | NotificationSettingsUncheckedCreateWithoutBelongToNotifyInput[]
     connectOrCreate?: NotificationSettingsCreateOrConnectWithoutBelongToNotifyInput | NotificationSettingsCreateOrConnectWithoutBelongToNotifyInput[]
@@ -45549,7 +44581,7 @@ export namespace Prisma {
     connect?: NotificationSettingsWhereUniqueInput | NotificationSettingsWhereUniqueInput[]
   }
 
-  export type NotificationsUncheckedCreateNestedManyWithoutBelongToNotifyInput = {
+  export type NotificationsCreateNestedManyWithoutBelongToNotifyInput = {
     create?: XOR<NotificationsCreateWithoutBelongToNotifyInput, NotificationsUncheckedCreateWithoutBelongToNotifyInput> | NotificationsCreateWithoutBelongToNotifyInput[] | NotificationsUncheckedCreateWithoutBelongToNotifyInput[]
     connectOrCreate?: NotificationsCreateOrConnectWithoutBelongToNotifyInput | NotificationsCreateOrConnectWithoutBelongToNotifyInput[]
     createMany?: NotificationsCreateManyBelongToNotifyInputEnvelope
@@ -45563,18 +44595,11 @@ export namespace Prisma {
     connect?: NotificationSettingsWhereUniqueInput | NotificationSettingsWhereUniqueInput[]
   }
 
-  export type NotificationsUpdateManyWithoutBelongToNotifyNestedInput = {
+  export type NotificationsUncheckedCreateNestedManyWithoutBelongToNotifyInput = {
     create?: XOR<NotificationsCreateWithoutBelongToNotifyInput, NotificationsUncheckedCreateWithoutBelongToNotifyInput> | NotificationsCreateWithoutBelongToNotifyInput[] | NotificationsUncheckedCreateWithoutBelongToNotifyInput[]
     connectOrCreate?: NotificationsCreateOrConnectWithoutBelongToNotifyInput | NotificationsCreateOrConnectWithoutBelongToNotifyInput[]
-    upsert?: NotificationsUpsertWithWhereUniqueWithoutBelongToNotifyInput | NotificationsUpsertWithWhereUniqueWithoutBelongToNotifyInput[]
     createMany?: NotificationsCreateManyBelongToNotifyInputEnvelope
-    set?: NotificationsWhereUniqueInput | NotificationsWhereUniqueInput[]
-    disconnect?: NotificationsWhereUniqueInput | NotificationsWhereUniqueInput[]
-    delete?: NotificationsWhereUniqueInput | NotificationsWhereUniqueInput[]
     connect?: NotificationsWhereUniqueInput | NotificationsWhereUniqueInput[]
-    update?: NotificationsUpdateWithWhereUniqueWithoutBelongToNotifyInput | NotificationsUpdateWithWhereUniqueWithoutBelongToNotifyInput[]
-    updateMany?: NotificationsUpdateManyWithWhereWithoutBelongToNotifyInput | NotificationsUpdateManyWithWhereWithoutBelongToNotifyInput[]
-    deleteMany?: NotificationsScalarWhereInput | NotificationsScalarWhereInput[]
   }
 
   export type NotificationSettingsUpdateManyWithoutBelongToNotifyNestedInput = {
@@ -45591,7 +44616,7 @@ export namespace Prisma {
     deleteMany?: NotificationSettingsScalarWhereInput | NotificationSettingsScalarWhereInput[]
   }
 
-  export type NotificationsUncheckedUpdateManyWithoutBelongToNotifyNestedInput = {
+  export type NotificationsUpdateManyWithoutBelongToNotifyNestedInput = {
     create?: XOR<NotificationsCreateWithoutBelongToNotifyInput, NotificationsUncheckedCreateWithoutBelongToNotifyInput> | NotificationsCreateWithoutBelongToNotifyInput[] | NotificationsUncheckedCreateWithoutBelongToNotifyInput[]
     connectOrCreate?: NotificationsCreateOrConnectWithoutBelongToNotifyInput | NotificationsCreateOrConnectWithoutBelongToNotifyInput[]
     upsert?: NotificationsUpsertWithWhereUniqueWithoutBelongToNotifyInput | NotificationsUpsertWithWhereUniqueWithoutBelongToNotifyInput[]
@@ -45619,10 +44644,18 @@ export namespace Prisma {
     deleteMany?: NotificationSettingsScalarWhereInput | NotificationSettingsScalarWhereInput[]
   }
 
-  export type UsersCreateNestedOneWithoutNotificationSettingsInput = {
-    create?: XOR<UsersCreateWithoutNotificationSettingsInput, UsersUncheckedCreateWithoutNotificationSettingsInput>
-    connectOrCreate?: UsersCreateOrConnectWithoutNotificationSettingsInput
-    connect?: UsersWhereUniqueInput
+  export type NotificationsUncheckedUpdateManyWithoutBelongToNotifyNestedInput = {
+    create?: XOR<NotificationsCreateWithoutBelongToNotifyInput, NotificationsUncheckedCreateWithoutBelongToNotifyInput> | NotificationsCreateWithoutBelongToNotifyInput[] | NotificationsUncheckedCreateWithoutBelongToNotifyInput[]
+    connectOrCreate?: NotificationsCreateOrConnectWithoutBelongToNotifyInput | NotificationsCreateOrConnectWithoutBelongToNotifyInput[]
+    upsert?: NotificationsUpsertWithWhereUniqueWithoutBelongToNotifyInput | NotificationsUpsertWithWhereUniqueWithoutBelongToNotifyInput[]
+    createMany?: NotificationsCreateManyBelongToNotifyInputEnvelope
+    set?: NotificationsWhereUniqueInput | NotificationsWhereUniqueInput[]
+    disconnect?: NotificationsWhereUniqueInput | NotificationsWhereUniqueInput[]
+    delete?: NotificationsWhereUniqueInput | NotificationsWhereUniqueInput[]
+    connect?: NotificationsWhereUniqueInput | NotificationsWhereUniqueInput[]
+    update?: NotificationsUpdateWithWhereUniqueWithoutBelongToNotifyInput | NotificationsUpdateWithWhereUniqueWithoutBelongToNotifyInput[]
+    updateMany?: NotificationsUpdateManyWithWhereWithoutBelongToNotifyInput | NotificationsUpdateManyWithWhereWithoutBelongToNotifyInput[]
+    deleteMany?: NotificationsScalarWhereInput | NotificationsScalarWhereInput[]
   }
 
   export type NotificationsTypesCreateNestedOneWithoutSettingsInput = {
@@ -45631,12 +44664,10 @@ export namespace Prisma {
     connect?: NotificationsTypesWhereUniqueInput
   }
 
-  export type UsersUpdateOneRequiredWithoutNotificationSettingsNestedInput = {
+  export type UsersCreateNestedOneWithoutNotificationSettingsInput = {
     create?: XOR<UsersCreateWithoutNotificationSettingsInput, UsersUncheckedCreateWithoutNotificationSettingsInput>
     connectOrCreate?: UsersCreateOrConnectWithoutNotificationSettingsInput
-    upsert?: UsersUpsertWithoutNotificationSettingsInput
     connect?: UsersWhereUniqueInput
-    update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutNotificationSettingsInput, UsersUpdateWithoutNotificationSettingsInput>, UsersUncheckedUpdateWithoutNotificationSettingsInput>
   }
 
   export type NotificationsTypesUpdateOneRequiredWithoutSettingsNestedInput = {
@@ -45647,10 +44678,12 @@ export namespace Prisma {
     update?: XOR<XOR<NotificationsTypesUpdateToOneWithWhereWithoutSettingsInput, NotificationsTypesUpdateWithoutSettingsInput>, NotificationsTypesUncheckedUpdateWithoutSettingsInput>
   }
 
-  export type UsersCreateNestedOneWithoutInterestedTopicsInput = {
-    create?: XOR<UsersCreateWithoutInterestedTopicsInput, UsersUncheckedCreateWithoutInterestedTopicsInput>
-    connectOrCreate?: UsersCreateOrConnectWithoutInterestedTopicsInput
+  export type UsersUpdateOneRequiredWithoutNotificationSettingsNestedInput = {
+    create?: XOR<UsersCreateWithoutNotificationSettingsInput, UsersUncheckedCreateWithoutNotificationSettingsInput>
+    connectOrCreate?: UsersCreateOrConnectWithoutNotificationSettingsInput
+    upsert?: UsersUpsertWithoutNotificationSettingsInput
     connect?: UsersWhereUniqueInput
+    update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutNotificationSettingsInput, UsersUpdateWithoutNotificationSettingsInput>, UsersUncheckedUpdateWithoutNotificationSettingsInput>
   }
 
   export type TopicsCreateNestedOneWithoutInInterestedInput = {
@@ -45659,12 +44692,10 @@ export namespace Prisma {
     connect?: TopicsWhereUniqueInput
   }
 
-  export type UsersUpdateOneRequiredWithoutInterestedTopicsNestedInput = {
+  export type UsersCreateNestedOneWithoutInterestedTopicsInput = {
     create?: XOR<UsersCreateWithoutInterestedTopicsInput, UsersUncheckedCreateWithoutInterestedTopicsInput>
     connectOrCreate?: UsersCreateOrConnectWithoutInterestedTopicsInput
-    upsert?: UsersUpsertWithoutInterestedTopicsInput
     connect?: UsersWhereUniqueInput
-    update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutInterestedTopicsInput, UsersUpdateWithoutInterestedTopicsInput>, UsersUncheckedUpdateWithoutInterestedTopicsInput>
   }
 
   export type TopicsUpdateOneRequiredWithoutInInterestedNestedInput = {
@@ -45673,6 +44704,14 @@ export namespace Prisma {
     upsert?: TopicsUpsertWithoutInInterestedInput
     connect?: TopicsWhereUniqueInput
     update?: XOR<XOR<TopicsUpdateToOneWithWhereWithoutInInterestedInput, TopicsUpdateWithoutInInterestedInput>, TopicsUncheckedUpdateWithoutInInterestedInput>
+  }
+
+  export type UsersUpdateOneRequiredWithoutInterestedTopicsNestedInput = {
+    create?: XOR<UsersCreateWithoutInterestedTopicsInput, UsersUncheckedCreateWithoutInterestedTopicsInput>
+    connectOrCreate?: UsersCreateOrConnectWithoutInterestedTopicsInput
+    upsert?: UsersUpsertWithoutInterestedTopicsInput
+    connect?: UsersWhereUniqueInput
+    update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutInterestedTopicsInput, UsersUpdateWithoutInterestedTopicsInput>, UsersUncheckedUpdateWithoutInterestedTopicsInput>
   }
 
   export type UsersCreateNestedOneWithoutVerificationInput = {
@@ -45703,34 +44742,6 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
-  }
-
-  export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
   export type NestedStringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -45759,6 +44770,34 @@ export namespace Prisma {
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -45809,6 +44848,31 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -45879,8 +44943,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     conferenceDates?: ConferenceDatesCreateNestedManyWithoutBelongsToInput
-    topics?: ConferenceTopicsCreateNestedManyWithoutBelongsToInput
     belongsTo: ConferencesCreateNestedOneWithoutOrganizationsInput
+    topics?: ConferenceTopicsCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferenceOrganizationsUncheckedCreateWithoutLocationsInput = {
@@ -45931,8 +44995,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     conferenceDates?: ConferenceDatesUpdateManyWithoutBelongsToNestedInput
-    topics?: ConferenceTopicsUpdateManyWithoutBelongsToNestedInput
     belongsTo?: ConferencesUpdateOneRequiredWithoutOrganizationsNestedInput
+    topics?: ConferenceTopicsUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferenceOrganizationsUncheckedUpdateWithoutLocationsInput = {
@@ -45966,9 +45030,9 @@ export namespace Prisma {
     impLink: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    locations?: LocationsCreateNestedManyWithoutBelongsToInput
-    topics?: ConferenceTopicsCreateNestedManyWithoutBelongsToInput
     belongsTo: ConferencesCreateNestedOneWithoutOrganizationsInput
+    topics?: ConferenceTopicsCreateNestedManyWithoutBelongsToInput
+    locations?: LocationsCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferenceOrganizationsUncheckedCreateWithoutConferenceDatesInput = {
@@ -45985,8 +45049,8 @@ export namespace Prisma {
     impLink: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    locations?: LocationsUncheckedCreateNestedManyWithoutBelongsToInput
     topics?: ConferenceTopicsUncheckedCreateNestedManyWithoutBelongsToInput
+    locations?: LocationsUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferenceOrganizationsCreateOrConnectWithoutConferenceDatesInput = {
@@ -46018,9 +45082,9 @@ export namespace Prisma {
     impLink?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    locations?: LocationsUpdateManyWithoutBelongsToNestedInput
-    topics?: ConferenceTopicsUpdateManyWithoutBelongsToNestedInput
     belongsTo?: ConferencesUpdateOneRequiredWithoutOrganizationsNestedInput
+    topics?: ConferenceTopicsUpdateManyWithoutBelongsToNestedInput
+    locations?: LocationsUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferenceOrganizationsUncheckedUpdateWithoutConferenceDatesInput = {
@@ -46037,14 +45101,14 @@ export namespace Prisma {
     impLink?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    locations?: LocationsUncheckedUpdateManyWithoutBelongsToNestedInput
     topics?: ConferenceTopicsUncheckedUpdateManyWithoutBelongsToNestedInput
+    locations?: LocationsUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferenceDatesCreateWithoutBelongsToInput = {
     id?: string
-    fromDate: Date | string
-    toDate: Date | string
+    fromDate?: Date | string | null
+    toDate?: Date | string | null
     type: string
     name: string
     createdAt?: Date | string
@@ -46054,8 +45118,8 @@ export namespace Prisma {
 
   export type ConferenceDatesUncheckedCreateWithoutBelongsToInput = {
     id?: string
-    fromDate: Date | string
-    toDate: Date | string
+    fromDate?: Date | string | null
+    toDate?: Date | string | null
     type: string
     name: string
     createdAt?: Date | string
@@ -46070,6 +45134,71 @@ export namespace Prisma {
 
   export type ConferenceDatesCreateManyBelongsToInputEnvelope = {
     data: ConferenceDatesCreateManyBelongsToInput | ConferenceDatesCreateManyBelongsToInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ConferencesCreateWithoutOrganizationsInput = {
+    id?: string
+    title: string
+    acronym: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    status?: string
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutBelongsToInput
+    calendars?: ConferenceCalendarsCreateNestedManyWithoutBelongsToInput
+    crawlJobs?: ConferenceCrawlJobsCreateNestedManyWithoutBelongsToInput
+    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutBelongsToInput
+    follows?: ConferenceFollowsCreateNestedManyWithoutBelongsToInput
+    likes?: ConferenceLikesCreateNestedManyWithoutBelongsToInput
+    ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
+    createdByUser?: UsersCreateNestedOneWithoutCreatedConferencesInput
+    createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
+  }
+
+  export type ConferencesUncheckedCreateWithoutOrganizationsInput = {
+    id?: string
+    title: string
+    acronym: string
+    creatorId?: string | null
+    adminId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    status?: string
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput
+    calendars?: ConferenceCalendarsUncheckedCreateNestedManyWithoutBelongsToInput
+    crawlJobs?: ConferenceCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
+    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutBelongsToInput
+    follows?: ConferenceFollowsUncheckedCreateNestedManyWithoutBelongsToInput
+    likes?: ConferenceLikesUncheckedCreateNestedManyWithoutBelongsToInput
+    ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
+  }
+
+  export type ConferencesCreateOrConnectWithoutOrganizationsInput = {
+    where: ConferencesWhereUniqueInput
+    create: XOR<ConferencesCreateWithoutOrganizationsInput, ConferencesUncheckedCreateWithoutOrganizationsInput>
+  }
+
+  export type ConferenceTopicsCreateWithoutBelongsToInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    inTopic: TopicsCreateNestedOneWithoutInConferenceTopicsInput
+  }
+
+  export type ConferenceTopicsUncheckedCreateWithoutBelongsToInput = {
+    id?: string
+    topicId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ConferenceTopicsCreateOrConnectWithoutBelongsToInput = {
+    where: ConferenceTopicsWhereUniqueInput
+    create: XOR<ConferenceTopicsCreateWithoutBelongsToInput, ConferenceTopicsUncheckedCreateWithoutBelongsToInput>
+  }
+
+  export type ConferenceTopicsCreateManyBelongsToInputEnvelope = {
+    data: ConferenceTopicsCreateManyBelongsToInput | ConferenceTopicsCreateManyBelongsToInput[]
     skipDuplicates?: boolean
   }
 
@@ -46105,71 +45234,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type ConferenceTopicsCreateWithoutBelongsToInput = {
-    id?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    inTopic: TopicsCreateNestedOneWithoutInConferenceTopicsInput
-  }
-
-  export type ConferenceTopicsUncheckedCreateWithoutBelongsToInput = {
-    id?: string
-    topicId: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ConferenceTopicsCreateOrConnectWithoutBelongsToInput = {
-    where: ConferenceTopicsWhereUniqueInput
-    create: XOR<ConferenceTopicsCreateWithoutBelongsToInput, ConferenceTopicsUncheckedCreateWithoutBelongsToInput>
-  }
-
-  export type ConferenceTopicsCreateManyBelongsToInputEnvelope = {
-    data: ConferenceTopicsCreateManyBelongsToInput | ConferenceTopicsCreateManyBelongsToInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type ConferencesCreateWithoutOrganizationsInput = {
-    id?: string
-    title: string
-    acronym: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    status: string
-    follows?: ConferenceFollowsCreateNestedManyWithoutBelongsToInput
-    likes?: ConferenceLikesCreateNestedManyWithoutBelongsToInput
-    calendars?: ConferenceCalendarsCreateNestedManyWithoutBelongsToInput
-    ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
-    crawlJobs?: ConferenceCrawlJobsCreateNestedManyWithoutBelongsToInput
-    createdByUser?: UsersCreateNestedOneWithoutCreatedConferencesInput
-    createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
-    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutBelongsToInput
-    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutBelongsToInput
-  }
-
-  export type ConferencesUncheckedCreateWithoutOrganizationsInput = {
-    id?: string
-    title: string
-    acronym: string
-    creatorId?: string | null
-    adminId?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    status: string
-    follows?: ConferenceFollowsUncheckedCreateNestedManyWithoutBelongsToInput
-    likes?: ConferenceLikesUncheckedCreateNestedManyWithoutBelongsToInput
-    calendars?: ConferenceCalendarsUncheckedCreateNestedManyWithoutBelongsToInput
-    ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
-    crawlJobs?: ConferenceCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
-    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutBelongsToInput
-    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput
-  }
-
-  export type ConferencesCreateOrConnectWithoutOrganizationsInput = {
-    where: ConferencesWhereUniqueInput
-    create: XOR<ConferencesCreateWithoutOrganizationsInput, ConferencesUncheckedCreateWithoutOrganizationsInput>
-  }
-
   export type ConferenceDatesUpsertWithWhereUniqueWithoutBelongsToInput = {
     where: ConferenceDatesWhereUniqueInput
     update: XOR<ConferenceDatesUpdateWithoutBelongsToInput, ConferenceDatesUncheckedUpdateWithoutBelongsToInput>
@@ -46192,13 +45256,87 @@ export namespace Prisma {
     NOT?: ConferenceDatesScalarWhereInput | ConferenceDatesScalarWhereInput[]
     id?: StringFilter<"ConferenceDates"> | string
     organizedId?: StringFilter<"ConferenceDates"> | string
-    fromDate?: DateTimeFilter<"ConferenceDates"> | Date | string
-    toDate?: DateTimeFilter<"ConferenceDates"> | Date | string
+    fromDate?: DateTimeNullableFilter<"ConferenceDates"> | Date | string | null
+    toDate?: DateTimeNullableFilter<"ConferenceDates"> | Date | string | null
     type?: StringFilter<"ConferenceDates"> | string
     name?: StringFilter<"ConferenceDates"> | string
     createdAt?: DateTimeFilter<"ConferenceDates"> | Date | string
     updatedAt?: DateTimeFilter<"ConferenceDates"> | Date | string
     isAvailable?: BoolFilter<"ConferenceDates"> | boolean
+  }
+
+  export type ConferencesUpsertWithoutOrganizationsInput = {
+    update: XOR<ConferencesUpdateWithoutOrganizationsInput, ConferencesUncheckedUpdateWithoutOrganizationsInput>
+    create: XOR<ConferencesCreateWithoutOrganizationsInput, ConferencesUncheckedCreateWithoutOrganizationsInput>
+    where?: ConferencesWhereInput
+  }
+
+  export type ConferencesUpdateToOneWithWhereWithoutOrganizationsInput = {
+    where?: ConferencesWhereInput
+    data: XOR<ConferencesUpdateWithoutOrganizationsInput, ConferencesUncheckedUpdateWithoutOrganizationsInput>
+  }
+
+  export type ConferencesUpdateWithoutOrganizationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    acronym?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput
+    calendars?: ConferenceCalendarsUpdateManyWithoutBelongsToNestedInput
+    crawlJobs?: ConferenceCrawlJobsUpdateManyWithoutBelongsToNestedInput
+    feedbacks?: ConferenceFeedbacksUpdateManyWithoutBelongsToNestedInput
+    follows?: ConferenceFollowsUpdateManyWithoutBelongsToNestedInput
+    likes?: ConferenceLikesUpdateManyWithoutBelongsToNestedInput
+    ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
+    createdByUser?: UsersUpdateOneWithoutCreatedConferencesNestedInput
+    createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
+  }
+
+  export type ConferencesUncheckedUpdateWithoutOrganizationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    acronym?: StringFieldUpdateOperationsInput | string
+    creatorId?: NullableStringFieldUpdateOperationsInput | string | null
+    adminId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput
+    calendars?: ConferenceCalendarsUncheckedUpdateManyWithoutBelongsToNestedInput
+    crawlJobs?: ConferenceCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
+    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutBelongsToNestedInput
+    follows?: ConferenceFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
+    likes?: ConferenceLikesUncheckedUpdateManyWithoutBelongsToNestedInput
+    ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
+  }
+
+  export type ConferenceTopicsUpsertWithWhereUniqueWithoutBelongsToInput = {
+    where: ConferenceTopicsWhereUniqueInput
+    update: XOR<ConferenceTopicsUpdateWithoutBelongsToInput, ConferenceTopicsUncheckedUpdateWithoutBelongsToInput>
+    create: XOR<ConferenceTopicsCreateWithoutBelongsToInput, ConferenceTopicsUncheckedCreateWithoutBelongsToInput>
+  }
+
+  export type ConferenceTopicsUpdateWithWhereUniqueWithoutBelongsToInput = {
+    where: ConferenceTopicsWhereUniqueInput
+    data: XOR<ConferenceTopicsUpdateWithoutBelongsToInput, ConferenceTopicsUncheckedUpdateWithoutBelongsToInput>
+  }
+
+  export type ConferenceTopicsUpdateManyWithWhereWithoutBelongsToInput = {
+    where: ConferenceTopicsScalarWhereInput
+    data: XOR<ConferenceTopicsUpdateManyMutationInput, ConferenceTopicsUncheckedUpdateManyWithoutBelongsToInput>
+  }
+
+  export type ConferenceTopicsScalarWhereInput = {
+    AND?: ConferenceTopicsScalarWhereInput | ConferenceTopicsScalarWhereInput[]
+    OR?: ConferenceTopicsScalarWhereInput[]
+    NOT?: ConferenceTopicsScalarWhereInput | ConferenceTopicsScalarWhereInput[]
+    id?: StringFilter<"ConferenceTopics"> | string
+    organizeId?: StringFilter<"ConferenceTopics"> | string
+    topicId?: StringFilter<"ConferenceTopics"> | string
+    createdAt?: DateTimeFilter<"ConferenceTopics"> | Date | string
+    updatedAt?: DateTimeFilter<"ConferenceTopics"> | Date | string
   }
 
   export type LocationsUpsertWithWhereUniqueWithoutBelongsToInput = {
@@ -46232,80 +45370,6 @@ export namespace Prisma {
     organizeId?: StringFilter<"Locations"> | string
   }
 
-  export type ConferenceTopicsUpsertWithWhereUniqueWithoutBelongsToInput = {
-    where: ConferenceTopicsWhereUniqueInput
-    update: XOR<ConferenceTopicsUpdateWithoutBelongsToInput, ConferenceTopicsUncheckedUpdateWithoutBelongsToInput>
-    create: XOR<ConferenceTopicsCreateWithoutBelongsToInput, ConferenceTopicsUncheckedCreateWithoutBelongsToInput>
-  }
-
-  export type ConferenceTopicsUpdateWithWhereUniqueWithoutBelongsToInput = {
-    where: ConferenceTopicsWhereUniqueInput
-    data: XOR<ConferenceTopicsUpdateWithoutBelongsToInput, ConferenceTopicsUncheckedUpdateWithoutBelongsToInput>
-  }
-
-  export type ConferenceTopicsUpdateManyWithWhereWithoutBelongsToInput = {
-    where: ConferenceTopicsScalarWhereInput
-    data: XOR<ConferenceTopicsUpdateManyMutationInput, ConferenceTopicsUncheckedUpdateManyWithoutBelongsToInput>
-  }
-
-  export type ConferenceTopicsScalarWhereInput = {
-    AND?: ConferenceTopicsScalarWhereInput | ConferenceTopicsScalarWhereInput[]
-    OR?: ConferenceTopicsScalarWhereInput[]
-    NOT?: ConferenceTopicsScalarWhereInput | ConferenceTopicsScalarWhereInput[]
-    id?: StringFilter<"ConferenceTopics"> | string
-    organizeId?: StringFilter<"ConferenceTopics"> | string
-    topicId?: StringFilter<"ConferenceTopics"> | string
-    createdAt?: DateTimeFilter<"ConferenceTopics"> | Date | string
-    updatedAt?: DateTimeFilter<"ConferenceTopics"> | Date | string
-  }
-
-  export type ConferencesUpsertWithoutOrganizationsInput = {
-    update: XOR<ConferencesUpdateWithoutOrganizationsInput, ConferencesUncheckedUpdateWithoutOrganizationsInput>
-    create: XOR<ConferencesCreateWithoutOrganizationsInput, ConferencesUncheckedCreateWithoutOrganizationsInput>
-    where?: ConferencesWhereInput
-  }
-
-  export type ConferencesUpdateToOneWithWhereWithoutOrganizationsInput = {
-    where?: ConferencesWhereInput
-    data: XOR<ConferencesUpdateWithoutOrganizationsInput, ConferencesUncheckedUpdateWithoutOrganizationsInput>
-  }
-
-  export type ConferencesUpdateWithoutOrganizationsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    acronym?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
-    follows?: ConferenceFollowsUpdateManyWithoutBelongsToNestedInput
-    likes?: ConferenceLikesUpdateManyWithoutBelongsToNestedInput
-    calendars?: ConferenceCalendarsUpdateManyWithoutBelongsToNestedInput
-    ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
-    crawlJobs?: ConferenceCrawlJobsUpdateManyWithoutBelongsToNestedInput
-    createdByUser?: UsersUpdateOneWithoutCreatedConferencesNestedInput
-    createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
-    feedbacks?: ConferenceFeedbacksUpdateManyWithoutBelongsToNestedInput
-    blacklists?: ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput
-  }
-
-  export type ConferencesUncheckedUpdateWithoutOrganizationsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    acronym?: StringFieldUpdateOperationsInput | string
-    creatorId?: NullableStringFieldUpdateOperationsInput | string | null
-    adminId?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
-    follows?: ConferenceFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
-    likes?: ConferenceLikesUncheckedUpdateManyWithoutBelongsToNestedInput
-    calendars?: ConferenceCalendarsUncheckedUpdateManyWithoutBelongsToNestedInput
-    ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
-    crawlJobs?: ConferenceCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
-    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutBelongsToNestedInput
-    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput
-  }
-
   export type ConferenceOrganizationsCreateWithoutTopicsInput = {
     id?: string
     year?: number | null
@@ -46320,8 +45384,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     conferenceDates?: ConferenceDatesCreateNestedManyWithoutBelongsToInput
-    locations?: LocationsCreateNestedManyWithoutBelongsToInput
     belongsTo: ConferencesCreateNestedOneWithoutOrganizationsInput
+    locations?: LocationsCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferenceOrganizationsUncheckedCreateWithoutTopicsInput = {
@@ -46395,8 +45459,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     conferenceDates?: ConferenceDatesUpdateManyWithoutBelongsToNestedInput
-    locations?: LocationsUpdateManyWithoutBelongsToNestedInput
     belongsTo?: ConferencesUpdateOneRequiredWithoutOrganizationsNestedInput
+    locations?: LocationsUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferenceOrganizationsUncheckedUpdateWithoutTopicsInput = {
@@ -46579,6 +45643,110 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"TopicUserInteresteds"> | Date | string
   }
 
+  export type ConferenceBlacklistsCreateWithoutBelongsToInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    byUser: UsersCreateNestedOneWithoutBlacklistsInput
+  }
+
+  export type ConferenceBlacklistsUncheckedCreateWithoutBelongsToInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ConferenceBlacklistsCreateOrConnectWithoutBelongsToInput = {
+    where: ConferenceBlacklistsWhereUniqueInput
+    create: XOR<ConferenceBlacklistsCreateWithoutBelongsToInput, ConferenceBlacklistsUncheckedCreateWithoutBelongsToInput>
+  }
+
+  export type ConferenceBlacklistsCreateManyBelongsToInputEnvelope = {
+    data: ConferenceBlacklistsCreateManyBelongsToInput | ConferenceBlacklistsCreateManyBelongsToInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ConferenceCalendarsCreateWithoutBelongsToInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    byUser: UsersCreateNestedOneWithoutCalendarInput
+  }
+
+  export type ConferenceCalendarsUncheckedCreateWithoutBelongsToInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ConferenceCalendarsCreateOrConnectWithoutBelongsToInput = {
+    where: ConferenceCalendarsWhereUniqueInput
+    create: XOR<ConferenceCalendarsCreateWithoutBelongsToInput, ConferenceCalendarsUncheckedCreateWithoutBelongsToInput>
+  }
+
+  export type ConferenceCalendarsCreateManyBelongsToInputEnvelope = {
+    data: ConferenceCalendarsCreateManyBelongsToInput | ConferenceCalendarsCreateManyBelongsToInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ConferenceCrawlJobsCreateWithoutBelongsToInput = {
+    id?: string
+    status: string
+    progress: number
+    message: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ConferenceCrawlJobsUncheckedCreateWithoutBelongsToInput = {
+    id?: string
+    status: string
+    progress: number
+    message: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ConferenceCrawlJobsCreateOrConnectWithoutBelongsToInput = {
+    where: ConferenceCrawlJobsWhereUniqueInput
+    create: XOR<ConferenceCrawlJobsCreateWithoutBelongsToInput, ConferenceCrawlJobsUncheckedCreateWithoutBelongsToInput>
+  }
+
+  export type ConferenceCrawlJobsCreateManyBelongsToInputEnvelope = {
+    data: ConferenceCrawlJobsCreateManyBelongsToInput | ConferenceCrawlJobsCreateManyBelongsToInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ConferenceFeedbacksCreateWithoutBelongsToInput = {
+    id?: string
+    description: string
+    star: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    byUser: UsersCreateNestedOneWithoutFeedbacksInput
+  }
+
+  export type ConferenceFeedbacksUncheckedCreateWithoutBelongsToInput = {
+    id?: string
+    creatorId: string
+    description: string
+    star: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ConferenceFeedbacksCreateOrConnectWithoutBelongsToInput = {
+    where: ConferenceFeedbacksWhereUniqueInput
+    create: XOR<ConferenceFeedbacksCreateWithoutBelongsToInput, ConferenceFeedbacksUncheckedCreateWithoutBelongsToInput>
+  }
+
+  export type ConferenceFeedbacksCreateManyBelongsToInputEnvelope = {
+    data: ConferenceFeedbacksCreateManyBelongsToInput | ConferenceFeedbacksCreateManyBelongsToInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ConferenceFollowsCreateWithoutBelongsToInput = {
     id?: string
     createdAt?: Date | string
@@ -46627,30 +45795,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type ConferenceCalendarsCreateWithoutBelongsToInput = {
-    id?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    byUser: UsersCreateNestedOneWithoutCalendarInput
-  }
-
-  export type ConferenceCalendarsUncheckedCreateWithoutBelongsToInput = {
-    id?: string
-    userId: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ConferenceCalendarsCreateOrConnectWithoutBelongsToInput = {
-    where: ConferenceCalendarsWhereUniqueInput
-    create: XOR<ConferenceCalendarsCreateWithoutBelongsToInput, ConferenceCalendarsUncheckedCreateWithoutBelongsToInput>
-  }
-
-  export type ConferenceCalendarsCreateManyBelongsToInputEnvelope = {
-    data: ConferenceCalendarsCreateManyBelongsToInput | ConferenceCalendarsCreateManyBelongsToInput[]
-    skipDuplicates?: boolean
-  }
-
   export type ConferenceOrganizationsCreateWithoutBelongsToInput = {
     id?: string
     year?: number | null
@@ -46665,8 +45809,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     conferenceDates?: ConferenceDatesCreateNestedManyWithoutBelongsToInput
-    locations?: LocationsCreateNestedManyWithoutBelongsToInput
     topics?: ConferenceTopicsCreateNestedManyWithoutBelongsToInput
+    locations?: LocationsCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferenceOrganizationsUncheckedCreateWithoutBelongsToInput = {
@@ -46683,8 +45827,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     conferenceDates?: ConferenceDatesUncheckedCreateNestedManyWithoutBelongsToInput
-    locations?: LocationsUncheckedCreateNestedManyWithoutBelongsToInput
     topics?: ConferenceTopicsUncheckedCreateNestedManyWithoutBelongsToInput
+    locations?: LocationsUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferenceOrganizationsCreateOrConnectWithoutBelongsToInput = {
@@ -46721,34 +45865,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type ConferenceCrawlJobsCreateWithoutBelongsToInput = {
-    id?: string
-    status: string
-    progress: number
-    message: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ConferenceCrawlJobsUncheckedCreateWithoutBelongsToInput = {
-    id?: string
-    status: string
-    progress: number
-    message: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ConferenceCrawlJobsCreateOrConnectWithoutBelongsToInput = {
-    where: ConferenceCrawlJobsWhereUniqueInput
-    create: XOR<ConferenceCrawlJobsCreateWithoutBelongsToInput, ConferenceCrawlJobsUncheckedCreateWithoutBelongsToInput>
-  }
-
-  export type ConferenceCrawlJobsCreateManyBelongsToInputEnvelope = {
-    data: ConferenceCrawlJobsCreateManyBelongsToInput | ConferenceCrawlJobsCreateManyBelongsToInput[]
-    skipDuplicates?: boolean
-  }
-
   export type UsersCreateWithoutCreatedConferencesInput = {
     id?: string
     email: string
@@ -46761,17 +45877,17 @@ export namespace Prisma {
     background: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
+    calendar?: ConferenceCalendarsCreateNestedManyWithoutByUserInput
+    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
     followConference?: ConferenceFollowsCreateNestedManyWithoutByUserInput
     likes?: ConferenceLikesCreateNestedManyWithoutByUserInput
-    calendar?: ConferenceCalendarsCreateNestedManyWithoutByUserInput
-    interestedTopics?: TopicUserInterestedsCreateNestedManyWithoutBelongsToInput
-    createdJournals?: JournalsCreateNestedManyWithoutCreatedByUserInput
-    journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
     journalFollows?: JournalFollowsCreateNestedManyWithoutByUserInput
-    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
-    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
-    notifications?: NotificationsCreateNestedManyWithoutByUserInput
+    journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
+    createdJournals?: JournalsCreateNestedManyWithoutCreatedByUserInput
     notificationSettings?: NotificationSettingsCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsCreateNestedManyWithoutByUserInput
+    interestedTopics?: TopicUserInterestedsCreateNestedManyWithoutBelongsToInput
     verification?: UserVerificationCreateNestedManyWithoutByUserInput
   }
 
@@ -46787,17 +45903,17 @@ export namespace Prisma {
     background: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
+    calendar?: ConferenceCalendarsUncheckedCreateNestedManyWithoutByUserInput
+    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
     followConference?: ConferenceFollowsUncheckedCreateNestedManyWithoutByUserInput
     likes?: ConferenceLikesUncheckedCreateNestedManyWithoutByUserInput
-    calendar?: ConferenceCalendarsUncheckedCreateNestedManyWithoutByUserInput
-    interestedTopics?: TopicUserInterestedsUncheckedCreateNestedManyWithoutBelongsToInput
-    createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreatedByUserInput
-    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
     journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutByUserInput
-    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
-    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
-    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
+    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
+    createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreatedByUserInput
     notificationSettings?: NotificationSettingsUncheckedCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
+    interestedTopics?: TopicUserInterestedsUncheckedCreateNestedManyWithoutBelongsToInput
     verification?: UserVerificationUncheckedCreateNestedManyWithoutByUserInput
   }
 
@@ -46813,6 +45929,7 @@ export namespace Prisma {
     fullName: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    createdJournals?: JournalsCreateNestedManyWithoutCreateByAdminInput
   }
 
   export type AdminsUncheckedCreateWithoutCreatedConferencesInput = {
@@ -46822,6 +45939,7 @@ export namespace Prisma {
     fullName: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreateByAdminInput
   }
 
   export type AdminsCreateOrConnectWithoutCreatedConferencesInput = {
@@ -46829,56 +45947,116 @@ export namespace Prisma {
     create: XOR<AdminsCreateWithoutCreatedConferencesInput, AdminsUncheckedCreateWithoutCreatedConferencesInput>
   }
 
-  export type ConferenceFeedbacksCreateWithoutBelongsToInput = {
-    id?: string
-    description: string
-    star: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    byUser: UsersCreateNestedOneWithoutFeedbacksInput
-  }
-
-  export type ConferenceFeedbacksUncheckedCreateWithoutBelongsToInput = {
-    id?: string
-    creatorId: string
-    description: string
-    star: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ConferenceFeedbacksCreateOrConnectWithoutBelongsToInput = {
-    where: ConferenceFeedbacksWhereUniqueInput
-    create: XOR<ConferenceFeedbacksCreateWithoutBelongsToInput, ConferenceFeedbacksUncheckedCreateWithoutBelongsToInput>
-  }
-
-  export type ConferenceFeedbacksCreateManyBelongsToInputEnvelope = {
-    data: ConferenceFeedbacksCreateManyBelongsToInput | ConferenceFeedbacksCreateManyBelongsToInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type ConferenceBlacklistsCreateWithoutBelongsToInput = {
-    id?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    byUser: UsersCreateNestedOneWithoutBlacklistsInput
-  }
-
-  export type ConferenceBlacklistsUncheckedCreateWithoutBelongsToInput = {
-    id?: string
-    userId: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ConferenceBlacklistsCreateOrConnectWithoutBelongsToInput = {
+  export type ConferenceBlacklistsUpsertWithWhereUniqueWithoutBelongsToInput = {
     where: ConferenceBlacklistsWhereUniqueInput
+    update: XOR<ConferenceBlacklistsUpdateWithoutBelongsToInput, ConferenceBlacklistsUncheckedUpdateWithoutBelongsToInput>
     create: XOR<ConferenceBlacklistsCreateWithoutBelongsToInput, ConferenceBlacklistsUncheckedCreateWithoutBelongsToInput>
   }
 
-  export type ConferenceBlacklistsCreateManyBelongsToInputEnvelope = {
-    data: ConferenceBlacklistsCreateManyBelongsToInput | ConferenceBlacklistsCreateManyBelongsToInput[]
-    skipDuplicates?: boolean
+  export type ConferenceBlacklistsUpdateWithWhereUniqueWithoutBelongsToInput = {
+    where: ConferenceBlacklistsWhereUniqueInput
+    data: XOR<ConferenceBlacklistsUpdateWithoutBelongsToInput, ConferenceBlacklistsUncheckedUpdateWithoutBelongsToInput>
+  }
+
+  export type ConferenceBlacklistsUpdateManyWithWhereWithoutBelongsToInput = {
+    where: ConferenceBlacklistsScalarWhereInput
+    data: XOR<ConferenceBlacklistsUpdateManyMutationInput, ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToInput>
+  }
+
+  export type ConferenceBlacklistsScalarWhereInput = {
+    AND?: ConferenceBlacklistsScalarWhereInput | ConferenceBlacklistsScalarWhereInput[]
+    OR?: ConferenceBlacklistsScalarWhereInput[]
+    NOT?: ConferenceBlacklistsScalarWhereInput | ConferenceBlacklistsScalarWhereInput[]
+    id?: StringFilter<"ConferenceBlacklists"> | string
+    conferenceId?: StringFilter<"ConferenceBlacklists"> | string
+    userId?: StringFilter<"ConferenceBlacklists"> | string
+    createdAt?: DateTimeFilter<"ConferenceBlacklists"> | Date | string
+    updatedAt?: DateTimeFilter<"ConferenceBlacklists"> | Date | string
+  }
+
+  export type ConferenceCalendarsUpsertWithWhereUniqueWithoutBelongsToInput = {
+    where: ConferenceCalendarsWhereUniqueInput
+    update: XOR<ConferenceCalendarsUpdateWithoutBelongsToInput, ConferenceCalendarsUncheckedUpdateWithoutBelongsToInput>
+    create: XOR<ConferenceCalendarsCreateWithoutBelongsToInput, ConferenceCalendarsUncheckedCreateWithoutBelongsToInput>
+  }
+
+  export type ConferenceCalendarsUpdateWithWhereUniqueWithoutBelongsToInput = {
+    where: ConferenceCalendarsWhereUniqueInput
+    data: XOR<ConferenceCalendarsUpdateWithoutBelongsToInput, ConferenceCalendarsUncheckedUpdateWithoutBelongsToInput>
+  }
+
+  export type ConferenceCalendarsUpdateManyWithWhereWithoutBelongsToInput = {
+    where: ConferenceCalendarsScalarWhereInput
+    data: XOR<ConferenceCalendarsUpdateManyMutationInput, ConferenceCalendarsUncheckedUpdateManyWithoutBelongsToInput>
+  }
+
+  export type ConferenceCalendarsScalarWhereInput = {
+    AND?: ConferenceCalendarsScalarWhereInput | ConferenceCalendarsScalarWhereInput[]
+    OR?: ConferenceCalendarsScalarWhereInput[]
+    NOT?: ConferenceCalendarsScalarWhereInput | ConferenceCalendarsScalarWhereInput[]
+    id?: StringFilter<"ConferenceCalendars"> | string
+    conferenceId?: StringFilter<"ConferenceCalendars"> | string
+    userId?: StringFilter<"ConferenceCalendars"> | string
+    createdAt?: DateTimeFilter<"ConferenceCalendars"> | Date | string
+    updatedAt?: DateTimeFilter<"ConferenceCalendars"> | Date | string
+  }
+
+  export type ConferenceCrawlJobsUpsertWithWhereUniqueWithoutBelongsToInput = {
+    where: ConferenceCrawlJobsWhereUniqueInput
+    update: XOR<ConferenceCrawlJobsUpdateWithoutBelongsToInput, ConferenceCrawlJobsUncheckedUpdateWithoutBelongsToInput>
+    create: XOR<ConferenceCrawlJobsCreateWithoutBelongsToInput, ConferenceCrawlJobsUncheckedCreateWithoutBelongsToInput>
+  }
+
+  export type ConferenceCrawlJobsUpdateWithWhereUniqueWithoutBelongsToInput = {
+    where: ConferenceCrawlJobsWhereUniqueInput
+    data: XOR<ConferenceCrawlJobsUpdateWithoutBelongsToInput, ConferenceCrawlJobsUncheckedUpdateWithoutBelongsToInput>
+  }
+
+  export type ConferenceCrawlJobsUpdateManyWithWhereWithoutBelongsToInput = {
+    where: ConferenceCrawlJobsScalarWhereInput
+    data: XOR<ConferenceCrawlJobsUpdateManyMutationInput, ConferenceCrawlJobsUncheckedUpdateManyWithoutBelongsToInput>
+  }
+
+  export type ConferenceCrawlJobsScalarWhereInput = {
+    AND?: ConferenceCrawlJobsScalarWhereInput | ConferenceCrawlJobsScalarWhereInput[]
+    OR?: ConferenceCrawlJobsScalarWhereInput[]
+    NOT?: ConferenceCrawlJobsScalarWhereInput | ConferenceCrawlJobsScalarWhereInput[]
+    id?: StringFilter<"ConferenceCrawlJobs"> | string
+    conferenceId?: StringFilter<"ConferenceCrawlJobs"> | string
+    status?: StringFilter<"ConferenceCrawlJobs"> | string
+    progress?: IntFilter<"ConferenceCrawlJobs"> | number
+    message?: StringFilter<"ConferenceCrawlJobs"> | string
+    createdAt?: DateTimeFilter<"ConferenceCrawlJobs"> | Date | string
+    updatedAt?: DateTimeFilter<"ConferenceCrawlJobs"> | Date | string
+  }
+
+  export type ConferenceFeedbacksUpsertWithWhereUniqueWithoutBelongsToInput = {
+    where: ConferenceFeedbacksWhereUniqueInput
+    update: XOR<ConferenceFeedbacksUpdateWithoutBelongsToInput, ConferenceFeedbacksUncheckedUpdateWithoutBelongsToInput>
+    create: XOR<ConferenceFeedbacksCreateWithoutBelongsToInput, ConferenceFeedbacksUncheckedCreateWithoutBelongsToInput>
+  }
+
+  export type ConferenceFeedbacksUpdateWithWhereUniqueWithoutBelongsToInput = {
+    where: ConferenceFeedbacksWhereUniqueInput
+    data: XOR<ConferenceFeedbacksUpdateWithoutBelongsToInput, ConferenceFeedbacksUncheckedUpdateWithoutBelongsToInput>
+  }
+
+  export type ConferenceFeedbacksUpdateManyWithWhereWithoutBelongsToInput = {
+    where: ConferenceFeedbacksScalarWhereInput
+    data: XOR<ConferenceFeedbacksUpdateManyMutationInput, ConferenceFeedbacksUncheckedUpdateManyWithoutBelongsToInput>
+  }
+
+  export type ConferenceFeedbacksScalarWhereInput = {
+    AND?: ConferenceFeedbacksScalarWhereInput | ConferenceFeedbacksScalarWhereInput[]
+    OR?: ConferenceFeedbacksScalarWhereInput[]
+    NOT?: ConferenceFeedbacksScalarWhereInput | ConferenceFeedbacksScalarWhereInput[]
+    id?: StringFilter<"ConferenceFeedbacks"> | string
+    conferenceId?: StringFilter<"ConferenceFeedbacks"> | string
+    creatorId?: StringFilter<"ConferenceFeedbacks"> | string
+    description?: StringFilter<"ConferenceFeedbacks"> | string
+    star?: IntFilter<"ConferenceFeedbacks"> | number
+    createdAt?: DateTimeFilter<"ConferenceFeedbacks"> | Date | string
+    updatedAt?: DateTimeFilter<"ConferenceFeedbacks"> | Date | string
   }
 
   export type ConferenceFollowsUpsertWithWhereUniqueWithoutBelongsToInput = {
@@ -46933,33 +46111,6 @@ export namespace Prisma {
     userId?: StringFilter<"ConferenceLikes"> | string
     createdAt?: DateTimeFilter<"ConferenceLikes"> | Date | string
     updatedAt?: DateTimeFilter<"ConferenceLikes"> | Date | string
-  }
-
-  export type ConferenceCalendarsUpsertWithWhereUniqueWithoutBelongsToInput = {
-    where: ConferenceCalendarsWhereUniqueInput
-    update: XOR<ConferenceCalendarsUpdateWithoutBelongsToInput, ConferenceCalendarsUncheckedUpdateWithoutBelongsToInput>
-    create: XOR<ConferenceCalendarsCreateWithoutBelongsToInput, ConferenceCalendarsUncheckedCreateWithoutBelongsToInput>
-  }
-
-  export type ConferenceCalendarsUpdateWithWhereUniqueWithoutBelongsToInput = {
-    where: ConferenceCalendarsWhereUniqueInput
-    data: XOR<ConferenceCalendarsUpdateWithoutBelongsToInput, ConferenceCalendarsUncheckedUpdateWithoutBelongsToInput>
-  }
-
-  export type ConferenceCalendarsUpdateManyWithWhereWithoutBelongsToInput = {
-    where: ConferenceCalendarsScalarWhereInput
-    data: XOR<ConferenceCalendarsUpdateManyMutationInput, ConferenceCalendarsUncheckedUpdateManyWithoutBelongsToInput>
-  }
-
-  export type ConferenceCalendarsScalarWhereInput = {
-    AND?: ConferenceCalendarsScalarWhereInput | ConferenceCalendarsScalarWhereInput[]
-    OR?: ConferenceCalendarsScalarWhereInput[]
-    NOT?: ConferenceCalendarsScalarWhereInput | ConferenceCalendarsScalarWhereInput[]
-    id?: StringFilter<"ConferenceCalendars"> | string
-    conferenceId?: StringFilter<"ConferenceCalendars"> | string
-    userId?: StringFilter<"ConferenceCalendars"> | string
-    createdAt?: DateTimeFilter<"ConferenceCalendars"> | Date | string
-    updatedAt?: DateTimeFilter<"ConferenceCalendars"> | Date | string
   }
 
   export type ConferenceOrganizationsUpsertWithWhereUniqueWithoutBelongsToInput = {
@@ -47024,35 +46175,6 @@ export namespace Prisma {
     rankId?: StringFilter<"ConferenceRanks"> | string
   }
 
-  export type ConferenceCrawlJobsUpsertWithWhereUniqueWithoutBelongsToInput = {
-    where: ConferenceCrawlJobsWhereUniqueInput
-    update: XOR<ConferenceCrawlJobsUpdateWithoutBelongsToInput, ConferenceCrawlJobsUncheckedUpdateWithoutBelongsToInput>
-    create: XOR<ConferenceCrawlJobsCreateWithoutBelongsToInput, ConferenceCrawlJobsUncheckedCreateWithoutBelongsToInput>
-  }
-
-  export type ConferenceCrawlJobsUpdateWithWhereUniqueWithoutBelongsToInput = {
-    where: ConferenceCrawlJobsWhereUniqueInput
-    data: XOR<ConferenceCrawlJobsUpdateWithoutBelongsToInput, ConferenceCrawlJobsUncheckedUpdateWithoutBelongsToInput>
-  }
-
-  export type ConferenceCrawlJobsUpdateManyWithWhereWithoutBelongsToInput = {
-    where: ConferenceCrawlJobsScalarWhereInput
-    data: XOR<ConferenceCrawlJobsUpdateManyMutationInput, ConferenceCrawlJobsUncheckedUpdateManyWithoutBelongsToInput>
-  }
-
-  export type ConferenceCrawlJobsScalarWhereInput = {
-    AND?: ConferenceCrawlJobsScalarWhereInput | ConferenceCrawlJobsScalarWhereInput[]
-    OR?: ConferenceCrawlJobsScalarWhereInput[]
-    NOT?: ConferenceCrawlJobsScalarWhereInput | ConferenceCrawlJobsScalarWhereInput[]
-    id?: StringFilter<"ConferenceCrawlJobs"> | string
-    conferenceId?: StringFilter<"ConferenceCrawlJobs"> | string
-    status?: StringFilter<"ConferenceCrawlJobs"> | string
-    progress?: IntFilter<"ConferenceCrawlJobs"> | number
-    message?: StringFilter<"ConferenceCrawlJobs"> | string
-    createdAt?: DateTimeFilter<"ConferenceCrawlJobs"> | Date | string
-    updatedAt?: DateTimeFilter<"ConferenceCrawlJobs"> | Date | string
-  }
-
   export type UsersUpsertWithoutCreatedConferencesInput = {
     update: XOR<UsersUpdateWithoutCreatedConferencesInput, UsersUncheckedUpdateWithoutCreatedConferencesInput>
     create: XOR<UsersCreateWithoutCreatedConferencesInput, UsersUncheckedCreateWithoutCreatedConferencesInput>
@@ -47076,17 +46198,17 @@ export namespace Prisma {
     background?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
+    calendar?: ConferenceCalendarsUpdateManyWithoutByUserNestedInput
+    feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
     followConference?: ConferenceFollowsUpdateManyWithoutByUserNestedInput
     likes?: ConferenceLikesUpdateManyWithoutByUserNestedInput
-    calendar?: ConferenceCalendarsUpdateManyWithoutByUserNestedInput
-    interestedTopics?: TopicUserInterestedsUpdateManyWithoutBelongsToNestedInput
-    createdJournals?: JournalsUpdateManyWithoutCreatedByUserNestedInput
-    journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
     journalFollows?: JournalFollowsUpdateManyWithoutByUserNestedInput
-    feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
-    blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
-    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
+    journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
+    createdJournals?: JournalsUpdateManyWithoutCreatedByUserNestedInput
     notificationSettings?: NotificationSettingsUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
+    interestedTopics?: TopicUserInterestedsUpdateManyWithoutBelongsToNestedInput
     verification?: UserVerificationUpdateManyWithoutByUserNestedInput
   }
 
@@ -47102,17 +46224,17 @@ export namespace Prisma {
     background?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
+    calendar?: ConferenceCalendarsUncheckedUpdateManyWithoutByUserNestedInput
+    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
     followConference?: ConferenceFollowsUncheckedUpdateManyWithoutByUserNestedInput
     likes?: ConferenceLikesUncheckedUpdateManyWithoutByUserNestedInput
-    calendar?: ConferenceCalendarsUncheckedUpdateManyWithoutByUserNestedInput
-    interestedTopics?: TopicUserInterestedsUncheckedUpdateManyWithoutBelongsToNestedInput
-    createdJournals?: JournalsUncheckedUpdateManyWithoutCreatedByUserNestedInput
-    journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
     journalFollows?: JournalFollowsUncheckedUpdateManyWithoutByUserNestedInput
-    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
-    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
-    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
+    journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
+    createdJournals?: JournalsUncheckedUpdateManyWithoutCreatedByUserNestedInput
     notificationSettings?: NotificationSettingsUncheckedUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
+    interestedTopics?: TopicUserInterestedsUncheckedUpdateManyWithoutBelongsToNestedInput
     verification?: UserVerificationUncheckedUpdateManyWithoutByUserNestedInput
   }
 
@@ -47134,6 +46256,7 @@ export namespace Prisma {
     fullName?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdJournals?: JournalsUpdateManyWithoutCreateByAdminNestedInput
   }
 
   export type AdminsUncheckedUpdateWithoutCreatedConferencesInput = {
@@ -47143,62 +46266,48 @@ export namespace Prisma {
     fullName?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdJournals?: JournalsUncheckedUpdateManyWithoutCreateByAdminNestedInput
   }
 
-  export type ConferenceFeedbacksUpsertWithWhereUniqueWithoutBelongsToInput = {
-    where: ConferenceFeedbacksWhereUniqueInput
-    update: XOR<ConferenceFeedbacksUpdateWithoutBelongsToInput, ConferenceFeedbacksUncheckedUpdateWithoutBelongsToInput>
-    create: XOR<ConferenceFeedbacksCreateWithoutBelongsToInput, ConferenceFeedbacksUncheckedCreateWithoutBelongsToInput>
+  export type ConferencesCreateWithoutRanksInput = {
+    id?: string
+    title: string
+    acronym: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    status?: string
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutBelongsToInput
+    calendars?: ConferenceCalendarsCreateNestedManyWithoutBelongsToInput
+    crawlJobs?: ConferenceCrawlJobsCreateNestedManyWithoutBelongsToInput
+    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutBelongsToInput
+    follows?: ConferenceFollowsCreateNestedManyWithoutBelongsToInput
+    likes?: ConferenceLikesCreateNestedManyWithoutBelongsToInput
+    organizations?: ConferenceOrganizationsCreateNestedManyWithoutBelongsToInput
+    createdByUser?: UsersCreateNestedOneWithoutCreatedConferencesInput
+    createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
   }
 
-  export type ConferenceFeedbacksUpdateWithWhereUniqueWithoutBelongsToInput = {
-    where: ConferenceFeedbacksWhereUniqueInput
-    data: XOR<ConferenceFeedbacksUpdateWithoutBelongsToInput, ConferenceFeedbacksUncheckedUpdateWithoutBelongsToInput>
+  export type ConferencesUncheckedCreateWithoutRanksInput = {
+    id?: string
+    title: string
+    acronym: string
+    creatorId?: string | null
+    adminId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    status?: string
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput
+    calendars?: ConferenceCalendarsUncheckedCreateNestedManyWithoutBelongsToInput
+    crawlJobs?: ConferenceCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
+    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutBelongsToInput
+    follows?: ConferenceFollowsUncheckedCreateNestedManyWithoutBelongsToInput
+    likes?: ConferenceLikesUncheckedCreateNestedManyWithoutBelongsToInput
+    organizations?: ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
-  export type ConferenceFeedbacksUpdateManyWithWhereWithoutBelongsToInput = {
-    where: ConferenceFeedbacksScalarWhereInput
-    data: XOR<ConferenceFeedbacksUpdateManyMutationInput, ConferenceFeedbacksUncheckedUpdateManyWithoutBelongsToInput>
-  }
-
-  export type ConferenceFeedbacksScalarWhereInput = {
-    AND?: ConferenceFeedbacksScalarWhereInput | ConferenceFeedbacksScalarWhereInput[]
-    OR?: ConferenceFeedbacksScalarWhereInput[]
-    NOT?: ConferenceFeedbacksScalarWhereInput | ConferenceFeedbacksScalarWhereInput[]
-    id?: StringFilter<"ConferenceFeedbacks"> | string
-    conferenceId?: StringFilter<"ConferenceFeedbacks"> | string
-    creatorId?: StringFilter<"ConferenceFeedbacks"> | string
-    description?: StringFilter<"ConferenceFeedbacks"> | string
-    star?: IntFilter<"ConferenceFeedbacks"> | number
-    createdAt?: DateTimeFilter<"ConferenceFeedbacks"> | Date | string
-    updatedAt?: DateTimeFilter<"ConferenceFeedbacks"> | Date | string
-  }
-
-  export type ConferenceBlacklistsUpsertWithWhereUniqueWithoutBelongsToInput = {
-    where: ConferenceBlacklistsWhereUniqueInput
-    update: XOR<ConferenceBlacklistsUpdateWithoutBelongsToInput, ConferenceBlacklistsUncheckedUpdateWithoutBelongsToInput>
-    create: XOR<ConferenceBlacklistsCreateWithoutBelongsToInput, ConferenceBlacklistsUncheckedCreateWithoutBelongsToInput>
-  }
-
-  export type ConferenceBlacklistsUpdateWithWhereUniqueWithoutBelongsToInput = {
-    where: ConferenceBlacklistsWhereUniqueInput
-    data: XOR<ConferenceBlacklistsUpdateWithoutBelongsToInput, ConferenceBlacklistsUncheckedUpdateWithoutBelongsToInput>
-  }
-
-  export type ConferenceBlacklistsUpdateManyWithWhereWithoutBelongsToInput = {
-    where: ConferenceBlacklistsScalarWhereInput
-    data: XOR<ConferenceBlacklistsUpdateManyMutationInput, ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToInput>
-  }
-
-  export type ConferenceBlacklistsScalarWhereInput = {
-    AND?: ConferenceBlacklistsScalarWhereInput | ConferenceBlacklistsScalarWhereInput[]
-    OR?: ConferenceBlacklistsScalarWhereInput[]
-    NOT?: ConferenceBlacklistsScalarWhereInput | ConferenceBlacklistsScalarWhereInput[]
-    id?: StringFilter<"ConferenceBlacklists"> | string
-    conferenceId?: StringFilter<"ConferenceBlacklists"> | string
-    userId?: StringFilter<"ConferenceBlacklists"> | string
-    createdAt?: DateTimeFilter<"ConferenceBlacklists"> | Date | string
-    updatedAt?: DateTimeFilter<"ConferenceBlacklists"> | Date | string
+  export type ConferencesCreateOrConnectWithoutRanksInput = {
+    where: ConferencesWhereUniqueInput
+    create: XOR<ConferencesCreateWithoutRanksInput, ConferencesUncheckedCreateWithoutRanksInput>
   }
 
   export type FieldOfResearchsCreateWithoutConferenceRanksInput = {
@@ -47241,45 +46350,51 @@ export namespace Prisma {
     create: XOR<RanksCreateWithoutConferenceRanksInput, RanksUncheckedCreateWithoutConferenceRanksInput>
   }
 
-  export type ConferencesCreateWithoutRanksInput = {
-    id?: string
-    title: string
-    acronym: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    status: string
-    follows?: ConferenceFollowsCreateNestedManyWithoutBelongsToInput
-    likes?: ConferenceLikesCreateNestedManyWithoutBelongsToInput
-    calendars?: ConferenceCalendarsCreateNestedManyWithoutBelongsToInput
-    organizations?: ConferenceOrganizationsCreateNestedManyWithoutBelongsToInput
-    crawlJobs?: ConferenceCrawlJobsCreateNestedManyWithoutBelongsToInput
-    createdByUser?: UsersCreateNestedOneWithoutCreatedConferencesInput
-    createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
-    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutBelongsToInput
-    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutBelongsToInput
-  }
-
-  export type ConferencesUncheckedCreateWithoutRanksInput = {
-    id?: string
-    title: string
-    acronym: string
-    creatorId?: string | null
-    adminId?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    status: string
-    follows?: ConferenceFollowsUncheckedCreateNestedManyWithoutBelongsToInput
-    likes?: ConferenceLikesUncheckedCreateNestedManyWithoutBelongsToInput
-    calendars?: ConferenceCalendarsUncheckedCreateNestedManyWithoutBelongsToInput
-    organizations?: ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput
-    crawlJobs?: ConferenceCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
-    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutBelongsToInput
-    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput
-  }
-
-  export type ConferencesCreateOrConnectWithoutRanksInput = {
-    where: ConferencesWhereUniqueInput
+  export type ConferencesUpsertWithoutRanksInput = {
+    update: XOR<ConferencesUpdateWithoutRanksInput, ConferencesUncheckedUpdateWithoutRanksInput>
     create: XOR<ConferencesCreateWithoutRanksInput, ConferencesUncheckedCreateWithoutRanksInput>
+    where?: ConferencesWhereInput
+  }
+
+  export type ConferencesUpdateToOneWithWhereWithoutRanksInput = {
+    where?: ConferencesWhereInput
+    data: XOR<ConferencesUpdateWithoutRanksInput, ConferencesUncheckedUpdateWithoutRanksInput>
+  }
+
+  export type ConferencesUpdateWithoutRanksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    acronym?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput
+    calendars?: ConferenceCalendarsUpdateManyWithoutBelongsToNestedInput
+    crawlJobs?: ConferenceCrawlJobsUpdateManyWithoutBelongsToNestedInput
+    feedbacks?: ConferenceFeedbacksUpdateManyWithoutBelongsToNestedInput
+    follows?: ConferenceFollowsUpdateManyWithoutBelongsToNestedInput
+    likes?: ConferenceLikesUpdateManyWithoutBelongsToNestedInput
+    organizations?: ConferenceOrganizationsUpdateManyWithoutBelongsToNestedInput
+    createdByUser?: UsersUpdateOneWithoutCreatedConferencesNestedInput
+    createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
+  }
+
+  export type ConferencesUncheckedUpdateWithoutRanksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    acronym?: StringFieldUpdateOperationsInput | string
+    creatorId?: NullableStringFieldUpdateOperationsInput | string | null
+    adminId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput
+    calendars?: ConferenceCalendarsUncheckedUpdateManyWithoutBelongsToNestedInput
+    crawlJobs?: ConferenceCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
+    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutBelongsToNestedInput
+    follows?: ConferenceFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
+    likes?: ConferenceLikesUncheckedUpdateManyWithoutBelongsToNestedInput
+    organizations?: ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
   export type FieldOfResearchsUpsertWithoutConferenceRanksInput = {
@@ -47334,58 +46449,35 @@ export namespace Prisma {
     journalRanks?: JournalRanksUncheckedUpdateManyWithoutByRankNestedInput
   }
 
-  export type ConferencesUpsertWithoutRanksInput = {
-    update: XOR<ConferencesUpdateWithoutRanksInput, ConferencesUncheckedUpdateWithoutRanksInput>
-    create: XOR<ConferencesCreateWithoutRanksInput, ConferencesUncheckedCreateWithoutRanksInput>
-    where?: ConferencesWhereInput
+  export type ConferenceRanksCreateWithoutInFieldOfResearchInput = {
+    id?: string
+    year: number
+    belongsTo: ConferencesCreateNestedOneWithoutRanksInput
+    byRank: RanksCreateNestedOneWithoutConferenceRanksInput
   }
 
-  export type ConferencesUpdateToOneWithWhereWithoutRanksInput = {
-    where?: ConferencesWhereInput
-    data: XOR<ConferencesUpdateWithoutRanksInput, ConferencesUncheckedUpdateWithoutRanksInput>
+  export type ConferenceRanksUncheckedCreateWithoutInFieldOfResearchInput = {
+    id?: string
+    year: number
+    conferenceId: string
+    rankId: string
   }
 
-  export type ConferencesUpdateWithoutRanksInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    acronym?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
-    follows?: ConferenceFollowsUpdateManyWithoutBelongsToNestedInput
-    likes?: ConferenceLikesUpdateManyWithoutBelongsToNestedInput
-    calendars?: ConferenceCalendarsUpdateManyWithoutBelongsToNestedInput
-    organizations?: ConferenceOrganizationsUpdateManyWithoutBelongsToNestedInput
-    crawlJobs?: ConferenceCrawlJobsUpdateManyWithoutBelongsToNestedInput
-    createdByUser?: UsersUpdateOneWithoutCreatedConferencesNestedInput
-    createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
-    feedbacks?: ConferenceFeedbacksUpdateManyWithoutBelongsToNestedInput
-    blacklists?: ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput
+  export type ConferenceRanksCreateOrConnectWithoutInFieldOfResearchInput = {
+    where: ConferenceRanksWhereUniqueInput
+    create: XOR<ConferenceRanksCreateWithoutInFieldOfResearchInput, ConferenceRanksUncheckedCreateWithoutInFieldOfResearchInput>
   }
 
-  export type ConferencesUncheckedUpdateWithoutRanksInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    acronym?: StringFieldUpdateOperationsInput | string
-    creatorId?: NullableStringFieldUpdateOperationsInput | string | null
-    adminId?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: StringFieldUpdateOperationsInput | string
-    follows?: ConferenceFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
-    likes?: ConferenceLikesUncheckedUpdateManyWithoutBelongsToNestedInput
-    calendars?: ConferenceCalendarsUncheckedUpdateManyWithoutBelongsToNestedInput
-    organizations?: ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput
-    crawlJobs?: ConferenceCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
-    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutBelongsToNestedInput
-    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput
+  export type ConferenceRanksCreateManyInFieldOfResearchInputEnvelope = {
+    data: ConferenceRanksCreateManyInFieldOfResearchInput | ConferenceRanksCreateManyInFieldOfResearchInput[]
+    skipDuplicates?: boolean
   }
 
   export type JournalRanksCreateWithoutInFieldOfResearchInput = {
     id?: string
     year: number
-    byRank: RanksCreateNestedOneWithoutJournalRanksInput
     belongsTo: JournalsCreateNestedOneWithoutJournalRanksInput
+    byRank: RanksCreateNestedOneWithoutJournalRanksInput
   }
 
   export type JournalRanksUncheckedCreateWithoutInFieldOfResearchInput = {
@@ -47405,28 +46497,20 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type ConferenceRanksCreateWithoutInFieldOfResearchInput = {
-    id?: string
-    year: number
-    byRank: RanksCreateNestedOneWithoutConferenceRanksInput
-    belongsTo: ConferencesCreateNestedOneWithoutRanksInput
-  }
-
-  export type ConferenceRanksUncheckedCreateWithoutInFieldOfResearchInput = {
-    id?: string
-    year: number
-    conferenceId: string
-    rankId: string
-  }
-
-  export type ConferenceRanksCreateOrConnectWithoutInFieldOfResearchInput = {
+  export type ConferenceRanksUpsertWithWhereUniqueWithoutInFieldOfResearchInput = {
     where: ConferenceRanksWhereUniqueInput
+    update: XOR<ConferenceRanksUpdateWithoutInFieldOfResearchInput, ConferenceRanksUncheckedUpdateWithoutInFieldOfResearchInput>
     create: XOR<ConferenceRanksCreateWithoutInFieldOfResearchInput, ConferenceRanksUncheckedCreateWithoutInFieldOfResearchInput>
   }
 
-  export type ConferenceRanksCreateManyInFieldOfResearchInputEnvelope = {
-    data: ConferenceRanksCreateManyInFieldOfResearchInput | ConferenceRanksCreateManyInFieldOfResearchInput[]
-    skipDuplicates?: boolean
+  export type ConferenceRanksUpdateWithWhereUniqueWithoutInFieldOfResearchInput = {
+    where: ConferenceRanksWhereUniqueInput
+    data: XOR<ConferenceRanksUpdateWithoutInFieldOfResearchInput, ConferenceRanksUncheckedUpdateWithoutInFieldOfResearchInput>
+  }
+
+  export type ConferenceRanksUpdateManyWithWhereWithoutInFieldOfResearchInput = {
+    where: ConferenceRanksScalarWhereInput
+    data: XOR<ConferenceRanksUpdateManyMutationInput, ConferenceRanksUncheckedUpdateManyWithoutInFieldOfResearchInput>
   }
 
   export type JournalRanksUpsertWithWhereUniqueWithoutInFieldOfResearchInput = {
@@ -47456,27 +46540,11 @@ export namespace Prisma {
     rankId?: StringFilter<"JournalRanks"> | string
   }
 
-  export type ConferenceRanksUpsertWithWhereUniqueWithoutInFieldOfResearchInput = {
-    where: ConferenceRanksWhereUniqueInput
-    update: XOR<ConferenceRanksUpdateWithoutInFieldOfResearchInput, ConferenceRanksUncheckedUpdateWithoutInFieldOfResearchInput>
-    create: XOR<ConferenceRanksCreateWithoutInFieldOfResearchInput, ConferenceRanksUncheckedCreateWithoutInFieldOfResearchInput>
-  }
-
-  export type ConferenceRanksUpdateWithWhereUniqueWithoutInFieldOfResearchInput = {
-    where: ConferenceRanksWhereUniqueInput
-    data: XOR<ConferenceRanksUpdateWithoutInFieldOfResearchInput, ConferenceRanksUncheckedUpdateWithoutInFieldOfResearchInput>
-  }
-
-  export type ConferenceRanksUpdateManyWithWhereWithoutInFieldOfResearchInput = {
-    where: ConferenceRanksScalarWhereInput
-    data: XOR<ConferenceRanksUpdateManyMutationInput, ConferenceRanksUncheckedUpdateManyWithoutInFieldOfResearchInput>
-  }
-
   export type ConferenceRanksCreateWithoutByRankInput = {
     id?: string
     year: number
-    inFieldOfResearch: FieldOfResearchsCreateNestedOneWithoutConferenceRanksInput
     belongsTo: ConferencesCreateNestedOneWithoutRanksInput
+    inFieldOfResearch: FieldOfResearchsCreateNestedOneWithoutConferenceRanksInput
   }
 
   export type ConferenceRanksUncheckedCreateWithoutByRankInput = {
@@ -47644,6 +46712,45 @@ export namespace Prisma {
     sourceId?: StringFilter<"Ranks"> | string
   }
 
+  export type JournalsCreateWithoutTopicsInput = {
+    id?: string
+    name: string
+    issn: string
+    hIndex: number
+    publisher: string
+    nation: string
+    scope: string
+    emailSubmission: string
+    crawlJobs?: JournalCrawlJobsCreateNestedManyWithoutBelongsToInput
+    journalFollows?: JournalFollowsCreateNestedManyWithoutBelongsToInput
+    journalLikes?: JournalLikesCreateNestedManyWithoutBelongsToInput
+    journalRanks?: JournalRanksCreateNestedManyWithoutBelongsToInput
+    createdByUser?: UsersCreateNestedOneWithoutCreatedJournalsInput
+    createByAdmin?: AdminsCreateNestedOneWithoutCreatedJournalsInput
+  }
+
+  export type JournalsUncheckedCreateWithoutTopicsInput = {
+    id?: string
+    name: string
+    issn: string
+    hIndex: number
+    publisher: string
+    nation: string
+    scope: string
+    emailSubmission: string
+    creatorId?: string | null
+    adminId?: string | null
+    crawlJobs?: JournalCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
+    journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutBelongsToInput
+    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutBelongsToInput
+    journalRanks?: JournalRanksUncheckedCreateNestedManyWithoutBelongsToInput
+  }
+
+  export type JournalsCreateOrConnectWithoutTopicsInput = {
+    where: JournalsWhereUniqueInput
+    create: XOR<JournalsCreateWithoutTopicsInput, JournalsUncheckedCreateWithoutTopicsInput>
+  }
+
   export type TopicsCreateWithoutInJournalTopicsInput = {
     id?: string
     name: string
@@ -47667,41 +46774,49 @@ export namespace Prisma {
     create: XOR<TopicsCreateWithoutInJournalTopicsInput, TopicsUncheckedCreateWithoutInJournalTopicsInput>
   }
 
-  export type JournalsCreateWithoutTopicsInput = {
-    id?: string
-    name: string
-    issn: string
-    hIndex: number
-    publisher: string
-    nation: string
-    scope: string
-    emailSubmission: string
-    journalRanks?: JournalRanksCreateNestedManyWithoutBelongsToInput
-    journalLikes?: JournalLikesCreateNestedManyWithoutBelongsToInput
-    journalFollows?: JournalFollowsCreateNestedManyWithoutBelongsToInput
-    crawlJobs?: JournalCrawlJobsCreateNestedManyWithoutBelongsToInput
-    createdByUser: UsersCreateNestedOneWithoutCreatedJournalsInput
-  }
-
-  export type JournalsUncheckedCreateWithoutTopicsInput = {
-    id?: string
-    name: string
-    issn: string
-    hIndex: number
-    publisher: string
-    nation: string
-    scope: string
-    emailSubmission: string
-    creator: string
-    journalRanks?: JournalRanksUncheckedCreateNestedManyWithoutBelongsToInput
-    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutBelongsToInput
-    journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutBelongsToInput
-    crawlJobs?: JournalCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
-  }
-
-  export type JournalsCreateOrConnectWithoutTopicsInput = {
-    where: JournalsWhereUniqueInput
+  export type JournalsUpsertWithoutTopicsInput = {
+    update: XOR<JournalsUpdateWithoutTopicsInput, JournalsUncheckedUpdateWithoutTopicsInput>
     create: XOR<JournalsCreateWithoutTopicsInput, JournalsUncheckedCreateWithoutTopicsInput>
+    where?: JournalsWhereInput
+  }
+
+  export type JournalsUpdateToOneWithWhereWithoutTopicsInput = {
+    where?: JournalsWhereInput
+    data: XOR<JournalsUpdateWithoutTopicsInput, JournalsUncheckedUpdateWithoutTopicsInput>
+  }
+
+  export type JournalsUpdateWithoutTopicsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    issn?: StringFieldUpdateOperationsInput | string
+    hIndex?: IntFieldUpdateOperationsInput | number
+    publisher?: StringFieldUpdateOperationsInput | string
+    nation?: StringFieldUpdateOperationsInput | string
+    scope?: StringFieldUpdateOperationsInput | string
+    emailSubmission?: StringFieldUpdateOperationsInput | string
+    crawlJobs?: JournalCrawlJobsUpdateManyWithoutBelongsToNestedInput
+    journalFollows?: JournalFollowsUpdateManyWithoutBelongsToNestedInput
+    journalLikes?: JournalLikesUpdateManyWithoutBelongsToNestedInput
+    journalRanks?: JournalRanksUpdateManyWithoutBelongsToNestedInput
+    createdByUser?: UsersUpdateOneWithoutCreatedJournalsNestedInput
+    createByAdmin?: AdminsUpdateOneWithoutCreatedJournalsNestedInput
+  }
+
+  export type JournalsUncheckedUpdateWithoutTopicsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    issn?: StringFieldUpdateOperationsInput | string
+    hIndex?: IntFieldUpdateOperationsInput | number
+    publisher?: StringFieldUpdateOperationsInput | string
+    nation?: StringFieldUpdateOperationsInput | string
+    scope?: StringFieldUpdateOperationsInput | string
+    emailSubmission?: StringFieldUpdateOperationsInput | string
+    creatorId?: NullableStringFieldUpdateOperationsInput | string | null
+    adminId?: NullableStringFieldUpdateOperationsInput | string | null
+    crawlJobs?: JournalCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
+    journalFollows?: JournalFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
+    journalLikes?: JournalLikesUncheckedUpdateManyWithoutBelongsToNestedInput
+    journalRanks?: JournalRanksUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
   export type TopicsUpsertWithoutInJournalTopicsInput = {
@@ -47733,49 +46848,6 @@ export namespace Prisma {
     inInterested?: TopicUserInterestedsUncheckedUpdateManyWithoutInTopicNestedInput
   }
 
-  export type JournalsUpsertWithoutTopicsInput = {
-    update: XOR<JournalsUpdateWithoutTopicsInput, JournalsUncheckedUpdateWithoutTopicsInput>
-    create: XOR<JournalsCreateWithoutTopicsInput, JournalsUncheckedCreateWithoutTopicsInput>
-    where?: JournalsWhereInput
-  }
-
-  export type JournalsUpdateToOneWithWhereWithoutTopicsInput = {
-    where?: JournalsWhereInput
-    data: XOR<JournalsUpdateWithoutTopicsInput, JournalsUncheckedUpdateWithoutTopicsInput>
-  }
-
-  export type JournalsUpdateWithoutTopicsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    issn?: StringFieldUpdateOperationsInput | string
-    hIndex?: IntFieldUpdateOperationsInput | number
-    publisher?: StringFieldUpdateOperationsInput | string
-    nation?: StringFieldUpdateOperationsInput | string
-    scope?: StringFieldUpdateOperationsInput | string
-    emailSubmission?: StringFieldUpdateOperationsInput | string
-    journalRanks?: JournalRanksUpdateManyWithoutBelongsToNestedInput
-    journalLikes?: JournalLikesUpdateManyWithoutBelongsToNestedInput
-    journalFollows?: JournalFollowsUpdateManyWithoutBelongsToNestedInput
-    crawlJobs?: JournalCrawlJobsUpdateManyWithoutBelongsToNestedInput
-    createdByUser?: UsersUpdateOneRequiredWithoutCreatedJournalsNestedInput
-  }
-
-  export type JournalsUncheckedUpdateWithoutTopicsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    issn?: StringFieldUpdateOperationsInput | string
-    hIndex?: IntFieldUpdateOperationsInput | number
-    publisher?: StringFieldUpdateOperationsInput | string
-    nation?: StringFieldUpdateOperationsInput | string
-    scope?: StringFieldUpdateOperationsInput | string
-    emailSubmission?: StringFieldUpdateOperationsInput | string
-    creator?: StringFieldUpdateOperationsInput | string
-    journalRanks?: JournalRanksUncheckedUpdateManyWithoutBelongsToNestedInput
-    journalLikes?: JournalLikesUncheckedUpdateManyWithoutBelongsToNestedInput
-    journalFollows?: JournalFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
-    crawlJobs?: JournalCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
-  }
-
   export type FieldOfResearchsCreateWithoutJournalRanksInput = {
     id?: string
     name: string
@@ -47793,6 +46865,45 @@ export namespace Prisma {
   export type FieldOfResearchsCreateOrConnectWithoutJournalRanksInput = {
     where: FieldOfResearchsWhereUniqueInput
     create: XOR<FieldOfResearchsCreateWithoutJournalRanksInput, FieldOfResearchsUncheckedCreateWithoutJournalRanksInput>
+  }
+
+  export type JournalsCreateWithoutJournalRanksInput = {
+    id?: string
+    name: string
+    issn: string
+    hIndex: number
+    publisher: string
+    nation: string
+    scope: string
+    emailSubmission: string
+    crawlJobs?: JournalCrawlJobsCreateNestedManyWithoutBelongsToInput
+    journalFollows?: JournalFollowsCreateNestedManyWithoutBelongsToInput
+    journalLikes?: JournalLikesCreateNestedManyWithoutBelongsToInput
+    topics?: JournalTopicsCreateNestedManyWithoutInJournalsInput
+    createdByUser?: UsersCreateNestedOneWithoutCreatedJournalsInput
+    createByAdmin?: AdminsCreateNestedOneWithoutCreatedJournalsInput
+  }
+
+  export type JournalsUncheckedCreateWithoutJournalRanksInput = {
+    id?: string
+    name: string
+    issn: string
+    hIndex: number
+    publisher: string
+    nation: string
+    scope: string
+    emailSubmission: string
+    creatorId?: string | null
+    adminId?: string | null
+    crawlJobs?: JournalCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
+    journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutBelongsToInput
+    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutBelongsToInput
+    topics?: JournalTopicsUncheckedCreateNestedManyWithoutInJournalsInput
+  }
+
+  export type JournalsCreateOrConnectWithoutJournalRanksInput = {
+    where: JournalsWhereUniqueInput
+    create: XOR<JournalsCreateWithoutJournalRanksInput, JournalsUncheckedCreateWithoutJournalRanksInput>
   }
 
   export type RanksCreateWithoutJournalRanksInput = {
@@ -47814,43 +46925,6 @@ export namespace Prisma {
   export type RanksCreateOrConnectWithoutJournalRanksInput = {
     where: RanksWhereUniqueInput
     create: XOR<RanksCreateWithoutJournalRanksInput, RanksUncheckedCreateWithoutJournalRanksInput>
-  }
-
-  export type JournalsCreateWithoutJournalRanksInput = {
-    id?: string
-    name: string
-    issn: string
-    hIndex: number
-    publisher: string
-    nation: string
-    scope: string
-    emailSubmission: string
-    topics?: JournalTopicsCreateNestedManyWithoutInJournalsInput
-    journalLikes?: JournalLikesCreateNestedManyWithoutBelongsToInput
-    journalFollows?: JournalFollowsCreateNestedManyWithoutBelongsToInput
-    crawlJobs?: JournalCrawlJobsCreateNestedManyWithoutBelongsToInput
-    createdByUser: UsersCreateNestedOneWithoutCreatedJournalsInput
-  }
-
-  export type JournalsUncheckedCreateWithoutJournalRanksInput = {
-    id?: string
-    name: string
-    issn: string
-    hIndex: number
-    publisher: string
-    nation: string
-    scope: string
-    emailSubmission: string
-    creator: string
-    topics?: JournalTopicsUncheckedCreateNestedManyWithoutInJournalsInput
-    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutBelongsToInput
-    journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutBelongsToInput
-    crawlJobs?: JournalCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
-  }
-
-  export type JournalsCreateOrConnectWithoutJournalRanksInput = {
-    where: JournalsWhereUniqueInput
-    create: XOR<JournalsCreateWithoutJournalRanksInput, JournalsUncheckedCreateWithoutJournalRanksInput>
   }
 
   export type FieldOfResearchsUpsertWithoutJournalRanksInput = {
@@ -47878,6 +46952,51 @@ export namespace Prisma {
     conferenceRanks?: ConferenceRanksUncheckedUpdateManyWithoutInFieldOfResearchNestedInput
   }
 
+  export type JournalsUpsertWithoutJournalRanksInput = {
+    update: XOR<JournalsUpdateWithoutJournalRanksInput, JournalsUncheckedUpdateWithoutJournalRanksInput>
+    create: XOR<JournalsCreateWithoutJournalRanksInput, JournalsUncheckedCreateWithoutJournalRanksInput>
+    where?: JournalsWhereInput
+  }
+
+  export type JournalsUpdateToOneWithWhereWithoutJournalRanksInput = {
+    where?: JournalsWhereInput
+    data: XOR<JournalsUpdateWithoutJournalRanksInput, JournalsUncheckedUpdateWithoutJournalRanksInput>
+  }
+
+  export type JournalsUpdateWithoutJournalRanksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    issn?: StringFieldUpdateOperationsInput | string
+    hIndex?: IntFieldUpdateOperationsInput | number
+    publisher?: StringFieldUpdateOperationsInput | string
+    nation?: StringFieldUpdateOperationsInput | string
+    scope?: StringFieldUpdateOperationsInput | string
+    emailSubmission?: StringFieldUpdateOperationsInput | string
+    crawlJobs?: JournalCrawlJobsUpdateManyWithoutBelongsToNestedInput
+    journalFollows?: JournalFollowsUpdateManyWithoutBelongsToNestedInput
+    journalLikes?: JournalLikesUpdateManyWithoutBelongsToNestedInput
+    topics?: JournalTopicsUpdateManyWithoutInJournalsNestedInput
+    createdByUser?: UsersUpdateOneWithoutCreatedJournalsNestedInput
+    createByAdmin?: AdminsUpdateOneWithoutCreatedJournalsNestedInput
+  }
+
+  export type JournalsUncheckedUpdateWithoutJournalRanksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    issn?: StringFieldUpdateOperationsInput | string
+    hIndex?: IntFieldUpdateOperationsInput | number
+    publisher?: StringFieldUpdateOperationsInput | string
+    nation?: StringFieldUpdateOperationsInput | string
+    scope?: StringFieldUpdateOperationsInput | string
+    emailSubmission?: StringFieldUpdateOperationsInput | string
+    creatorId?: NullableStringFieldUpdateOperationsInput | string | null
+    adminId?: NullableStringFieldUpdateOperationsInput | string | null
+    crawlJobs?: JournalCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
+    journalFollows?: JournalFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
+    journalLikes?: JournalLikesUncheckedUpdateManyWithoutBelongsToNestedInput
+    topics?: JournalTopicsUncheckedUpdateManyWithoutInJournalsNestedInput
+  }
+
   export type RanksUpsertWithoutJournalRanksInput = {
     update: XOR<RanksUpdateWithoutJournalRanksInput, RanksUncheckedUpdateWithoutJournalRanksInput>
     create: XOR<RanksCreateWithoutJournalRanksInput, RanksUncheckedCreateWithoutJournalRanksInput>
@@ -47903,141 +47022,6 @@ export namespace Prisma {
     value?: IntFieldUpdateOperationsInput | number
     sourceId?: StringFieldUpdateOperationsInput | string
     conferenceRanks?: ConferenceRanksUncheckedUpdateManyWithoutByRankNestedInput
-  }
-
-  export type JournalsUpsertWithoutJournalRanksInput = {
-    update: XOR<JournalsUpdateWithoutJournalRanksInput, JournalsUncheckedUpdateWithoutJournalRanksInput>
-    create: XOR<JournalsCreateWithoutJournalRanksInput, JournalsUncheckedCreateWithoutJournalRanksInput>
-    where?: JournalsWhereInput
-  }
-
-  export type JournalsUpdateToOneWithWhereWithoutJournalRanksInput = {
-    where?: JournalsWhereInput
-    data: XOR<JournalsUpdateWithoutJournalRanksInput, JournalsUncheckedUpdateWithoutJournalRanksInput>
-  }
-
-  export type JournalsUpdateWithoutJournalRanksInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    issn?: StringFieldUpdateOperationsInput | string
-    hIndex?: IntFieldUpdateOperationsInput | number
-    publisher?: StringFieldUpdateOperationsInput | string
-    nation?: StringFieldUpdateOperationsInput | string
-    scope?: StringFieldUpdateOperationsInput | string
-    emailSubmission?: StringFieldUpdateOperationsInput | string
-    topics?: JournalTopicsUpdateManyWithoutInJournalsNestedInput
-    journalLikes?: JournalLikesUpdateManyWithoutBelongsToNestedInput
-    journalFollows?: JournalFollowsUpdateManyWithoutBelongsToNestedInput
-    crawlJobs?: JournalCrawlJobsUpdateManyWithoutBelongsToNestedInput
-    createdByUser?: UsersUpdateOneRequiredWithoutCreatedJournalsNestedInput
-  }
-
-  export type JournalsUncheckedUpdateWithoutJournalRanksInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    issn?: StringFieldUpdateOperationsInput | string
-    hIndex?: IntFieldUpdateOperationsInput | number
-    publisher?: StringFieldUpdateOperationsInput | string
-    nation?: StringFieldUpdateOperationsInput | string
-    scope?: StringFieldUpdateOperationsInput | string
-    emailSubmission?: StringFieldUpdateOperationsInput | string
-    creator?: StringFieldUpdateOperationsInput | string
-    topics?: JournalTopicsUncheckedUpdateManyWithoutInJournalsNestedInput
-    journalLikes?: JournalLikesUncheckedUpdateManyWithoutBelongsToNestedInput
-    journalFollows?: JournalFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
-    crawlJobs?: JournalCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
-  }
-
-  export type JournalTopicsCreateWithoutInJournalsInput = {
-    id?: string
-    belongsToTopics: TopicsCreateNestedOneWithoutInJournalTopicsInput
-  }
-
-  export type JournalTopicsUncheckedCreateWithoutInJournalsInput = {
-    id?: string
-    topicId: string
-  }
-
-  export type JournalTopicsCreateOrConnectWithoutInJournalsInput = {
-    where: JournalTopicsWhereUniqueInput
-    create: XOR<JournalTopicsCreateWithoutInJournalsInput, JournalTopicsUncheckedCreateWithoutInJournalsInput>
-  }
-
-  export type JournalTopicsCreateManyInJournalsInputEnvelope = {
-    data: JournalTopicsCreateManyInJournalsInput | JournalTopicsCreateManyInJournalsInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type JournalRanksCreateWithoutBelongsToInput = {
-    id?: string
-    year: number
-    inFieldOfResearch: FieldOfResearchsCreateNestedOneWithoutJournalRanksInput
-    byRank: RanksCreateNestedOneWithoutJournalRanksInput
-  }
-
-  export type JournalRanksUncheckedCreateWithoutBelongsToInput = {
-    id?: string
-    year: number
-    fieldOfResearchId: string
-    rankId: string
-  }
-
-  export type JournalRanksCreateOrConnectWithoutBelongsToInput = {
-    where: JournalRanksWhereUniqueInput
-    create: XOR<JournalRanksCreateWithoutBelongsToInput, JournalRanksUncheckedCreateWithoutBelongsToInput>
-  }
-
-  export type JournalRanksCreateManyBelongsToInputEnvelope = {
-    data: JournalRanksCreateManyBelongsToInput | JournalRanksCreateManyBelongsToInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type JournalLikesCreateWithoutBelongsToInput = {
-    id?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    byUser: UsersCreateNestedOneWithoutJournalLikesInput
-  }
-
-  export type JournalLikesUncheckedCreateWithoutBelongsToInput = {
-    id?: string
-    userId: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type JournalLikesCreateOrConnectWithoutBelongsToInput = {
-    where: JournalLikesWhereUniqueInput
-    create: XOR<JournalLikesCreateWithoutBelongsToInput, JournalLikesUncheckedCreateWithoutBelongsToInput>
-  }
-
-  export type JournalLikesCreateManyBelongsToInputEnvelope = {
-    data: JournalLikesCreateManyBelongsToInput | JournalLikesCreateManyBelongsToInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type JournalFollowsCreateWithoutBelongsToInput = {
-    id?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    byUser: UsersCreateNestedOneWithoutJournalFollowsInput
-  }
-
-  export type JournalFollowsUncheckedCreateWithoutBelongsToInput = {
-    id?: string
-    userId: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type JournalFollowsCreateOrConnectWithoutBelongsToInput = {
-    where: JournalFollowsWhereUniqueInput
-    create: XOR<JournalFollowsCreateWithoutBelongsToInput, JournalFollowsUncheckedCreateWithoutBelongsToInput>
-  }
-
-  export type JournalFollowsCreateManyBelongsToInputEnvelope = {
-    data: JournalFollowsCreateManyBelongsToInput | JournalFollowsCreateManyBelongsToInput[]
-    skipDuplicates?: boolean
   }
 
   export type JournalCrawlJobsCreateWithoutBelongsToInput = {
@@ -48068,6 +47052,98 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type JournalFollowsCreateWithoutBelongsToInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    byUser: UsersCreateNestedOneWithoutJournalFollowsInput
+  }
+
+  export type JournalFollowsUncheckedCreateWithoutBelongsToInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type JournalFollowsCreateOrConnectWithoutBelongsToInput = {
+    where: JournalFollowsWhereUniqueInput
+    create: XOR<JournalFollowsCreateWithoutBelongsToInput, JournalFollowsUncheckedCreateWithoutBelongsToInput>
+  }
+
+  export type JournalFollowsCreateManyBelongsToInputEnvelope = {
+    data: JournalFollowsCreateManyBelongsToInput | JournalFollowsCreateManyBelongsToInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type JournalLikesCreateWithoutBelongsToInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    byUser: UsersCreateNestedOneWithoutJournalLikesInput
+  }
+
+  export type JournalLikesUncheckedCreateWithoutBelongsToInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type JournalLikesCreateOrConnectWithoutBelongsToInput = {
+    where: JournalLikesWhereUniqueInput
+    create: XOR<JournalLikesCreateWithoutBelongsToInput, JournalLikesUncheckedCreateWithoutBelongsToInput>
+  }
+
+  export type JournalLikesCreateManyBelongsToInputEnvelope = {
+    data: JournalLikesCreateManyBelongsToInput | JournalLikesCreateManyBelongsToInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type JournalRanksCreateWithoutBelongsToInput = {
+    id?: string
+    year: number
+    inFieldOfResearch: FieldOfResearchsCreateNestedOneWithoutJournalRanksInput
+    byRank: RanksCreateNestedOneWithoutJournalRanksInput
+  }
+
+  export type JournalRanksUncheckedCreateWithoutBelongsToInput = {
+    id?: string
+    year: number
+    fieldOfResearchId: string
+    rankId: string
+  }
+
+  export type JournalRanksCreateOrConnectWithoutBelongsToInput = {
+    where: JournalRanksWhereUniqueInput
+    create: XOR<JournalRanksCreateWithoutBelongsToInput, JournalRanksUncheckedCreateWithoutBelongsToInput>
+  }
+
+  export type JournalRanksCreateManyBelongsToInputEnvelope = {
+    data: JournalRanksCreateManyBelongsToInput | JournalRanksCreateManyBelongsToInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type JournalTopicsCreateWithoutInJournalsInput = {
+    id?: string
+    belongsToTopics: TopicsCreateNestedOneWithoutInJournalTopicsInput
+  }
+
+  export type JournalTopicsUncheckedCreateWithoutInJournalsInput = {
+    id?: string
+    topicId: string
+  }
+
+  export type JournalTopicsCreateOrConnectWithoutInJournalsInput = {
+    where: JournalTopicsWhereUniqueInput
+    create: XOR<JournalTopicsCreateWithoutInJournalsInput, JournalTopicsUncheckedCreateWithoutInJournalsInput>
+  }
+
+  export type JournalTopicsCreateManyInJournalsInputEnvelope = {
+    data: JournalTopicsCreateManyInJournalsInput | JournalTopicsCreateManyInJournalsInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UsersCreateWithoutCreatedJournalsInput = {
     id?: string
     email: string
@@ -48080,17 +47156,17 @@ export namespace Prisma {
     background: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
+    calendar?: ConferenceCalendarsCreateNestedManyWithoutByUserInput
+    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
     followConference?: ConferenceFollowsCreateNestedManyWithoutByUserInput
     likes?: ConferenceLikesCreateNestedManyWithoutByUserInput
-    calendar?: ConferenceCalendarsCreateNestedManyWithoutByUserInput
     createdConferences?: ConferencesCreateNestedManyWithoutCreatedByUserInput
-    interestedTopics?: TopicUserInterestedsCreateNestedManyWithoutBelongsToInput
-    journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
     journalFollows?: JournalFollowsCreateNestedManyWithoutByUserInput
-    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
-    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
-    notifications?: NotificationsCreateNestedManyWithoutByUserInput
+    journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
     notificationSettings?: NotificationSettingsCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsCreateNestedManyWithoutByUserInput
+    interestedTopics?: TopicUserInterestedsCreateNestedManyWithoutBelongsToInput
     verification?: UserVerificationCreateNestedManyWithoutByUserInput
   }
 
@@ -48106,17 +47182,17 @@ export namespace Prisma {
     background: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
+    calendar?: ConferenceCalendarsUncheckedCreateNestedManyWithoutByUserInput
+    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
     followConference?: ConferenceFollowsUncheckedCreateNestedManyWithoutByUserInput
     likes?: ConferenceLikesUncheckedCreateNestedManyWithoutByUserInput
-    calendar?: ConferenceCalendarsUncheckedCreateNestedManyWithoutByUserInput
     createdConferences?: ConferencesUncheckedCreateNestedManyWithoutCreatedByUserInput
-    interestedTopics?: TopicUserInterestedsUncheckedCreateNestedManyWithoutBelongsToInput
-    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
     journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutByUserInput
-    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
-    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
-    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
+    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
     notificationSettings?: NotificationSettingsUncheckedCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
+    interestedTopics?: TopicUserInterestedsUncheckedCreateNestedManyWithoutBelongsToInput
     verification?: UserVerificationUncheckedCreateNestedManyWithoutByUserInput
   }
 
@@ -48125,90 +47201,29 @@ export namespace Prisma {
     create: XOR<UsersCreateWithoutCreatedJournalsInput, UsersUncheckedCreateWithoutCreatedJournalsInput>
   }
 
-  export type JournalTopicsUpsertWithWhereUniqueWithoutInJournalsInput = {
-    where: JournalTopicsWhereUniqueInput
-    update: XOR<JournalTopicsUpdateWithoutInJournalsInput, JournalTopicsUncheckedUpdateWithoutInJournalsInput>
-    create: XOR<JournalTopicsCreateWithoutInJournalsInput, JournalTopicsUncheckedCreateWithoutInJournalsInput>
+  export type AdminsCreateWithoutCreatedJournalsInput = {
+    id?: string
+    email: string
+    password: string
+    fullName: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdConferences?: ConferencesCreateNestedManyWithoutCreateByAdminInput
   }
 
-  export type JournalTopicsUpdateWithWhereUniqueWithoutInJournalsInput = {
-    where: JournalTopicsWhereUniqueInput
-    data: XOR<JournalTopicsUpdateWithoutInJournalsInput, JournalTopicsUncheckedUpdateWithoutInJournalsInput>
+  export type AdminsUncheckedCreateWithoutCreatedJournalsInput = {
+    id?: string
+    email: string
+    password: string
+    fullName: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdConferences?: ConferencesUncheckedCreateNestedManyWithoutCreateByAdminInput
   }
 
-  export type JournalTopicsUpdateManyWithWhereWithoutInJournalsInput = {
-    where: JournalTopicsScalarWhereInput
-    data: XOR<JournalTopicsUpdateManyMutationInput, JournalTopicsUncheckedUpdateManyWithoutInJournalsInput>
-  }
-
-  export type JournalRanksUpsertWithWhereUniqueWithoutBelongsToInput = {
-    where: JournalRanksWhereUniqueInput
-    update: XOR<JournalRanksUpdateWithoutBelongsToInput, JournalRanksUncheckedUpdateWithoutBelongsToInput>
-    create: XOR<JournalRanksCreateWithoutBelongsToInput, JournalRanksUncheckedCreateWithoutBelongsToInput>
-  }
-
-  export type JournalRanksUpdateWithWhereUniqueWithoutBelongsToInput = {
-    where: JournalRanksWhereUniqueInput
-    data: XOR<JournalRanksUpdateWithoutBelongsToInput, JournalRanksUncheckedUpdateWithoutBelongsToInput>
-  }
-
-  export type JournalRanksUpdateManyWithWhereWithoutBelongsToInput = {
-    where: JournalRanksScalarWhereInput
-    data: XOR<JournalRanksUpdateManyMutationInput, JournalRanksUncheckedUpdateManyWithoutBelongsToInput>
-  }
-
-  export type JournalLikesUpsertWithWhereUniqueWithoutBelongsToInput = {
-    where: JournalLikesWhereUniqueInput
-    update: XOR<JournalLikesUpdateWithoutBelongsToInput, JournalLikesUncheckedUpdateWithoutBelongsToInput>
-    create: XOR<JournalLikesCreateWithoutBelongsToInput, JournalLikesUncheckedCreateWithoutBelongsToInput>
-  }
-
-  export type JournalLikesUpdateWithWhereUniqueWithoutBelongsToInput = {
-    where: JournalLikesWhereUniqueInput
-    data: XOR<JournalLikesUpdateWithoutBelongsToInput, JournalLikesUncheckedUpdateWithoutBelongsToInput>
-  }
-
-  export type JournalLikesUpdateManyWithWhereWithoutBelongsToInput = {
-    where: JournalLikesScalarWhereInput
-    data: XOR<JournalLikesUpdateManyMutationInput, JournalLikesUncheckedUpdateManyWithoutBelongsToInput>
-  }
-
-  export type JournalLikesScalarWhereInput = {
-    AND?: JournalLikesScalarWhereInput | JournalLikesScalarWhereInput[]
-    OR?: JournalLikesScalarWhereInput[]
-    NOT?: JournalLikesScalarWhereInput | JournalLikesScalarWhereInput[]
-    id?: StringFilter<"JournalLikes"> | string
-    journalId?: StringFilter<"JournalLikes"> | string
-    userId?: StringFilter<"JournalLikes"> | string
-    createdAt?: DateTimeFilter<"JournalLikes"> | Date | string
-    updatedAt?: DateTimeFilter<"JournalLikes"> | Date | string
-  }
-
-  export type JournalFollowsUpsertWithWhereUniqueWithoutBelongsToInput = {
-    where: JournalFollowsWhereUniqueInput
-    update: XOR<JournalFollowsUpdateWithoutBelongsToInput, JournalFollowsUncheckedUpdateWithoutBelongsToInput>
-    create: XOR<JournalFollowsCreateWithoutBelongsToInput, JournalFollowsUncheckedCreateWithoutBelongsToInput>
-  }
-
-  export type JournalFollowsUpdateWithWhereUniqueWithoutBelongsToInput = {
-    where: JournalFollowsWhereUniqueInput
-    data: XOR<JournalFollowsUpdateWithoutBelongsToInput, JournalFollowsUncheckedUpdateWithoutBelongsToInput>
-  }
-
-  export type JournalFollowsUpdateManyWithWhereWithoutBelongsToInput = {
-    where: JournalFollowsScalarWhereInput
-    data: XOR<JournalFollowsUpdateManyMutationInput, JournalFollowsUncheckedUpdateManyWithoutBelongsToInput>
-  }
-
-  export type JournalFollowsScalarWhereInput = {
-    AND?: JournalFollowsScalarWhereInput | JournalFollowsScalarWhereInput[]
-    OR?: JournalFollowsScalarWhereInput[]
-    NOT?: JournalFollowsScalarWhereInput | JournalFollowsScalarWhereInput[]
-    id?: StringFilter<"JournalFollows"> | string
-    journalId?: StringFilter<"JournalFollows"> | string
-    userId?: StringFilter<"JournalFollows"> | string
-    createdAt?: DateTimeFilter<"JournalFollows"> | Date | string
-    updatedAt?: DateTimeFilter<"JournalFollows"> | Date | string
+  export type AdminsCreateOrConnectWithoutCreatedJournalsInput = {
+    where: AdminsWhereUniqueInput
+    create: XOR<AdminsCreateWithoutCreatedJournalsInput, AdminsUncheckedCreateWithoutCreatedJournalsInput>
   }
 
   export type JournalCrawlJobsUpsertWithWhereUniqueWithoutBelongsToInput = {
@@ -48240,6 +47255,92 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"JournalCrawlJobs"> | Date | string
   }
 
+  export type JournalFollowsUpsertWithWhereUniqueWithoutBelongsToInput = {
+    where: JournalFollowsWhereUniqueInput
+    update: XOR<JournalFollowsUpdateWithoutBelongsToInput, JournalFollowsUncheckedUpdateWithoutBelongsToInput>
+    create: XOR<JournalFollowsCreateWithoutBelongsToInput, JournalFollowsUncheckedCreateWithoutBelongsToInput>
+  }
+
+  export type JournalFollowsUpdateWithWhereUniqueWithoutBelongsToInput = {
+    where: JournalFollowsWhereUniqueInput
+    data: XOR<JournalFollowsUpdateWithoutBelongsToInput, JournalFollowsUncheckedUpdateWithoutBelongsToInput>
+  }
+
+  export type JournalFollowsUpdateManyWithWhereWithoutBelongsToInput = {
+    where: JournalFollowsScalarWhereInput
+    data: XOR<JournalFollowsUpdateManyMutationInput, JournalFollowsUncheckedUpdateManyWithoutBelongsToInput>
+  }
+
+  export type JournalFollowsScalarWhereInput = {
+    AND?: JournalFollowsScalarWhereInput | JournalFollowsScalarWhereInput[]
+    OR?: JournalFollowsScalarWhereInput[]
+    NOT?: JournalFollowsScalarWhereInput | JournalFollowsScalarWhereInput[]
+    id?: StringFilter<"JournalFollows"> | string
+    journalId?: StringFilter<"JournalFollows"> | string
+    userId?: StringFilter<"JournalFollows"> | string
+    createdAt?: DateTimeFilter<"JournalFollows"> | Date | string
+    updatedAt?: DateTimeFilter<"JournalFollows"> | Date | string
+  }
+
+  export type JournalLikesUpsertWithWhereUniqueWithoutBelongsToInput = {
+    where: JournalLikesWhereUniqueInput
+    update: XOR<JournalLikesUpdateWithoutBelongsToInput, JournalLikesUncheckedUpdateWithoutBelongsToInput>
+    create: XOR<JournalLikesCreateWithoutBelongsToInput, JournalLikesUncheckedCreateWithoutBelongsToInput>
+  }
+
+  export type JournalLikesUpdateWithWhereUniqueWithoutBelongsToInput = {
+    where: JournalLikesWhereUniqueInput
+    data: XOR<JournalLikesUpdateWithoutBelongsToInput, JournalLikesUncheckedUpdateWithoutBelongsToInput>
+  }
+
+  export type JournalLikesUpdateManyWithWhereWithoutBelongsToInput = {
+    where: JournalLikesScalarWhereInput
+    data: XOR<JournalLikesUpdateManyMutationInput, JournalLikesUncheckedUpdateManyWithoutBelongsToInput>
+  }
+
+  export type JournalLikesScalarWhereInput = {
+    AND?: JournalLikesScalarWhereInput | JournalLikesScalarWhereInput[]
+    OR?: JournalLikesScalarWhereInput[]
+    NOT?: JournalLikesScalarWhereInput | JournalLikesScalarWhereInput[]
+    id?: StringFilter<"JournalLikes"> | string
+    journalId?: StringFilter<"JournalLikes"> | string
+    userId?: StringFilter<"JournalLikes"> | string
+    createdAt?: DateTimeFilter<"JournalLikes"> | Date | string
+    updatedAt?: DateTimeFilter<"JournalLikes"> | Date | string
+  }
+
+  export type JournalRanksUpsertWithWhereUniqueWithoutBelongsToInput = {
+    where: JournalRanksWhereUniqueInput
+    update: XOR<JournalRanksUpdateWithoutBelongsToInput, JournalRanksUncheckedUpdateWithoutBelongsToInput>
+    create: XOR<JournalRanksCreateWithoutBelongsToInput, JournalRanksUncheckedCreateWithoutBelongsToInput>
+  }
+
+  export type JournalRanksUpdateWithWhereUniqueWithoutBelongsToInput = {
+    where: JournalRanksWhereUniqueInput
+    data: XOR<JournalRanksUpdateWithoutBelongsToInput, JournalRanksUncheckedUpdateWithoutBelongsToInput>
+  }
+
+  export type JournalRanksUpdateManyWithWhereWithoutBelongsToInput = {
+    where: JournalRanksScalarWhereInput
+    data: XOR<JournalRanksUpdateManyMutationInput, JournalRanksUncheckedUpdateManyWithoutBelongsToInput>
+  }
+
+  export type JournalTopicsUpsertWithWhereUniqueWithoutInJournalsInput = {
+    where: JournalTopicsWhereUniqueInput
+    update: XOR<JournalTopicsUpdateWithoutInJournalsInput, JournalTopicsUncheckedUpdateWithoutInJournalsInput>
+    create: XOR<JournalTopicsCreateWithoutInJournalsInput, JournalTopicsUncheckedCreateWithoutInJournalsInput>
+  }
+
+  export type JournalTopicsUpdateWithWhereUniqueWithoutInJournalsInput = {
+    where: JournalTopicsWhereUniqueInput
+    data: XOR<JournalTopicsUpdateWithoutInJournalsInput, JournalTopicsUncheckedUpdateWithoutInJournalsInput>
+  }
+
+  export type JournalTopicsUpdateManyWithWhereWithoutInJournalsInput = {
+    where: JournalTopicsScalarWhereInput
+    data: XOR<JournalTopicsUpdateManyMutationInput, JournalTopicsUncheckedUpdateManyWithoutInJournalsInput>
+  }
+
   export type UsersUpsertWithoutCreatedJournalsInput = {
     update: XOR<UsersUpdateWithoutCreatedJournalsInput, UsersUncheckedUpdateWithoutCreatedJournalsInput>
     create: XOR<UsersCreateWithoutCreatedJournalsInput, UsersUncheckedCreateWithoutCreatedJournalsInput>
@@ -48263,17 +47364,17 @@ export namespace Prisma {
     background?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
+    calendar?: ConferenceCalendarsUpdateManyWithoutByUserNestedInput
+    feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
     followConference?: ConferenceFollowsUpdateManyWithoutByUserNestedInput
     likes?: ConferenceLikesUpdateManyWithoutByUserNestedInput
-    calendar?: ConferenceCalendarsUpdateManyWithoutByUserNestedInput
     createdConferences?: ConferencesUpdateManyWithoutCreatedByUserNestedInput
-    interestedTopics?: TopicUserInterestedsUpdateManyWithoutBelongsToNestedInput
-    journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
     journalFollows?: JournalFollowsUpdateManyWithoutByUserNestedInput
-    feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
-    blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
-    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
+    journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
     notificationSettings?: NotificationSettingsUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
+    interestedTopics?: TopicUserInterestedsUpdateManyWithoutBelongsToNestedInput
     verification?: UserVerificationUpdateManyWithoutByUserNestedInput
   }
 
@@ -48289,18 +47390,49 @@ export namespace Prisma {
     background?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
+    calendar?: ConferenceCalendarsUncheckedUpdateManyWithoutByUserNestedInput
+    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
     followConference?: ConferenceFollowsUncheckedUpdateManyWithoutByUserNestedInput
     likes?: ConferenceLikesUncheckedUpdateManyWithoutByUserNestedInput
-    calendar?: ConferenceCalendarsUncheckedUpdateManyWithoutByUserNestedInput
     createdConferences?: ConferencesUncheckedUpdateManyWithoutCreatedByUserNestedInput
-    interestedTopics?: TopicUserInterestedsUncheckedUpdateManyWithoutBelongsToNestedInput
-    journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
     journalFollows?: JournalFollowsUncheckedUpdateManyWithoutByUserNestedInput
-    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
-    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
-    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
+    journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
     notificationSettings?: NotificationSettingsUncheckedUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
+    interestedTopics?: TopicUserInterestedsUncheckedUpdateManyWithoutBelongsToNestedInput
     verification?: UserVerificationUncheckedUpdateManyWithoutByUserNestedInput
+  }
+
+  export type AdminsUpsertWithoutCreatedJournalsInput = {
+    update: XOR<AdminsUpdateWithoutCreatedJournalsInput, AdminsUncheckedUpdateWithoutCreatedJournalsInput>
+    create: XOR<AdminsCreateWithoutCreatedJournalsInput, AdminsUncheckedCreateWithoutCreatedJournalsInput>
+    where?: AdminsWhereInput
+  }
+
+  export type AdminsUpdateToOneWithWhereWithoutCreatedJournalsInput = {
+    where?: AdminsWhereInput
+    data: XOR<AdminsUpdateWithoutCreatedJournalsInput, AdminsUncheckedUpdateWithoutCreatedJournalsInput>
+  }
+
+  export type AdminsUpdateWithoutCreatedJournalsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdConferences?: ConferencesUpdateManyWithoutCreateByAdminNestedInput
+  }
+
+  export type AdminsUncheckedUpdateWithoutCreatedJournalsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdConferences?: ConferencesUncheckedUpdateManyWithoutCreateByAdminNestedInput
   }
 
   export type ConferencesCreateWithoutFollowsInput = {
@@ -48309,16 +47441,16 @@ export namespace Prisma {
     acronym: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    status: string
-    likes?: ConferenceLikesCreateNestedManyWithoutBelongsToInput
+    status?: string
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutBelongsToInput
     calendars?: ConferenceCalendarsCreateNestedManyWithoutBelongsToInput
+    crawlJobs?: ConferenceCrawlJobsCreateNestedManyWithoutBelongsToInput
+    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutBelongsToInput
+    likes?: ConferenceLikesCreateNestedManyWithoutBelongsToInput
     organizations?: ConferenceOrganizationsCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
-    crawlJobs?: ConferenceCrawlJobsCreateNestedManyWithoutBelongsToInput
     createdByUser?: UsersCreateNestedOneWithoutCreatedConferencesInput
     createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
-    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutBelongsToInput
-    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesUncheckedCreateWithoutFollowsInput = {
@@ -48329,14 +47461,14 @@ export namespace Prisma {
     adminId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    status: string
-    likes?: ConferenceLikesUncheckedCreateNestedManyWithoutBelongsToInput
+    status?: string
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput
     calendars?: ConferenceCalendarsUncheckedCreateNestedManyWithoutBelongsToInput
-    organizations?: ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput
-    ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
     crawlJobs?: ConferenceCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
     feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutBelongsToInput
-    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput
+    likes?: ConferenceLikesUncheckedCreateNestedManyWithoutBelongsToInput
+    organizations?: ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput
+    ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesCreateOrConnectWithoutFollowsInput = {
@@ -48356,17 +47488,17 @@ export namespace Prisma {
     background: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    likes?: ConferenceLikesCreateNestedManyWithoutByUserInput
-    calendar?: ConferenceCalendarsCreateNestedManyWithoutByUserInput
-    createdConferences?: ConferencesCreateNestedManyWithoutCreatedByUserInput
-    interestedTopics?: TopicUserInterestedsCreateNestedManyWithoutBelongsToInput
-    createdJournals?: JournalsCreateNestedManyWithoutCreatedByUserInput
-    journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
-    journalFollows?: JournalFollowsCreateNestedManyWithoutByUserInput
-    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
     blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
-    notifications?: NotificationsCreateNestedManyWithoutByUserInput
+    calendar?: ConferenceCalendarsCreateNestedManyWithoutByUserInput
+    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
+    likes?: ConferenceLikesCreateNestedManyWithoutByUserInput
+    createdConferences?: ConferencesCreateNestedManyWithoutCreatedByUserInput
+    journalFollows?: JournalFollowsCreateNestedManyWithoutByUserInput
+    journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
+    createdJournals?: JournalsCreateNestedManyWithoutCreatedByUserInput
     notificationSettings?: NotificationSettingsCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsCreateNestedManyWithoutByUserInput
+    interestedTopics?: TopicUserInterestedsCreateNestedManyWithoutBelongsToInput
     verification?: UserVerificationCreateNestedManyWithoutByUserInput
   }
 
@@ -48382,17 +47514,17 @@ export namespace Prisma {
     background: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    likes?: ConferenceLikesUncheckedCreateNestedManyWithoutByUserInput
-    calendar?: ConferenceCalendarsUncheckedCreateNestedManyWithoutByUserInput
-    createdConferences?: ConferencesUncheckedCreateNestedManyWithoutCreatedByUserInput
-    interestedTopics?: TopicUserInterestedsUncheckedCreateNestedManyWithoutBelongsToInput
-    createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreatedByUserInput
-    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
-    journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutByUserInput
-    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
     blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
-    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
+    calendar?: ConferenceCalendarsUncheckedCreateNestedManyWithoutByUserInput
+    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
+    likes?: ConferenceLikesUncheckedCreateNestedManyWithoutByUserInput
+    createdConferences?: ConferencesUncheckedCreateNestedManyWithoutCreatedByUserInput
+    journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutByUserInput
+    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
+    createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreatedByUserInput
     notificationSettings?: NotificationSettingsUncheckedCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
+    interestedTopics?: TopicUserInterestedsUncheckedCreateNestedManyWithoutBelongsToInput
     verification?: UserVerificationUncheckedCreateNestedManyWithoutByUserInput
   }
 
@@ -48419,15 +47551,15 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
-    likes?: ConferenceLikesUpdateManyWithoutBelongsToNestedInput
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput
     calendars?: ConferenceCalendarsUpdateManyWithoutBelongsToNestedInput
+    crawlJobs?: ConferenceCrawlJobsUpdateManyWithoutBelongsToNestedInput
+    feedbacks?: ConferenceFeedbacksUpdateManyWithoutBelongsToNestedInput
+    likes?: ConferenceLikesUpdateManyWithoutBelongsToNestedInput
     organizations?: ConferenceOrganizationsUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
-    crawlJobs?: ConferenceCrawlJobsUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneWithoutCreatedConferencesNestedInput
     createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
-    feedbacks?: ConferenceFeedbacksUpdateManyWithoutBelongsToNestedInput
-    blacklists?: ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateWithoutFollowsInput = {
@@ -48439,13 +47571,13 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
-    likes?: ConferenceLikesUncheckedUpdateManyWithoutBelongsToNestedInput
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput
     calendars?: ConferenceCalendarsUncheckedUpdateManyWithoutBelongsToNestedInput
-    organizations?: ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput
-    ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
     crawlJobs?: ConferenceCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
     feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutBelongsToNestedInput
-    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput
+    likes?: ConferenceLikesUncheckedUpdateManyWithoutBelongsToNestedInput
+    organizations?: ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput
+    ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
   export type UsersUpsertWithoutFollowConferenceInput = {
@@ -48471,17 +47603,17 @@ export namespace Prisma {
     background?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    likes?: ConferenceLikesUpdateManyWithoutByUserNestedInput
-    calendar?: ConferenceCalendarsUpdateManyWithoutByUserNestedInput
-    createdConferences?: ConferencesUpdateManyWithoutCreatedByUserNestedInput
-    interestedTopics?: TopicUserInterestedsUpdateManyWithoutBelongsToNestedInput
-    createdJournals?: JournalsUpdateManyWithoutCreatedByUserNestedInput
-    journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
-    journalFollows?: JournalFollowsUpdateManyWithoutByUserNestedInput
-    feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
     blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
-    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
+    calendar?: ConferenceCalendarsUpdateManyWithoutByUserNestedInput
+    feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
+    likes?: ConferenceLikesUpdateManyWithoutByUserNestedInput
+    createdConferences?: ConferencesUpdateManyWithoutCreatedByUserNestedInput
+    journalFollows?: JournalFollowsUpdateManyWithoutByUserNestedInput
+    journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
+    createdJournals?: JournalsUpdateManyWithoutCreatedByUserNestedInput
     notificationSettings?: NotificationSettingsUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
+    interestedTopics?: TopicUserInterestedsUpdateManyWithoutBelongsToNestedInput
     verification?: UserVerificationUpdateManyWithoutByUserNestedInput
   }
 
@@ -48497,17 +47629,17 @@ export namespace Prisma {
     background?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    likes?: ConferenceLikesUncheckedUpdateManyWithoutByUserNestedInput
-    calendar?: ConferenceCalendarsUncheckedUpdateManyWithoutByUserNestedInput
-    createdConferences?: ConferencesUncheckedUpdateManyWithoutCreatedByUserNestedInput
-    interestedTopics?: TopicUserInterestedsUncheckedUpdateManyWithoutBelongsToNestedInput
-    createdJournals?: JournalsUncheckedUpdateManyWithoutCreatedByUserNestedInput
-    journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
-    journalFollows?: JournalFollowsUncheckedUpdateManyWithoutByUserNestedInput
-    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
     blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
-    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
+    calendar?: ConferenceCalendarsUncheckedUpdateManyWithoutByUserNestedInput
+    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
+    likes?: ConferenceLikesUncheckedUpdateManyWithoutByUserNestedInput
+    createdConferences?: ConferencesUncheckedUpdateManyWithoutCreatedByUserNestedInput
+    journalFollows?: JournalFollowsUncheckedUpdateManyWithoutByUserNestedInput
+    journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
+    createdJournals?: JournalsUncheckedUpdateManyWithoutCreatedByUserNestedInput
     notificationSettings?: NotificationSettingsUncheckedUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
+    interestedTopics?: TopicUserInterestedsUncheckedUpdateManyWithoutBelongsToNestedInput
     verification?: UserVerificationUncheckedUpdateManyWithoutByUserNestedInput
   }
 
@@ -48517,16 +47649,16 @@ export namespace Prisma {
     acronym: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    status: string
-    follows?: ConferenceFollowsCreateNestedManyWithoutBelongsToInput
+    status?: string
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutBelongsToInput
     calendars?: ConferenceCalendarsCreateNestedManyWithoutBelongsToInput
+    crawlJobs?: ConferenceCrawlJobsCreateNestedManyWithoutBelongsToInput
+    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutBelongsToInput
+    follows?: ConferenceFollowsCreateNestedManyWithoutBelongsToInput
     organizations?: ConferenceOrganizationsCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
-    crawlJobs?: ConferenceCrawlJobsCreateNestedManyWithoutBelongsToInput
     createdByUser?: UsersCreateNestedOneWithoutCreatedConferencesInput
     createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
-    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutBelongsToInput
-    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesUncheckedCreateWithoutLikesInput = {
@@ -48537,14 +47669,14 @@ export namespace Prisma {
     adminId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    status: string
-    follows?: ConferenceFollowsUncheckedCreateNestedManyWithoutBelongsToInput
+    status?: string
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput
     calendars?: ConferenceCalendarsUncheckedCreateNestedManyWithoutBelongsToInput
-    organizations?: ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput
-    ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
     crawlJobs?: ConferenceCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
     feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutBelongsToInput
-    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput
+    follows?: ConferenceFollowsUncheckedCreateNestedManyWithoutBelongsToInput
+    organizations?: ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput
+    ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesCreateOrConnectWithoutLikesInput = {
@@ -48564,17 +47696,17 @@ export namespace Prisma {
     background: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    followConference?: ConferenceFollowsCreateNestedManyWithoutByUserInput
-    calendar?: ConferenceCalendarsCreateNestedManyWithoutByUserInput
-    createdConferences?: ConferencesCreateNestedManyWithoutCreatedByUserInput
-    interestedTopics?: TopicUserInterestedsCreateNestedManyWithoutBelongsToInput
-    createdJournals?: JournalsCreateNestedManyWithoutCreatedByUserInput
-    journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
-    journalFollows?: JournalFollowsCreateNestedManyWithoutByUserInput
-    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
     blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
-    notifications?: NotificationsCreateNestedManyWithoutByUserInput
+    calendar?: ConferenceCalendarsCreateNestedManyWithoutByUserInput
+    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
+    followConference?: ConferenceFollowsCreateNestedManyWithoutByUserInput
+    createdConferences?: ConferencesCreateNestedManyWithoutCreatedByUserInput
+    journalFollows?: JournalFollowsCreateNestedManyWithoutByUserInput
+    journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
+    createdJournals?: JournalsCreateNestedManyWithoutCreatedByUserInput
     notificationSettings?: NotificationSettingsCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsCreateNestedManyWithoutByUserInput
+    interestedTopics?: TopicUserInterestedsCreateNestedManyWithoutBelongsToInput
     verification?: UserVerificationCreateNestedManyWithoutByUserInput
   }
 
@@ -48590,17 +47722,17 @@ export namespace Prisma {
     background: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    followConference?: ConferenceFollowsUncheckedCreateNestedManyWithoutByUserInput
-    calendar?: ConferenceCalendarsUncheckedCreateNestedManyWithoutByUserInput
-    createdConferences?: ConferencesUncheckedCreateNestedManyWithoutCreatedByUserInput
-    interestedTopics?: TopicUserInterestedsUncheckedCreateNestedManyWithoutBelongsToInput
-    createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreatedByUserInput
-    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
-    journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutByUserInput
-    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
     blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
-    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
+    calendar?: ConferenceCalendarsUncheckedCreateNestedManyWithoutByUserInput
+    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
+    followConference?: ConferenceFollowsUncheckedCreateNestedManyWithoutByUserInput
+    createdConferences?: ConferencesUncheckedCreateNestedManyWithoutCreatedByUserInput
+    journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutByUserInput
+    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
+    createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreatedByUserInput
     notificationSettings?: NotificationSettingsUncheckedCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
+    interestedTopics?: TopicUserInterestedsUncheckedCreateNestedManyWithoutBelongsToInput
     verification?: UserVerificationUncheckedCreateNestedManyWithoutByUserInput
   }
 
@@ -48627,15 +47759,15 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
-    follows?: ConferenceFollowsUpdateManyWithoutBelongsToNestedInput
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput
     calendars?: ConferenceCalendarsUpdateManyWithoutBelongsToNestedInput
+    crawlJobs?: ConferenceCrawlJobsUpdateManyWithoutBelongsToNestedInput
+    feedbacks?: ConferenceFeedbacksUpdateManyWithoutBelongsToNestedInput
+    follows?: ConferenceFollowsUpdateManyWithoutBelongsToNestedInput
     organizations?: ConferenceOrganizationsUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
-    crawlJobs?: ConferenceCrawlJobsUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneWithoutCreatedConferencesNestedInput
     createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
-    feedbacks?: ConferenceFeedbacksUpdateManyWithoutBelongsToNestedInput
-    blacklists?: ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateWithoutLikesInput = {
@@ -48647,13 +47779,13 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
-    follows?: ConferenceFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput
     calendars?: ConferenceCalendarsUncheckedUpdateManyWithoutBelongsToNestedInput
-    organizations?: ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput
-    ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
     crawlJobs?: ConferenceCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
     feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutBelongsToNestedInput
-    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput
+    follows?: ConferenceFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
+    organizations?: ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput
+    ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
   export type UsersUpsertWithoutLikesInput = {
@@ -48679,17 +47811,17 @@ export namespace Prisma {
     background?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followConference?: ConferenceFollowsUpdateManyWithoutByUserNestedInput
-    calendar?: ConferenceCalendarsUpdateManyWithoutByUserNestedInput
-    createdConferences?: ConferencesUpdateManyWithoutCreatedByUserNestedInput
-    interestedTopics?: TopicUserInterestedsUpdateManyWithoutBelongsToNestedInput
-    createdJournals?: JournalsUpdateManyWithoutCreatedByUserNestedInput
-    journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
-    journalFollows?: JournalFollowsUpdateManyWithoutByUserNestedInput
-    feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
     blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
-    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
+    calendar?: ConferenceCalendarsUpdateManyWithoutByUserNestedInput
+    feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
+    followConference?: ConferenceFollowsUpdateManyWithoutByUserNestedInput
+    createdConferences?: ConferencesUpdateManyWithoutCreatedByUserNestedInput
+    journalFollows?: JournalFollowsUpdateManyWithoutByUserNestedInput
+    journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
+    createdJournals?: JournalsUpdateManyWithoutCreatedByUserNestedInput
     notificationSettings?: NotificationSettingsUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
+    interestedTopics?: TopicUserInterestedsUpdateManyWithoutBelongsToNestedInput
     verification?: UserVerificationUpdateManyWithoutByUserNestedInput
   }
 
@@ -48705,17 +47837,17 @@ export namespace Prisma {
     background?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followConference?: ConferenceFollowsUncheckedUpdateManyWithoutByUserNestedInput
-    calendar?: ConferenceCalendarsUncheckedUpdateManyWithoutByUserNestedInput
-    createdConferences?: ConferencesUncheckedUpdateManyWithoutCreatedByUserNestedInput
-    interestedTopics?: TopicUserInterestedsUncheckedUpdateManyWithoutBelongsToNestedInput
-    createdJournals?: JournalsUncheckedUpdateManyWithoutCreatedByUserNestedInput
-    journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
-    journalFollows?: JournalFollowsUncheckedUpdateManyWithoutByUserNestedInput
-    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
     blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
-    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
+    calendar?: ConferenceCalendarsUncheckedUpdateManyWithoutByUserNestedInput
+    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
+    followConference?: ConferenceFollowsUncheckedUpdateManyWithoutByUserNestedInput
+    createdConferences?: ConferencesUncheckedUpdateManyWithoutCreatedByUserNestedInput
+    journalFollows?: JournalFollowsUncheckedUpdateManyWithoutByUserNestedInput
+    journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
+    createdJournals?: JournalsUncheckedUpdateManyWithoutCreatedByUserNestedInput
     notificationSettings?: NotificationSettingsUncheckedUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
+    interestedTopics?: TopicUserInterestedsUncheckedUpdateManyWithoutBelongsToNestedInput
     verification?: UserVerificationUncheckedUpdateManyWithoutByUserNestedInput
   }
 
@@ -48725,16 +47857,16 @@ export namespace Prisma {
     acronym: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    status: string
+    status?: string
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutBelongsToInput
+    calendars?: ConferenceCalendarsCreateNestedManyWithoutBelongsToInput
+    crawlJobs?: ConferenceCrawlJobsCreateNestedManyWithoutBelongsToInput
     follows?: ConferenceFollowsCreateNestedManyWithoutBelongsToInput
     likes?: ConferenceLikesCreateNestedManyWithoutBelongsToInput
-    calendars?: ConferenceCalendarsCreateNestedManyWithoutBelongsToInput
     organizations?: ConferenceOrganizationsCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
-    crawlJobs?: ConferenceCrawlJobsCreateNestedManyWithoutBelongsToInput
     createdByUser?: UsersCreateNestedOneWithoutCreatedConferencesInput
     createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
-    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesUncheckedCreateWithoutFeedbacksInput = {
@@ -48745,14 +47877,14 @@ export namespace Prisma {
     adminId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    status: string
+    status?: string
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput
+    calendars?: ConferenceCalendarsUncheckedCreateNestedManyWithoutBelongsToInput
+    crawlJobs?: ConferenceCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
     follows?: ConferenceFollowsUncheckedCreateNestedManyWithoutBelongsToInput
     likes?: ConferenceLikesUncheckedCreateNestedManyWithoutBelongsToInput
-    calendars?: ConferenceCalendarsUncheckedCreateNestedManyWithoutBelongsToInput
     organizations?: ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
-    crawlJobs?: ConferenceCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
-    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesCreateOrConnectWithoutFeedbacksInput = {
@@ -48772,17 +47904,17 @@ export namespace Prisma {
     background: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
+    calendar?: ConferenceCalendarsCreateNestedManyWithoutByUserInput
     followConference?: ConferenceFollowsCreateNestedManyWithoutByUserInput
     likes?: ConferenceLikesCreateNestedManyWithoutByUserInput
-    calendar?: ConferenceCalendarsCreateNestedManyWithoutByUserInput
     createdConferences?: ConferencesCreateNestedManyWithoutCreatedByUserInput
-    interestedTopics?: TopicUserInterestedsCreateNestedManyWithoutBelongsToInput
-    createdJournals?: JournalsCreateNestedManyWithoutCreatedByUserInput
-    journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
     journalFollows?: JournalFollowsCreateNestedManyWithoutByUserInput
-    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
-    notifications?: NotificationsCreateNestedManyWithoutByUserInput
+    journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
+    createdJournals?: JournalsCreateNestedManyWithoutCreatedByUserInput
     notificationSettings?: NotificationSettingsCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsCreateNestedManyWithoutByUserInput
+    interestedTopics?: TopicUserInterestedsCreateNestedManyWithoutBelongsToInput
     verification?: UserVerificationCreateNestedManyWithoutByUserInput
   }
 
@@ -48798,17 +47930,17 @@ export namespace Prisma {
     background: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
+    calendar?: ConferenceCalendarsUncheckedCreateNestedManyWithoutByUserInput
     followConference?: ConferenceFollowsUncheckedCreateNestedManyWithoutByUserInput
     likes?: ConferenceLikesUncheckedCreateNestedManyWithoutByUserInput
-    calendar?: ConferenceCalendarsUncheckedCreateNestedManyWithoutByUserInput
     createdConferences?: ConferencesUncheckedCreateNestedManyWithoutCreatedByUserInput
-    interestedTopics?: TopicUserInterestedsUncheckedCreateNestedManyWithoutBelongsToInput
-    createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreatedByUserInput
-    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
     journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutByUserInput
-    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
-    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
+    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
+    createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreatedByUserInput
     notificationSettings?: NotificationSettingsUncheckedCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
+    interestedTopics?: TopicUserInterestedsUncheckedCreateNestedManyWithoutBelongsToInput
     verification?: UserVerificationUncheckedCreateNestedManyWithoutByUserInput
   }
 
@@ -48835,15 +47967,15 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput
+    calendars?: ConferenceCalendarsUpdateManyWithoutBelongsToNestedInput
+    crawlJobs?: ConferenceCrawlJobsUpdateManyWithoutBelongsToNestedInput
     follows?: ConferenceFollowsUpdateManyWithoutBelongsToNestedInput
     likes?: ConferenceLikesUpdateManyWithoutBelongsToNestedInput
-    calendars?: ConferenceCalendarsUpdateManyWithoutBelongsToNestedInput
     organizations?: ConferenceOrganizationsUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
-    crawlJobs?: ConferenceCrawlJobsUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneWithoutCreatedConferencesNestedInput
     createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
-    blacklists?: ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateWithoutFeedbacksInput = {
@@ -48855,13 +47987,13 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput
+    calendars?: ConferenceCalendarsUncheckedUpdateManyWithoutBelongsToNestedInput
+    crawlJobs?: ConferenceCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
     follows?: ConferenceFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
     likes?: ConferenceLikesUncheckedUpdateManyWithoutBelongsToNestedInput
-    calendars?: ConferenceCalendarsUncheckedUpdateManyWithoutBelongsToNestedInput
     organizations?: ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
-    crawlJobs?: ConferenceCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
-    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
   export type UsersUpsertWithoutFeedbacksInput = {
@@ -48887,17 +48019,17 @@ export namespace Prisma {
     background?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
+    calendar?: ConferenceCalendarsUpdateManyWithoutByUserNestedInput
     followConference?: ConferenceFollowsUpdateManyWithoutByUserNestedInput
     likes?: ConferenceLikesUpdateManyWithoutByUserNestedInput
-    calendar?: ConferenceCalendarsUpdateManyWithoutByUserNestedInput
     createdConferences?: ConferencesUpdateManyWithoutCreatedByUserNestedInput
-    interestedTopics?: TopicUserInterestedsUpdateManyWithoutBelongsToNestedInput
-    createdJournals?: JournalsUpdateManyWithoutCreatedByUserNestedInput
-    journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
     journalFollows?: JournalFollowsUpdateManyWithoutByUserNestedInput
-    blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
-    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
+    journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
+    createdJournals?: JournalsUpdateManyWithoutCreatedByUserNestedInput
     notificationSettings?: NotificationSettingsUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
+    interestedTopics?: TopicUserInterestedsUpdateManyWithoutBelongsToNestedInput
     verification?: UserVerificationUpdateManyWithoutByUserNestedInput
   }
 
@@ -48913,17 +48045,17 @@ export namespace Prisma {
     background?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
+    calendar?: ConferenceCalendarsUncheckedUpdateManyWithoutByUserNestedInput
     followConference?: ConferenceFollowsUncheckedUpdateManyWithoutByUserNestedInput
     likes?: ConferenceLikesUncheckedUpdateManyWithoutByUserNestedInput
-    calendar?: ConferenceCalendarsUncheckedUpdateManyWithoutByUserNestedInput
     createdConferences?: ConferencesUncheckedUpdateManyWithoutCreatedByUserNestedInput
-    interestedTopics?: TopicUserInterestedsUncheckedUpdateManyWithoutBelongsToNestedInput
-    createdJournals?: JournalsUncheckedUpdateManyWithoutCreatedByUserNestedInput
-    journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
     journalFollows?: JournalFollowsUncheckedUpdateManyWithoutByUserNestedInput
-    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
-    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
+    journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
+    createdJournals?: JournalsUncheckedUpdateManyWithoutCreatedByUserNestedInput
     notificationSettings?: NotificationSettingsUncheckedUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
+    interestedTopics?: TopicUserInterestedsUncheckedUpdateManyWithoutBelongsToNestedInput
     verification?: UserVerificationUncheckedUpdateManyWithoutByUserNestedInput
   }
 
@@ -48933,16 +48065,16 @@ export namespace Prisma {
     acronym: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    status: string
+    status?: string
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutBelongsToInput
+    crawlJobs?: ConferenceCrawlJobsCreateNestedManyWithoutBelongsToInput
+    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutBelongsToInput
     follows?: ConferenceFollowsCreateNestedManyWithoutBelongsToInput
     likes?: ConferenceLikesCreateNestedManyWithoutBelongsToInput
     organizations?: ConferenceOrganizationsCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
-    crawlJobs?: ConferenceCrawlJobsCreateNestedManyWithoutBelongsToInput
     createdByUser?: UsersCreateNestedOneWithoutCreatedConferencesInput
     createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
-    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutBelongsToInput
-    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesUncheckedCreateWithoutCalendarsInput = {
@@ -48953,14 +48085,14 @@ export namespace Prisma {
     adminId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    status: string
+    status?: string
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput
+    crawlJobs?: ConferenceCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
+    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutBelongsToInput
     follows?: ConferenceFollowsUncheckedCreateNestedManyWithoutBelongsToInput
     likes?: ConferenceLikesUncheckedCreateNestedManyWithoutBelongsToInput
     organizations?: ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
-    crawlJobs?: ConferenceCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
-    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutBelongsToInput
-    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesCreateOrConnectWithoutCalendarsInput = {
@@ -48980,17 +48112,17 @@ export namespace Prisma {
     background: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
+    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
     followConference?: ConferenceFollowsCreateNestedManyWithoutByUserInput
     likes?: ConferenceLikesCreateNestedManyWithoutByUserInput
     createdConferences?: ConferencesCreateNestedManyWithoutCreatedByUserInput
-    interestedTopics?: TopicUserInterestedsCreateNestedManyWithoutBelongsToInput
-    createdJournals?: JournalsCreateNestedManyWithoutCreatedByUserInput
-    journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
     journalFollows?: JournalFollowsCreateNestedManyWithoutByUserInput
-    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
-    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
-    notifications?: NotificationsCreateNestedManyWithoutByUserInput
+    journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
+    createdJournals?: JournalsCreateNestedManyWithoutCreatedByUserInput
     notificationSettings?: NotificationSettingsCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsCreateNestedManyWithoutByUserInput
+    interestedTopics?: TopicUserInterestedsCreateNestedManyWithoutBelongsToInput
     verification?: UserVerificationCreateNestedManyWithoutByUserInput
   }
 
@@ -49006,17 +48138,17 @@ export namespace Prisma {
     background: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
+    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
     followConference?: ConferenceFollowsUncheckedCreateNestedManyWithoutByUserInput
     likes?: ConferenceLikesUncheckedCreateNestedManyWithoutByUserInput
     createdConferences?: ConferencesUncheckedCreateNestedManyWithoutCreatedByUserInput
-    interestedTopics?: TopicUserInterestedsUncheckedCreateNestedManyWithoutBelongsToInput
-    createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreatedByUserInput
-    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
     journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutByUserInput
-    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
-    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
-    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
+    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
+    createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreatedByUserInput
     notificationSettings?: NotificationSettingsUncheckedCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
+    interestedTopics?: TopicUserInterestedsUncheckedCreateNestedManyWithoutBelongsToInput
     verification?: UserVerificationUncheckedCreateNestedManyWithoutByUserInput
   }
 
@@ -49043,15 +48175,15 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput
+    crawlJobs?: ConferenceCrawlJobsUpdateManyWithoutBelongsToNestedInput
+    feedbacks?: ConferenceFeedbacksUpdateManyWithoutBelongsToNestedInput
     follows?: ConferenceFollowsUpdateManyWithoutBelongsToNestedInput
     likes?: ConferenceLikesUpdateManyWithoutBelongsToNestedInput
     organizations?: ConferenceOrganizationsUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
-    crawlJobs?: ConferenceCrawlJobsUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneWithoutCreatedConferencesNestedInput
     createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
-    feedbacks?: ConferenceFeedbacksUpdateManyWithoutBelongsToNestedInput
-    blacklists?: ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateWithoutCalendarsInput = {
@@ -49063,13 +48195,13 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput
+    crawlJobs?: ConferenceCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
+    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutBelongsToNestedInput
     follows?: ConferenceFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
     likes?: ConferenceLikesUncheckedUpdateManyWithoutBelongsToNestedInput
     organizations?: ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
-    crawlJobs?: ConferenceCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
-    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutBelongsToNestedInput
-    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
   export type UsersUpsertWithoutCalendarInput = {
@@ -49095,17 +48227,17 @@ export namespace Prisma {
     background?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
+    feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
     followConference?: ConferenceFollowsUpdateManyWithoutByUserNestedInput
     likes?: ConferenceLikesUpdateManyWithoutByUserNestedInput
     createdConferences?: ConferencesUpdateManyWithoutCreatedByUserNestedInput
-    interestedTopics?: TopicUserInterestedsUpdateManyWithoutBelongsToNestedInput
-    createdJournals?: JournalsUpdateManyWithoutCreatedByUserNestedInput
-    journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
     journalFollows?: JournalFollowsUpdateManyWithoutByUserNestedInput
-    feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
-    blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
-    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
+    journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
+    createdJournals?: JournalsUpdateManyWithoutCreatedByUserNestedInput
     notificationSettings?: NotificationSettingsUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
+    interestedTopics?: TopicUserInterestedsUpdateManyWithoutBelongsToNestedInput
     verification?: UserVerificationUpdateManyWithoutByUserNestedInput
   }
 
@@ -49121,17 +48253,17 @@ export namespace Prisma {
     background?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
+    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
     followConference?: ConferenceFollowsUncheckedUpdateManyWithoutByUserNestedInput
     likes?: ConferenceLikesUncheckedUpdateManyWithoutByUserNestedInput
     createdConferences?: ConferencesUncheckedUpdateManyWithoutCreatedByUserNestedInput
-    interestedTopics?: TopicUserInterestedsUncheckedUpdateManyWithoutBelongsToNestedInput
-    createdJournals?: JournalsUncheckedUpdateManyWithoutCreatedByUserNestedInput
-    journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
     journalFollows?: JournalFollowsUncheckedUpdateManyWithoutByUserNestedInput
-    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
-    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
-    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
+    journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
+    createdJournals?: JournalsUncheckedUpdateManyWithoutCreatedByUserNestedInput
     notificationSettings?: NotificationSettingsUncheckedUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
+    interestedTopics?: TopicUserInterestedsUncheckedUpdateManyWithoutBelongsToNestedInput
     verification?: UserVerificationUncheckedUpdateManyWithoutByUserNestedInput
   }
 
@@ -49144,11 +48276,12 @@ export namespace Prisma {
     nation: string
     scope: string
     emailSubmission: string
-    topics?: JournalTopicsCreateNestedManyWithoutInJournalsInput
-    journalRanks?: JournalRanksCreateNestedManyWithoutBelongsToInput
-    journalFollows?: JournalFollowsCreateNestedManyWithoutBelongsToInput
     crawlJobs?: JournalCrawlJobsCreateNestedManyWithoutBelongsToInput
-    createdByUser: UsersCreateNestedOneWithoutCreatedJournalsInput
+    journalFollows?: JournalFollowsCreateNestedManyWithoutBelongsToInput
+    journalRanks?: JournalRanksCreateNestedManyWithoutBelongsToInput
+    topics?: JournalTopicsCreateNestedManyWithoutInJournalsInput
+    createdByUser?: UsersCreateNestedOneWithoutCreatedJournalsInput
+    createByAdmin?: AdminsCreateNestedOneWithoutCreatedJournalsInput
   }
 
   export type JournalsUncheckedCreateWithoutJournalLikesInput = {
@@ -49160,11 +48293,12 @@ export namespace Prisma {
     nation: string
     scope: string
     emailSubmission: string
-    creator: string
-    topics?: JournalTopicsUncheckedCreateNestedManyWithoutInJournalsInput
-    journalRanks?: JournalRanksUncheckedCreateNestedManyWithoutBelongsToInput
-    journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutBelongsToInput
+    creatorId?: string | null
+    adminId?: string | null
     crawlJobs?: JournalCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
+    journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutBelongsToInput
+    journalRanks?: JournalRanksUncheckedCreateNestedManyWithoutBelongsToInput
+    topics?: JournalTopicsUncheckedCreateNestedManyWithoutInJournalsInput
   }
 
   export type JournalsCreateOrConnectWithoutJournalLikesInput = {
@@ -49184,17 +48318,17 @@ export namespace Prisma {
     background: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
+    calendar?: ConferenceCalendarsCreateNestedManyWithoutByUserInput
+    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
     followConference?: ConferenceFollowsCreateNestedManyWithoutByUserInput
     likes?: ConferenceLikesCreateNestedManyWithoutByUserInput
-    calendar?: ConferenceCalendarsCreateNestedManyWithoutByUserInput
     createdConferences?: ConferencesCreateNestedManyWithoutCreatedByUserInput
-    interestedTopics?: TopicUserInterestedsCreateNestedManyWithoutBelongsToInput
-    createdJournals?: JournalsCreateNestedManyWithoutCreatedByUserInput
     journalFollows?: JournalFollowsCreateNestedManyWithoutByUserInput
-    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
-    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
-    notifications?: NotificationsCreateNestedManyWithoutByUserInput
+    createdJournals?: JournalsCreateNestedManyWithoutCreatedByUserInput
     notificationSettings?: NotificationSettingsCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsCreateNestedManyWithoutByUserInput
+    interestedTopics?: TopicUserInterestedsCreateNestedManyWithoutBelongsToInput
     verification?: UserVerificationCreateNestedManyWithoutByUserInput
   }
 
@@ -49210,17 +48344,17 @@ export namespace Prisma {
     background: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
+    calendar?: ConferenceCalendarsUncheckedCreateNestedManyWithoutByUserInput
+    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
     followConference?: ConferenceFollowsUncheckedCreateNestedManyWithoutByUserInput
     likes?: ConferenceLikesUncheckedCreateNestedManyWithoutByUserInput
-    calendar?: ConferenceCalendarsUncheckedCreateNestedManyWithoutByUserInput
     createdConferences?: ConferencesUncheckedCreateNestedManyWithoutCreatedByUserInput
-    interestedTopics?: TopicUserInterestedsUncheckedCreateNestedManyWithoutBelongsToInput
-    createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreatedByUserInput
     journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutByUserInput
-    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
-    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
-    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
+    createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreatedByUserInput
     notificationSettings?: NotificationSettingsUncheckedCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
+    interestedTopics?: TopicUserInterestedsUncheckedCreateNestedManyWithoutBelongsToInput
     verification?: UserVerificationUncheckedCreateNestedManyWithoutByUserInput
   }
 
@@ -49249,11 +48383,12 @@ export namespace Prisma {
     nation?: StringFieldUpdateOperationsInput | string
     scope?: StringFieldUpdateOperationsInput | string
     emailSubmission?: StringFieldUpdateOperationsInput | string
-    topics?: JournalTopicsUpdateManyWithoutInJournalsNestedInput
-    journalRanks?: JournalRanksUpdateManyWithoutBelongsToNestedInput
-    journalFollows?: JournalFollowsUpdateManyWithoutBelongsToNestedInput
     crawlJobs?: JournalCrawlJobsUpdateManyWithoutBelongsToNestedInput
-    createdByUser?: UsersUpdateOneRequiredWithoutCreatedJournalsNestedInput
+    journalFollows?: JournalFollowsUpdateManyWithoutBelongsToNestedInput
+    journalRanks?: JournalRanksUpdateManyWithoutBelongsToNestedInput
+    topics?: JournalTopicsUpdateManyWithoutInJournalsNestedInput
+    createdByUser?: UsersUpdateOneWithoutCreatedJournalsNestedInput
+    createByAdmin?: AdminsUpdateOneWithoutCreatedJournalsNestedInput
   }
 
   export type JournalsUncheckedUpdateWithoutJournalLikesInput = {
@@ -49265,11 +48400,12 @@ export namespace Prisma {
     nation?: StringFieldUpdateOperationsInput | string
     scope?: StringFieldUpdateOperationsInput | string
     emailSubmission?: StringFieldUpdateOperationsInput | string
-    creator?: StringFieldUpdateOperationsInput | string
-    topics?: JournalTopicsUncheckedUpdateManyWithoutInJournalsNestedInput
-    journalRanks?: JournalRanksUncheckedUpdateManyWithoutBelongsToNestedInput
-    journalFollows?: JournalFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
+    creatorId?: NullableStringFieldUpdateOperationsInput | string | null
+    adminId?: NullableStringFieldUpdateOperationsInput | string | null
     crawlJobs?: JournalCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
+    journalFollows?: JournalFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
+    journalRanks?: JournalRanksUncheckedUpdateManyWithoutBelongsToNestedInput
+    topics?: JournalTopicsUncheckedUpdateManyWithoutInJournalsNestedInput
   }
 
   export type UsersUpsertWithoutJournalLikesInput = {
@@ -49295,17 +48431,17 @@ export namespace Prisma {
     background?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
+    calendar?: ConferenceCalendarsUpdateManyWithoutByUserNestedInput
+    feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
     followConference?: ConferenceFollowsUpdateManyWithoutByUserNestedInput
     likes?: ConferenceLikesUpdateManyWithoutByUserNestedInput
-    calendar?: ConferenceCalendarsUpdateManyWithoutByUserNestedInput
     createdConferences?: ConferencesUpdateManyWithoutCreatedByUserNestedInput
-    interestedTopics?: TopicUserInterestedsUpdateManyWithoutBelongsToNestedInput
-    createdJournals?: JournalsUpdateManyWithoutCreatedByUserNestedInput
     journalFollows?: JournalFollowsUpdateManyWithoutByUserNestedInput
-    feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
-    blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
-    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
+    createdJournals?: JournalsUpdateManyWithoutCreatedByUserNestedInput
     notificationSettings?: NotificationSettingsUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
+    interestedTopics?: TopicUserInterestedsUpdateManyWithoutBelongsToNestedInput
     verification?: UserVerificationUpdateManyWithoutByUserNestedInput
   }
 
@@ -49321,17 +48457,17 @@ export namespace Prisma {
     background?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
+    calendar?: ConferenceCalendarsUncheckedUpdateManyWithoutByUserNestedInput
+    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
     followConference?: ConferenceFollowsUncheckedUpdateManyWithoutByUserNestedInput
     likes?: ConferenceLikesUncheckedUpdateManyWithoutByUserNestedInput
-    calendar?: ConferenceCalendarsUncheckedUpdateManyWithoutByUserNestedInput
     createdConferences?: ConferencesUncheckedUpdateManyWithoutCreatedByUserNestedInput
-    interestedTopics?: TopicUserInterestedsUncheckedUpdateManyWithoutBelongsToNestedInput
-    createdJournals?: JournalsUncheckedUpdateManyWithoutCreatedByUserNestedInput
     journalFollows?: JournalFollowsUncheckedUpdateManyWithoutByUserNestedInput
-    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
-    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
-    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
+    createdJournals?: JournalsUncheckedUpdateManyWithoutCreatedByUserNestedInput
     notificationSettings?: NotificationSettingsUncheckedUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
+    interestedTopics?: TopicUserInterestedsUncheckedUpdateManyWithoutBelongsToNestedInput
     verification?: UserVerificationUncheckedUpdateManyWithoutByUserNestedInput
   }
 
@@ -49344,11 +48480,12 @@ export namespace Prisma {
     nation: string
     scope: string
     emailSubmission: string
-    topics?: JournalTopicsCreateNestedManyWithoutInJournalsInput
-    journalRanks?: JournalRanksCreateNestedManyWithoutBelongsToInput
-    journalLikes?: JournalLikesCreateNestedManyWithoutBelongsToInput
     crawlJobs?: JournalCrawlJobsCreateNestedManyWithoutBelongsToInput
-    createdByUser: UsersCreateNestedOneWithoutCreatedJournalsInput
+    journalLikes?: JournalLikesCreateNestedManyWithoutBelongsToInput
+    journalRanks?: JournalRanksCreateNestedManyWithoutBelongsToInput
+    topics?: JournalTopicsCreateNestedManyWithoutInJournalsInput
+    createdByUser?: UsersCreateNestedOneWithoutCreatedJournalsInput
+    createByAdmin?: AdminsCreateNestedOneWithoutCreatedJournalsInput
   }
 
   export type JournalsUncheckedCreateWithoutJournalFollowsInput = {
@@ -49360,11 +48497,12 @@ export namespace Prisma {
     nation: string
     scope: string
     emailSubmission: string
-    creator: string
-    topics?: JournalTopicsUncheckedCreateNestedManyWithoutInJournalsInput
-    journalRanks?: JournalRanksUncheckedCreateNestedManyWithoutBelongsToInput
-    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutBelongsToInput
+    creatorId?: string | null
+    adminId?: string | null
     crawlJobs?: JournalCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
+    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutBelongsToInput
+    journalRanks?: JournalRanksUncheckedCreateNestedManyWithoutBelongsToInput
+    topics?: JournalTopicsUncheckedCreateNestedManyWithoutInJournalsInput
   }
 
   export type JournalsCreateOrConnectWithoutJournalFollowsInput = {
@@ -49384,17 +48522,17 @@ export namespace Prisma {
     background: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
+    calendar?: ConferenceCalendarsCreateNestedManyWithoutByUserInput
+    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
     followConference?: ConferenceFollowsCreateNestedManyWithoutByUserInput
     likes?: ConferenceLikesCreateNestedManyWithoutByUserInput
-    calendar?: ConferenceCalendarsCreateNestedManyWithoutByUserInput
     createdConferences?: ConferencesCreateNestedManyWithoutCreatedByUserInput
-    interestedTopics?: TopicUserInterestedsCreateNestedManyWithoutBelongsToInput
-    createdJournals?: JournalsCreateNestedManyWithoutCreatedByUserInput
     journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
-    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
-    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
-    notifications?: NotificationsCreateNestedManyWithoutByUserInput
+    createdJournals?: JournalsCreateNestedManyWithoutCreatedByUserInput
     notificationSettings?: NotificationSettingsCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsCreateNestedManyWithoutByUserInput
+    interestedTopics?: TopicUserInterestedsCreateNestedManyWithoutBelongsToInput
     verification?: UserVerificationCreateNestedManyWithoutByUserInput
   }
 
@@ -49410,17 +48548,17 @@ export namespace Prisma {
     background: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
+    calendar?: ConferenceCalendarsUncheckedCreateNestedManyWithoutByUserInput
+    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
     followConference?: ConferenceFollowsUncheckedCreateNestedManyWithoutByUserInput
     likes?: ConferenceLikesUncheckedCreateNestedManyWithoutByUserInput
-    calendar?: ConferenceCalendarsUncheckedCreateNestedManyWithoutByUserInput
     createdConferences?: ConferencesUncheckedCreateNestedManyWithoutCreatedByUserInput
-    interestedTopics?: TopicUserInterestedsUncheckedCreateNestedManyWithoutBelongsToInput
-    createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreatedByUserInput
     journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
-    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
-    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
-    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
+    createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreatedByUserInput
     notificationSettings?: NotificationSettingsUncheckedCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
+    interestedTopics?: TopicUserInterestedsUncheckedCreateNestedManyWithoutBelongsToInput
     verification?: UserVerificationUncheckedCreateNestedManyWithoutByUserInput
   }
 
@@ -49449,11 +48587,12 @@ export namespace Prisma {
     nation?: StringFieldUpdateOperationsInput | string
     scope?: StringFieldUpdateOperationsInput | string
     emailSubmission?: StringFieldUpdateOperationsInput | string
-    topics?: JournalTopicsUpdateManyWithoutInJournalsNestedInput
-    journalRanks?: JournalRanksUpdateManyWithoutBelongsToNestedInput
-    journalLikes?: JournalLikesUpdateManyWithoutBelongsToNestedInput
     crawlJobs?: JournalCrawlJobsUpdateManyWithoutBelongsToNestedInput
-    createdByUser?: UsersUpdateOneRequiredWithoutCreatedJournalsNestedInput
+    journalLikes?: JournalLikesUpdateManyWithoutBelongsToNestedInput
+    journalRanks?: JournalRanksUpdateManyWithoutBelongsToNestedInput
+    topics?: JournalTopicsUpdateManyWithoutInJournalsNestedInput
+    createdByUser?: UsersUpdateOneWithoutCreatedJournalsNestedInput
+    createByAdmin?: AdminsUpdateOneWithoutCreatedJournalsNestedInput
   }
 
   export type JournalsUncheckedUpdateWithoutJournalFollowsInput = {
@@ -49465,11 +48604,12 @@ export namespace Prisma {
     nation?: StringFieldUpdateOperationsInput | string
     scope?: StringFieldUpdateOperationsInput | string
     emailSubmission?: StringFieldUpdateOperationsInput | string
-    creator?: StringFieldUpdateOperationsInput | string
-    topics?: JournalTopicsUncheckedUpdateManyWithoutInJournalsNestedInput
-    journalRanks?: JournalRanksUncheckedUpdateManyWithoutBelongsToNestedInput
-    journalLikes?: JournalLikesUncheckedUpdateManyWithoutBelongsToNestedInput
+    creatorId?: NullableStringFieldUpdateOperationsInput | string | null
+    adminId?: NullableStringFieldUpdateOperationsInput | string | null
     crawlJobs?: JournalCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
+    journalLikes?: JournalLikesUncheckedUpdateManyWithoutBelongsToNestedInput
+    journalRanks?: JournalRanksUncheckedUpdateManyWithoutBelongsToNestedInput
+    topics?: JournalTopicsUncheckedUpdateManyWithoutInJournalsNestedInput
   }
 
   export type UsersUpsertWithoutJournalFollowsInput = {
@@ -49495,17 +48635,17 @@ export namespace Prisma {
     background?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
+    calendar?: ConferenceCalendarsUpdateManyWithoutByUserNestedInput
+    feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
     followConference?: ConferenceFollowsUpdateManyWithoutByUserNestedInput
     likes?: ConferenceLikesUpdateManyWithoutByUserNestedInput
-    calendar?: ConferenceCalendarsUpdateManyWithoutByUserNestedInput
     createdConferences?: ConferencesUpdateManyWithoutCreatedByUserNestedInput
-    interestedTopics?: TopicUserInterestedsUpdateManyWithoutBelongsToNestedInput
-    createdJournals?: JournalsUpdateManyWithoutCreatedByUserNestedInput
     journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
-    feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
-    blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
-    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
+    createdJournals?: JournalsUpdateManyWithoutCreatedByUserNestedInput
     notificationSettings?: NotificationSettingsUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
+    interestedTopics?: TopicUserInterestedsUpdateManyWithoutBelongsToNestedInput
     verification?: UserVerificationUpdateManyWithoutByUserNestedInput
   }
 
@@ -49521,18 +48661,94 @@ export namespace Prisma {
     background?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
+    calendar?: ConferenceCalendarsUncheckedUpdateManyWithoutByUserNestedInput
+    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
     followConference?: ConferenceFollowsUncheckedUpdateManyWithoutByUserNestedInput
     likes?: ConferenceLikesUncheckedUpdateManyWithoutByUserNestedInput
-    calendar?: ConferenceCalendarsUncheckedUpdateManyWithoutByUserNestedInput
     createdConferences?: ConferencesUncheckedUpdateManyWithoutCreatedByUserNestedInput
-    interestedTopics?: TopicUserInterestedsUncheckedUpdateManyWithoutBelongsToNestedInput
-    createdJournals?: JournalsUncheckedUpdateManyWithoutCreatedByUserNestedInput
     journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
-    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
-    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
-    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
+    createdJournals?: JournalsUncheckedUpdateManyWithoutCreatedByUserNestedInput
     notificationSettings?: NotificationSettingsUncheckedUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
+    interestedTopics?: TopicUserInterestedsUncheckedUpdateManyWithoutBelongsToNestedInput
     verification?: UserVerificationUncheckedUpdateManyWithoutByUserNestedInput
+  }
+
+  export type ConferenceBlacklistsCreateWithoutByUserInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    belongsTo: ConferencesCreateNestedOneWithoutBlacklistsInput
+  }
+
+  export type ConferenceBlacklistsUncheckedCreateWithoutByUserInput = {
+    id?: string
+    conferenceId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ConferenceBlacklistsCreateOrConnectWithoutByUserInput = {
+    where: ConferenceBlacklistsWhereUniqueInput
+    create: XOR<ConferenceBlacklistsCreateWithoutByUserInput, ConferenceBlacklistsUncheckedCreateWithoutByUserInput>
+  }
+
+  export type ConferenceBlacklistsCreateManyByUserInputEnvelope = {
+    data: ConferenceBlacklistsCreateManyByUserInput | ConferenceBlacklistsCreateManyByUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ConferenceCalendarsCreateWithoutByUserInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    belongsTo: ConferencesCreateNestedOneWithoutCalendarsInput
+  }
+
+  export type ConferenceCalendarsUncheckedCreateWithoutByUserInput = {
+    id?: string
+    conferenceId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ConferenceCalendarsCreateOrConnectWithoutByUserInput = {
+    where: ConferenceCalendarsWhereUniqueInput
+    create: XOR<ConferenceCalendarsCreateWithoutByUserInput, ConferenceCalendarsUncheckedCreateWithoutByUserInput>
+  }
+
+  export type ConferenceCalendarsCreateManyByUserInputEnvelope = {
+    data: ConferenceCalendarsCreateManyByUserInput | ConferenceCalendarsCreateManyByUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ConferenceFeedbacksCreateWithoutByUserInput = {
+    id?: string
+    description: string
+    star: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    belongsTo: ConferencesCreateNestedOneWithoutFeedbacksInput
+  }
+
+  export type ConferenceFeedbacksUncheckedCreateWithoutByUserInput = {
+    id?: string
+    conferenceId: string
+    description: string
+    star: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ConferenceFeedbacksCreateOrConnectWithoutByUserInput = {
+    where: ConferenceFeedbacksWhereUniqueInput
+    create: XOR<ConferenceFeedbacksCreateWithoutByUserInput, ConferenceFeedbacksUncheckedCreateWithoutByUserInput>
+  }
+
+  export type ConferenceFeedbacksCreateManyByUserInputEnvelope = {
+    data: ConferenceFeedbacksCreateManyByUserInput | ConferenceFeedbacksCreateManyByUserInput[]
+    skipDuplicates?: boolean
   }
 
   export type ConferenceFollowsCreateWithoutByUserInput = {
@@ -49583,46 +48799,22 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type ConferenceCalendarsCreateWithoutByUserInput = {
-    id?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    belongsTo: ConferencesCreateNestedOneWithoutCalendarsInput
-  }
-
-  export type ConferenceCalendarsUncheckedCreateWithoutByUserInput = {
-    id?: string
-    conferenceId: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ConferenceCalendarsCreateOrConnectWithoutByUserInput = {
-    where: ConferenceCalendarsWhereUniqueInput
-    create: XOR<ConferenceCalendarsCreateWithoutByUserInput, ConferenceCalendarsUncheckedCreateWithoutByUserInput>
-  }
-
-  export type ConferenceCalendarsCreateManyByUserInputEnvelope = {
-    data: ConferenceCalendarsCreateManyByUserInput | ConferenceCalendarsCreateManyByUserInput[]
-    skipDuplicates?: boolean
-  }
-
   export type ConferencesCreateWithoutCreatedByUserInput = {
     id?: string
     title: string
     acronym: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    status: string
+    status?: string
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutBelongsToInput
+    calendars?: ConferenceCalendarsCreateNestedManyWithoutBelongsToInput
+    crawlJobs?: ConferenceCrawlJobsCreateNestedManyWithoutBelongsToInput
+    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutBelongsToInput
     follows?: ConferenceFollowsCreateNestedManyWithoutBelongsToInput
     likes?: ConferenceLikesCreateNestedManyWithoutBelongsToInput
-    calendars?: ConferenceCalendarsCreateNestedManyWithoutBelongsToInput
     organizations?: ConferenceOrganizationsCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
-    crawlJobs?: ConferenceCrawlJobsCreateNestedManyWithoutBelongsToInput
     createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
-    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutBelongsToInput
-    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesUncheckedCreateWithoutCreatedByUserInput = {
@@ -49632,15 +48824,15 @@ export namespace Prisma {
     adminId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    status: string
-    follows?: ConferenceFollowsUncheckedCreateNestedManyWithoutBelongsToInput
-    likes?: ConferenceLikesUncheckedCreateNestedManyWithoutBelongsToInput
+    status?: string
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput
     calendars?: ConferenceCalendarsUncheckedCreateNestedManyWithoutBelongsToInput
-    organizations?: ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput
-    ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
     crawlJobs?: ConferenceCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
     feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutBelongsToInput
-    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput
+    follows?: ConferenceFollowsUncheckedCreateNestedManyWithoutBelongsToInput
+    likes?: ConferenceLikesUncheckedCreateNestedManyWithoutBelongsToInput
+    organizations?: ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput
+    ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesCreateOrConnectWithoutCreatedByUserInput = {
@@ -49650,94 +48842,6 @@ export namespace Prisma {
 
   export type ConferencesCreateManyCreatedByUserInputEnvelope = {
     data: ConferencesCreateManyCreatedByUserInput | ConferencesCreateManyCreatedByUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type TopicUserInterestedsCreateWithoutBelongsToInput = {
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    inTopic: TopicsCreateNestedOneWithoutInInterestedInput
-  }
-
-  export type TopicUserInterestedsUncheckedCreateWithoutBelongsToInput = {
-    topicId: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type TopicUserInterestedsCreateOrConnectWithoutBelongsToInput = {
-    where: TopicUserInterestedsWhereUniqueInput
-    create: XOR<TopicUserInterestedsCreateWithoutBelongsToInput, TopicUserInterestedsUncheckedCreateWithoutBelongsToInput>
-  }
-
-  export type TopicUserInterestedsCreateManyBelongsToInputEnvelope = {
-    data: TopicUserInterestedsCreateManyBelongsToInput | TopicUserInterestedsCreateManyBelongsToInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type JournalsCreateWithoutCreatedByUserInput = {
-    id?: string
-    name: string
-    issn: string
-    hIndex: number
-    publisher: string
-    nation: string
-    scope: string
-    emailSubmission: string
-    topics?: JournalTopicsCreateNestedManyWithoutInJournalsInput
-    journalRanks?: JournalRanksCreateNestedManyWithoutBelongsToInput
-    journalLikes?: JournalLikesCreateNestedManyWithoutBelongsToInput
-    journalFollows?: JournalFollowsCreateNestedManyWithoutBelongsToInput
-    crawlJobs?: JournalCrawlJobsCreateNestedManyWithoutBelongsToInput
-  }
-
-  export type JournalsUncheckedCreateWithoutCreatedByUserInput = {
-    id?: string
-    name: string
-    issn: string
-    hIndex: number
-    publisher: string
-    nation: string
-    scope: string
-    emailSubmission: string
-    topics?: JournalTopicsUncheckedCreateNestedManyWithoutInJournalsInput
-    journalRanks?: JournalRanksUncheckedCreateNestedManyWithoutBelongsToInput
-    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutBelongsToInput
-    journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutBelongsToInput
-    crawlJobs?: JournalCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
-  }
-
-  export type JournalsCreateOrConnectWithoutCreatedByUserInput = {
-    where: JournalsWhereUniqueInput
-    create: XOR<JournalsCreateWithoutCreatedByUserInput, JournalsUncheckedCreateWithoutCreatedByUserInput>
-  }
-
-  export type JournalsCreateManyCreatedByUserInputEnvelope = {
-    data: JournalsCreateManyCreatedByUserInput | JournalsCreateManyCreatedByUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type JournalLikesCreateWithoutByUserInput = {
-    id?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    belongsTo: JournalsCreateNestedOneWithoutJournalLikesInput
-  }
-
-  export type JournalLikesUncheckedCreateWithoutByUserInput = {
-    id?: string
-    journalId: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type JournalLikesCreateOrConnectWithoutByUserInput = {
-    where: JournalLikesWhereUniqueInput
-    create: XOR<JournalLikesCreateWithoutByUserInput, JournalLikesUncheckedCreateWithoutByUserInput>
-  }
-
-  export type JournalLikesCreateManyByUserInputEnvelope = {
-    data: JournalLikesCreateManyByUserInput | JournalLikesCreateManyByUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -49765,55 +48869,97 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type ConferenceFeedbacksCreateWithoutByUserInput = {
+  export type JournalLikesCreateWithoutByUserInput = {
     id?: string
-    description: string
-    star: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    belongsTo: ConferencesCreateNestedOneWithoutFeedbacksInput
+    belongsTo: JournalsCreateNestedOneWithoutJournalLikesInput
   }
 
-  export type ConferenceFeedbacksUncheckedCreateWithoutByUserInput = {
+  export type JournalLikesUncheckedCreateWithoutByUserInput = {
     id?: string
-    conferenceId: string
-    description: string
-    star: number
+    journalId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type ConferenceFeedbacksCreateOrConnectWithoutByUserInput = {
-    where: ConferenceFeedbacksWhereUniqueInput
-    create: XOR<ConferenceFeedbacksCreateWithoutByUserInput, ConferenceFeedbacksUncheckedCreateWithoutByUserInput>
+  export type JournalLikesCreateOrConnectWithoutByUserInput = {
+    where: JournalLikesWhereUniqueInput
+    create: XOR<JournalLikesCreateWithoutByUserInput, JournalLikesUncheckedCreateWithoutByUserInput>
   }
 
-  export type ConferenceFeedbacksCreateManyByUserInputEnvelope = {
-    data: ConferenceFeedbacksCreateManyByUserInput | ConferenceFeedbacksCreateManyByUserInput[]
+  export type JournalLikesCreateManyByUserInputEnvelope = {
+    data: JournalLikesCreateManyByUserInput | JournalLikesCreateManyByUserInput[]
     skipDuplicates?: boolean
   }
 
-  export type ConferenceBlacklistsCreateWithoutByUserInput = {
+  export type JournalsCreateWithoutCreatedByUserInput = {
     id?: string
+    name: string
+    issn: string
+    hIndex: number
+    publisher: string
+    nation: string
+    scope: string
+    emailSubmission: string
+    crawlJobs?: JournalCrawlJobsCreateNestedManyWithoutBelongsToInput
+    journalFollows?: JournalFollowsCreateNestedManyWithoutBelongsToInput
+    journalLikes?: JournalLikesCreateNestedManyWithoutBelongsToInput
+    journalRanks?: JournalRanksCreateNestedManyWithoutBelongsToInput
+    topics?: JournalTopicsCreateNestedManyWithoutInJournalsInput
+    createByAdmin?: AdminsCreateNestedOneWithoutCreatedJournalsInput
+  }
+
+  export type JournalsUncheckedCreateWithoutCreatedByUserInput = {
+    id?: string
+    name: string
+    issn: string
+    hIndex: number
+    publisher: string
+    nation: string
+    scope: string
+    emailSubmission: string
+    adminId?: string | null
+    crawlJobs?: JournalCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
+    journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutBelongsToInput
+    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutBelongsToInput
+    journalRanks?: JournalRanksUncheckedCreateNestedManyWithoutBelongsToInput
+    topics?: JournalTopicsUncheckedCreateNestedManyWithoutInJournalsInput
+  }
+
+  export type JournalsCreateOrConnectWithoutCreatedByUserInput = {
+    where: JournalsWhereUniqueInput
+    create: XOR<JournalsCreateWithoutCreatedByUserInput, JournalsUncheckedCreateWithoutCreatedByUserInput>
+  }
+
+  export type JournalsCreateManyCreatedByUserInputEnvelope = {
+    data: JournalsCreateManyCreatedByUserInput | JournalsCreateManyCreatedByUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type NotificationSettingsCreateWithoutByUserInput = {
+    id?: string
+    isEnabled?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    belongsTo: ConferencesCreateNestedOneWithoutBlacklistsInput
+    belongToNotify: NotificationsTypesCreateNestedOneWithoutSettingsInput
   }
 
-  export type ConferenceBlacklistsUncheckedCreateWithoutByUserInput = {
+  export type NotificationSettingsUncheckedCreateWithoutByUserInput = {
     id?: string
-    conferenceId: string
+    notificationId: string
+    isEnabled?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type ConferenceBlacklistsCreateOrConnectWithoutByUserInput = {
-    where: ConferenceBlacklistsWhereUniqueInput
-    create: XOR<ConferenceBlacklistsCreateWithoutByUserInput, ConferenceBlacklistsUncheckedCreateWithoutByUserInput>
+  export type NotificationSettingsCreateOrConnectWithoutByUserInput = {
+    where: NotificationSettingsWhereUniqueInput
+    create: XOR<NotificationSettingsCreateWithoutByUserInput, NotificationSettingsUncheckedCreateWithoutByUserInput>
   }
 
-  export type ConferenceBlacklistsCreateManyByUserInputEnvelope = {
-    data: ConferenceBlacklistsCreateManyByUserInput | ConferenceBlacklistsCreateManyByUserInput[]
+  export type NotificationSettingsCreateManyByUserInputEnvelope = {
+    data: NotificationSettingsCreateManyByUserInput | NotificationSettingsCreateManyByUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -49845,29 +48991,25 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type NotificationSettingsCreateWithoutByUserInput = {
-    id?: string
-    isEnabled?: boolean
+  export type TopicUserInterestedsCreateWithoutBelongsToInput = {
     createdAt?: Date | string
     updatedAt?: Date | string
-    belongToNotify: NotificationsTypesCreateNestedOneWithoutSettingsInput
+    inTopic: TopicsCreateNestedOneWithoutInInterestedInput
   }
 
-  export type NotificationSettingsUncheckedCreateWithoutByUserInput = {
-    id?: string
-    notificationId: string
-    isEnabled?: boolean
+  export type TopicUserInterestedsUncheckedCreateWithoutBelongsToInput = {
+    topicId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type NotificationSettingsCreateOrConnectWithoutByUserInput = {
-    where: NotificationSettingsWhereUniqueInput
-    create: XOR<NotificationSettingsCreateWithoutByUserInput, NotificationSettingsUncheckedCreateWithoutByUserInput>
+  export type TopicUserInterestedsCreateOrConnectWithoutBelongsToInput = {
+    where: TopicUserInterestedsWhereUniqueInput
+    create: XOR<TopicUserInterestedsCreateWithoutBelongsToInput, TopicUserInterestedsUncheckedCreateWithoutBelongsToInput>
   }
 
-  export type NotificationSettingsCreateManyByUserInputEnvelope = {
-    data: NotificationSettingsCreateManyByUserInput | NotificationSettingsCreateManyByUserInput[]
+  export type TopicUserInterestedsCreateManyBelongsToInputEnvelope = {
+    data: TopicUserInterestedsCreateManyBelongsToInput | TopicUserInterestedsCreateManyBelongsToInput[]
     skipDuplicates?: boolean
   }
 
@@ -49897,6 +49039,54 @@ export namespace Prisma {
   export type UserVerificationCreateManyByUserInputEnvelope = {
     data: UserVerificationCreateManyByUserInput | UserVerificationCreateManyByUserInput[]
     skipDuplicates?: boolean
+  }
+
+  export type ConferenceBlacklistsUpsertWithWhereUniqueWithoutByUserInput = {
+    where: ConferenceBlacklistsWhereUniqueInput
+    update: XOR<ConferenceBlacklistsUpdateWithoutByUserInput, ConferenceBlacklistsUncheckedUpdateWithoutByUserInput>
+    create: XOR<ConferenceBlacklistsCreateWithoutByUserInput, ConferenceBlacklistsUncheckedCreateWithoutByUserInput>
+  }
+
+  export type ConferenceBlacklistsUpdateWithWhereUniqueWithoutByUserInput = {
+    where: ConferenceBlacklistsWhereUniqueInput
+    data: XOR<ConferenceBlacklistsUpdateWithoutByUserInput, ConferenceBlacklistsUncheckedUpdateWithoutByUserInput>
+  }
+
+  export type ConferenceBlacklistsUpdateManyWithWhereWithoutByUserInput = {
+    where: ConferenceBlacklistsScalarWhereInput
+    data: XOR<ConferenceBlacklistsUpdateManyMutationInput, ConferenceBlacklistsUncheckedUpdateManyWithoutByUserInput>
+  }
+
+  export type ConferenceCalendarsUpsertWithWhereUniqueWithoutByUserInput = {
+    where: ConferenceCalendarsWhereUniqueInput
+    update: XOR<ConferenceCalendarsUpdateWithoutByUserInput, ConferenceCalendarsUncheckedUpdateWithoutByUserInput>
+    create: XOR<ConferenceCalendarsCreateWithoutByUserInput, ConferenceCalendarsUncheckedCreateWithoutByUserInput>
+  }
+
+  export type ConferenceCalendarsUpdateWithWhereUniqueWithoutByUserInput = {
+    where: ConferenceCalendarsWhereUniqueInput
+    data: XOR<ConferenceCalendarsUpdateWithoutByUserInput, ConferenceCalendarsUncheckedUpdateWithoutByUserInput>
+  }
+
+  export type ConferenceCalendarsUpdateManyWithWhereWithoutByUserInput = {
+    where: ConferenceCalendarsScalarWhereInput
+    data: XOR<ConferenceCalendarsUpdateManyMutationInput, ConferenceCalendarsUncheckedUpdateManyWithoutByUserInput>
+  }
+
+  export type ConferenceFeedbacksUpsertWithWhereUniqueWithoutByUserInput = {
+    where: ConferenceFeedbacksWhereUniqueInput
+    update: XOR<ConferenceFeedbacksUpdateWithoutByUserInput, ConferenceFeedbacksUncheckedUpdateWithoutByUserInput>
+    create: XOR<ConferenceFeedbacksCreateWithoutByUserInput, ConferenceFeedbacksUncheckedCreateWithoutByUserInput>
+  }
+
+  export type ConferenceFeedbacksUpdateWithWhereUniqueWithoutByUserInput = {
+    where: ConferenceFeedbacksWhereUniqueInput
+    data: XOR<ConferenceFeedbacksUpdateWithoutByUserInput, ConferenceFeedbacksUncheckedUpdateWithoutByUserInput>
+  }
+
+  export type ConferenceFeedbacksUpdateManyWithWhereWithoutByUserInput = {
+    where: ConferenceFeedbacksScalarWhereInput
+    data: XOR<ConferenceFeedbacksUpdateManyMutationInput, ConferenceFeedbacksUncheckedUpdateManyWithoutByUserInput>
   }
 
   export type ConferenceFollowsUpsertWithWhereUniqueWithoutByUserInput = {
@@ -49931,22 +49121,6 @@ export namespace Prisma {
     data: XOR<ConferenceLikesUpdateManyMutationInput, ConferenceLikesUncheckedUpdateManyWithoutByUserInput>
   }
 
-  export type ConferenceCalendarsUpsertWithWhereUniqueWithoutByUserInput = {
-    where: ConferenceCalendarsWhereUniqueInput
-    update: XOR<ConferenceCalendarsUpdateWithoutByUserInput, ConferenceCalendarsUncheckedUpdateWithoutByUserInput>
-    create: XOR<ConferenceCalendarsCreateWithoutByUserInput, ConferenceCalendarsUncheckedCreateWithoutByUserInput>
-  }
-
-  export type ConferenceCalendarsUpdateWithWhereUniqueWithoutByUserInput = {
-    where: ConferenceCalendarsWhereUniqueInput
-    data: XOR<ConferenceCalendarsUpdateWithoutByUserInput, ConferenceCalendarsUncheckedUpdateWithoutByUserInput>
-  }
-
-  export type ConferenceCalendarsUpdateManyWithWhereWithoutByUserInput = {
-    where: ConferenceCalendarsScalarWhereInput
-    data: XOR<ConferenceCalendarsUpdateManyMutationInput, ConferenceCalendarsUncheckedUpdateManyWithoutByUserInput>
-  }
-
   export type ConferencesUpsertWithWhereUniqueWithoutCreatedByUserInput = {
     where: ConferencesWhereUniqueInput
     update: XOR<ConferencesUpdateWithoutCreatedByUserInput, ConferencesUncheckedUpdateWithoutCreatedByUserInput>
@@ -49977,20 +49151,36 @@ export namespace Prisma {
     status?: StringFilter<"Conferences"> | string
   }
 
-  export type TopicUserInterestedsUpsertWithWhereUniqueWithoutBelongsToInput = {
-    where: TopicUserInterestedsWhereUniqueInput
-    update: XOR<TopicUserInterestedsUpdateWithoutBelongsToInput, TopicUserInterestedsUncheckedUpdateWithoutBelongsToInput>
-    create: XOR<TopicUserInterestedsCreateWithoutBelongsToInput, TopicUserInterestedsUncheckedCreateWithoutBelongsToInput>
+  export type JournalFollowsUpsertWithWhereUniqueWithoutByUserInput = {
+    where: JournalFollowsWhereUniqueInput
+    update: XOR<JournalFollowsUpdateWithoutByUserInput, JournalFollowsUncheckedUpdateWithoutByUserInput>
+    create: XOR<JournalFollowsCreateWithoutByUserInput, JournalFollowsUncheckedCreateWithoutByUserInput>
   }
 
-  export type TopicUserInterestedsUpdateWithWhereUniqueWithoutBelongsToInput = {
-    where: TopicUserInterestedsWhereUniqueInput
-    data: XOR<TopicUserInterestedsUpdateWithoutBelongsToInput, TopicUserInterestedsUncheckedUpdateWithoutBelongsToInput>
+  export type JournalFollowsUpdateWithWhereUniqueWithoutByUserInput = {
+    where: JournalFollowsWhereUniqueInput
+    data: XOR<JournalFollowsUpdateWithoutByUserInput, JournalFollowsUncheckedUpdateWithoutByUserInput>
   }
 
-  export type TopicUserInterestedsUpdateManyWithWhereWithoutBelongsToInput = {
-    where: TopicUserInterestedsScalarWhereInput
-    data: XOR<TopicUserInterestedsUpdateManyMutationInput, TopicUserInterestedsUncheckedUpdateManyWithoutBelongsToInput>
+  export type JournalFollowsUpdateManyWithWhereWithoutByUserInput = {
+    where: JournalFollowsScalarWhereInput
+    data: XOR<JournalFollowsUpdateManyMutationInput, JournalFollowsUncheckedUpdateManyWithoutByUserInput>
+  }
+
+  export type JournalLikesUpsertWithWhereUniqueWithoutByUserInput = {
+    where: JournalLikesWhereUniqueInput
+    update: XOR<JournalLikesUpdateWithoutByUserInput, JournalLikesUncheckedUpdateWithoutByUserInput>
+    create: XOR<JournalLikesCreateWithoutByUserInput, JournalLikesUncheckedCreateWithoutByUserInput>
+  }
+
+  export type JournalLikesUpdateWithWhereUniqueWithoutByUserInput = {
+    where: JournalLikesWhereUniqueInput
+    data: XOR<JournalLikesUpdateWithoutByUserInput, JournalLikesUncheckedUpdateWithoutByUserInput>
+  }
+
+  export type JournalLikesUpdateManyWithWhereWithoutByUserInput = {
+    where: JournalLikesScalarWhereInput
+    data: XOR<JournalLikesUpdateManyMutationInput, JournalLikesUncheckedUpdateManyWithoutByUserInput>
   }
 
   export type JournalsUpsertWithWhereUniqueWithoutCreatedByUserInput = {
@@ -50021,71 +49211,36 @@ export namespace Prisma {
     nation?: StringFilter<"Journals"> | string
     scope?: StringFilter<"Journals"> | string
     emailSubmission?: StringFilter<"Journals"> | string
-    creator?: StringFilter<"Journals"> | string
+    creatorId?: StringNullableFilter<"Journals"> | string | null
+    adminId?: StringNullableFilter<"Journals"> | string | null
   }
 
-  export type JournalLikesUpsertWithWhereUniqueWithoutByUserInput = {
-    where: JournalLikesWhereUniqueInput
-    update: XOR<JournalLikesUpdateWithoutByUserInput, JournalLikesUncheckedUpdateWithoutByUserInput>
-    create: XOR<JournalLikesCreateWithoutByUserInput, JournalLikesUncheckedCreateWithoutByUserInput>
+  export type NotificationSettingsUpsertWithWhereUniqueWithoutByUserInput = {
+    where: NotificationSettingsWhereUniqueInput
+    update: XOR<NotificationSettingsUpdateWithoutByUserInput, NotificationSettingsUncheckedUpdateWithoutByUserInput>
+    create: XOR<NotificationSettingsCreateWithoutByUserInput, NotificationSettingsUncheckedCreateWithoutByUserInput>
   }
 
-  export type JournalLikesUpdateWithWhereUniqueWithoutByUserInput = {
-    where: JournalLikesWhereUniqueInput
-    data: XOR<JournalLikesUpdateWithoutByUserInput, JournalLikesUncheckedUpdateWithoutByUserInput>
+  export type NotificationSettingsUpdateWithWhereUniqueWithoutByUserInput = {
+    where: NotificationSettingsWhereUniqueInput
+    data: XOR<NotificationSettingsUpdateWithoutByUserInput, NotificationSettingsUncheckedUpdateWithoutByUserInput>
   }
 
-  export type JournalLikesUpdateManyWithWhereWithoutByUserInput = {
-    where: JournalLikesScalarWhereInput
-    data: XOR<JournalLikesUpdateManyMutationInput, JournalLikesUncheckedUpdateManyWithoutByUserInput>
+  export type NotificationSettingsUpdateManyWithWhereWithoutByUserInput = {
+    where: NotificationSettingsScalarWhereInput
+    data: XOR<NotificationSettingsUpdateManyMutationInput, NotificationSettingsUncheckedUpdateManyWithoutByUserInput>
   }
 
-  export type JournalFollowsUpsertWithWhereUniqueWithoutByUserInput = {
-    where: JournalFollowsWhereUniqueInput
-    update: XOR<JournalFollowsUpdateWithoutByUserInput, JournalFollowsUncheckedUpdateWithoutByUserInput>
-    create: XOR<JournalFollowsCreateWithoutByUserInput, JournalFollowsUncheckedCreateWithoutByUserInput>
-  }
-
-  export type JournalFollowsUpdateWithWhereUniqueWithoutByUserInput = {
-    where: JournalFollowsWhereUniqueInput
-    data: XOR<JournalFollowsUpdateWithoutByUserInput, JournalFollowsUncheckedUpdateWithoutByUserInput>
-  }
-
-  export type JournalFollowsUpdateManyWithWhereWithoutByUserInput = {
-    where: JournalFollowsScalarWhereInput
-    data: XOR<JournalFollowsUpdateManyMutationInput, JournalFollowsUncheckedUpdateManyWithoutByUserInput>
-  }
-
-  export type ConferenceFeedbacksUpsertWithWhereUniqueWithoutByUserInput = {
-    where: ConferenceFeedbacksWhereUniqueInput
-    update: XOR<ConferenceFeedbacksUpdateWithoutByUserInput, ConferenceFeedbacksUncheckedUpdateWithoutByUserInput>
-    create: XOR<ConferenceFeedbacksCreateWithoutByUserInput, ConferenceFeedbacksUncheckedCreateWithoutByUserInput>
-  }
-
-  export type ConferenceFeedbacksUpdateWithWhereUniqueWithoutByUserInput = {
-    where: ConferenceFeedbacksWhereUniqueInput
-    data: XOR<ConferenceFeedbacksUpdateWithoutByUserInput, ConferenceFeedbacksUncheckedUpdateWithoutByUserInput>
-  }
-
-  export type ConferenceFeedbacksUpdateManyWithWhereWithoutByUserInput = {
-    where: ConferenceFeedbacksScalarWhereInput
-    data: XOR<ConferenceFeedbacksUpdateManyMutationInput, ConferenceFeedbacksUncheckedUpdateManyWithoutByUserInput>
-  }
-
-  export type ConferenceBlacklistsUpsertWithWhereUniqueWithoutByUserInput = {
-    where: ConferenceBlacklistsWhereUniqueInput
-    update: XOR<ConferenceBlacklistsUpdateWithoutByUserInput, ConferenceBlacklistsUncheckedUpdateWithoutByUserInput>
-    create: XOR<ConferenceBlacklistsCreateWithoutByUserInput, ConferenceBlacklistsUncheckedCreateWithoutByUserInput>
-  }
-
-  export type ConferenceBlacklistsUpdateWithWhereUniqueWithoutByUserInput = {
-    where: ConferenceBlacklistsWhereUniqueInput
-    data: XOR<ConferenceBlacklistsUpdateWithoutByUserInput, ConferenceBlacklistsUncheckedUpdateWithoutByUserInput>
-  }
-
-  export type ConferenceBlacklistsUpdateManyWithWhereWithoutByUserInput = {
-    where: ConferenceBlacklistsScalarWhereInput
-    data: XOR<ConferenceBlacklistsUpdateManyMutationInput, ConferenceBlacklistsUncheckedUpdateManyWithoutByUserInput>
+  export type NotificationSettingsScalarWhereInput = {
+    AND?: NotificationSettingsScalarWhereInput | NotificationSettingsScalarWhereInput[]
+    OR?: NotificationSettingsScalarWhereInput[]
+    NOT?: NotificationSettingsScalarWhereInput | NotificationSettingsScalarWhereInput[]
+    id?: StringFilter<"NotificationSettings"> | string
+    userId?: StringFilter<"NotificationSettings"> | string
+    notificationId?: StringFilter<"NotificationSettings"> | string
+    isEnabled?: BoolFilter<"NotificationSettings"> | boolean
+    createdAt?: DateTimeFilter<"NotificationSettings"> | Date | string
+    updatedAt?: DateTimeFilter<"NotificationSettings"> | Date | string
   }
 
   export type NotificationsUpsertWithWhereUniqueWithoutByUserInput = {
@@ -50117,32 +49272,20 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Notifications"> | Date | string
   }
 
-  export type NotificationSettingsUpsertWithWhereUniqueWithoutByUserInput = {
-    where: NotificationSettingsWhereUniqueInput
-    update: XOR<NotificationSettingsUpdateWithoutByUserInput, NotificationSettingsUncheckedUpdateWithoutByUserInput>
-    create: XOR<NotificationSettingsCreateWithoutByUserInput, NotificationSettingsUncheckedCreateWithoutByUserInput>
+  export type TopicUserInterestedsUpsertWithWhereUniqueWithoutBelongsToInput = {
+    where: TopicUserInterestedsWhereUniqueInput
+    update: XOR<TopicUserInterestedsUpdateWithoutBelongsToInput, TopicUserInterestedsUncheckedUpdateWithoutBelongsToInput>
+    create: XOR<TopicUserInterestedsCreateWithoutBelongsToInput, TopicUserInterestedsUncheckedCreateWithoutBelongsToInput>
   }
 
-  export type NotificationSettingsUpdateWithWhereUniqueWithoutByUserInput = {
-    where: NotificationSettingsWhereUniqueInput
-    data: XOR<NotificationSettingsUpdateWithoutByUserInput, NotificationSettingsUncheckedUpdateWithoutByUserInput>
+  export type TopicUserInterestedsUpdateWithWhereUniqueWithoutBelongsToInput = {
+    where: TopicUserInterestedsWhereUniqueInput
+    data: XOR<TopicUserInterestedsUpdateWithoutBelongsToInput, TopicUserInterestedsUncheckedUpdateWithoutBelongsToInput>
   }
 
-  export type NotificationSettingsUpdateManyWithWhereWithoutByUserInput = {
-    where: NotificationSettingsScalarWhereInput
-    data: XOR<NotificationSettingsUpdateManyMutationInput, NotificationSettingsUncheckedUpdateManyWithoutByUserInput>
-  }
-
-  export type NotificationSettingsScalarWhereInput = {
-    AND?: NotificationSettingsScalarWhereInput | NotificationSettingsScalarWhereInput[]
-    OR?: NotificationSettingsScalarWhereInput[]
-    NOT?: NotificationSettingsScalarWhereInput | NotificationSettingsScalarWhereInput[]
-    id?: StringFilter<"NotificationSettings"> | string
-    userId?: StringFilter<"NotificationSettings"> | string
-    notificationId?: StringFilter<"NotificationSettings"> | string
-    isEnabled?: BoolFilter<"NotificationSettings"> | boolean
-    createdAt?: DateTimeFilter<"NotificationSettings"> | Date | string
-    updatedAt?: DateTimeFilter<"NotificationSettings"> | Date | string
+  export type TopicUserInterestedsUpdateManyWithWhereWithoutBelongsToInput = {
+    where: TopicUserInterestedsScalarWhereInput
+    data: XOR<TopicUserInterestedsUpdateManyMutationInput, TopicUserInterestedsUncheckedUpdateManyWithoutBelongsToInput>
   }
 
   export type UserVerificationUpsertWithWhereUniqueWithoutByUserInput = {
@@ -50180,16 +49323,16 @@ export namespace Prisma {
     acronym: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    status: string
+    status?: string
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutBelongsToInput
+    calendars?: ConferenceCalendarsCreateNestedManyWithoutBelongsToInput
+    crawlJobs?: ConferenceCrawlJobsCreateNestedManyWithoutBelongsToInput
+    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutBelongsToInput
     follows?: ConferenceFollowsCreateNestedManyWithoutBelongsToInput
     likes?: ConferenceLikesCreateNestedManyWithoutBelongsToInput
-    calendars?: ConferenceCalendarsCreateNestedManyWithoutBelongsToInput
     organizations?: ConferenceOrganizationsCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
-    crawlJobs?: ConferenceCrawlJobsCreateNestedManyWithoutBelongsToInput
     createdByUser?: UsersCreateNestedOneWithoutCreatedConferencesInput
-    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutBelongsToInput
-    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesUncheckedCreateWithoutCreateByAdminInput = {
@@ -50199,15 +49342,15 @@ export namespace Prisma {
     creatorId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    status: string
-    follows?: ConferenceFollowsUncheckedCreateNestedManyWithoutBelongsToInput
-    likes?: ConferenceLikesUncheckedCreateNestedManyWithoutBelongsToInput
+    status?: string
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput
     calendars?: ConferenceCalendarsUncheckedCreateNestedManyWithoutBelongsToInput
-    organizations?: ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput
-    ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
     crawlJobs?: ConferenceCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
     feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutBelongsToInput
-    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput
+    follows?: ConferenceFollowsUncheckedCreateNestedManyWithoutBelongsToInput
+    likes?: ConferenceLikesUncheckedCreateNestedManyWithoutBelongsToInput
+    organizations?: ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput
+    ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesCreateOrConnectWithoutCreateByAdminInput = {
@@ -50217,6 +49360,50 @@ export namespace Prisma {
 
   export type ConferencesCreateManyCreateByAdminInputEnvelope = {
     data: ConferencesCreateManyCreateByAdminInput | ConferencesCreateManyCreateByAdminInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type JournalsCreateWithoutCreateByAdminInput = {
+    id?: string
+    name: string
+    issn: string
+    hIndex: number
+    publisher: string
+    nation: string
+    scope: string
+    emailSubmission: string
+    crawlJobs?: JournalCrawlJobsCreateNestedManyWithoutBelongsToInput
+    journalFollows?: JournalFollowsCreateNestedManyWithoutBelongsToInput
+    journalLikes?: JournalLikesCreateNestedManyWithoutBelongsToInput
+    journalRanks?: JournalRanksCreateNestedManyWithoutBelongsToInput
+    topics?: JournalTopicsCreateNestedManyWithoutInJournalsInput
+    createdByUser?: UsersCreateNestedOneWithoutCreatedJournalsInput
+  }
+
+  export type JournalsUncheckedCreateWithoutCreateByAdminInput = {
+    id?: string
+    name: string
+    issn: string
+    hIndex: number
+    publisher: string
+    nation: string
+    scope: string
+    emailSubmission: string
+    creatorId?: string | null
+    crawlJobs?: JournalCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
+    journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutBelongsToInput
+    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutBelongsToInput
+    journalRanks?: JournalRanksUncheckedCreateNestedManyWithoutBelongsToInput
+    topics?: JournalTopicsUncheckedCreateNestedManyWithoutInJournalsInput
+  }
+
+  export type JournalsCreateOrConnectWithoutCreateByAdminInput = {
+    where: JournalsWhereUniqueInput
+    create: XOR<JournalsCreateWithoutCreateByAdminInput, JournalsUncheckedCreateWithoutCreateByAdminInput>
+  }
+
+  export type JournalsCreateManyCreateByAdminInputEnvelope = {
+    data: JournalsCreateManyCreateByAdminInput | JournalsCreateManyCreateByAdminInput[]
     skipDuplicates?: boolean
   }
 
@@ -50236,22 +49423,38 @@ export namespace Prisma {
     data: XOR<ConferencesUpdateManyMutationInput, ConferencesUncheckedUpdateManyWithoutCreateByAdminInput>
   }
 
+  export type JournalsUpsertWithWhereUniqueWithoutCreateByAdminInput = {
+    where: JournalsWhereUniqueInput
+    update: XOR<JournalsUpdateWithoutCreateByAdminInput, JournalsUncheckedUpdateWithoutCreateByAdminInput>
+    create: XOR<JournalsCreateWithoutCreateByAdminInput, JournalsUncheckedCreateWithoutCreateByAdminInput>
+  }
+
+  export type JournalsUpdateWithWhereUniqueWithoutCreateByAdminInput = {
+    where: JournalsWhereUniqueInput
+    data: XOR<JournalsUpdateWithoutCreateByAdminInput, JournalsUncheckedUpdateWithoutCreateByAdminInput>
+  }
+
+  export type JournalsUpdateManyWithWhereWithoutCreateByAdminInput = {
+    where: JournalsScalarWhereInput
+    data: XOR<JournalsUpdateManyMutationInput, JournalsUncheckedUpdateManyWithoutCreateByAdminInput>
+  }
+
   export type ConferencesCreateWithoutCrawlJobsInput = {
     id?: string
     title: string
     acronym: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    status: string
+    status?: string
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutBelongsToInput
+    calendars?: ConferenceCalendarsCreateNestedManyWithoutBelongsToInput
+    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutBelongsToInput
     follows?: ConferenceFollowsCreateNestedManyWithoutBelongsToInput
     likes?: ConferenceLikesCreateNestedManyWithoutBelongsToInput
-    calendars?: ConferenceCalendarsCreateNestedManyWithoutBelongsToInput
     organizations?: ConferenceOrganizationsCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
     createdByUser?: UsersCreateNestedOneWithoutCreatedConferencesInput
     createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
-    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutBelongsToInput
-    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesUncheckedCreateWithoutCrawlJobsInput = {
@@ -50262,14 +49465,14 @@ export namespace Prisma {
     adminId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    status: string
+    status?: string
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput
+    calendars?: ConferenceCalendarsUncheckedCreateNestedManyWithoutBelongsToInput
+    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutBelongsToInput
     follows?: ConferenceFollowsUncheckedCreateNestedManyWithoutBelongsToInput
     likes?: ConferenceLikesUncheckedCreateNestedManyWithoutBelongsToInput
-    calendars?: ConferenceCalendarsUncheckedCreateNestedManyWithoutBelongsToInput
     organizations?: ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
-    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutBelongsToInput
-    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesCreateOrConnectWithoutCrawlJobsInput = {
@@ -50295,15 +49498,15 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput
+    calendars?: ConferenceCalendarsUpdateManyWithoutBelongsToNestedInput
+    feedbacks?: ConferenceFeedbacksUpdateManyWithoutBelongsToNestedInput
     follows?: ConferenceFollowsUpdateManyWithoutBelongsToNestedInput
     likes?: ConferenceLikesUpdateManyWithoutBelongsToNestedInput
-    calendars?: ConferenceCalendarsUpdateManyWithoutBelongsToNestedInput
     organizations?: ConferenceOrganizationsUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneWithoutCreatedConferencesNestedInput
     createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
-    feedbacks?: ConferenceFeedbacksUpdateManyWithoutBelongsToNestedInput
-    blacklists?: ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateWithoutCrawlJobsInput = {
@@ -50315,13 +49518,13 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput
+    calendars?: ConferenceCalendarsUncheckedUpdateManyWithoutBelongsToNestedInput
+    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutBelongsToNestedInput
     follows?: ConferenceFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
     likes?: ConferenceLikesUncheckedUpdateManyWithoutBelongsToNestedInput
-    calendars?: ConferenceCalendarsUncheckedUpdateManyWithoutBelongsToNestedInput
     organizations?: ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
-    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutBelongsToNestedInput
-    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesCreateWithoutBlacklistsInput = {
@@ -50330,16 +49533,16 @@ export namespace Prisma {
     acronym: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    status: string
+    status?: string
+    calendars?: ConferenceCalendarsCreateNestedManyWithoutBelongsToInput
+    crawlJobs?: ConferenceCrawlJobsCreateNestedManyWithoutBelongsToInput
+    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutBelongsToInput
     follows?: ConferenceFollowsCreateNestedManyWithoutBelongsToInput
     likes?: ConferenceLikesCreateNestedManyWithoutBelongsToInput
-    calendars?: ConferenceCalendarsCreateNestedManyWithoutBelongsToInput
     organizations?: ConferenceOrganizationsCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
-    crawlJobs?: ConferenceCrawlJobsCreateNestedManyWithoutBelongsToInput
     createdByUser?: UsersCreateNestedOneWithoutCreatedConferencesInput
     createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
-    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesUncheckedCreateWithoutBlacklistsInput = {
@@ -50350,14 +49553,14 @@ export namespace Prisma {
     adminId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    status: string
-    follows?: ConferenceFollowsUncheckedCreateNestedManyWithoutBelongsToInput
-    likes?: ConferenceLikesUncheckedCreateNestedManyWithoutBelongsToInput
+    status?: string
     calendars?: ConferenceCalendarsUncheckedCreateNestedManyWithoutBelongsToInput
-    organizations?: ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput
-    ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
     crawlJobs?: ConferenceCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
     feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutBelongsToInput
+    follows?: ConferenceFollowsUncheckedCreateNestedManyWithoutBelongsToInput
+    likes?: ConferenceLikesUncheckedCreateNestedManyWithoutBelongsToInput
+    organizations?: ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput
+    ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesCreateOrConnectWithoutBlacklistsInput = {
@@ -50377,17 +49580,17 @@ export namespace Prisma {
     background: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    calendar?: ConferenceCalendarsCreateNestedManyWithoutByUserInput
+    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
     followConference?: ConferenceFollowsCreateNestedManyWithoutByUserInput
     likes?: ConferenceLikesCreateNestedManyWithoutByUserInput
-    calendar?: ConferenceCalendarsCreateNestedManyWithoutByUserInput
     createdConferences?: ConferencesCreateNestedManyWithoutCreatedByUserInput
-    interestedTopics?: TopicUserInterestedsCreateNestedManyWithoutBelongsToInput
-    createdJournals?: JournalsCreateNestedManyWithoutCreatedByUserInput
-    journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
     journalFollows?: JournalFollowsCreateNestedManyWithoutByUserInput
-    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
-    notifications?: NotificationsCreateNestedManyWithoutByUserInput
+    journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
+    createdJournals?: JournalsCreateNestedManyWithoutCreatedByUserInput
     notificationSettings?: NotificationSettingsCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsCreateNestedManyWithoutByUserInput
+    interestedTopics?: TopicUserInterestedsCreateNestedManyWithoutBelongsToInput
     verification?: UserVerificationCreateNestedManyWithoutByUserInput
   }
 
@@ -50403,17 +49606,17 @@ export namespace Prisma {
     background: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    calendar?: ConferenceCalendarsUncheckedCreateNestedManyWithoutByUserInput
+    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
     followConference?: ConferenceFollowsUncheckedCreateNestedManyWithoutByUserInput
     likes?: ConferenceLikesUncheckedCreateNestedManyWithoutByUserInput
-    calendar?: ConferenceCalendarsUncheckedCreateNestedManyWithoutByUserInput
     createdConferences?: ConferencesUncheckedCreateNestedManyWithoutCreatedByUserInput
-    interestedTopics?: TopicUserInterestedsUncheckedCreateNestedManyWithoutBelongsToInput
-    createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreatedByUserInput
-    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
     journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutByUserInput
-    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
-    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
+    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
+    createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreatedByUserInput
     notificationSettings?: NotificationSettingsUncheckedCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
+    interestedTopics?: TopicUserInterestedsUncheckedCreateNestedManyWithoutBelongsToInput
     verification?: UserVerificationUncheckedCreateNestedManyWithoutByUserInput
   }
 
@@ -50440,15 +49643,15 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
+    calendars?: ConferenceCalendarsUpdateManyWithoutBelongsToNestedInput
+    crawlJobs?: ConferenceCrawlJobsUpdateManyWithoutBelongsToNestedInput
+    feedbacks?: ConferenceFeedbacksUpdateManyWithoutBelongsToNestedInput
     follows?: ConferenceFollowsUpdateManyWithoutBelongsToNestedInput
     likes?: ConferenceLikesUpdateManyWithoutBelongsToNestedInput
-    calendars?: ConferenceCalendarsUpdateManyWithoutBelongsToNestedInput
     organizations?: ConferenceOrganizationsUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
-    crawlJobs?: ConferenceCrawlJobsUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneWithoutCreatedConferencesNestedInput
     createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
-    feedbacks?: ConferenceFeedbacksUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateWithoutBlacklistsInput = {
@@ -50460,13 +49663,13 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
-    follows?: ConferenceFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
-    likes?: ConferenceLikesUncheckedUpdateManyWithoutBelongsToNestedInput
     calendars?: ConferenceCalendarsUncheckedUpdateManyWithoutBelongsToNestedInput
-    organizations?: ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput
-    ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
     crawlJobs?: ConferenceCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
     feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutBelongsToNestedInput
+    follows?: ConferenceFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
+    likes?: ConferenceLikesUncheckedUpdateManyWithoutBelongsToNestedInput
+    organizations?: ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput
+    ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
   export type UsersUpsertWithoutBlacklistsInput = {
@@ -50492,17 +49695,17 @@ export namespace Prisma {
     background?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    calendar?: ConferenceCalendarsUpdateManyWithoutByUserNestedInput
+    feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
     followConference?: ConferenceFollowsUpdateManyWithoutByUserNestedInput
     likes?: ConferenceLikesUpdateManyWithoutByUserNestedInput
-    calendar?: ConferenceCalendarsUpdateManyWithoutByUserNestedInput
     createdConferences?: ConferencesUpdateManyWithoutCreatedByUserNestedInput
-    interestedTopics?: TopicUserInterestedsUpdateManyWithoutBelongsToNestedInput
-    createdJournals?: JournalsUpdateManyWithoutCreatedByUserNestedInput
-    journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
     journalFollows?: JournalFollowsUpdateManyWithoutByUserNestedInput
-    feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
-    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
+    journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
+    createdJournals?: JournalsUpdateManyWithoutCreatedByUserNestedInput
     notificationSettings?: NotificationSettingsUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
+    interestedTopics?: TopicUserInterestedsUpdateManyWithoutBelongsToNestedInput
     verification?: UserVerificationUpdateManyWithoutByUserNestedInput
   }
 
@@ -50518,17 +49721,17 @@ export namespace Prisma {
     background?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    calendar?: ConferenceCalendarsUncheckedUpdateManyWithoutByUserNestedInput
+    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
     followConference?: ConferenceFollowsUncheckedUpdateManyWithoutByUserNestedInput
     likes?: ConferenceLikesUncheckedUpdateManyWithoutByUserNestedInput
-    calendar?: ConferenceCalendarsUncheckedUpdateManyWithoutByUserNestedInput
     createdConferences?: ConferencesUncheckedUpdateManyWithoutCreatedByUserNestedInput
-    interestedTopics?: TopicUserInterestedsUncheckedUpdateManyWithoutBelongsToNestedInput
-    createdJournals?: JournalsUncheckedUpdateManyWithoutCreatedByUserNestedInput
-    journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
     journalFollows?: JournalFollowsUncheckedUpdateManyWithoutByUserNestedInput
-    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
-    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
+    journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
+    createdJournals?: JournalsUncheckedUpdateManyWithoutCreatedByUserNestedInput
     notificationSettings?: NotificationSettingsUncheckedUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
+    interestedTopics?: TopicUserInterestedsUncheckedUpdateManyWithoutBelongsToNestedInput
     verification?: UserVerificationUncheckedUpdateManyWithoutByUserNestedInput
   }
 
@@ -50541,11 +49744,12 @@ export namespace Prisma {
     nation: string
     scope: string
     emailSubmission: string
-    topics?: JournalTopicsCreateNestedManyWithoutInJournalsInput
-    journalRanks?: JournalRanksCreateNestedManyWithoutBelongsToInput
-    journalLikes?: JournalLikesCreateNestedManyWithoutBelongsToInput
     journalFollows?: JournalFollowsCreateNestedManyWithoutBelongsToInput
-    createdByUser: UsersCreateNestedOneWithoutCreatedJournalsInput
+    journalLikes?: JournalLikesCreateNestedManyWithoutBelongsToInput
+    journalRanks?: JournalRanksCreateNestedManyWithoutBelongsToInput
+    topics?: JournalTopicsCreateNestedManyWithoutInJournalsInput
+    createdByUser?: UsersCreateNestedOneWithoutCreatedJournalsInput
+    createByAdmin?: AdminsCreateNestedOneWithoutCreatedJournalsInput
   }
 
   export type JournalsUncheckedCreateWithoutCrawlJobsInput = {
@@ -50557,11 +49761,12 @@ export namespace Prisma {
     nation: string
     scope: string
     emailSubmission: string
-    creator: string
-    topics?: JournalTopicsUncheckedCreateNestedManyWithoutInJournalsInput
-    journalRanks?: JournalRanksUncheckedCreateNestedManyWithoutBelongsToInput
-    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutBelongsToInput
+    creatorId?: string | null
+    adminId?: string | null
     journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutBelongsToInput
+    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutBelongsToInput
+    journalRanks?: JournalRanksUncheckedCreateNestedManyWithoutBelongsToInput
+    topics?: JournalTopicsUncheckedCreateNestedManyWithoutInJournalsInput
   }
 
   export type JournalsCreateOrConnectWithoutCrawlJobsInput = {
@@ -50589,11 +49794,12 @@ export namespace Prisma {
     nation?: StringFieldUpdateOperationsInput | string
     scope?: StringFieldUpdateOperationsInput | string
     emailSubmission?: StringFieldUpdateOperationsInput | string
-    topics?: JournalTopicsUpdateManyWithoutInJournalsNestedInput
-    journalRanks?: JournalRanksUpdateManyWithoutBelongsToNestedInput
-    journalLikes?: JournalLikesUpdateManyWithoutBelongsToNestedInput
     journalFollows?: JournalFollowsUpdateManyWithoutBelongsToNestedInput
-    createdByUser?: UsersUpdateOneRequiredWithoutCreatedJournalsNestedInput
+    journalLikes?: JournalLikesUpdateManyWithoutBelongsToNestedInput
+    journalRanks?: JournalRanksUpdateManyWithoutBelongsToNestedInput
+    topics?: JournalTopicsUpdateManyWithoutInJournalsNestedInput
+    createdByUser?: UsersUpdateOneWithoutCreatedJournalsNestedInput
+    createByAdmin?: AdminsUpdateOneWithoutCreatedJournalsNestedInput
   }
 
   export type JournalsUncheckedUpdateWithoutCrawlJobsInput = {
@@ -50605,11 +49811,12 @@ export namespace Prisma {
     nation?: StringFieldUpdateOperationsInput | string
     scope?: StringFieldUpdateOperationsInput | string
     emailSubmission?: StringFieldUpdateOperationsInput | string
-    creator?: StringFieldUpdateOperationsInput | string
-    topics?: JournalTopicsUncheckedUpdateManyWithoutInJournalsNestedInput
-    journalRanks?: JournalRanksUncheckedUpdateManyWithoutBelongsToNestedInput
-    journalLikes?: JournalLikesUncheckedUpdateManyWithoutBelongsToNestedInput
+    creatorId?: NullableStringFieldUpdateOperationsInput | string | null
+    adminId?: NullableStringFieldUpdateOperationsInput | string | null
     journalFollows?: JournalFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
+    journalLikes?: JournalLikesUncheckedUpdateManyWithoutBelongsToNestedInput
+    journalRanks?: JournalRanksUncheckedUpdateManyWithoutBelongsToNestedInput
+    topics?: JournalTopicsUncheckedUpdateManyWithoutInJournalsNestedInput
   }
 
   export type NotificationsTypesCreateWithoutNotificationsInput = {
@@ -50645,17 +49852,17 @@ export namespace Prisma {
     background: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
+    calendar?: ConferenceCalendarsCreateNestedManyWithoutByUserInput
+    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
     followConference?: ConferenceFollowsCreateNestedManyWithoutByUserInput
     likes?: ConferenceLikesCreateNestedManyWithoutByUserInput
-    calendar?: ConferenceCalendarsCreateNestedManyWithoutByUserInput
     createdConferences?: ConferencesCreateNestedManyWithoutCreatedByUserInput
-    interestedTopics?: TopicUserInterestedsCreateNestedManyWithoutBelongsToInput
-    createdJournals?: JournalsCreateNestedManyWithoutCreatedByUserInput
-    journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
     journalFollows?: JournalFollowsCreateNestedManyWithoutByUserInput
-    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
-    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
+    journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
+    createdJournals?: JournalsCreateNestedManyWithoutCreatedByUserInput
     notificationSettings?: NotificationSettingsCreateNestedManyWithoutByUserInput
+    interestedTopics?: TopicUserInterestedsCreateNestedManyWithoutBelongsToInput
     verification?: UserVerificationCreateNestedManyWithoutByUserInput
   }
 
@@ -50671,17 +49878,17 @@ export namespace Prisma {
     background: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
+    calendar?: ConferenceCalendarsUncheckedCreateNestedManyWithoutByUserInput
+    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
     followConference?: ConferenceFollowsUncheckedCreateNestedManyWithoutByUserInput
     likes?: ConferenceLikesUncheckedCreateNestedManyWithoutByUserInput
-    calendar?: ConferenceCalendarsUncheckedCreateNestedManyWithoutByUserInput
     createdConferences?: ConferencesUncheckedCreateNestedManyWithoutCreatedByUserInput
-    interestedTopics?: TopicUserInterestedsUncheckedCreateNestedManyWithoutBelongsToInput
-    createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreatedByUserInput
-    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
     journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutByUserInput
-    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
-    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
+    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
+    createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreatedByUserInput
     notificationSettings?: NotificationSettingsUncheckedCreateNestedManyWithoutByUserInput
+    interestedTopics?: TopicUserInterestedsUncheckedCreateNestedManyWithoutBelongsToInput
     verification?: UserVerificationUncheckedCreateNestedManyWithoutByUserInput
   }
 
@@ -50740,17 +49947,17 @@ export namespace Prisma {
     background?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
+    calendar?: ConferenceCalendarsUpdateManyWithoutByUserNestedInput
+    feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
     followConference?: ConferenceFollowsUpdateManyWithoutByUserNestedInput
     likes?: ConferenceLikesUpdateManyWithoutByUserNestedInput
-    calendar?: ConferenceCalendarsUpdateManyWithoutByUserNestedInput
     createdConferences?: ConferencesUpdateManyWithoutCreatedByUserNestedInput
-    interestedTopics?: TopicUserInterestedsUpdateManyWithoutBelongsToNestedInput
-    createdJournals?: JournalsUpdateManyWithoutCreatedByUserNestedInput
-    journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
     journalFollows?: JournalFollowsUpdateManyWithoutByUserNestedInput
-    feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
-    blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
+    journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
+    createdJournals?: JournalsUpdateManyWithoutCreatedByUserNestedInput
     notificationSettings?: NotificationSettingsUpdateManyWithoutByUserNestedInput
+    interestedTopics?: TopicUserInterestedsUpdateManyWithoutBelongsToNestedInput
     verification?: UserVerificationUpdateManyWithoutByUserNestedInput
   }
 
@@ -50766,18 +49973,44 @@ export namespace Prisma {
     background?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
+    calendar?: ConferenceCalendarsUncheckedUpdateManyWithoutByUserNestedInput
+    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
     followConference?: ConferenceFollowsUncheckedUpdateManyWithoutByUserNestedInput
     likes?: ConferenceLikesUncheckedUpdateManyWithoutByUserNestedInput
-    calendar?: ConferenceCalendarsUncheckedUpdateManyWithoutByUserNestedInput
     createdConferences?: ConferencesUncheckedUpdateManyWithoutCreatedByUserNestedInput
-    interestedTopics?: TopicUserInterestedsUncheckedUpdateManyWithoutBelongsToNestedInput
-    createdJournals?: JournalsUncheckedUpdateManyWithoutCreatedByUserNestedInput
-    journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
     journalFollows?: JournalFollowsUncheckedUpdateManyWithoutByUserNestedInput
-    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
-    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
+    journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
+    createdJournals?: JournalsUncheckedUpdateManyWithoutCreatedByUserNestedInput
     notificationSettings?: NotificationSettingsUncheckedUpdateManyWithoutByUserNestedInput
+    interestedTopics?: TopicUserInterestedsUncheckedUpdateManyWithoutBelongsToNestedInput
     verification?: UserVerificationUncheckedUpdateManyWithoutByUserNestedInput
+  }
+
+  export type NotificationSettingsCreateWithoutBelongToNotifyInput = {
+    id?: string
+    isEnabled?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    byUser: UsersCreateNestedOneWithoutNotificationSettingsInput
+  }
+
+  export type NotificationSettingsUncheckedCreateWithoutBelongToNotifyInput = {
+    id?: string
+    userId: string
+    isEnabled?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type NotificationSettingsCreateOrConnectWithoutBelongToNotifyInput = {
+    where: NotificationSettingsWhereUniqueInput
+    create: XOR<NotificationSettingsCreateWithoutBelongToNotifyInput, NotificationSettingsUncheckedCreateWithoutBelongToNotifyInput>
+  }
+
+  export type NotificationSettingsCreateManyBelongToNotifyInputEnvelope = {
+    data: NotificationSettingsCreateManyBelongToNotifyInput | NotificationSettingsCreateManyBelongToNotifyInput[]
+    skipDuplicates?: boolean
   }
 
   export type NotificationsCreateWithoutBelongToNotifyInput = {
@@ -50808,48 +50041,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type NotificationSettingsCreateWithoutBelongToNotifyInput = {
-    id?: string
-    isEnabled?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    byUser: UsersCreateNestedOneWithoutNotificationSettingsInput
-  }
-
-  export type NotificationSettingsUncheckedCreateWithoutBelongToNotifyInput = {
-    id?: string
-    userId: string
-    isEnabled?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type NotificationSettingsCreateOrConnectWithoutBelongToNotifyInput = {
-    where: NotificationSettingsWhereUniqueInput
-    create: XOR<NotificationSettingsCreateWithoutBelongToNotifyInput, NotificationSettingsUncheckedCreateWithoutBelongToNotifyInput>
-  }
-
-  export type NotificationSettingsCreateManyBelongToNotifyInputEnvelope = {
-    data: NotificationSettingsCreateManyBelongToNotifyInput | NotificationSettingsCreateManyBelongToNotifyInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type NotificationsUpsertWithWhereUniqueWithoutBelongToNotifyInput = {
-    where: NotificationsWhereUniqueInput
-    update: XOR<NotificationsUpdateWithoutBelongToNotifyInput, NotificationsUncheckedUpdateWithoutBelongToNotifyInput>
-    create: XOR<NotificationsCreateWithoutBelongToNotifyInput, NotificationsUncheckedCreateWithoutBelongToNotifyInput>
-  }
-
-  export type NotificationsUpdateWithWhereUniqueWithoutBelongToNotifyInput = {
-    where: NotificationsWhereUniqueInput
-    data: XOR<NotificationsUpdateWithoutBelongToNotifyInput, NotificationsUncheckedUpdateWithoutBelongToNotifyInput>
-  }
-
-  export type NotificationsUpdateManyWithWhereWithoutBelongToNotifyInput = {
-    where: NotificationsScalarWhereInput
-    data: XOR<NotificationsUpdateManyMutationInput, NotificationsUncheckedUpdateManyWithoutBelongToNotifyInput>
-  }
-
   export type NotificationSettingsUpsertWithWhereUniqueWithoutBelongToNotifyInput = {
     where: NotificationSettingsWhereUniqueInput
     update: XOR<NotificationSettingsUpdateWithoutBelongToNotifyInput, NotificationSettingsUncheckedUpdateWithoutBelongToNotifyInput>
@@ -50866,61 +50057,20 @@ export namespace Prisma {
     data: XOR<NotificationSettingsUpdateManyMutationInput, NotificationSettingsUncheckedUpdateManyWithoutBelongToNotifyInput>
   }
 
-  export type UsersCreateWithoutNotificationSettingsInput = {
-    id?: string
-    email: string
-    password: string
-    firstName: string
-    lastName: string
-    dob: Date | string
-    avatar: string
-    aboutMe: string
-    background: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    followConference?: ConferenceFollowsCreateNestedManyWithoutByUserInput
-    likes?: ConferenceLikesCreateNestedManyWithoutByUserInput
-    calendar?: ConferenceCalendarsCreateNestedManyWithoutByUserInput
-    createdConferences?: ConferencesCreateNestedManyWithoutCreatedByUserInput
-    interestedTopics?: TopicUserInterestedsCreateNestedManyWithoutBelongsToInput
-    createdJournals?: JournalsCreateNestedManyWithoutCreatedByUserInput
-    journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
-    journalFollows?: JournalFollowsCreateNestedManyWithoutByUserInput
-    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
-    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
-    notifications?: NotificationsCreateNestedManyWithoutByUserInput
-    verification?: UserVerificationCreateNestedManyWithoutByUserInput
+  export type NotificationsUpsertWithWhereUniqueWithoutBelongToNotifyInput = {
+    where: NotificationsWhereUniqueInput
+    update: XOR<NotificationsUpdateWithoutBelongToNotifyInput, NotificationsUncheckedUpdateWithoutBelongToNotifyInput>
+    create: XOR<NotificationsCreateWithoutBelongToNotifyInput, NotificationsUncheckedCreateWithoutBelongToNotifyInput>
   }
 
-  export type UsersUncheckedCreateWithoutNotificationSettingsInput = {
-    id?: string
-    email: string
-    password: string
-    firstName: string
-    lastName: string
-    dob: Date | string
-    avatar: string
-    aboutMe: string
-    background: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    followConference?: ConferenceFollowsUncheckedCreateNestedManyWithoutByUserInput
-    likes?: ConferenceLikesUncheckedCreateNestedManyWithoutByUserInput
-    calendar?: ConferenceCalendarsUncheckedCreateNestedManyWithoutByUserInput
-    createdConferences?: ConferencesUncheckedCreateNestedManyWithoutCreatedByUserInput
-    interestedTopics?: TopicUserInterestedsUncheckedCreateNestedManyWithoutBelongsToInput
-    createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreatedByUserInput
-    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
-    journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutByUserInput
-    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
-    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
-    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
-    verification?: UserVerificationUncheckedCreateNestedManyWithoutByUserInput
+  export type NotificationsUpdateWithWhereUniqueWithoutBelongToNotifyInput = {
+    where: NotificationsWhereUniqueInput
+    data: XOR<NotificationsUpdateWithoutBelongToNotifyInput, NotificationsUncheckedUpdateWithoutBelongToNotifyInput>
   }
 
-  export type UsersCreateOrConnectWithoutNotificationSettingsInput = {
-    where: UsersWhereUniqueInput
-    create: XOR<UsersCreateWithoutNotificationSettingsInput, UsersUncheckedCreateWithoutNotificationSettingsInput>
+  export type NotificationsUpdateManyWithWhereWithoutBelongToNotifyInput = {
+    where: NotificationsScalarWhereInput
+    data: XOR<NotificationsUpdateManyMutationInput, NotificationsUncheckedUpdateManyWithoutBelongToNotifyInput>
   }
 
   export type NotificationsTypesCreateWithoutSettingsInput = {
@@ -50944,67 +50094,61 @@ export namespace Prisma {
     create: XOR<NotificationsTypesCreateWithoutSettingsInput, NotificationsTypesUncheckedCreateWithoutSettingsInput>
   }
 
-  export type UsersUpsertWithoutNotificationSettingsInput = {
-    update: XOR<UsersUpdateWithoutNotificationSettingsInput, UsersUncheckedUpdateWithoutNotificationSettingsInput>
+  export type UsersCreateWithoutNotificationSettingsInput = {
+    id?: string
+    email: string
+    password: string
+    firstName: string
+    lastName: string
+    dob: Date | string
+    avatar: string
+    aboutMe: string
+    background: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
+    calendar?: ConferenceCalendarsCreateNestedManyWithoutByUserInput
+    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
+    followConference?: ConferenceFollowsCreateNestedManyWithoutByUserInput
+    likes?: ConferenceLikesCreateNestedManyWithoutByUserInput
+    createdConferences?: ConferencesCreateNestedManyWithoutCreatedByUserInput
+    journalFollows?: JournalFollowsCreateNestedManyWithoutByUserInput
+    journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
+    createdJournals?: JournalsCreateNestedManyWithoutCreatedByUserInput
+    notifications?: NotificationsCreateNestedManyWithoutByUserInput
+    interestedTopics?: TopicUserInterestedsCreateNestedManyWithoutBelongsToInput
+    verification?: UserVerificationCreateNestedManyWithoutByUserInput
+  }
+
+  export type UsersUncheckedCreateWithoutNotificationSettingsInput = {
+    id?: string
+    email: string
+    password: string
+    firstName: string
+    lastName: string
+    dob: Date | string
+    avatar: string
+    aboutMe: string
+    background: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
+    calendar?: ConferenceCalendarsUncheckedCreateNestedManyWithoutByUserInput
+    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
+    followConference?: ConferenceFollowsUncheckedCreateNestedManyWithoutByUserInput
+    likes?: ConferenceLikesUncheckedCreateNestedManyWithoutByUserInput
+    createdConferences?: ConferencesUncheckedCreateNestedManyWithoutCreatedByUserInput
+    journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutByUserInput
+    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
+    createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreatedByUserInput
+    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
+    interestedTopics?: TopicUserInterestedsUncheckedCreateNestedManyWithoutBelongsToInput
+    verification?: UserVerificationUncheckedCreateNestedManyWithoutByUserInput
+  }
+
+  export type UsersCreateOrConnectWithoutNotificationSettingsInput = {
+    where: UsersWhereUniqueInput
     create: XOR<UsersCreateWithoutNotificationSettingsInput, UsersUncheckedCreateWithoutNotificationSettingsInput>
-    where?: UsersWhereInput
-  }
-
-  export type UsersUpdateToOneWithWhereWithoutNotificationSettingsInput = {
-    where?: UsersWhereInput
-    data: XOR<UsersUpdateWithoutNotificationSettingsInput, UsersUncheckedUpdateWithoutNotificationSettingsInput>
-  }
-
-  export type UsersUpdateWithoutNotificationSettingsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
-    dob?: DateTimeFieldUpdateOperationsInput | Date | string
-    avatar?: StringFieldUpdateOperationsInput | string
-    aboutMe?: StringFieldUpdateOperationsInput | string
-    background?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followConference?: ConferenceFollowsUpdateManyWithoutByUserNestedInput
-    likes?: ConferenceLikesUpdateManyWithoutByUserNestedInput
-    calendar?: ConferenceCalendarsUpdateManyWithoutByUserNestedInput
-    createdConferences?: ConferencesUpdateManyWithoutCreatedByUserNestedInput
-    interestedTopics?: TopicUserInterestedsUpdateManyWithoutBelongsToNestedInput
-    createdJournals?: JournalsUpdateManyWithoutCreatedByUserNestedInput
-    journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
-    journalFollows?: JournalFollowsUpdateManyWithoutByUserNestedInput
-    feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
-    blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
-    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
-    verification?: UserVerificationUpdateManyWithoutByUserNestedInput
-  }
-
-  export type UsersUncheckedUpdateWithoutNotificationSettingsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
-    dob?: DateTimeFieldUpdateOperationsInput | Date | string
-    avatar?: StringFieldUpdateOperationsInput | string
-    aboutMe?: StringFieldUpdateOperationsInput | string
-    background?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followConference?: ConferenceFollowsUncheckedUpdateManyWithoutByUserNestedInput
-    likes?: ConferenceLikesUncheckedUpdateManyWithoutByUserNestedInput
-    calendar?: ConferenceCalendarsUncheckedUpdateManyWithoutByUserNestedInput
-    createdConferences?: ConferencesUncheckedUpdateManyWithoutCreatedByUserNestedInput
-    interestedTopics?: TopicUserInterestedsUncheckedUpdateManyWithoutBelongsToNestedInput
-    createdJournals?: JournalsUncheckedUpdateManyWithoutCreatedByUserNestedInput
-    journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
-    journalFollows?: JournalFollowsUncheckedUpdateManyWithoutByUserNestedInput
-    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
-    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
-    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
-    verification?: UserVerificationUncheckedUpdateManyWithoutByUserNestedInput
   }
 
   export type NotificationsTypesUpsertWithoutSettingsInput = {
@@ -51034,61 +50178,67 @@ export namespace Prisma {
     notifications?: NotificationsUncheckedUpdateManyWithoutBelongToNotifyNestedInput
   }
 
-  export type UsersCreateWithoutInterestedTopicsInput = {
-    id?: string
-    email: string
-    password: string
-    firstName: string
-    lastName: string
-    dob: Date | string
-    avatar: string
-    aboutMe: string
-    background: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    followConference?: ConferenceFollowsCreateNestedManyWithoutByUserInput
-    likes?: ConferenceLikesCreateNestedManyWithoutByUserInput
-    calendar?: ConferenceCalendarsCreateNestedManyWithoutByUserInput
-    createdConferences?: ConferencesCreateNestedManyWithoutCreatedByUserInput
-    createdJournals?: JournalsCreateNestedManyWithoutCreatedByUserInput
-    journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
-    journalFollows?: JournalFollowsCreateNestedManyWithoutByUserInput
-    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
-    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
-    notifications?: NotificationsCreateNestedManyWithoutByUserInput
-    notificationSettings?: NotificationSettingsCreateNestedManyWithoutByUserInput
-    verification?: UserVerificationCreateNestedManyWithoutByUserInput
+  export type UsersUpsertWithoutNotificationSettingsInput = {
+    update: XOR<UsersUpdateWithoutNotificationSettingsInput, UsersUncheckedUpdateWithoutNotificationSettingsInput>
+    create: XOR<UsersCreateWithoutNotificationSettingsInput, UsersUncheckedCreateWithoutNotificationSettingsInput>
+    where?: UsersWhereInput
   }
 
-  export type UsersUncheckedCreateWithoutInterestedTopicsInput = {
-    id?: string
-    email: string
-    password: string
-    firstName: string
-    lastName: string
-    dob: Date | string
-    avatar: string
-    aboutMe: string
-    background: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    followConference?: ConferenceFollowsUncheckedCreateNestedManyWithoutByUserInput
-    likes?: ConferenceLikesUncheckedCreateNestedManyWithoutByUserInput
-    calendar?: ConferenceCalendarsUncheckedCreateNestedManyWithoutByUserInput
-    createdConferences?: ConferencesUncheckedCreateNestedManyWithoutCreatedByUserInput
-    createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreatedByUserInput
-    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
-    journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutByUserInput
-    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
-    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
-    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
-    notificationSettings?: NotificationSettingsUncheckedCreateNestedManyWithoutByUserInput
-    verification?: UserVerificationUncheckedCreateNestedManyWithoutByUserInput
+  export type UsersUpdateToOneWithWhereWithoutNotificationSettingsInput = {
+    where?: UsersWhereInput
+    data: XOR<UsersUpdateWithoutNotificationSettingsInput, UsersUncheckedUpdateWithoutNotificationSettingsInput>
   }
 
-  export type UsersCreateOrConnectWithoutInterestedTopicsInput = {
-    where: UsersWhereUniqueInput
-    create: XOR<UsersCreateWithoutInterestedTopicsInput, UsersUncheckedCreateWithoutInterestedTopicsInput>
+  export type UsersUpdateWithoutNotificationSettingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    dob?: DateTimeFieldUpdateOperationsInput | Date | string
+    avatar?: StringFieldUpdateOperationsInput | string
+    aboutMe?: StringFieldUpdateOperationsInput | string
+    background?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
+    calendar?: ConferenceCalendarsUpdateManyWithoutByUserNestedInput
+    feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
+    followConference?: ConferenceFollowsUpdateManyWithoutByUserNestedInput
+    likes?: ConferenceLikesUpdateManyWithoutByUserNestedInput
+    createdConferences?: ConferencesUpdateManyWithoutCreatedByUserNestedInput
+    journalFollows?: JournalFollowsUpdateManyWithoutByUserNestedInput
+    journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
+    createdJournals?: JournalsUpdateManyWithoutCreatedByUserNestedInput
+    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
+    interestedTopics?: TopicUserInterestedsUpdateManyWithoutBelongsToNestedInput
+    verification?: UserVerificationUpdateManyWithoutByUserNestedInput
+  }
+
+  export type UsersUncheckedUpdateWithoutNotificationSettingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    dob?: DateTimeFieldUpdateOperationsInput | Date | string
+    avatar?: StringFieldUpdateOperationsInput | string
+    aboutMe?: StringFieldUpdateOperationsInput | string
+    background?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
+    calendar?: ConferenceCalendarsUncheckedUpdateManyWithoutByUserNestedInput
+    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
+    followConference?: ConferenceFollowsUncheckedUpdateManyWithoutByUserNestedInput
+    likes?: ConferenceLikesUncheckedUpdateManyWithoutByUserNestedInput
+    createdConferences?: ConferencesUncheckedUpdateManyWithoutCreatedByUserNestedInput
+    journalFollows?: JournalFollowsUncheckedUpdateManyWithoutByUserNestedInput
+    journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
+    createdJournals?: JournalsUncheckedUpdateManyWithoutCreatedByUserNestedInput
+    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
+    interestedTopics?: TopicUserInterestedsUncheckedUpdateManyWithoutBelongsToNestedInput
+    verification?: UserVerificationUncheckedUpdateManyWithoutByUserNestedInput
   }
 
   export type TopicsCreateWithoutInInterestedInput = {
@@ -51114,67 +50264,61 @@ export namespace Prisma {
     create: XOR<TopicsCreateWithoutInInterestedInput, TopicsUncheckedCreateWithoutInInterestedInput>
   }
 
-  export type UsersUpsertWithoutInterestedTopicsInput = {
-    update: XOR<UsersUpdateWithoutInterestedTopicsInput, UsersUncheckedUpdateWithoutInterestedTopicsInput>
+  export type UsersCreateWithoutInterestedTopicsInput = {
+    id?: string
+    email: string
+    password: string
+    firstName: string
+    lastName: string
+    dob: Date | string
+    avatar: string
+    aboutMe: string
+    background: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
+    calendar?: ConferenceCalendarsCreateNestedManyWithoutByUserInput
+    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
+    followConference?: ConferenceFollowsCreateNestedManyWithoutByUserInput
+    likes?: ConferenceLikesCreateNestedManyWithoutByUserInput
+    createdConferences?: ConferencesCreateNestedManyWithoutCreatedByUserInput
+    journalFollows?: JournalFollowsCreateNestedManyWithoutByUserInput
+    journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
+    createdJournals?: JournalsCreateNestedManyWithoutCreatedByUserInput
+    notificationSettings?: NotificationSettingsCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsCreateNestedManyWithoutByUserInput
+    verification?: UserVerificationCreateNestedManyWithoutByUserInput
+  }
+
+  export type UsersUncheckedCreateWithoutInterestedTopicsInput = {
+    id?: string
+    email: string
+    password: string
+    firstName: string
+    lastName: string
+    dob: Date | string
+    avatar: string
+    aboutMe: string
+    background: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
+    calendar?: ConferenceCalendarsUncheckedCreateNestedManyWithoutByUserInput
+    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
+    followConference?: ConferenceFollowsUncheckedCreateNestedManyWithoutByUserInput
+    likes?: ConferenceLikesUncheckedCreateNestedManyWithoutByUserInput
+    createdConferences?: ConferencesUncheckedCreateNestedManyWithoutCreatedByUserInput
+    journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutByUserInput
+    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
+    createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreatedByUserInput
+    notificationSettings?: NotificationSettingsUncheckedCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
+    verification?: UserVerificationUncheckedCreateNestedManyWithoutByUserInput
+  }
+
+  export type UsersCreateOrConnectWithoutInterestedTopicsInput = {
+    where: UsersWhereUniqueInput
     create: XOR<UsersCreateWithoutInterestedTopicsInput, UsersUncheckedCreateWithoutInterestedTopicsInput>
-    where?: UsersWhereInput
-  }
-
-  export type UsersUpdateToOneWithWhereWithoutInterestedTopicsInput = {
-    where?: UsersWhereInput
-    data: XOR<UsersUpdateWithoutInterestedTopicsInput, UsersUncheckedUpdateWithoutInterestedTopicsInput>
-  }
-
-  export type UsersUpdateWithoutInterestedTopicsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
-    dob?: DateTimeFieldUpdateOperationsInput | Date | string
-    avatar?: StringFieldUpdateOperationsInput | string
-    aboutMe?: StringFieldUpdateOperationsInput | string
-    background?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followConference?: ConferenceFollowsUpdateManyWithoutByUserNestedInput
-    likes?: ConferenceLikesUpdateManyWithoutByUserNestedInput
-    calendar?: ConferenceCalendarsUpdateManyWithoutByUserNestedInput
-    createdConferences?: ConferencesUpdateManyWithoutCreatedByUserNestedInput
-    createdJournals?: JournalsUpdateManyWithoutCreatedByUserNestedInput
-    journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
-    journalFollows?: JournalFollowsUpdateManyWithoutByUserNestedInput
-    feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
-    blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
-    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
-    notificationSettings?: NotificationSettingsUpdateManyWithoutByUserNestedInput
-    verification?: UserVerificationUpdateManyWithoutByUserNestedInput
-  }
-
-  export type UsersUncheckedUpdateWithoutInterestedTopicsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
-    dob?: DateTimeFieldUpdateOperationsInput | Date | string
-    avatar?: StringFieldUpdateOperationsInput | string
-    aboutMe?: StringFieldUpdateOperationsInput | string
-    background?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    followConference?: ConferenceFollowsUncheckedUpdateManyWithoutByUserNestedInput
-    likes?: ConferenceLikesUncheckedUpdateManyWithoutByUserNestedInput
-    calendar?: ConferenceCalendarsUncheckedUpdateManyWithoutByUserNestedInput
-    createdConferences?: ConferencesUncheckedUpdateManyWithoutCreatedByUserNestedInput
-    createdJournals?: JournalsUncheckedUpdateManyWithoutCreatedByUserNestedInput
-    journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
-    journalFollows?: JournalFollowsUncheckedUpdateManyWithoutByUserNestedInput
-    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
-    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
-    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
-    notificationSettings?: NotificationSettingsUncheckedUpdateManyWithoutByUserNestedInput
-    verification?: UserVerificationUncheckedUpdateManyWithoutByUserNestedInput
   }
 
   export type TopicsUpsertWithoutInInterestedInput = {
@@ -51206,6 +50350,69 @@ export namespace Prisma {
     inJournalTopics?: JournalTopicsUncheckedUpdateManyWithoutBelongsToTopicsNestedInput
   }
 
+  export type UsersUpsertWithoutInterestedTopicsInput = {
+    update: XOR<UsersUpdateWithoutInterestedTopicsInput, UsersUncheckedUpdateWithoutInterestedTopicsInput>
+    create: XOR<UsersCreateWithoutInterestedTopicsInput, UsersUncheckedCreateWithoutInterestedTopicsInput>
+    where?: UsersWhereInput
+  }
+
+  export type UsersUpdateToOneWithWhereWithoutInterestedTopicsInput = {
+    where?: UsersWhereInput
+    data: XOR<UsersUpdateWithoutInterestedTopicsInput, UsersUncheckedUpdateWithoutInterestedTopicsInput>
+  }
+
+  export type UsersUpdateWithoutInterestedTopicsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    dob?: DateTimeFieldUpdateOperationsInput | Date | string
+    avatar?: StringFieldUpdateOperationsInput | string
+    aboutMe?: StringFieldUpdateOperationsInput | string
+    background?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
+    calendar?: ConferenceCalendarsUpdateManyWithoutByUserNestedInput
+    feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
+    followConference?: ConferenceFollowsUpdateManyWithoutByUserNestedInput
+    likes?: ConferenceLikesUpdateManyWithoutByUserNestedInput
+    createdConferences?: ConferencesUpdateManyWithoutCreatedByUserNestedInput
+    journalFollows?: JournalFollowsUpdateManyWithoutByUserNestedInput
+    journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
+    createdJournals?: JournalsUpdateManyWithoutCreatedByUserNestedInput
+    notificationSettings?: NotificationSettingsUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
+    verification?: UserVerificationUpdateManyWithoutByUserNestedInput
+  }
+
+  export type UsersUncheckedUpdateWithoutInterestedTopicsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    dob?: DateTimeFieldUpdateOperationsInput | Date | string
+    avatar?: StringFieldUpdateOperationsInput | string
+    aboutMe?: StringFieldUpdateOperationsInput | string
+    background?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
+    calendar?: ConferenceCalendarsUncheckedUpdateManyWithoutByUserNestedInput
+    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
+    followConference?: ConferenceFollowsUncheckedUpdateManyWithoutByUserNestedInput
+    likes?: ConferenceLikesUncheckedUpdateManyWithoutByUserNestedInput
+    createdConferences?: ConferencesUncheckedUpdateManyWithoutCreatedByUserNestedInput
+    journalFollows?: JournalFollowsUncheckedUpdateManyWithoutByUserNestedInput
+    journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
+    createdJournals?: JournalsUncheckedUpdateManyWithoutCreatedByUserNestedInput
+    notificationSettings?: NotificationSettingsUncheckedUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
+    verification?: UserVerificationUncheckedUpdateManyWithoutByUserNestedInput
+  }
+
   export type UsersCreateWithoutVerificationInput = {
     id?: string
     email: string
@@ -51218,18 +50425,18 @@ export namespace Prisma {
     background: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
+    calendar?: ConferenceCalendarsCreateNestedManyWithoutByUserInput
+    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
     followConference?: ConferenceFollowsCreateNestedManyWithoutByUserInput
     likes?: ConferenceLikesCreateNestedManyWithoutByUserInput
-    calendar?: ConferenceCalendarsCreateNestedManyWithoutByUserInput
     createdConferences?: ConferencesCreateNestedManyWithoutCreatedByUserInput
-    interestedTopics?: TopicUserInterestedsCreateNestedManyWithoutBelongsToInput
-    createdJournals?: JournalsCreateNestedManyWithoutCreatedByUserInput
-    journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
     journalFollows?: JournalFollowsCreateNestedManyWithoutByUserInput
-    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutByUserInput
-    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutByUserInput
-    notifications?: NotificationsCreateNestedManyWithoutByUserInput
+    journalLikes?: JournalLikesCreateNestedManyWithoutByUserInput
+    createdJournals?: JournalsCreateNestedManyWithoutCreatedByUserInput
     notificationSettings?: NotificationSettingsCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsCreateNestedManyWithoutByUserInput
+    interestedTopics?: TopicUserInterestedsCreateNestedManyWithoutBelongsToInput
   }
 
   export type UsersUncheckedCreateWithoutVerificationInput = {
@@ -51244,18 +50451,18 @@ export namespace Prisma {
     background: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
+    calendar?: ConferenceCalendarsUncheckedCreateNestedManyWithoutByUserInput
+    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
     followConference?: ConferenceFollowsUncheckedCreateNestedManyWithoutByUserInput
     likes?: ConferenceLikesUncheckedCreateNestedManyWithoutByUserInput
-    calendar?: ConferenceCalendarsUncheckedCreateNestedManyWithoutByUserInput
     createdConferences?: ConferencesUncheckedCreateNestedManyWithoutCreatedByUserInput
-    interestedTopics?: TopicUserInterestedsUncheckedCreateNestedManyWithoutBelongsToInput
-    createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreatedByUserInput
-    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
     journalFollows?: JournalFollowsUncheckedCreateNestedManyWithoutByUserInput
-    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutByUserInput
-    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutByUserInput
-    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
+    journalLikes?: JournalLikesUncheckedCreateNestedManyWithoutByUserInput
+    createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreatedByUserInput
     notificationSettings?: NotificationSettingsUncheckedCreateNestedManyWithoutByUserInput
+    notifications?: NotificationsUncheckedCreateNestedManyWithoutByUserInput
+    interestedTopics?: TopicUserInterestedsUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
   export type UsersCreateOrConnectWithoutVerificationInput = {
@@ -51286,18 +50493,18 @@ export namespace Prisma {
     background?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
+    calendar?: ConferenceCalendarsUpdateManyWithoutByUserNestedInput
+    feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
     followConference?: ConferenceFollowsUpdateManyWithoutByUserNestedInput
     likes?: ConferenceLikesUpdateManyWithoutByUserNestedInput
-    calendar?: ConferenceCalendarsUpdateManyWithoutByUserNestedInput
     createdConferences?: ConferencesUpdateManyWithoutCreatedByUserNestedInput
-    interestedTopics?: TopicUserInterestedsUpdateManyWithoutBelongsToNestedInput
-    createdJournals?: JournalsUpdateManyWithoutCreatedByUserNestedInput
-    journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
     journalFollows?: JournalFollowsUpdateManyWithoutByUserNestedInput
-    feedbacks?: ConferenceFeedbacksUpdateManyWithoutByUserNestedInput
-    blacklists?: ConferenceBlacklistsUpdateManyWithoutByUserNestedInput
-    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
+    journalLikes?: JournalLikesUpdateManyWithoutByUserNestedInput
+    createdJournals?: JournalsUpdateManyWithoutCreatedByUserNestedInput
     notificationSettings?: NotificationSettingsUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUpdateManyWithoutByUserNestedInput
+    interestedTopics?: TopicUserInterestedsUpdateManyWithoutBelongsToNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutVerificationInput = {
@@ -51312,29 +50519,36 @@ export namespace Prisma {
     background?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
+    calendar?: ConferenceCalendarsUncheckedUpdateManyWithoutByUserNestedInput
+    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
     followConference?: ConferenceFollowsUncheckedUpdateManyWithoutByUserNestedInput
     likes?: ConferenceLikesUncheckedUpdateManyWithoutByUserNestedInput
-    calendar?: ConferenceCalendarsUncheckedUpdateManyWithoutByUserNestedInput
     createdConferences?: ConferencesUncheckedUpdateManyWithoutCreatedByUserNestedInput
-    interestedTopics?: TopicUserInterestedsUncheckedUpdateManyWithoutBelongsToNestedInput
-    createdJournals?: JournalsUncheckedUpdateManyWithoutCreatedByUserNestedInput
-    journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
     journalFollows?: JournalFollowsUncheckedUpdateManyWithoutByUserNestedInput
-    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutByUserNestedInput
-    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutByUserNestedInput
-    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
+    journalLikes?: JournalLikesUncheckedUpdateManyWithoutByUserNestedInput
+    createdJournals?: JournalsUncheckedUpdateManyWithoutCreatedByUserNestedInput
     notificationSettings?: NotificationSettingsUncheckedUpdateManyWithoutByUserNestedInput
+    notifications?: NotificationsUncheckedUpdateManyWithoutByUserNestedInput
+    interestedTopics?: TopicUserInterestedsUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferenceDatesCreateManyBelongsToInput = {
     id?: string
-    fromDate: Date | string
-    toDate: Date | string
+    fromDate?: Date | string | null
+    toDate?: Date | string | null
     type: string
     name: string
     createdAt?: Date | string
     updatedAt?: Date | string
     isAvailable: boolean
+  }
+
+  export type ConferenceTopicsCreateManyBelongsToInput = {
+    id?: string
+    topicId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type LocationsCreateManyBelongsToInput = {
@@ -51348,17 +50562,10 @@ export namespace Prisma {
     isAvailable: boolean
   }
 
-  export type ConferenceTopicsCreateManyBelongsToInput = {
-    id?: string
-    topicId: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
   export type ConferenceDatesUpdateWithoutBelongsToInput = {
     id?: StringFieldUpdateOperationsInput | string
-    fromDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    toDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    fromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    toDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     type?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -51368,8 +50575,8 @@ export namespace Prisma {
 
   export type ConferenceDatesUncheckedUpdateWithoutBelongsToInput = {
     id?: StringFieldUpdateOperationsInput | string
-    fromDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    toDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    fromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    toDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     type?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -51379,13 +50586,34 @@ export namespace Prisma {
 
   export type ConferenceDatesUncheckedUpdateManyWithoutBelongsToInput = {
     id?: StringFieldUpdateOperationsInput | string
-    fromDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    toDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    fromDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    toDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     type?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type ConferenceTopicsUpdateWithoutBelongsToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    inTopic?: TopicsUpdateOneRequiredWithoutInConferenceTopicsNestedInput
+  }
+
+  export type ConferenceTopicsUncheckedUpdateWithoutBelongsToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    topicId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConferenceTopicsUncheckedUpdateManyWithoutBelongsToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    topicId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LocationsUpdateWithoutBelongsToInput = {
@@ -51419,27 +50647,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
-  }
-
-  export type ConferenceTopicsUpdateWithoutBelongsToInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    inTopic?: TopicsUpdateOneRequiredWithoutInConferenceTopicsNestedInput
-  }
-
-  export type ConferenceTopicsUncheckedUpdateWithoutBelongsToInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    topicId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ConferenceTopicsUncheckedUpdateManyWithoutBelongsToInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    topicId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ConferenceTopicsCreateManyInTopicInput = {
@@ -51514,6 +50721,38 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ConferenceBlacklistsCreateManyBelongsToInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ConferenceCalendarsCreateManyBelongsToInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ConferenceCrawlJobsCreateManyBelongsToInput = {
+    id?: string
+    status: string
+    progress: number
+    message: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ConferenceFeedbacksCreateManyBelongsToInput = {
+    id?: string
+    creatorId: string
+    description: string
+    star: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type ConferenceFollowsCreateManyBelongsToInput = {
     id?: string
     userId: string
@@ -51522,13 +50761,6 @@ export namespace Prisma {
   }
 
   export type ConferenceLikesCreateManyBelongsToInput = {
-    id?: string
-    userId: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ConferenceCalendarsCreateManyBelongsToInput = {
     id?: string
     userId: string
     createdAt?: Date | string
@@ -51557,67 +50789,21 @@ export namespace Prisma {
     rankId: string
   }
 
-  export type ConferenceCrawlJobsCreateManyBelongsToInput = {
-    id?: string
-    status: string
-    progress: number
-    message: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ConferenceFeedbacksCreateManyBelongsToInput = {
-    id?: string
-    creatorId: string
-    description: string
-    star: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ConferenceBlacklistsCreateManyBelongsToInput = {
-    id?: string
-    userId: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ConferenceFollowsUpdateWithoutBelongsToInput = {
+  export type ConferenceBlacklistsUpdateWithoutBelongsToInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    byUser?: UsersUpdateOneRequiredWithoutFollowConferenceNestedInput
+    byUser?: UsersUpdateOneRequiredWithoutBlacklistsNestedInput
   }
 
-  export type ConferenceFollowsUncheckedUpdateWithoutBelongsToInput = {
+  export type ConferenceBlacklistsUncheckedUpdateWithoutBelongsToInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ConferenceFollowsUncheckedUpdateManyWithoutBelongsToInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ConferenceLikesUpdateWithoutBelongsToInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    byUser?: UsersUpdateOneRequiredWithoutLikesNestedInput
-  }
-
-  export type ConferenceLikesUncheckedUpdateWithoutBelongsToInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ConferenceLikesUncheckedUpdateManyWithoutBelongsToInput = {
+  export type ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -51643,78 +50829,6 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ConferenceOrganizationsUpdateWithoutBelongsToInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    year?: NullableIntFieldUpdateOperationsInput | number | null
-    accessType?: StringFieldUpdateOperationsInput | string
-    isAvailable?: BoolFieldUpdateOperationsInput | boolean
-    publisher?: StringFieldUpdateOperationsInput | string
-    summerize?: StringFieldUpdateOperationsInput | string
-    callForPaper?: StringFieldUpdateOperationsInput | string
-    link?: StringFieldUpdateOperationsInput | string
-    cfpLink?: StringFieldUpdateOperationsInput | string
-    impLink?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    conferenceDates?: ConferenceDatesUpdateManyWithoutBelongsToNestedInput
-    locations?: LocationsUpdateManyWithoutBelongsToNestedInput
-    topics?: ConferenceTopicsUpdateManyWithoutBelongsToNestedInput
-  }
-
-  export type ConferenceOrganizationsUncheckedUpdateWithoutBelongsToInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    year?: NullableIntFieldUpdateOperationsInput | number | null
-    accessType?: StringFieldUpdateOperationsInput | string
-    isAvailable?: BoolFieldUpdateOperationsInput | boolean
-    publisher?: StringFieldUpdateOperationsInput | string
-    summerize?: StringFieldUpdateOperationsInput | string
-    callForPaper?: StringFieldUpdateOperationsInput | string
-    link?: StringFieldUpdateOperationsInput | string
-    cfpLink?: StringFieldUpdateOperationsInput | string
-    impLink?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    conferenceDates?: ConferenceDatesUncheckedUpdateManyWithoutBelongsToNestedInput
-    locations?: LocationsUncheckedUpdateManyWithoutBelongsToNestedInput
-    topics?: ConferenceTopicsUncheckedUpdateManyWithoutBelongsToNestedInput
-  }
-
-  export type ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    year?: NullableIntFieldUpdateOperationsInput | number | null
-    accessType?: StringFieldUpdateOperationsInput | string
-    isAvailable?: BoolFieldUpdateOperationsInput | boolean
-    publisher?: StringFieldUpdateOperationsInput | string
-    summerize?: StringFieldUpdateOperationsInput | string
-    callForPaper?: StringFieldUpdateOperationsInput | string
-    link?: StringFieldUpdateOperationsInput | string
-    cfpLink?: StringFieldUpdateOperationsInput | string
-    impLink?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ConferenceRanksUpdateWithoutBelongsToInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
-    inFieldOfResearch?: FieldOfResearchsUpdateOneRequiredWithoutConferenceRanksNestedInput
-    byRank?: RanksUpdateOneRequiredWithoutConferenceRanksNestedInput
-  }
-
-  export type ConferenceRanksUncheckedUpdateWithoutBelongsToInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
-    fieldOfResearchId?: StringFieldUpdateOperationsInput | string
-    rankId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type ConferenceRanksUncheckedUpdateManyWithoutBelongsToInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
-    fieldOfResearchId?: StringFieldUpdateOperationsInput | string
-    rankId?: StringFieldUpdateOperationsInput | string
   }
 
   export type ConferenceCrawlJobsUpdateWithoutBelongsToInput = {
@@ -51771,32 +50885,118 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ConferenceBlacklistsUpdateWithoutBelongsToInput = {
+  export type ConferenceFollowsUpdateWithoutBelongsToInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    byUser?: UsersUpdateOneRequiredWithoutBlacklistsNestedInput
+    byUser?: UsersUpdateOneRequiredWithoutFollowConferenceNestedInput
   }
 
-  export type ConferenceBlacklistsUncheckedUpdateWithoutBelongsToInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToInput = {
+  export type ConferenceFollowsUncheckedUpdateWithoutBelongsToInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type JournalRanksCreateManyInFieldOfResearchInput = {
-    id?: string
-    year: number
-    journalId: string
-    rankId: string
+  export type ConferenceFollowsUncheckedUpdateManyWithoutBelongsToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConferenceLikesUpdateWithoutBelongsToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    byUser?: UsersUpdateOneRequiredWithoutLikesNestedInput
+  }
+
+  export type ConferenceLikesUncheckedUpdateWithoutBelongsToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConferenceLikesUncheckedUpdateManyWithoutBelongsToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConferenceOrganizationsUpdateWithoutBelongsToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    accessType?: StringFieldUpdateOperationsInput | string
+    isAvailable?: BoolFieldUpdateOperationsInput | boolean
+    publisher?: StringFieldUpdateOperationsInput | string
+    summerize?: StringFieldUpdateOperationsInput | string
+    callForPaper?: StringFieldUpdateOperationsInput | string
+    link?: StringFieldUpdateOperationsInput | string
+    cfpLink?: StringFieldUpdateOperationsInput | string
+    impLink?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    conferenceDates?: ConferenceDatesUpdateManyWithoutBelongsToNestedInput
+    topics?: ConferenceTopicsUpdateManyWithoutBelongsToNestedInput
+    locations?: LocationsUpdateManyWithoutBelongsToNestedInput
+  }
+
+  export type ConferenceOrganizationsUncheckedUpdateWithoutBelongsToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    accessType?: StringFieldUpdateOperationsInput | string
+    isAvailable?: BoolFieldUpdateOperationsInput | boolean
+    publisher?: StringFieldUpdateOperationsInput | string
+    summerize?: StringFieldUpdateOperationsInput | string
+    callForPaper?: StringFieldUpdateOperationsInput | string
+    link?: StringFieldUpdateOperationsInput | string
+    cfpLink?: StringFieldUpdateOperationsInput | string
+    impLink?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    conferenceDates?: ConferenceDatesUncheckedUpdateManyWithoutBelongsToNestedInput
+    topics?: ConferenceTopicsUncheckedUpdateManyWithoutBelongsToNestedInput
+    locations?: LocationsUncheckedUpdateManyWithoutBelongsToNestedInput
+  }
+
+  export type ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    accessType?: StringFieldUpdateOperationsInput | string
+    isAvailable?: BoolFieldUpdateOperationsInput | boolean
+    publisher?: StringFieldUpdateOperationsInput | string
+    summerize?: StringFieldUpdateOperationsInput | string
+    callForPaper?: StringFieldUpdateOperationsInput | string
+    link?: StringFieldUpdateOperationsInput | string
+    cfpLink?: StringFieldUpdateOperationsInput | string
+    impLink?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConferenceRanksUpdateWithoutBelongsToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    inFieldOfResearch?: FieldOfResearchsUpdateOneRequiredWithoutConferenceRanksNestedInput
+    byRank?: RanksUpdateOneRequiredWithoutConferenceRanksNestedInput
+  }
+
+  export type ConferenceRanksUncheckedUpdateWithoutBelongsToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    fieldOfResearchId?: StringFieldUpdateOperationsInput | string
+    rankId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ConferenceRanksUncheckedUpdateManyWithoutBelongsToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    fieldOfResearchId?: StringFieldUpdateOperationsInput | string
+    rankId?: StringFieldUpdateOperationsInput | string
   }
 
   export type ConferenceRanksCreateManyInFieldOfResearchInput = {
@@ -51806,32 +51006,18 @@ export namespace Prisma {
     rankId: string
   }
 
-  export type JournalRanksUpdateWithoutInFieldOfResearchInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
-    byRank?: RanksUpdateOneRequiredWithoutJournalRanksNestedInput
-    belongsTo?: JournalsUpdateOneRequiredWithoutJournalRanksNestedInput
-  }
-
-  export type JournalRanksUncheckedUpdateWithoutInFieldOfResearchInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
-    journalId?: StringFieldUpdateOperationsInput | string
-    rankId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type JournalRanksUncheckedUpdateManyWithoutInFieldOfResearchInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
-    journalId?: StringFieldUpdateOperationsInput | string
-    rankId?: StringFieldUpdateOperationsInput | string
+  export type JournalRanksCreateManyInFieldOfResearchInput = {
+    id?: string
+    year: number
+    journalId: string
+    rankId: string
   }
 
   export type ConferenceRanksUpdateWithoutInFieldOfResearchInput = {
     id?: StringFieldUpdateOperationsInput | string
     year?: IntFieldUpdateOperationsInput | number
-    byRank?: RanksUpdateOneRequiredWithoutConferenceRanksNestedInput
     belongsTo?: ConferencesUpdateOneRequiredWithoutRanksNestedInput
+    byRank?: RanksUpdateOneRequiredWithoutConferenceRanksNestedInput
   }
 
   export type ConferenceRanksUncheckedUpdateWithoutInFieldOfResearchInput = {
@@ -51845,6 +51031,27 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     year?: IntFieldUpdateOperationsInput | number
     conferenceId?: StringFieldUpdateOperationsInput | string
+    rankId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type JournalRanksUpdateWithoutInFieldOfResearchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    belongsTo?: JournalsUpdateOneRequiredWithoutJournalRanksNestedInput
+    byRank?: RanksUpdateOneRequiredWithoutJournalRanksNestedInput
+  }
+
+  export type JournalRanksUncheckedUpdateWithoutInFieldOfResearchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    journalId?: StringFieldUpdateOperationsInput | string
+    rankId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type JournalRanksUncheckedUpdateManyWithoutInFieldOfResearchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    journalId?: StringFieldUpdateOperationsInput | string
     rankId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -51865,8 +51072,8 @@ export namespace Prisma {
   export type ConferenceRanksUpdateWithoutByRankInput = {
     id?: StringFieldUpdateOperationsInput | string
     year?: IntFieldUpdateOperationsInput | number
-    inFieldOfResearch?: FieldOfResearchsUpdateOneRequiredWithoutConferenceRanksNestedInput
     belongsTo?: ConferencesUpdateOneRequiredWithoutRanksNestedInput
+    inFieldOfResearch?: FieldOfResearchsUpdateOneRequiredWithoutConferenceRanksNestedInput
   }
 
   export type ConferenceRanksUncheckedUpdateWithoutByRankInput = {
@@ -51932,21 +51139,11 @@ export namespace Prisma {
     value?: IntFieldUpdateOperationsInput | number
   }
 
-  export type JournalTopicsCreateManyInJournalsInput = {
+  export type JournalCrawlJobsCreateManyBelongsToInput = {
     id?: string
-    topicId: string
-  }
-
-  export type JournalRanksCreateManyBelongsToInput = {
-    id?: string
-    year: number
-    fieldOfResearchId: string
-    rankId: string
-  }
-
-  export type JournalLikesCreateManyBelongsToInput = {
-    id?: string
-    userId: string
+    status: string
+    progress: number
+    message: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -51958,91 +51155,23 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type JournalCrawlJobsCreateManyBelongsToInput = {
+  export type JournalLikesCreateManyBelongsToInput = {
     id?: string
-    status: string
-    progress: number
-    message: string
+    userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type JournalTopicsUpdateWithoutInJournalsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    belongsToTopics?: TopicsUpdateOneRequiredWithoutInJournalTopicsNestedInput
+  export type JournalRanksCreateManyBelongsToInput = {
+    id?: string
+    year: number
+    fieldOfResearchId: string
+    rankId: string
   }
 
-  export type JournalTopicsUncheckedUpdateWithoutInJournalsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    topicId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type JournalTopicsUncheckedUpdateManyWithoutInJournalsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    topicId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type JournalRanksUpdateWithoutBelongsToInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
-    inFieldOfResearch?: FieldOfResearchsUpdateOneRequiredWithoutJournalRanksNestedInput
-    byRank?: RanksUpdateOneRequiredWithoutJournalRanksNestedInput
-  }
-
-  export type JournalRanksUncheckedUpdateWithoutBelongsToInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
-    fieldOfResearchId?: StringFieldUpdateOperationsInput | string
-    rankId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type JournalRanksUncheckedUpdateManyWithoutBelongsToInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
-    fieldOfResearchId?: StringFieldUpdateOperationsInput | string
-    rankId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type JournalLikesUpdateWithoutBelongsToInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    byUser?: UsersUpdateOneRequiredWithoutJournalLikesNestedInput
-  }
-
-  export type JournalLikesUncheckedUpdateWithoutBelongsToInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type JournalLikesUncheckedUpdateManyWithoutBelongsToInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type JournalFollowsUpdateWithoutBelongsToInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    byUser?: UsersUpdateOneRequiredWithoutJournalFollowsNestedInput
-  }
-
-  export type JournalFollowsUncheckedUpdateWithoutBelongsToInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type JournalFollowsUncheckedUpdateManyWithoutBelongsToInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  export type JournalTopicsCreateManyInJournalsInput = {
+    id?: string
+    topicId: string
   }
 
   export type JournalCrawlJobsUpdateWithoutBelongsToInput = {
@@ -52072,6 +51201,107 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type JournalFollowsUpdateWithoutBelongsToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    byUser?: UsersUpdateOneRequiredWithoutJournalFollowsNestedInput
+  }
+
+  export type JournalFollowsUncheckedUpdateWithoutBelongsToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type JournalFollowsUncheckedUpdateManyWithoutBelongsToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type JournalLikesUpdateWithoutBelongsToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    byUser?: UsersUpdateOneRequiredWithoutJournalLikesNestedInput
+  }
+
+  export type JournalLikesUncheckedUpdateWithoutBelongsToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type JournalLikesUncheckedUpdateManyWithoutBelongsToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type JournalRanksUpdateWithoutBelongsToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    inFieldOfResearch?: FieldOfResearchsUpdateOneRequiredWithoutJournalRanksNestedInput
+    byRank?: RanksUpdateOneRequiredWithoutJournalRanksNestedInput
+  }
+
+  export type JournalRanksUncheckedUpdateWithoutBelongsToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    fieldOfResearchId?: StringFieldUpdateOperationsInput | string
+    rankId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type JournalRanksUncheckedUpdateManyWithoutBelongsToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    fieldOfResearchId?: StringFieldUpdateOperationsInput | string
+    rankId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type JournalTopicsUpdateWithoutInJournalsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    belongsToTopics?: TopicsUpdateOneRequiredWithoutInJournalTopicsNestedInput
+  }
+
+  export type JournalTopicsUncheckedUpdateWithoutInJournalsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    topicId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type JournalTopicsUncheckedUpdateManyWithoutInJournalsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    topicId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ConferenceBlacklistsCreateManyByUserInput = {
+    id?: string
+    conferenceId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ConferenceCalendarsCreateManyByUserInput = {
+    id?: string
+    conferenceId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ConferenceFeedbacksCreateManyByUserInput = {
+    id?: string
+    conferenceId: string
+    description: string
+    star: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type ConferenceFollowsCreateManyByUserInput = {
     id?: string
     conferenceId: string
@@ -52086,13 +51316,6 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type ConferenceCalendarsCreateManyByUserInput = {
-    id?: string
-    conferenceId: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
   export type ConferencesCreateManyCreatedByUserInput = {
     id?: string
     title: string
@@ -52100,11 +51323,19 @@ export namespace Prisma {
     adminId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    status: string
+    status?: string
   }
 
-  export type TopicUserInterestedsCreateManyBelongsToInput = {
-    topicId: string
+  export type JournalFollowsCreateManyByUserInput = {
+    id?: string
+    journalId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type JournalLikesCreateManyByUserInput = {
+    id?: string
+    journalId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -52118,34 +51349,13 @@ export namespace Prisma {
     nation: string
     scope: string
     emailSubmission: string
+    adminId?: string | null
   }
 
-  export type JournalLikesCreateManyByUserInput = {
+  export type NotificationSettingsCreateManyByUserInput = {
     id?: string
-    journalId: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type JournalFollowsCreateManyByUserInput = {
-    id?: string
-    journalId: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ConferenceFeedbacksCreateManyByUserInput = {
-    id?: string
-    conferenceId: string
-    description: string
-    star: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ConferenceBlacklistsCreateManyByUserInput = {
-    id?: string
-    conferenceId: string
+    notificationId: string
+    isEnabled?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -52159,10 +51369,8 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type NotificationSettingsCreateManyByUserInput = {
-    id?: string
-    notificationId: string
-    isEnabled?: boolean
+  export type TopicUserInterestedsCreateManyBelongsToInput = {
+    topicId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -52174,6 +51382,75 @@ export namespace Prisma {
     isVerified?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type ConferenceBlacklistsUpdateWithoutByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    belongsTo?: ConferencesUpdateOneRequiredWithoutBlacklistsNestedInput
+  }
+
+  export type ConferenceBlacklistsUncheckedUpdateWithoutByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    conferenceId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConferenceBlacklistsUncheckedUpdateManyWithoutByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    conferenceId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConferenceCalendarsUpdateWithoutByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    belongsTo?: ConferencesUpdateOneRequiredWithoutCalendarsNestedInput
+  }
+
+  export type ConferenceCalendarsUncheckedUpdateWithoutByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    conferenceId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConferenceCalendarsUncheckedUpdateManyWithoutByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    conferenceId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConferenceFeedbacksUpdateWithoutByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    star?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    belongsTo?: ConferencesUpdateOneRequiredWithoutFeedbacksNestedInput
+  }
+
+  export type ConferenceFeedbacksUncheckedUpdateWithoutByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    conferenceId?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    star?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConferenceFeedbacksUncheckedUpdateManyWithoutByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    conferenceId?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    star?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ConferenceFollowsUpdateWithoutByUserInput = {
@@ -52218,27 +51495,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ConferenceCalendarsUpdateWithoutByUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    belongsTo?: ConferencesUpdateOneRequiredWithoutCalendarsNestedInput
-  }
-
-  export type ConferenceCalendarsUncheckedUpdateWithoutByUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    conferenceId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ConferenceCalendarsUncheckedUpdateManyWithoutByUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    conferenceId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type ConferencesUpdateWithoutCreatedByUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
@@ -52246,15 +51502,15 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput
+    calendars?: ConferenceCalendarsUpdateManyWithoutBelongsToNestedInput
+    crawlJobs?: ConferenceCrawlJobsUpdateManyWithoutBelongsToNestedInput
+    feedbacks?: ConferenceFeedbacksUpdateManyWithoutBelongsToNestedInput
     follows?: ConferenceFollowsUpdateManyWithoutBelongsToNestedInput
     likes?: ConferenceLikesUpdateManyWithoutBelongsToNestedInput
-    calendars?: ConferenceCalendarsUpdateManyWithoutBelongsToNestedInput
     organizations?: ConferenceOrganizationsUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
-    crawlJobs?: ConferenceCrawlJobsUpdateManyWithoutBelongsToNestedInput
     createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
-    feedbacks?: ConferenceFeedbacksUpdateManyWithoutBelongsToNestedInput
-    blacklists?: ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateWithoutCreatedByUserInput = {
@@ -52265,14 +51521,14 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
-    follows?: ConferenceFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
-    likes?: ConferenceLikesUncheckedUpdateManyWithoutBelongsToNestedInput
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput
     calendars?: ConferenceCalendarsUncheckedUpdateManyWithoutBelongsToNestedInput
-    organizations?: ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput
-    ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
     crawlJobs?: ConferenceCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
     feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutBelongsToNestedInput
-    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput
+    follows?: ConferenceFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
+    likes?: ConferenceLikesUncheckedUpdateManyWithoutBelongsToNestedInput
+    organizations?: ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput
+    ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateManyWithoutCreatedByUserInput = {
@@ -52283,88 +51539,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type TopicUserInterestedsUpdateWithoutBelongsToInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    inTopic?: TopicsUpdateOneRequiredWithoutInInterestedNestedInput
-  }
-
-  export type TopicUserInterestedsUncheckedUpdateWithoutBelongsToInput = {
-    topicId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type TopicUserInterestedsUncheckedUpdateManyWithoutBelongsToInput = {
-    topicId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type JournalsUpdateWithoutCreatedByUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    issn?: StringFieldUpdateOperationsInput | string
-    hIndex?: IntFieldUpdateOperationsInput | number
-    publisher?: StringFieldUpdateOperationsInput | string
-    nation?: StringFieldUpdateOperationsInput | string
-    scope?: StringFieldUpdateOperationsInput | string
-    emailSubmission?: StringFieldUpdateOperationsInput | string
-    topics?: JournalTopicsUpdateManyWithoutInJournalsNestedInput
-    journalRanks?: JournalRanksUpdateManyWithoutBelongsToNestedInput
-    journalLikes?: JournalLikesUpdateManyWithoutBelongsToNestedInput
-    journalFollows?: JournalFollowsUpdateManyWithoutBelongsToNestedInput
-    crawlJobs?: JournalCrawlJobsUpdateManyWithoutBelongsToNestedInput
-  }
-
-  export type JournalsUncheckedUpdateWithoutCreatedByUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    issn?: StringFieldUpdateOperationsInput | string
-    hIndex?: IntFieldUpdateOperationsInput | number
-    publisher?: StringFieldUpdateOperationsInput | string
-    nation?: StringFieldUpdateOperationsInput | string
-    scope?: StringFieldUpdateOperationsInput | string
-    emailSubmission?: StringFieldUpdateOperationsInput | string
-    topics?: JournalTopicsUncheckedUpdateManyWithoutInJournalsNestedInput
-    journalRanks?: JournalRanksUncheckedUpdateManyWithoutBelongsToNestedInput
-    journalLikes?: JournalLikesUncheckedUpdateManyWithoutBelongsToNestedInput
-    journalFollows?: JournalFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
-    crawlJobs?: JournalCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
-  }
-
-  export type JournalsUncheckedUpdateManyWithoutCreatedByUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    issn?: StringFieldUpdateOperationsInput | string
-    hIndex?: IntFieldUpdateOperationsInput | number
-    publisher?: StringFieldUpdateOperationsInput | string
-    nation?: StringFieldUpdateOperationsInput | string
-    scope?: StringFieldUpdateOperationsInput | string
-    emailSubmission?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type JournalLikesUpdateWithoutByUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    belongsTo?: JournalsUpdateOneRequiredWithoutJournalLikesNestedInput
-  }
-
-  export type JournalLikesUncheckedUpdateWithoutByUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    journalId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type JournalLikesUncheckedUpdateManyWithoutByUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    journalId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type JournalFollowsUpdateWithoutByUserInput = {
@@ -52388,50 +51562,93 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ConferenceFeedbacksUpdateWithoutByUserInput = {
+  export type JournalLikesUpdateWithoutByUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    star?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    belongsTo?: ConferencesUpdateOneRequiredWithoutFeedbacksNestedInput
+    belongsTo?: JournalsUpdateOneRequiredWithoutJournalLikesNestedInput
   }
 
-  export type ConferenceFeedbacksUncheckedUpdateWithoutByUserInput = {
+  export type JournalLikesUncheckedUpdateWithoutByUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    conferenceId?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    star?: IntFieldUpdateOperationsInput | number
+    journalId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ConferenceFeedbacksUncheckedUpdateManyWithoutByUserInput = {
+  export type JournalLikesUncheckedUpdateManyWithoutByUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    conferenceId?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    star?: IntFieldUpdateOperationsInput | number
+    journalId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ConferenceBlacklistsUpdateWithoutByUserInput = {
+  export type JournalsUpdateWithoutCreatedByUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    belongsTo?: ConferencesUpdateOneRequiredWithoutBlacklistsNestedInput
+    name?: StringFieldUpdateOperationsInput | string
+    issn?: StringFieldUpdateOperationsInput | string
+    hIndex?: IntFieldUpdateOperationsInput | number
+    publisher?: StringFieldUpdateOperationsInput | string
+    nation?: StringFieldUpdateOperationsInput | string
+    scope?: StringFieldUpdateOperationsInput | string
+    emailSubmission?: StringFieldUpdateOperationsInput | string
+    crawlJobs?: JournalCrawlJobsUpdateManyWithoutBelongsToNestedInput
+    journalFollows?: JournalFollowsUpdateManyWithoutBelongsToNestedInput
+    journalLikes?: JournalLikesUpdateManyWithoutBelongsToNestedInput
+    journalRanks?: JournalRanksUpdateManyWithoutBelongsToNestedInput
+    topics?: JournalTopicsUpdateManyWithoutInJournalsNestedInput
+    createByAdmin?: AdminsUpdateOneWithoutCreatedJournalsNestedInput
   }
 
-  export type ConferenceBlacklistsUncheckedUpdateWithoutByUserInput = {
+  export type JournalsUncheckedUpdateWithoutCreatedByUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    conferenceId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    issn?: StringFieldUpdateOperationsInput | string
+    hIndex?: IntFieldUpdateOperationsInput | number
+    publisher?: StringFieldUpdateOperationsInput | string
+    nation?: StringFieldUpdateOperationsInput | string
+    scope?: StringFieldUpdateOperationsInput | string
+    emailSubmission?: StringFieldUpdateOperationsInput | string
+    adminId?: NullableStringFieldUpdateOperationsInput | string | null
+    crawlJobs?: JournalCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
+    journalFollows?: JournalFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
+    journalLikes?: JournalLikesUncheckedUpdateManyWithoutBelongsToNestedInput
+    journalRanks?: JournalRanksUncheckedUpdateManyWithoutBelongsToNestedInput
+    topics?: JournalTopicsUncheckedUpdateManyWithoutInJournalsNestedInput
+  }
+
+  export type JournalsUncheckedUpdateManyWithoutCreatedByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    issn?: StringFieldUpdateOperationsInput | string
+    hIndex?: IntFieldUpdateOperationsInput | number
+    publisher?: StringFieldUpdateOperationsInput | string
+    nation?: StringFieldUpdateOperationsInput | string
+    scope?: StringFieldUpdateOperationsInput | string
+    emailSubmission?: StringFieldUpdateOperationsInput | string
+    adminId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type NotificationSettingsUpdateWithoutByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    isEnabled?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    belongToNotify?: NotificationsTypesUpdateOneRequiredWithoutSettingsNestedInput
+  }
+
+  export type NotificationSettingsUncheckedUpdateWithoutByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    notificationId?: StringFieldUpdateOperationsInput | string
+    isEnabled?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ConferenceBlacklistsUncheckedUpdateManyWithoutByUserInput = {
+  export type NotificationSettingsUncheckedUpdateManyWithoutByUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    conferenceId?: StringFieldUpdateOperationsInput | string
+    notificationId?: StringFieldUpdateOperationsInput | string
+    isEnabled?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -52463,26 +51680,20 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type NotificationSettingsUpdateWithoutByUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    isEnabled?: BoolFieldUpdateOperationsInput | boolean
+  export type TopicUserInterestedsUpdateWithoutBelongsToInput = {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    belongToNotify?: NotificationsTypesUpdateOneRequiredWithoutSettingsNestedInput
+    inTopic?: TopicsUpdateOneRequiredWithoutInInterestedNestedInput
   }
 
-  export type NotificationSettingsUncheckedUpdateWithoutByUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    notificationId?: StringFieldUpdateOperationsInput | string
-    isEnabled?: BoolFieldUpdateOperationsInput | boolean
+  export type TopicUserInterestedsUncheckedUpdateWithoutBelongsToInput = {
+    topicId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type NotificationSettingsUncheckedUpdateManyWithoutByUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    notificationId?: StringFieldUpdateOperationsInput | string
-    isEnabled?: BoolFieldUpdateOperationsInput | boolean
+  export type TopicUserInterestedsUncheckedUpdateManyWithoutBelongsToInput = {
+    topicId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -52521,7 +51732,19 @@ export namespace Prisma {
     creatorId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    status: string
+    status?: string
+  }
+
+  export type JournalsCreateManyCreateByAdminInput = {
+    id?: string
+    name: string
+    issn: string
+    hIndex: number
+    publisher: string
+    nation: string
+    scope: string
+    emailSubmission: string
+    creatorId?: string | null
   }
 
   export type ConferencesUpdateWithoutCreateByAdminInput = {
@@ -52531,15 +51754,15 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput
+    calendars?: ConferenceCalendarsUpdateManyWithoutBelongsToNestedInput
+    crawlJobs?: ConferenceCrawlJobsUpdateManyWithoutBelongsToNestedInput
+    feedbacks?: ConferenceFeedbacksUpdateManyWithoutBelongsToNestedInput
     follows?: ConferenceFollowsUpdateManyWithoutBelongsToNestedInput
     likes?: ConferenceLikesUpdateManyWithoutBelongsToNestedInput
-    calendars?: ConferenceCalendarsUpdateManyWithoutBelongsToNestedInput
     organizations?: ConferenceOrganizationsUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
-    crawlJobs?: ConferenceCrawlJobsUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneWithoutCreatedConferencesNestedInput
-    feedbacks?: ConferenceFeedbacksUpdateManyWithoutBelongsToNestedInput
-    blacklists?: ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateWithoutCreateByAdminInput = {
@@ -52550,14 +51773,14 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
-    follows?: ConferenceFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
-    likes?: ConferenceLikesUncheckedUpdateManyWithoutBelongsToNestedInput
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput
     calendars?: ConferenceCalendarsUncheckedUpdateManyWithoutBelongsToNestedInput
-    organizations?: ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput
-    ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
     crawlJobs?: ConferenceCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
     feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutBelongsToNestedInput
-    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput
+    follows?: ConferenceFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
+    likes?: ConferenceLikesUncheckedUpdateManyWithoutBelongsToNestedInput
+    organizations?: ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput
+    ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateManyWithoutCreateByAdminInput = {
@@ -52570,6 +51793,60 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
   }
 
+  export type JournalsUpdateWithoutCreateByAdminInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    issn?: StringFieldUpdateOperationsInput | string
+    hIndex?: IntFieldUpdateOperationsInput | number
+    publisher?: StringFieldUpdateOperationsInput | string
+    nation?: StringFieldUpdateOperationsInput | string
+    scope?: StringFieldUpdateOperationsInput | string
+    emailSubmission?: StringFieldUpdateOperationsInput | string
+    crawlJobs?: JournalCrawlJobsUpdateManyWithoutBelongsToNestedInput
+    journalFollows?: JournalFollowsUpdateManyWithoutBelongsToNestedInput
+    journalLikes?: JournalLikesUpdateManyWithoutBelongsToNestedInput
+    journalRanks?: JournalRanksUpdateManyWithoutBelongsToNestedInput
+    topics?: JournalTopicsUpdateManyWithoutInJournalsNestedInput
+    createdByUser?: UsersUpdateOneWithoutCreatedJournalsNestedInput
+  }
+
+  export type JournalsUncheckedUpdateWithoutCreateByAdminInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    issn?: StringFieldUpdateOperationsInput | string
+    hIndex?: IntFieldUpdateOperationsInput | number
+    publisher?: StringFieldUpdateOperationsInput | string
+    nation?: StringFieldUpdateOperationsInput | string
+    scope?: StringFieldUpdateOperationsInput | string
+    emailSubmission?: StringFieldUpdateOperationsInput | string
+    creatorId?: NullableStringFieldUpdateOperationsInput | string | null
+    crawlJobs?: JournalCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
+    journalFollows?: JournalFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
+    journalLikes?: JournalLikesUncheckedUpdateManyWithoutBelongsToNestedInput
+    journalRanks?: JournalRanksUncheckedUpdateManyWithoutBelongsToNestedInput
+    topics?: JournalTopicsUncheckedUpdateManyWithoutInJournalsNestedInput
+  }
+
+  export type JournalsUncheckedUpdateManyWithoutCreateByAdminInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    issn?: StringFieldUpdateOperationsInput | string
+    hIndex?: IntFieldUpdateOperationsInput | number
+    publisher?: StringFieldUpdateOperationsInput | string
+    nation?: StringFieldUpdateOperationsInput | string
+    scope?: StringFieldUpdateOperationsInput | string
+    emailSubmission?: StringFieldUpdateOperationsInput | string
+    creatorId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type NotificationSettingsCreateManyBelongToNotifyInput = {
+    id?: string
+    userId: string
+    isEnabled?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type NotificationsCreateManyBelongToNotifyInput = {
     id?: string
     userId: string
@@ -52579,12 +51856,28 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type NotificationSettingsCreateManyBelongToNotifyInput = {
-    id?: string
-    userId: string
-    isEnabled?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
+  export type NotificationSettingsUpdateWithoutBelongToNotifyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    isEnabled?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    byUser?: UsersUpdateOneRequiredWithoutNotificationSettingsNestedInput
+  }
+
+  export type NotificationSettingsUncheckedUpdateWithoutBelongToNotifyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    isEnabled?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationSettingsUncheckedUpdateManyWithoutBelongToNotifyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    isEnabled?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type NotificationsUpdateWithoutBelongToNotifyInput = {
@@ -52610,30 +51903,6 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     isRead?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type NotificationSettingsUpdateWithoutBelongToNotifyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    isEnabled?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    byUser?: UsersUpdateOneRequiredWithoutNotificationSettingsNestedInput
-  }
-
-  export type NotificationSettingsUncheckedUpdateWithoutBelongToNotifyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    isEnabled?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type NotificationSettingsUncheckedUpdateManyWithoutBelongToNotifyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    isEnabled?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

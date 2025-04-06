@@ -1,20 +1,11 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma_client"
+}
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-}
-generator client {
-  provider = "prisma-client-js"
-  output = "../generated/prisma_client"
-}
-
-model Passenger {
-  id        String @id @default(uuid())
-  firstName String @unique
-  lastName  String
 }
 
 model Locations {
@@ -33,8 +24,8 @@ model Locations {
 model ConferenceDates {
   id          String                  @id @default(uuid())
   organizedId String
-  fromDate    DateTime
-  toDate      DateTime
+  fromDate    DateTime?
+  toDate      DateTime?
   type        String
   name        String
   createdAt   DateTime                @default(now())
@@ -44,12 +35,10 @@ model ConferenceDates {
 }
 
 model ConferenceOrganizations {
-  id              String            @id @default(uuid())
+  id              String             @id @default(uuid())
   year            Int?
   accessType      String
   isAvailable     Boolean
-  conferenceDates ConferenceDates[]
-  locations       Locations[]
   conferenceId    String
   publisher       String
   summerize       String
@@ -57,30 +46,32 @@ model ConferenceOrganizations {
   link            String
   cfpLink         String
   impLink         String
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  conferenceDates ConferenceDates[]
+  belongsTo       Conferences        @relation(fields: [conferenceId], references: [id])
   topics          ConferenceTopics[]
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  belongsTo       Conferences       @relation(fields: [conferenceId], references: [id])
+  locations       Locations[]
 }
 
 model ConferenceTopics {
-  id           String      @id @default(uuid())
+  id         String                  @id @default(uuid())
   organizeId String
-  topicId      String
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
-  belongsTo    ConferenceOrganizations @relation(fields: [organizeId], references: [id])
-  inTopic      Topics      @relation(fields: [topicId], references: [id])
+  topicId    String
+  createdAt  DateTime                @default(now())
+  updatedAt  DateTime                @updatedAt
+  belongsTo  ConferenceOrganizations @relation(fields: [organizeId], references: [id])
+  inTopic    Topics                  @relation(fields: [topicId], references: [id])
 }
 
 model Topics {
-  id        String @id @default(uuid())
-  name      String @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                 String                 @id @default(uuid())
+  name               String                 @unique
+  createdAt          DateTime               @default(now())
+  updatedAt          DateTime               @updatedAt
   inConferenceTopics ConferenceTopics[]
   inJournalTopics    JournalTopics[]
-  inInterested TopicUserInteresteds[]
+  inInterested       TopicUserInteresteds[]
 }
 
 model Conferences {
@@ -88,20 +79,20 @@ model Conferences {
   title         String
   acronym       String
   creatorId     String?
-  adminId       String?
+  adminId      String?
   createdAt     DateTime                  @default(now())
   updatedAt     DateTime                  @updatedAt
-  status        String
-  follows       ConferenceFollows []
-  likes         ConferenceLikes[]
+  status        String                    @default("draft")
+  blacklists    ConferenceBlacklists[]
   calendars     ConferenceCalendars[]
+  crawlJobs     ConferenceCrawlJobs[]
+  feedbacks     ConferenceFeedbacks[]
+  follows       ConferenceFollows[]
+  likes         ConferenceLikes[]
   organizations ConferenceOrganizations[]
   ranks         ConferenceRanks[]
-  crawlJobs     ConferenceCrawlJobs[]
-  createdByUser Users?                   @relation(fields: [creatorId], references: [id])
-  createByAdmin Admins?                  @relation(fields: [adminId], references: [id])
-  feedbacks     ConferenceFeedbacks[]
-  blacklists    ConferenceBlacklists[]
+  createdByUser Users?                     @relation(fields: [creatorId], references: [id])
+  createByAdmin Admins?                    @relation(fields: [adminId], references: [id])
   @@unique([title, acronym])
 }
 
@@ -111,17 +102,17 @@ model ConferenceRanks {
   conferenceId      String
   fieldOfResearchId String
   rankId            String
+  belongsTo         Conferences      @relation(fields: [conferenceId], references: [id])
   inFieldOfResearch FieldOfResearchs @relation(fields: [fieldOfResearchId], references: [id])
   byRank            Ranks            @relation(fields: [rankId], references: [id])
-  belongsTo         Conferences      @relation(fields: [conferenceId], references: [id])
 }
 
 model FieldOfResearchs {
   id              String            @id @default(uuid())
   name            String
   code            String
-  journalRanks    JournalRanks[]
   conferenceRanks ConferenceRanks[]
+  journalRanks    JournalRanks[]
 }
 
 model Ranks {
@@ -142,11 +133,11 @@ model Sources {
 }
 
 model JournalTopics {
-  id                String   @id @default(uuid())
-  journalId         String
-  topicId           String
-  belongsToTopics   Topics   @relation(fields: [topicId], references: [id])
-  inJournals Journals @relation(fields: [journalId], references: [id])
+  id              String   @id @default(uuid())
+  journalId       String
+  topicId         String
+  inJournals      Journals @relation(fields: [journalId], references: [id])
+  belongsToTopics Topics   @relation(fields: [topicId], references: [id])
 }
 
 model JournalRanks {
@@ -156,8 +147,8 @@ model JournalRanks {
   fieldOfResearchId String
   rankId            String
   inFieldOfResearch FieldOfResearchs @relation(fields: [fieldOfResearchId], references: [id])
-  byRank            Ranks            @relation(fields: [rankId], references: [id])
   belongsTo         Journals         @relation(fields: [journalId], references: [id])
+  byRank            Ranks            @relation(fields: [rankId], references: [id])
 }
 
 model Journals {
@@ -169,13 +160,15 @@ model Journals {
   nation          String
   scope           String
   emailSubmission String
-  topics          JournalTopics[]
-  journalRanks    JournalRanks[]
-  journalLikes    JournalLikes[]
-  journalFollows  JournalFollows[]
+  creatorId         String?
+  adminId         String?
   crawlJobs       JournalCrawlJobs[]
-  creator         String
-  createdByUser   Users              @relation(fields: [creator], references: [id])
+  journalFollows  JournalFollows[]
+  journalLikes    JournalLikes[]
+  journalRanks    JournalRanks[]
+  topics          JournalTopics[]
+  createdByUser   Users?              @relation(fields: [creatorId], references: [id])
+  createByAdmin   Admins?             @relation(fields: [adminId], references: [id])
 }
 
 model ConferenceFollows {
@@ -186,6 +179,7 @@ model ConferenceFollows {
   updatedAt    DateTime    @updatedAt
   belongsTo    Conferences @relation(fields: [conferenceId], references: [id])
   byUser       Users       @relation(fields: [userId], references: [id])
+
   @@unique([conferenceId, userId])
 }
 
@@ -197,15 +191,16 @@ model ConferenceLikes {
   updatedAt    DateTime    @updatedAt
   belongsTo    Conferences @relation(fields: [conferenceId], references: [id])
   byUser       Users       @relation(fields: [userId], references: [id])
+
   @@unique([conferenceId, userId])
 }
 
 model ConferenceFeedbacks {
-  id          String      @id @default(uuid())
+  id           String      @id @default(uuid())
   conferenceId String
-  creatorId       String
-  description String
-  star        Int
+  creatorId    String
+  description  String
+  star         Int
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
   belongsTo    Conferences @relation(fields: [conferenceId], references: [id])
@@ -213,13 +208,14 @@ model ConferenceFeedbacks {
 }
 
 model ConferenceCalendars {
-  id         String      @id @default(uuid())
+  id           String      @id @default(uuid())
   conferenceId String
-  userId      String
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-  belongsTo  Conferences @relation(fields: [conferenceId], references: [id])
-  byUser     Users       @relation(fields: [userId], references: [id])
+  userId       String
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  belongsTo    Conferences @relation(fields: [conferenceId], references: [id])
+  byUser       Users       @relation(fields: [userId], references: [id])
+
   @@unique([conferenceId, userId])
 }
 
@@ -244,30 +240,30 @@ model JournalFollows {
 }
 
 model Users {
-  id                 String              @id @default(uuid())
-  email              String              @unique
-  password           String
-  firstName          String
-  lastName           String
-  dob                DateTime
-  avatar             String
-  aboutMe             String
-  background         String
-  followConference   ConferenceFollows[]
-  likes              ConferenceLikes[]
-  calendar           ConferenceCalendars[]
-  createdAt          DateTime            @default(now())
-  updatedAt          DateTime            @updatedAt
-  createdConferences Conferences[]
-  interestedTopics   TopicUserInteresteds[]
-  createdJournals    Journals[]
-  journalLikes       JournalLikes[]
-  journalFollows     JournalFollows[]
-  feedbacks          ConferenceFeedbacks[]
-  blacklists         ConferenceBlacklists[] 
-  notifications      Notifications[]
+  id                   String                 @id @default(uuid())
+  email                String                 @unique
+  password             String
+  firstName            String
+  lastName             String
+  dob                  DateTime
+  avatar               String
+  aboutMe              String
+  background           String
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+  blacklists           ConferenceBlacklists[]
+  calendar             ConferenceCalendars[]
+  feedbacks            ConferenceFeedbacks[]
+  followConference     ConferenceFollows[]
+  likes                ConferenceLikes[]
+  createdConferences   Conferences[]
+  journalFollows       JournalFollows[]
+  journalLikes         JournalLikes[]
+  createdJournals      Journals[]
   notificationSettings NotificationSettings[]
-  verification      UserVerification[]
+  notifications        Notifications[]
+  interestedTopics     TopicUserInteresteds[]
+  verification         UserVerification[]
 }
 
 model Admins {
@@ -278,6 +274,7 @@ model Admins {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   createdConferences Conferences[]
+  createdJournals     Journals[]
 }
 
 model ConferenceCrawlJobs {
@@ -313,57 +310,59 @@ model JournalCrawlJobs {
 }
 
 model Notifications {
-  id        String   @id @default(uuid())
+  id             String             @id @default(uuid())
   notificationId String
-  userId    String
-  message   String
-  isRead    Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  userId         String
+  message        String
+  isRead         Boolean            @default(false)
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
   belongToNotify NotificationsTypes @relation(fields: [notificationId], references: [id])
-  byUser    Users    @relation(fields: [userId], references: [id])
+  byUser         Users              @relation(fields: [userId], references: [id])
+
   @@unique([userId, notificationId])
 }
 
 model NotificationsTypes {
-  id        String   @id @default(uuid())
-  name      String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            String                 @id @default(uuid())
+  name          String                 @unique
+  createdAt     DateTime               @default(now())
+  updatedAt     DateTime               @updatedAt
+  settings      NotificationSettings[]
   notifications Notifications[]
-  settings NotificationSettings[]
 }
 
 model NotificationSettings {
-  id        String   @id @default(uuid())
-  userId    String
+  id             String             @id @default(uuid())
+  userId         String
   notificationId String
-  isEnabled Boolean @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  byUser    Users    @relation(fields: [userId], references: [id])
+  isEnabled      Boolean            @default(true)
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
   belongToNotify NotificationsTypes @relation(fields: [notificationId], references: [id])
+  byUser         Users              @relation(fields: [userId], references: [id])
 }
 
-model TopicUserInteresteds { 
-  userId String
-  topicId String
+model TopicUserInteresteds {
+  userId    String
+  topicId   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  belongsTo Users @relation(fields: [userId], references: [id])
-  inTopic Topics @relation(fields: [topicId], references: [id])
+  inTopic   Topics   @relation(fields: [topicId], references: [id])
+  belongsTo Users    @relation(fields: [userId], references: [id])
+
   @@unique([userId, topicId])
 }
 
-model UserVerification { 
-  id        String   @id @default(uuid())
-  userId    String
-  verificationCode String
+model UserVerification {
+  id                      String   @id @default(uuid())
+  userId                  String
+  verificationCode        String
   verificationCodeExpires DateTime
-  isVerified Boolean @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  byUser    Users    @relation(fields: [userId], references: [id])
+  isVerified              Boolean  @default(false)
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+  byUser                  Users    @relation(fields: [userId], references: [id])
+
   @@unique([userId, verificationCode, verificationCodeExpires])
-  
 }

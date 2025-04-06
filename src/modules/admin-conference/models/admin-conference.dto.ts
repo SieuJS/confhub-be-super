@@ -27,7 +27,7 @@ export class AdminConferenceDTO {
     updatedAt : Date ;
 
     @ApiProperty()
-    status : boolean ;
+    status : string ;
     
 }
 

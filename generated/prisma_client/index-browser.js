@@ -117,12 +117,6 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.PassengerScalarFieldEnum = {
-  id: 'id',
-  firstName: 'firstName',
-  lastName: 'lastName'
-};
-
 exports.Prisma.LocationsScalarFieldEnum = {
   id: 'id',
   address: 'address',
@@ -239,7 +233,8 @@ exports.Prisma.JournalsScalarFieldEnum = {
   nation: 'nation',
   scope: 'scope',
   emailSubmission: 'emailSubmission',
-  creator: 'creator'
+  creatorId: 'creatorId',
+  adminId: 'adminId'
 };
 
 exports.Prisma.ConferenceFollowsScalarFieldEnum = {
@@ -403,7 +398,6 @@ exports.Prisma.NullsOrder = {
 
 
 exports.Prisma.ModelName = {
-  Passenger: 'Passenger',
   Locations: 'Locations',
   ConferenceDates: 'ConferenceDates',
   ConferenceOrganizations: 'ConferenceOrganizations',

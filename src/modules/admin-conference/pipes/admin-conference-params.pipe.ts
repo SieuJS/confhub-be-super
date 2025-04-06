@@ -20,7 +20,7 @@ export class AdminConferenceParamsPipe implements PipeTransform {
 
         return {
             search: value.search || '',
-            status: value.status || [],
+            status: value.status || []  ,
             source: value.source || [],
             researchFields: value.researchField || [],
             ranks: value.rank || [],

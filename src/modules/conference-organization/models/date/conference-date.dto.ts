@@ -8,10 +8,10 @@ export class ConferenceDateDTO {
     organizedId : string
 
     @ApiProperty()
-    fromDate : Date
+    fromDate : Date | null
 
     @ApiProperty()
-    toDate : Date 
+    toDate : Date | null
 
     @ApiProperty() 
     type : string
