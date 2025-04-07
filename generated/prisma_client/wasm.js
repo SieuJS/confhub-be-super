@@ -117,12 +117,6 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.PassengerScalarFieldEnum = {
-  id: 'id',
-  firstName: 'firstName',
-  lastName: 'lastName'
-};
-
 exports.Prisma.LocationsScalarFieldEnum = {
   id: 'id',
   address: 'address',
@@ -239,7 +233,8 @@ exports.Prisma.JournalsScalarFieldEnum = {
   nation: 'nation',
   scope: 'scope',
   emailSubmission: 'emailSubmission',
-  creator: 'creator'
+  creatorId: 'creatorId',
+  adminId: 'adminId'
 };
 
 exports.Prisma.ConferenceFollowsScalarFieldEnum = {
@@ -386,6 +381,15 @@ exports.Prisma.UserVerificationScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ErrorConferenceLoggerScalarFieldEnum = {
+  id: 'id',
+  message: 'message',
+  stack: 'stack',
+  conferenceId: 'conferenceId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -403,7 +407,6 @@ exports.Prisma.NullsOrder = {
 
 
 exports.Prisma.ModelName = {
-  Passenger: 'Passenger',
   Locations: 'Locations',
   ConferenceDates: 'ConferenceDates',
   ConferenceOrganizations: 'ConferenceOrganizations',
@@ -432,7 +435,8 @@ exports.Prisma.ModelName = {
   NotificationsTypes: 'NotificationsTypes',
   NotificationSettings: 'NotificationSettings',
   TopicUserInteresteds: 'TopicUserInteresteds',
-  UserVerification: 'UserVerification'
+  UserVerification: 'UserVerification',
+  ErrorConferenceLogger: 'ErrorConferenceLogger'
 };
 
 /**

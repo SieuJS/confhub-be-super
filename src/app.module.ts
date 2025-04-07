@@ -11,6 +11,7 @@ import { FeedbacksModule } from './modules/feedbacks/feedbacks.module';
 import { ConferenceOrganizationModule } from './modules/conference-organization';
 import { ConferenceJobModule } from './modules/conference-job';
 import { ConferencesModule } from './modules/conference/conference.module';
+import { AdminConferenceModule } from './modules/admin-conference/admin-conference.module';
 
 @Module({
   imports: [CommonModule, UserModule, AuthModule, SourceRankModule,
@@ -27,7 +28,8 @@ import { ConferencesModule } from './modules/conference/conference.module';
   FeedbacksModule,
   ConferenceOrganizationModule,
   ConferenceJobModule,
-  ConferencesModule
+  ConferencesModule,
+  AdminConferenceModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -174,7 +174,7 @@ export class ConferenceImportProcessor extends WorkerHost {
             );
 
             const dateInput = [
-                ...conferenceDateInput,
+                conferenceDateInput,
                 ...submissionDateInput,
                 ...cameraReadyDateInput,
                 ...registrationDateInput,

@@ -9,9 +9,9 @@ export class ConferenceDatesDTO {
     name : string
 
     @ApiProperty({description : "From date", example : '2021-01-01T00:00:00.000Z'})
-    fromDate : Date
+    fromDate : Date | null
 
     @ApiProperty({description : "To date", example : '2021-01-01T00:00:00.000Z'})
-    toDate : Date
+    toDate : Date | null
 
 }
