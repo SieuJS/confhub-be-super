@@ -1,5 +1,5 @@
-import { Body, Controller, DefaultValuePipe, Get, HttpException, Post, Query, UploadedFile, UseInterceptors, UsePipes } from "@nestjs/common";
-import { ApiBody, ApiQuery, ApiTags } from "@nestjs/swagger";
+import {  Controller, DefaultValuePipe, Get, HttpException, Post, Query, UploadedFile, UseInterceptors, UsePipes } from "@nestjs/common";
+import {  ApiTags } from "@nestjs/swagger";
 import { AdminConferenceService } from "../services/admin-conference.service";
 import { AdminConferenceParams } from "../models/admin-conference.dto";
 import { AdminConferenceParamsPipe } from "../pipes/admin-conference-params.pipe";
@@ -15,7 +15,6 @@ export class AdminConferenceController {
         private readonly prismaService : PrismaService,
     ) {}
 
-
     @ApiTags('get') 
     @Get('get')
     getConferenceInstances(
@@ -25,7 +24,6 @@ export class AdminConferenceController {
         @Query('page', new DefaultValuePipe(1)) page : number,
         @Query('perPage', new DefaultValuePipe(10)) perPage : number,
     ) {
-        console.log('params', JSON.stringify(params));
         const where = this.adminConferenceService.convertToPrismaWhereInput({
             search : params.search,
             status : params.status,
@@ -33,7 +31,6 @@ export class AdminConferenceController {
             researchFields : params.researchFields,
             ranks : params.ranks,
         })
-        console.log('where', JSON.stringify(where));
         return this.adminConferenceService.getConferenceInstances({
             where ,
             orderBy : {},
@@ -69,5 +66,33 @@ export class AdminConferenceController {
         }
     }   
 
-        
+    @Post('/import-evaluate')
+    @UsePipes(new FileSizeValidationPipe())
+    async importConference(
+        @UploadedFile(new FileSizeValidationPipe()) file: Express.Multer.File,
+    ) {
+        if (!file) {
+            throw new HttpException({
+                message: 'file is required'
+            }, 400);
+        }
+        const admin = await this.prismaService.admins.findFirst();
+
+        if(!admin) {
+            throw new HttpException({
+                message: 'admin not found'
+            }, 400);
+        }
+
+        const data = await this.adminConferenceService.parsePartEvaluateCsv(file);
+        const imports = data.map(async (item) => {
+            return this.adminConferenceService.importEvaluateConference(item, admin.id);
+        })
+
+        const result = await Promise.all(imports);
+        return {
+            message: 'file is imported',
+            data : result  
+        }
+    }
 }

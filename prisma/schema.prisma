@@ -93,6 +93,7 @@ model Conferences {
   ranks         ConferenceRanks[]
   createdByUser Users?                     @relation(fields: [creatorId], references: [id])
   createByAdmin Admins?                    @relation(fields: [adminId], references: [id])
+  errors       ErrorConferenceLogger[]
   @@unique([title, acronym])
 }
 
@@ -365,4 +366,15 @@ model UserVerification {
   byUser                  Users    @relation(fields: [userId], references: [id])
 
   @@unique([userId, verificationCode, verificationCodeExpires])
+}
+
+
+model ErrorConferenceLogger { 
+  id       String   @id @default(uuid())
+  message   String
+  stack     String
+  conferenceId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  belongsTo Conferences @relation(fields: [conferenceId], references: [id])
 }

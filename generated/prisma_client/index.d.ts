@@ -158,6 +158,11 @@ export type TopicUserInteresteds = $Result.DefaultSelection<Prisma.$TopicUserInt
  * 
  */
 export type UserVerification = $Result.DefaultSelection<Prisma.$UserVerificationPayload>
+/**
+ * Model ErrorConferenceLogger
+ * 
+ */
+export type ErrorConferenceLogger = $Result.DefaultSelection<Prisma.$ErrorConferenceLoggerPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -573,6 +578,16 @@ export class PrismaClient<
     * ```
     */
   get userVerification(): Prisma.UserVerificationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.errorConferenceLogger`: Exposes CRUD operations for the **ErrorConferenceLogger** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ErrorConferenceLoggers
+    * const errorConferenceLoggers = await prisma.errorConferenceLogger.findMany()
+    * ```
+    */
+  get errorConferenceLogger(): Prisma.ErrorConferenceLoggerDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1041,7 +1056,8 @@ export namespace Prisma {
     NotificationsTypes: 'NotificationsTypes',
     NotificationSettings: 'NotificationSettings',
     TopicUserInteresteds: 'TopicUserInteresteds',
-    UserVerification: 'UserVerification'
+    UserVerification: 'UserVerification',
+    ErrorConferenceLogger: 'ErrorConferenceLogger'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1060,7 +1076,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "locations" | "conferenceDates" | "conferenceOrganizations" | "conferenceTopics" | "topics" | "conferences" | "conferenceRanks" | "fieldOfResearchs" | "ranks" | "sources" | "journalTopics" | "journalRanks" | "journals" | "conferenceFollows" | "conferenceLikes" | "conferenceFeedbacks" | "conferenceCalendars" | "journalLikes" | "journalFollows" | "users" | "admins" | "conferenceCrawlJobs" | "conferenceBlacklists" | "journalCrawlJobs" | "notifications" | "notificationsTypes" | "notificationSettings" | "topicUserInteresteds" | "userVerification"
+      modelProps: "locations" | "conferenceDates" | "conferenceOrganizations" | "conferenceTopics" | "topics" | "conferences" | "conferenceRanks" | "fieldOfResearchs" | "ranks" | "sources" | "journalTopics" | "journalRanks" | "journals" | "conferenceFollows" | "conferenceLikes" | "conferenceFeedbacks" | "conferenceCalendars" | "journalLikes" | "journalFollows" | "users" | "admins" | "conferenceCrawlJobs" | "conferenceBlacklists" | "journalCrawlJobs" | "notifications" | "notificationsTypes" | "notificationSettings" | "topicUserInteresteds" | "userVerification" | "errorConferenceLogger"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3210,6 +3226,80 @@ export namespace Prisma {
           }
         }
       }
+      ErrorConferenceLogger: {
+        payload: Prisma.$ErrorConferenceLoggerPayload<ExtArgs>
+        fields: Prisma.ErrorConferenceLoggerFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ErrorConferenceLoggerFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ErrorConferenceLoggerPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ErrorConferenceLoggerFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ErrorConferenceLoggerPayload>
+          }
+          findFirst: {
+            args: Prisma.ErrorConferenceLoggerFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ErrorConferenceLoggerPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ErrorConferenceLoggerFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ErrorConferenceLoggerPayload>
+          }
+          findMany: {
+            args: Prisma.ErrorConferenceLoggerFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ErrorConferenceLoggerPayload>[]
+          }
+          create: {
+            args: Prisma.ErrorConferenceLoggerCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ErrorConferenceLoggerPayload>
+          }
+          createMany: {
+            args: Prisma.ErrorConferenceLoggerCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ErrorConferenceLoggerCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ErrorConferenceLoggerPayload>[]
+          }
+          delete: {
+            args: Prisma.ErrorConferenceLoggerDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ErrorConferenceLoggerPayload>
+          }
+          update: {
+            args: Prisma.ErrorConferenceLoggerUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ErrorConferenceLoggerPayload>
+          }
+          deleteMany: {
+            args: Prisma.ErrorConferenceLoggerDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ErrorConferenceLoggerUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ErrorConferenceLoggerUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ErrorConferenceLoggerPayload>[]
+          }
+          upsert: {
+            args: Prisma.ErrorConferenceLoggerUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ErrorConferenceLoggerPayload>
+          }
+          aggregate: {
+            args: Prisma.ErrorConferenceLoggerAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateErrorConferenceLogger>
+          }
+          groupBy: {
+            args: Prisma.ErrorConferenceLoggerGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ErrorConferenceLoggerGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ErrorConferenceLoggerCountArgs<ExtArgs>
+            result: $Utils.Optional<ErrorConferenceLoggerCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -3323,6 +3413,7 @@ export namespace Prisma {
     notificationSettings?: NotificationSettingsOmit
     topicUserInteresteds?: TopicUserInterestedsOmit
     userVerification?: UserVerificationOmit
+    errorConferenceLogger?: ErrorConferenceLoggerOmit
   }
 
   /* Types for Logging */
@@ -3523,6 +3614,7 @@ export namespace Prisma {
     likes: number
     organizations: number
     ranks: number
+    errors: number
   }
 
   export type ConferencesCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3534,6 +3626,7 @@ export namespace Prisma {
     likes?: boolean | ConferencesCountOutputTypeCountLikesArgs
     organizations?: boolean | ConferencesCountOutputTypeCountOrganizationsArgs
     ranks?: boolean | ConferencesCountOutputTypeCountRanksArgs
+    errors?: boolean | ConferencesCountOutputTypeCountErrorsArgs
   }
 
   // Custom InputTypes
@@ -3601,6 +3694,13 @@ export namespace Prisma {
    */
   export type ConferencesCountOutputTypeCountRanksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ConferenceRanksWhereInput
+  }
+
+  /**
+   * ConferencesCountOutputType without action
+   */
+  export type ConferencesCountOutputTypeCountErrorsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ErrorConferenceLoggerWhereInput
   }
 
 
@@ -9884,6 +9984,7 @@ export namespace Prisma {
     ranks?: boolean | Conferences$ranksArgs<ExtArgs>
     createdByUser?: boolean | Conferences$createdByUserArgs<ExtArgs>
     createByAdmin?: boolean | Conferences$createByAdminArgs<ExtArgs>
+    errors?: boolean | Conferences$errorsArgs<ExtArgs>
     _count?: boolean | ConferencesCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["conferences"]>
 
@@ -9936,6 +10037,7 @@ export namespace Prisma {
     ranks?: boolean | Conferences$ranksArgs<ExtArgs>
     createdByUser?: boolean | Conferences$createdByUserArgs<ExtArgs>
     createByAdmin?: boolean | Conferences$createByAdminArgs<ExtArgs>
+    errors?: boolean | Conferences$errorsArgs<ExtArgs>
     _count?: boolean | ConferencesCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ConferencesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9960,6 +10062,7 @@ export namespace Prisma {
       ranks: Prisma.$ConferenceRanksPayload<ExtArgs>[]
       createdByUser: Prisma.$UsersPayload<ExtArgs> | null
       createByAdmin: Prisma.$AdminsPayload<ExtArgs> | null
+      errors: Prisma.$ErrorConferenceLoggerPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -10374,6 +10477,7 @@ export namespace Prisma {
     ranks<T extends Conferences$ranksArgs<ExtArgs> = {}>(args?: Subset<T, Conferences$ranksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceRanksPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     createdByUser<T extends Conferences$createdByUserArgs<ExtArgs> = {}>(args?: Subset<T, Conferences$createdByUserArgs<ExtArgs>>): Prisma__UsersClient<$Result.GetResult<Prisma.$UsersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     createByAdmin<T extends Conferences$createByAdminArgs<ExtArgs> = {}>(args?: Subset<T, Conferences$createByAdminArgs<ExtArgs>>): Prisma__AdminsClient<$Result.GetResult<Prisma.$AdminsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    errors<T extends Conferences$errorsArgs<ExtArgs> = {}>(args?: Subset<T, Conferences$errorsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ErrorConferenceLoggerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11034,6 +11138,30 @@ export namespace Prisma {
      */
     include?: AdminsInclude<ExtArgs> | null
     where?: AdminsWhereInput
+  }
+
+  /**
+   * Conferences.errors
+   */
+  export type Conferences$errorsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ErrorConferenceLogger
+     */
+    select?: ErrorConferenceLoggerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ErrorConferenceLogger
+     */
+    omit?: ErrorConferenceLoggerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ErrorConferenceLoggerInclude<ExtArgs> | null
+    where?: ErrorConferenceLoggerWhereInput
+    orderBy?: ErrorConferenceLoggerOrderByWithRelationInput | ErrorConferenceLoggerOrderByWithRelationInput[]
+    cursor?: ErrorConferenceLoggerWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ErrorConferenceLoggerScalarFieldEnum | ErrorConferenceLoggerScalarFieldEnum[]
   }
 
   /**
@@ -36656,6 +36784,1077 @@ export namespace Prisma {
 
 
   /**
+   * Model ErrorConferenceLogger
+   */
+
+  export type AggregateErrorConferenceLogger = {
+    _count: ErrorConferenceLoggerCountAggregateOutputType | null
+    _min: ErrorConferenceLoggerMinAggregateOutputType | null
+    _max: ErrorConferenceLoggerMaxAggregateOutputType | null
+  }
+
+  export type ErrorConferenceLoggerMinAggregateOutputType = {
+    id: string | null
+    message: string | null
+    stack: string | null
+    conferenceId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ErrorConferenceLoggerMaxAggregateOutputType = {
+    id: string | null
+    message: string | null
+    stack: string | null
+    conferenceId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ErrorConferenceLoggerCountAggregateOutputType = {
+    id: number
+    message: number
+    stack: number
+    conferenceId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ErrorConferenceLoggerMinAggregateInputType = {
+    id?: true
+    message?: true
+    stack?: true
+    conferenceId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ErrorConferenceLoggerMaxAggregateInputType = {
+    id?: true
+    message?: true
+    stack?: true
+    conferenceId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ErrorConferenceLoggerCountAggregateInputType = {
+    id?: true
+    message?: true
+    stack?: true
+    conferenceId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ErrorConferenceLoggerAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ErrorConferenceLogger to aggregate.
+     */
+    where?: ErrorConferenceLoggerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ErrorConferenceLoggers to fetch.
+     */
+    orderBy?: ErrorConferenceLoggerOrderByWithRelationInput | ErrorConferenceLoggerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ErrorConferenceLoggerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ErrorConferenceLoggers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ErrorConferenceLoggers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ErrorConferenceLoggers
+    **/
+    _count?: true | ErrorConferenceLoggerCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ErrorConferenceLoggerMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ErrorConferenceLoggerMaxAggregateInputType
+  }
+
+  export type GetErrorConferenceLoggerAggregateType<T extends ErrorConferenceLoggerAggregateArgs> = {
+        [P in keyof T & keyof AggregateErrorConferenceLogger]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateErrorConferenceLogger[P]>
+      : GetScalarType<T[P], AggregateErrorConferenceLogger[P]>
+  }
+
+
+
+
+  export type ErrorConferenceLoggerGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ErrorConferenceLoggerWhereInput
+    orderBy?: ErrorConferenceLoggerOrderByWithAggregationInput | ErrorConferenceLoggerOrderByWithAggregationInput[]
+    by: ErrorConferenceLoggerScalarFieldEnum[] | ErrorConferenceLoggerScalarFieldEnum
+    having?: ErrorConferenceLoggerScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ErrorConferenceLoggerCountAggregateInputType | true
+    _min?: ErrorConferenceLoggerMinAggregateInputType
+    _max?: ErrorConferenceLoggerMaxAggregateInputType
+  }
+
+  export type ErrorConferenceLoggerGroupByOutputType = {
+    id: string
+    message: string
+    stack: string
+    conferenceId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: ErrorConferenceLoggerCountAggregateOutputType | null
+    _min: ErrorConferenceLoggerMinAggregateOutputType | null
+    _max: ErrorConferenceLoggerMaxAggregateOutputType | null
+  }
+
+  type GetErrorConferenceLoggerGroupByPayload<T extends ErrorConferenceLoggerGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ErrorConferenceLoggerGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ErrorConferenceLoggerGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ErrorConferenceLoggerGroupByOutputType[P]>
+            : GetScalarType<T[P], ErrorConferenceLoggerGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ErrorConferenceLoggerSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    message?: boolean
+    stack?: boolean
+    conferenceId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    belongsTo?: boolean | ConferencesDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["errorConferenceLogger"]>
+
+  export type ErrorConferenceLoggerSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    message?: boolean
+    stack?: boolean
+    conferenceId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    belongsTo?: boolean | ConferencesDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["errorConferenceLogger"]>
+
+  export type ErrorConferenceLoggerSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    message?: boolean
+    stack?: boolean
+    conferenceId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    belongsTo?: boolean | ConferencesDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["errorConferenceLogger"]>
+
+  export type ErrorConferenceLoggerSelectScalar = {
+    id?: boolean
+    message?: boolean
+    stack?: boolean
+    conferenceId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ErrorConferenceLoggerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "message" | "stack" | "conferenceId" | "createdAt" | "updatedAt", ExtArgs["result"]["errorConferenceLogger"]>
+  export type ErrorConferenceLoggerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    belongsTo?: boolean | ConferencesDefaultArgs<ExtArgs>
+  }
+  export type ErrorConferenceLoggerIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    belongsTo?: boolean | ConferencesDefaultArgs<ExtArgs>
+  }
+  export type ErrorConferenceLoggerIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    belongsTo?: boolean | ConferencesDefaultArgs<ExtArgs>
+  }
+
+  export type $ErrorConferenceLoggerPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ErrorConferenceLogger"
+    objects: {
+      belongsTo: Prisma.$ConferencesPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      message: string
+      stack: string
+      conferenceId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["errorConferenceLogger"]>
+    composites: {}
+  }
+
+  type ErrorConferenceLoggerGetPayload<S extends boolean | null | undefined | ErrorConferenceLoggerDefaultArgs> = $Result.GetResult<Prisma.$ErrorConferenceLoggerPayload, S>
+
+  type ErrorConferenceLoggerCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ErrorConferenceLoggerFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ErrorConferenceLoggerCountAggregateInputType | true
+    }
+
+  export interface ErrorConferenceLoggerDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ErrorConferenceLogger'], meta: { name: 'ErrorConferenceLogger' } }
+    /**
+     * Find zero or one ErrorConferenceLogger that matches the filter.
+     * @param {ErrorConferenceLoggerFindUniqueArgs} args - Arguments to find a ErrorConferenceLogger
+     * @example
+     * // Get one ErrorConferenceLogger
+     * const errorConferenceLogger = await prisma.errorConferenceLogger.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ErrorConferenceLoggerFindUniqueArgs>(args: SelectSubset<T, ErrorConferenceLoggerFindUniqueArgs<ExtArgs>>): Prisma__ErrorConferenceLoggerClient<$Result.GetResult<Prisma.$ErrorConferenceLoggerPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ErrorConferenceLogger that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ErrorConferenceLoggerFindUniqueOrThrowArgs} args - Arguments to find a ErrorConferenceLogger
+     * @example
+     * // Get one ErrorConferenceLogger
+     * const errorConferenceLogger = await prisma.errorConferenceLogger.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ErrorConferenceLoggerFindUniqueOrThrowArgs>(args: SelectSubset<T, ErrorConferenceLoggerFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ErrorConferenceLoggerClient<$Result.GetResult<Prisma.$ErrorConferenceLoggerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ErrorConferenceLogger that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ErrorConferenceLoggerFindFirstArgs} args - Arguments to find a ErrorConferenceLogger
+     * @example
+     * // Get one ErrorConferenceLogger
+     * const errorConferenceLogger = await prisma.errorConferenceLogger.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ErrorConferenceLoggerFindFirstArgs>(args?: SelectSubset<T, ErrorConferenceLoggerFindFirstArgs<ExtArgs>>): Prisma__ErrorConferenceLoggerClient<$Result.GetResult<Prisma.$ErrorConferenceLoggerPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ErrorConferenceLogger that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ErrorConferenceLoggerFindFirstOrThrowArgs} args - Arguments to find a ErrorConferenceLogger
+     * @example
+     * // Get one ErrorConferenceLogger
+     * const errorConferenceLogger = await prisma.errorConferenceLogger.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ErrorConferenceLoggerFindFirstOrThrowArgs>(args?: SelectSubset<T, ErrorConferenceLoggerFindFirstOrThrowArgs<ExtArgs>>): Prisma__ErrorConferenceLoggerClient<$Result.GetResult<Prisma.$ErrorConferenceLoggerPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ErrorConferenceLoggers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ErrorConferenceLoggerFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ErrorConferenceLoggers
+     * const errorConferenceLoggers = await prisma.errorConferenceLogger.findMany()
+     * 
+     * // Get first 10 ErrorConferenceLoggers
+     * const errorConferenceLoggers = await prisma.errorConferenceLogger.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const errorConferenceLoggerWithIdOnly = await prisma.errorConferenceLogger.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ErrorConferenceLoggerFindManyArgs>(args?: SelectSubset<T, ErrorConferenceLoggerFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ErrorConferenceLoggerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ErrorConferenceLogger.
+     * @param {ErrorConferenceLoggerCreateArgs} args - Arguments to create a ErrorConferenceLogger.
+     * @example
+     * // Create one ErrorConferenceLogger
+     * const ErrorConferenceLogger = await prisma.errorConferenceLogger.create({
+     *   data: {
+     *     // ... data to create a ErrorConferenceLogger
+     *   }
+     * })
+     * 
+     */
+    create<T extends ErrorConferenceLoggerCreateArgs>(args: SelectSubset<T, ErrorConferenceLoggerCreateArgs<ExtArgs>>): Prisma__ErrorConferenceLoggerClient<$Result.GetResult<Prisma.$ErrorConferenceLoggerPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ErrorConferenceLoggers.
+     * @param {ErrorConferenceLoggerCreateManyArgs} args - Arguments to create many ErrorConferenceLoggers.
+     * @example
+     * // Create many ErrorConferenceLoggers
+     * const errorConferenceLogger = await prisma.errorConferenceLogger.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ErrorConferenceLoggerCreateManyArgs>(args?: SelectSubset<T, ErrorConferenceLoggerCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ErrorConferenceLoggers and returns the data saved in the database.
+     * @param {ErrorConferenceLoggerCreateManyAndReturnArgs} args - Arguments to create many ErrorConferenceLoggers.
+     * @example
+     * // Create many ErrorConferenceLoggers
+     * const errorConferenceLogger = await prisma.errorConferenceLogger.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ErrorConferenceLoggers and only return the `id`
+     * const errorConferenceLoggerWithIdOnly = await prisma.errorConferenceLogger.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ErrorConferenceLoggerCreateManyAndReturnArgs>(args?: SelectSubset<T, ErrorConferenceLoggerCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ErrorConferenceLoggerPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ErrorConferenceLogger.
+     * @param {ErrorConferenceLoggerDeleteArgs} args - Arguments to delete one ErrorConferenceLogger.
+     * @example
+     * // Delete one ErrorConferenceLogger
+     * const ErrorConferenceLogger = await prisma.errorConferenceLogger.delete({
+     *   where: {
+     *     // ... filter to delete one ErrorConferenceLogger
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ErrorConferenceLoggerDeleteArgs>(args: SelectSubset<T, ErrorConferenceLoggerDeleteArgs<ExtArgs>>): Prisma__ErrorConferenceLoggerClient<$Result.GetResult<Prisma.$ErrorConferenceLoggerPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ErrorConferenceLogger.
+     * @param {ErrorConferenceLoggerUpdateArgs} args - Arguments to update one ErrorConferenceLogger.
+     * @example
+     * // Update one ErrorConferenceLogger
+     * const errorConferenceLogger = await prisma.errorConferenceLogger.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ErrorConferenceLoggerUpdateArgs>(args: SelectSubset<T, ErrorConferenceLoggerUpdateArgs<ExtArgs>>): Prisma__ErrorConferenceLoggerClient<$Result.GetResult<Prisma.$ErrorConferenceLoggerPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ErrorConferenceLoggers.
+     * @param {ErrorConferenceLoggerDeleteManyArgs} args - Arguments to filter ErrorConferenceLoggers to delete.
+     * @example
+     * // Delete a few ErrorConferenceLoggers
+     * const { count } = await prisma.errorConferenceLogger.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ErrorConferenceLoggerDeleteManyArgs>(args?: SelectSubset<T, ErrorConferenceLoggerDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ErrorConferenceLoggers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ErrorConferenceLoggerUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ErrorConferenceLoggers
+     * const errorConferenceLogger = await prisma.errorConferenceLogger.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ErrorConferenceLoggerUpdateManyArgs>(args: SelectSubset<T, ErrorConferenceLoggerUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ErrorConferenceLoggers and returns the data updated in the database.
+     * @param {ErrorConferenceLoggerUpdateManyAndReturnArgs} args - Arguments to update many ErrorConferenceLoggers.
+     * @example
+     * // Update many ErrorConferenceLoggers
+     * const errorConferenceLogger = await prisma.errorConferenceLogger.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ErrorConferenceLoggers and only return the `id`
+     * const errorConferenceLoggerWithIdOnly = await prisma.errorConferenceLogger.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ErrorConferenceLoggerUpdateManyAndReturnArgs>(args: SelectSubset<T, ErrorConferenceLoggerUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ErrorConferenceLoggerPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ErrorConferenceLogger.
+     * @param {ErrorConferenceLoggerUpsertArgs} args - Arguments to update or create a ErrorConferenceLogger.
+     * @example
+     * // Update or create a ErrorConferenceLogger
+     * const errorConferenceLogger = await prisma.errorConferenceLogger.upsert({
+     *   create: {
+     *     // ... data to create a ErrorConferenceLogger
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ErrorConferenceLogger we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ErrorConferenceLoggerUpsertArgs>(args: SelectSubset<T, ErrorConferenceLoggerUpsertArgs<ExtArgs>>): Prisma__ErrorConferenceLoggerClient<$Result.GetResult<Prisma.$ErrorConferenceLoggerPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ErrorConferenceLoggers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ErrorConferenceLoggerCountArgs} args - Arguments to filter ErrorConferenceLoggers to count.
+     * @example
+     * // Count the number of ErrorConferenceLoggers
+     * const count = await prisma.errorConferenceLogger.count({
+     *   where: {
+     *     // ... the filter for the ErrorConferenceLoggers we want to count
+     *   }
+     * })
+    **/
+    count<T extends ErrorConferenceLoggerCountArgs>(
+      args?: Subset<T, ErrorConferenceLoggerCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ErrorConferenceLoggerCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ErrorConferenceLogger.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ErrorConferenceLoggerAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ErrorConferenceLoggerAggregateArgs>(args: Subset<T, ErrorConferenceLoggerAggregateArgs>): Prisma.PrismaPromise<GetErrorConferenceLoggerAggregateType<T>>
+
+    /**
+     * Group by ErrorConferenceLogger.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ErrorConferenceLoggerGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ErrorConferenceLoggerGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ErrorConferenceLoggerGroupByArgs['orderBy'] }
+        : { orderBy?: ErrorConferenceLoggerGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ErrorConferenceLoggerGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetErrorConferenceLoggerGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ErrorConferenceLogger model
+   */
+  readonly fields: ErrorConferenceLoggerFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ErrorConferenceLogger.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ErrorConferenceLoggerClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    belongsTo<T extends ConferencesDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ConferencesDefaultArgs<ExtArgs>>): Prisma__ConferencesClient<$Result.GetResult<Prisma.$ConferencesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ErrorConferenceLogger model
+   */ 
+  interface ErrorConferenceLoggerFieldRefs {
+    readonly id: FieldRef<"ErrorConferenceLogger", 'String'>
+    readonly message: FieldRef<"ErrorConferenceLogger", 'String'>
+    readonly stack: FieldRef<"ErrorConferenceLogger", 'String'>
+    readonly conferenceId: FieldRef<"ErrorConferenceLogger", 'String'>
+    readonly createdAt: FieldRef<"ErrorConferenceLogger", 'DateTime'>
+    readonly updatedAt: FieldRef<"ErrorConferenceLogger", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ErrorConferenceLogger findUnique
+   */
+  export type ErrorConferenceLoggerFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ErrorConferenceLogger
+     */
+    select?: ErrorConferenceLoggerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ErrorConferenceLogger
+     */
+    omit?: ErrorConferenceLoggerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ErrorConferenceLoggerInclude<ExtArgs> | null
+    /**
+     * Filter, which ErrorConferenceLogger to fetch.
+     */
+    where: ErrorConferenceLoggerWhereUniqueInput
+  }
+
+  /**
+   * ErrorConferenceLogger findUniqueOrThrow
+   */
+  export type ErrorConferenceLoggerFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ErrorConferenceLogger
+     */
+    select?: ErrorConferenceLoggerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ErrorConferenceLogger
+     */
+    omit?: ErrorConferenceLoggerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ErrorConferenceLoggerInclude<ExtArgs> | null
+    /**
+     * Filter, which ErrorConferenceLogger to fetch.
+     */
+    where: ErrorConferenceLoggerWhereUniqueInput
+  }
+
+  /**
+   * ErrorConferenceLogger findFirst
+   */
+  export type ErrorConferenceLoggerFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ErrorConferenceLogger
+     */
+    select?: ErrorConferenceLoggerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ErrorConferenceLogger
+     */
+    omit?: ErrorConferenceLoggerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ErrorConferenceLoggerInclude<ExtArgs> | null
+    /**
+     * Filter, which ErrorConferenceLogger to fetch.
+     */
+    where?: ErrorConferenceLoggerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ErrorConferenceLoggers to fetch.
+     */
+    orderBy?: ErrorConferenceLoggerOrderByWithRelationInput | ErrorConferenceLoggerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ErrorConferenceLoggers.
+     */
+    cursor?: ErrorConferenceLoggerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ErrorConferenceLoggers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ErrorConferenceLoggers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ErrorConferenceLoggers.
+     */
+    distinct?: ErrorConferenceLoggerScalarFieldEnum | ErrorConferenceLoggerScalarFieldEnum[]
+  }
+
+  /**
+   * ErrorConferenceLogger findFirstOrThrow
+   */
+  export type ErrorConferenceLoggerFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ErrorConferenceLogger
+     */
+    select?: ErrorConferenceLoggerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ErrorConferenceLogger
+     */
+    omit?: ErrorConferenceLoggerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ErrorConferenceLoggerInclude<ExtArgs> | null
+    /**
+     * Filter, which ErrorConferenceLogger to fetch.
+     */
+    where?: ErrorConferenceLoggerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ErrorConferenceLoggers to fetch.
+     */
+    orderBy?: ErrorConferenceLoggerOrderByWithRelationInput | ErrorConferenceLoggerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ErrorConferenceLoggers.
+     */
+    cursor?: ErrorConferenceLoggerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ErrorConferenceLoggers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ErrorConferenceLoggers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ErrorConferenceLoggers.
+     */
+    distinct?: ErrorConferenceLoggerScalarFieldEnum | ErrorConferenceLoggerScalarFieldEnum[]
+  }
+
+  /**
+   * ErrorConferenceLogger findMany
+   */
+  export type ErrorConferenceLoggerFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ErrorConferenceLogger
+     */
+    select?: ErrorConferenceLoggerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ErrorConferenceLogger
+     */
+    omit?: ErrorConferenceLoggerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ErrorConferenceLoggerInclude<ExtArgs> | null
+    /**
+     * Filter, which ErrorConferenceLoggers to fetch.
+     */
+    where?: ErrorConferenceLoggerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ErrorConferenceLoggers to fetch.
+     */
+    orderBy?: ErrorConferenceLoggerOrderByWithRelationInput | ErrorConferenceLoggerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ErrorConferenceLoggers.
+     */
+    cursor?: ErrorConferenceLoggerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ErrorConferenceLoggers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ErrorConferenceLoggers.
+     */
+    skip?: number
+    distinct?: ErrorConferenceLoggerScalarFieldEnum | ErrorConferenceLoggerScalarFieldEnum[]
+  }
+
+  /**
+   * ErrorConferenceLogger create
+   */
+  export type ErrorConferenceLoggerCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ErrorConferenceLogger
+     */
+    select?: ErrorConferenceLoggerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ErrorConferenceLogger
+     */
+    omit?: ErrorConferenceLoggerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ErrorConferenceLoggerInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ErrorConferenceLogger.
+     */
+    data: XOR<ErrorConferenceLoggerCreateInput, ErrorConferenceLoggerUncheckedCreateInput>
+  }
+
+  /**
+   * ErrorConferenceLogger createMany
+   */
+  export type ErrorConferenceLoggerCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ErrorConferenceLoggers.
+     */
+    data: ErrorConferenceLoggerCreateManyInput | ErrorConferenceLoggerCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ErrorConferenceLogger createManyAndReturn
+   */
+  export type ErrorConferenceLoggerCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ErrorConferenceLogger
+     */
+    select?: ErrorConferenceLoggerSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ErrorConferenceLogger
+     */
+    omit?: ErrorConferenceLoggerOmit<ExtArgs> | null
+    /**
+     * The data used to create many ErrorConferenceLoggers.
+     */
+    data: ErrorConferenceLoggerCreateManyInput | ErrorConferenceLoggerCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ErrorConferenceLoggerIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ErrorConferenceLogger update
+   */
+  export type ErrorConferenceLoggerUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ErrorConferenceLogger
+     */
+    select?: ErrorConferenceLoggerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ErrorConferenceLogger
+     */
+    omit?: ErrorConferenceLoggerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ErrorConferenceLoggerInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ErrorConferenceLogger.
+     */
+    data: XOR<ErrorConferenceLoggerUpdateInput, ErrorConferenceLoggerUncheckedUpdateInput>
+    /**
+     * Choose, which ErrorConferenceLogger to update.
+     */
+    where: ErrorConferenceLoggerWhereUniqueInput
+  }
+
+  /**
+   * ErrorConferenceLogger updateMany
+   */
+  export type ErrorConferenceLoggerUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ErrorConferenceLoggers.
+     */
+    data: XOR<ErrorConferenceLoggerUpdateManyMutationInput, ErrorConferenceLoggerUncheckedUpdateManyInput>
+    /**
+     * Filter which ErrorConferenceLoggers to update
+     */
+    where?: ErrorConferenceLoggerWhereInput
+    /**
+     * Limit how many ErrorConferenceLoggers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ErrorConferenceLogger updateManyAndReturn
+   */
+  export type ErrorConferenceLoggerUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ErrorConferenceLogger
+     */
+    select?: ErrorConferenceLoggerSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ErrorConferenceLogger
+     */
+    omit?: ErrorConferenceLoggerOmit<ExtArgs> | null
+    /**
+     * The data used to update ErrorConferenceLoggers.
+     */
+    data: XOR<ErrorConferenceLoggerUpdateManyMutationInput, ErrorConferenceLoggerUncheckedUpdateManyInput>
+    /**
+     * Filter which ErrorConferenceLoggers to update
+     */
+    where?: ErrorConferenceLoggerWhereInput
+    /**
+     * Limit how many ErrorConferenceLoggers to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ErrorConferenceLoggerIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ErrorConferenceLogger upsert
+   */
+  export type ErrorConferenceLoggerUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ErrorConferenceLogger
+     */
+    select?: ErrorConferenceLoggerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ErrorConferenceLogger
+     */
+    omit?: ErrorConferenceLoggerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ErrorConferenceLoggerInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ErrorConferenceLogger to update in case it exists.
+     */
+    where: ErrorConferenceLoggerWhereUniqueInput
+    /**
+     * In case the ErrorConferenceLogger found by the `where` argument doesn't exist, create a new ErrorConferenceLogger with this data.
+     */
+    create: XOR<ErrorConferenceLoggerCreateInput, ErrorConferenceLoggerUncheckedCreateInput>
+    /**
+     * In case the ErrorConferenceLogger was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ErrorConferenceLoggerUpdateInput, ErrorConferenceLoggerUncheckedUpdateInput>
+  }
+
+  /**
+   * ErrorConferenceLogger delete
+   */
+  export type ErrorConferenceLoggerDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ErrorConferenceLogger
+     */
+    select?: ErrorConferenceLoggerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ErrorConferenceLogger
+     */
+    omit?: ErrorConferenceLoggerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ErrorConferenceLoggerInclude<ExtArgs> | null
+    /**
+     * Filter which ErrorConferenceLogger to delete.
+     */
+    where: ErrorConferenceLoggerWhereUniqueInput
+  }
+
+  /**
+   * ErrorConferenceLogger deleteMany
+   */
+  export type ErrorConferenceLoggerDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ErrorConferenceLoggers to delete
+     */
+    where?: ErrorConferenceLoggerWhereInput
+    /**
+     * Limit how many ErrorConferenceLoggers to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ErrorConferenceLogger without action
+   */
+  export type ErrorConferenceLoggerDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ErrorConferenceLogger
+     */
+    select?: ErrorConferenceLoggerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ErrorConferenceLogger
+     */
+    omit?: ErrorConferenceLoggerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ErrorConferenceLoggerInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -37018,6 +38217,18 @@ export namespace Prisma {
   };
 
   export type UserVerificationScalarFieldEnum = (typeof UserVerificationScalarFieldEnum)[keyof typeof UserVerificationScalarFieldEnum]
+
+
+  export const ErrorConferenceLoggerScalarFieldEnum: {
+    id: 'id',
+    message: 'message',
+    stack: 'stack',
+    conferenceId: 'conferenceId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ErrorConferenceLoggerScalarFieldEnum = (typeof ErrorConferenceLoggerScalarFieldEnum)[keyof typeof ErrorConferenceLoggerScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -37507,6 +38718,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksListRelationFilter
     createdByUser?: XOR<UsersNullableScalarRelationFilter, UsersWhereInput> | null
     createByAdmin?: XOR<AdminsNullableScalarRelationFilter, AdminsWhereInput> | null
+    errors?: ErrorConferenceLoggerListRelationFilter
   }
 
   export type ConferencesOrderByWithRelationInput = {
@@ -37528,6 +38740,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksOrderByRelationAggregateInput
     createdByUser?: UsersOrderByWithRelationInput
     createByAdmin?: AdminsOrderByWithRelationInput
+    errors?: ErrorConferenceLoggerOrderByRelationAggregateInput
   }
 
   export type ConferencesWhereUniqueInput = Prisma.AtLeast<{
@@ -37553,6 +38766,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksListRelationFilter
     createdByUser?: XOR<UsersNullableScalarRelationFilter, UsersWhereInput> | null
     createByAdmin?: XOR<AdminsNullableScalarRelationFilter, AdminsWhereInput> | null
+    errors?: ErrorConferenceLoggerListRelationFilter
   }, "id" | "title_acronym">
 
   export type ConferencesOrderByWithAggregationInput = {
@@ -39052,6 +40266,66 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"UserVerification"> | Date | string
   }
 
+  export type ErrorConferenceLoggerWhereInput = {
+    AND?: ErrorConferenceLoggerWhereInput | ErrorConferenceLoggerWhereInput[]
+    OR?: ErrorConferenceLoggerWhereInput[]
+    NOT?: ErrorConferenceLoggerWhereInput | ErrorConferenceLoggerWhereInput[]
+    id?: StringFilter<"ErrorConferenceLogger"> | string
+    message?: StringFilter<"ErrorConferenceLogger"> | string
+    stack?: StringFilter<"ErrorConferenceLogger"> | string
+    conferenceId?: StringFilter<"ErrorConferenceLogger"> | string
+    createdAt?: DateTimeFilter<"ErrorConferenceLogger"> | Date | string
+    updatedAt?: DateTimeFilter<"ErrorConferenceLogger"> | Date | string
+    belongsTo?: XOR<ConferencesScalarRelationFilter, ConferencesWhereInput>
+  }
+
+  export type ErrorConferenceLoggerOrderByWithRelationInput = {
+    id?: SortOrder
+    message?: SortOrder
+    stack?: SortOrder
+    conferenceId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    belongsTo?: ConferencesOrderByWithRelationInput
+  }
+
+  export type ErrorConferenceLoggerWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ErrorConferenceLoggerWhereInput | ErrorConferenceLoggerWhereInput[]
+    OR?: ErrorConferenceLoggerWhereInput[]
+    NOT?: ErrorConferenceLoggerWhereInput | ErrorConferenceLoggerWhereInput[]
+    message?: StringFilter<"ErrorConferenceLogger"> | string
+    stack?: StringFilter<"ErrorConferenceLogger"> | string
+    conferenceId?: StringFilter<"ErrorConferenceLogger"> | string
+    createdAt?: DateTimeFilter<"ErrorConferenceLogger"> | Date | string
+    updatedAt?: DateTimeFilter<"ErrorConferenceLogger"> | Date | string
+    belongsTo?: XOR<ConferencesScalarRelationFilter, ConferencesWhereInput>
+  }, "id">
+
+  export type ErrorConferenceLoggerOrderByWithAggregationInput = {
+    id?: SortOrder
+    message?: SortOrder
+    stack?: SortOrder
+    conferenceId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ErrorConferenceLoggerCountOrderByAggregateInput
+    _max?: ErrorConferenceLoggerMaxOrderByAggregateInput
+    _min?: ErrorConferenceLoggerMinOrderByAggregateInput
+  }
+
+  export type ErrorConferenceLoggerScalarWhereWithAggregatesInput = {
+    AND?: ErrorConferenceLoggerScalarWhereWithAggregatesInput | ErrorConferenceLoggerScalarWhereWithAggregatesInput[]
+    OR?: ErrorConferenceLoggerScalarWhereWithAggregatesInput[]
+    NOT?: ErrorConferenceLoggerScalarWhereWithAggregatesInput | ErrorConferenceLoggerScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ErrorConferenceLogger"> | string
+    message?: StringWithAggregatesFilter<"ErrorConferenceLogger"> | string
+    stack?: StringWithAggregatesFilter<"ErrorConferenceLogger"> | string
+    conferenceId?: StringWithAggregatesFilter<"ErrorConferenceLogger"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ErrorConferenceLogger"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ErrorConferenceLogger"> | Date | string
+  }
+
   export type LocationsCreateInput = {
     id?: string
     address?: string | null
@@ -39473,6 +40747,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
     createdByUser?: UsersCreateNestedOneWithoutCreatedConferencesInput
     createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
+    errors?: ErrorConferenceLoggerCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesUncheckedCreateInput = {
@@ -39492,6 +40767,7 @@ export namespace Prisma {
     likes?: ConferenceLikesUncheckedCreateNestedManyWithoutBelongsToInput
     organizations?: ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
+    errors?: ErrorConferenceLoggerUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesUpdateInput = {
@@ -39511,6 +40787,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneWithoutCreatedConferencesNestedInput
     createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
+    errors?: ErrorConferenceLoggerUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateInput = {
@@ -39530,6 +40807,7 @@ export namespace Prisma {
     likes?: ConferenceLikesUncheckedUpdateManyWithoutBelongsToNestedInput
     organizations?: ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
+    errors?: ErrorConferenceLoggerUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesCreateManyInput = {
@@ -41023,6 +42301,68 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ErrorConferenceLoggerCreateInput = {
+    id?: string
+    message: string
+    stack: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    belongsTo: ConferencesCreateNestedOneWithoutErrorsInput
+  }
+
+  export type ErrorConferenceLoggerUncheckedCreateInput = {
+    id?: string
+    message: string
+    stack: string
+    conferenceId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ErrorConferenceLoggerUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    stack?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    belongsTo?: ConferencesUpdateOneRequiredWithoutErrorsNestedInput
+  }
+
+  export type ErrorConferenceLoggerUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    stack?: StringFieldUpdateOperationsInput | string
+    conferenceId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ErrorConferenceLoggerCreateManyInput = {
+    id?: string
+    message: string
+    stack: string
+    conferenceId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ErrorConferenceLoggerUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    stack?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ErrorConferenceLoggerUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    stack?: StringFieldUpdateOperationsInput | string
+    conferenceId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -41480,6 +42820,12 @@ export namespace Prisma {
     isNot?: AdminsWhereInput | null
   }
 
+  export type ErrorConferenceLoggerListRelationFilter = {
+    every?: ErrorConferenceLoggerWhereInput
+    some?: ErrorConferenceLoggerWhereInput
+    none?: ErrorConferenceLoggerWhereInput
+  }
+
   export type ConferenceBlacklistsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -41509,6 +42855,10 @@ export namespace Prisma {
   }
 
   export type ConferenceRanksOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ErrorConferenceLoggerOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -42388,6 +43738,33 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type ErrorConferenceLoggerCountOrderByAggregateInput = {
+    id?: SortOrder
+    message?: SortOrder
+    stack?: SortOrder
+    conferenceId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ErrorConferenceLoggerMaxOrderByAggregateInput = {
+    id?: SortOrder
+    message?: SortOrder
+    stack?: SortOrder
+    conferenceId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ErrorConferenceLoggerMinOrderByAggregateInput = {
+    id?: SortOrder
+    message?: SortOrder
+    stack?: SortOrder
+    conferenceId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type ConferenceOrganizationsCreateNestedOneWithoutLocationsInput = {
     create?: XOR<ConferenceOrganizationsCreateWithoutLocationsInput, ConferenceOrganizationsUncheckedCreateWithoutLocationsInput>
     connectOrCreate?: ConferenceOrganizationsCreateOrConnectWithoutLocationsInput
@@ -42806,6 +44183,13 @@ export namespace Prisma {
     connect?: AdminsWhereUniqueInput
   }
 
+  export type ErrorConferenceLoggerCreateNestedManyWithoutBelongsToInput = {
+    create?: XOR<ErrorConferenceLoggerCreateWithoutBelongsToInput, ErrorConferenceLoggerUncheckedCreateWithoutBelongsToInput> | ErrorConferenceLoggerCreateWithoutBelongsToInput[] | ErrorConferenceLoggerUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: ErrorConferenceLoggerCreateOrConnectWithoutBelongsToInput | ErrorConferenceLoggerCreateOrConnectWithoutBelongsToInput[]
+    createMany?: ErrorConferenceLoggerCreateManyBelongsToInputEnvelope
+    connect?: ErrorConferenceLoggerWhereUniqueInput | ErrorConferenceLoggerWhereUniqueInput[]
+  }
+
   export type ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput = {
     create?: XOR<ConferenceBlacklistsCreateWithoutBelongsToInput, ConferenceBlacklistsUncheckedCreateWithoutBelongsToInput> | ConferenceBlacklistsCreateWithoutBelongsToInput[] | ConferenceBlacklistsUncheckedCreateWithoutBelongsToInput[]
     connectOrCreate?: ConferenceBlacklistsCreateOrConnectWithoutBelongsToInput | ConferenceBlacklistsCreateOrConnectWithoutBelongsToInput[]
@@ -42860,6 +44244,13 @@ export namespace Prisma {
     connectOrCreate?: ConferenceRanksCreateOrConnectWithoutBelongsToInput | ConferenceRanksCreateOrConnectWithoutBelongsToInput[]
     createMany?: ConferenceRanksCreateManyBelongsToInputEnvelope
     connect?: ConferenceRanksWhereUniqueInput | ConferenceRanksWhereUniqueInput[]
+  }
+
+  export type ErrorConferenceLoggerUncheckedCreateNestedManyWithoutBelongsToInput = {
+    create?: XOR<ErrorConferenceLoggerCreateWithoutBelongsToInput, ErrorConferenceLoggerUncheckedCreateWithoutBelongsToInput> | ErrorConferenceLoggerCreateWithoutBelongsToInput[] | ErrorConferenceLoggerUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: ErrorConferenceLoggerCreateOrConnectWithoutBelongsToInput | ErrorConferenceLoggerCreateOrConnectWithoutBelongsToInput[]
+    createMany?: ErrorConferenceLoggerCreateManyBelongsToInputEnvelope
+    connect?: ErrorConferenceLoggerWhereUniqueInput | ErrorConferenceLoggerWhereUniqueInput[]
   }
 
   export type ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput = {
@@ -42994,6 +44385,20 @@ export namespace Prisma {
     update?: XOR<XOR<AdminsUpdateToOneWithWhereWithoutCreatedConferencesInput, AdminsUpdateWithoutCreatedConferencesInput>, AdminsUncheckedUpdateWithoutCreatedConferencesInput>
   }
 
+  export type ErrorConferenceLoggerUpdateManyWithoutBelongsToNestedInput = {
+    create?: XOR<ErrorConferenceLoggerCreateWithoutBelongsToInput, ErrorConferenceLoggerUncheckedCreateWithoutBelongsToInput> | ErrorConferenceLoggerCreateWithoutBelongsToInput[] | ErrorConferenceLoggerUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: ErrorConferenceLoggerCreateOrConnectWithoutBelongsToInput | ErrorConferenceLoggerCreateOrConnectWithoutBelongsToInput[]
+    upsert?: ErrorConferenceLoggerUpsertWithWhereUniqueWithoutBelongsToInput | ErrorConferenceLoggerUpsertWithWhereUniqueWithoutBelongsToInput[]
+    createMany?: ErrorConferenceLoggerCreateManyBelongsToInputEnvelope
+    set?: ErrorConferenceLoggerWhereUniqueInput | ErrorConferenceLoggerWhereUniqueInput[]
+    disconnect?: ErrorConferenceLoggerWhereUniqueInput | ErrorConferenceLoggerWhereUniqueInput[]
+    delete?: ErrorConferenceLoggerWhereUniqueInput | ErrorConferenceLoggerWhereUniqueInput[]
+    connect?: ErrorConferenceLoggerWhereUniqueInput | ErrorConferenceLoggerWhereUniqueInput[]
+    update?: ErrorConferenceLoggerUpdateWithWhereUniqueWithoutBelongsToInput | ErrorConferenceLoggerUpdateWithWhereUniqueWithoutBelongsToInput[]
+    updateMany?: ErrorConferenceLoggerUpdateManyWithWhereWithoutBelongsToInput | ErrorConferenceLoggerUpdateManyWithWhereWithoutBelongsToInput[]
+    deleteMany?: ErrorConferenceLoggerScalarWhereInput | ErrorConferenceLoggerScalarWhereInput[]
+  }
+
   export type ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput = {
     create?: XOR<ConferenceBlacklistsCreateWithoutBelongsToInput, ConferenceBlacklistsUncheckedCreateWithoutBelongsToInput> | ConferenceBlacklistsCreateWithoutBelongsToInput[] | ConferenceBlacklistsUncheckedCreateWithoutBelongsToInput[]
     connectOrCreate?: ConferenceBlacklistsCreateOrConnectWithoutBelongsToInput | ConferenceBlacklistsCreateOrConnectWithoutBelongsToInput[]
@@ -43104,6 +44509,20 @@ export namespace Prisma {
     update?: ConferenceRanksUpdateWithWhereUniqueWithoutBelongsToInput | ConferenceRanksUpdateWithWhereUniqueWithoutBelongsToInput[]
     updateMany?: ConferenceRanksUpdateManyWithWhereWithoutBelongsToInput | ConferenceRanksUpdateManyWithWhereWithoutBelongsToInput[]
     deleteMany?: ConferenceRanksScalarWhereInput | ConferenceRanksScalarWhereInput[]
+  }
+
+  export type ErrorConferenceLoggerUncheckedUpdateManyWithoutBelongsToNestedInput = {
+    create?: XOR<ErrorConferenceLoggerCreateWithoutBelongsToInput, ErrorConferenceLoggerUncheckedCreateWithoutBelongsToInput> | ErrorConferenceLoggerCreateWithoutBelongsToInput[] | ErrorConferenceLoggerUncheckedCreateWithoutBelongsToInput[]
+    connectOrCreate?: ErrorConferenceLoggerCreateOrConnectWithoutBelongsToInput | ErrorConferenceLoggerCreateOrConnectWithoutBelongsToInput[]
+    upsert?: ErrorConferenceLoggerUpsertWithWhereUniqueWithoutBelongsToInput | ErrorConferenceLoggerUpsertWithWhereUniqueWithoutBelongsToInput[]
+    createMany?: ErrorConferenceLoggerCreateManyBelongsToInputEnvelope
+    set?: ErrorConferenceLoggerWhereUniqueInput | ErrorConferenceLoggerWhereUniqueInput[]
+    disconnect?: ErrorConferenceLoggerWhereUniqueInput | ErrorConferenceLoggerWhereUniqueInput[]
+    delete?: ErrorConferenceLoggerWhereUniqueInput | ErrorConferenceLoggerWhereUniqueInput[]
+    connect?: ErrorConferenceLoggerWhereUniqueInput | ErrorConferenceLoggerWhereUniqueInput[]
+    update?: ErrorConferenceLoggerUpdateWithWhereUniqueWithoutBelongsToInput | ErrorConferenceLoggerUpdateWithWhereUniqueWithoutBelongsToInput[]
+    updateMany?: ErrorConferenceLoggerUpdateManyWithWhereWithoutBelongsToInput | ErrorConferenceLoggerUpdateManyWithWhereWithoutBelongsToInput[]
+    deleteMany?: ErrorConferenceLoggerScalarWhereInput | ErrorConferenceLoggerScalarWhereInput[]
   }
 
   export type ConferencesCreateNestedOneWithoutRanksInput = {
@@ -44728,6 +46147,20 @@ export namespace Prisma {
     update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutVerificationInput, UsersUpdateWithoutVerificationInput>, UsersUncheckedUpdateWithoutVerificationInput>
   }
 
+  export type ConferencesCreateNestedOneWithoutErrorsInput = {
+    create?: XOR<ConferencesCreateWithoutErrorsInput, ConferencesUncheckedCreateWithoutErrorsInput>
+    connectOrCreate?: ConferencesCreateOrConnectWithoutErrorsInput
+    connect?: ConferencesWhereUniqueInput
+  }
+
+  export type ConferencesUpdateOneRequiredWithoutErrorsNestedInput = {
+    create?: XOR<ConferencesCreateWithoutErrorsInput, ConferencesUncheckedCreateWithoutErrorsInput>
+    connectOrCreate?: ConferencesCreateOrConnectWithoutErrorsInput
+    upsert?: ConferencesUpsertWithoutErrorsInput
+    connect?: ConferencesWhereUniqueInput
+    update?: XOR<XOR<ConferencesUpdateToOneWithWhereWithoutErrorsInput, ConferencesUpdateWithoutErrorsInput>, ConferencesUncheckedUpdateWithoutErrorsInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -45153,6 +46586,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
     createdByUser?: UsersCreateNestedOneWithoutCreatedConferencesInput
     createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
+    errors?: ErrorConferenceLoggerCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesUncheckedCreateWithoutOrganizationsInput = {
@@ -45171,6 +46605,7 @@ export namespace Prisma {
     follows?: ConferenceFollowsUncheckedCreateNestedManyWithoutBelongsToInput
     likes?: ConferenceLikesUncheckedCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
+    errors?: ErrorConferenceLoggerUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesCreateOrConnectWithoutOrganizationsInput = {
@@ -45292,6 +46727,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneWithoutCreatedConferencesNestedInput
     createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
+    errors?: ErrorConferenceLoggerUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateWithoutOrganizationsInput = {
@@ -45310,6 +46746,7 @@ export namespace Prisma {
     follows?: ConferenceFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
     likes?: ConferenceLikesUncheckedUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
+    errors?: ErrorConferenceLoggerUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferenceTopicsUpsertWithWhereUniqueWithoutBelongsToInput = {
@@ -45947,6 +47384,32 @@ export namespace Prisma {
     create: XOR<AdminsCreateWithoutCreatedConferencesInput, AdminsUncheckedCreateWithoutCreatedConferencesInput>
   }
 
+  export type ErrorConferenceLoggerCreateWithoutBelongsToInput = {
+    id?: string
+    message: string
+    stack: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ErrorConferenceLoggerUncheckedCreateWithoutBelongsToInput = {
+    id?: string
+    message: string
+    stack: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ErrorConferenceLoggerCreateOrConnectWithoutBelongsToInput = {
+    where: ErrorConferenceLoggerWhereUniqueInput
+    create: XOR<ErrorConferenceLoggerCreateWithoutBelongsToInput, ErrorConferenceLoggerUncheckedCreateWithoutBelongsToInput>
+  }
+
+  export type ErrorConferenceLoggerCreateManyBelongsToInputEnvelope = {
+    data: ErrorConferenceLoggerCreateManyBelongsToInput | ErrorConferenceLoggerCreateManyBelongsToInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ConferenceBlacklistsUpsertWithWhereUniqueWithoutBelongsToInput = {
     where: ConferenceBlacklistsWhereUniqueInput
     update: XOR<ConferenceBlacklistsUpdateWithoutBelongsToInput, ConferenceBlacklistsUncheckedUpdateWithoutBelongsToInput>
@@ -46269,6 +47732,34 @@ export namespace Prisma {
     createdJournals?: JournalsUncheckedUpdateManyWithoutCreateByAdminNestedInput
   }
 
+  export type ErrorConferenceLoggerUpsertWithWhereUniqueWithoutBelongsToInput = {
+    where: ErrorConferenceLoggerWhereUniqueInput
+    update: XOR<ErrorConferenceLoggerUpdateWithoutBelongsToInput, ErrorConferenceLoggerUncheckedUpdateWithoutBelongsToInput>
+    create: XOR<ErrorConferenceLoggerCreateWithoutBelongsToInput, ErrorConferenceLoggerUncheckedCreateWithoutBelongsToInput>
+  }
+
+  export type ErrorConferenceLoggerUpdateWithWhereUniqueWithoutBelongsToInput = {
+    where: ErrorConferenceLoggerWhereUniqueInput
+    data: XOR<ErrorConferenceLoggerUpdateWithoutBelongsToInput, ErrorConferenceLoggerUncheckedUpdateWithoutBelongsToInput>
+  }
+
+  export type ErrorConferenceLoggerUpdateManyWithWhereWithoutBelongsToInput = {
+    where: ErrorConferenceLoggerScalarWhereInput
+    data: XOR<ErrorConferenceLoggerUpdateManyMutationInput, ErrorConferenceLoggerUncheckedUpdateManyWithoutBelongsToInput>
+  }
+
+  export type ErrorConferenceLoggerScalarWhereInput = {
+    AND?: ErrorConferenceLoggerScalarWhereInput | ErrorConferenceLoggerScalarWhereInput[]
+    OR?: ErrorConferenceLoggerScalarWhereInput[]
+    NOT?: ErrorConferenceLoggerScalarWhereInput | ErrorConferenceLoggerScalarWhereInput[]
+    id?: StringFilter<"ErrorConferenceLogger"> | string
+    message?: StringFilter<"ErrorConferenceLogger"> | string
+    stack?: StringFilter<"ErrorConferenceLogger"> | string
+    conferenceId?: StringFilter<"ErrorConferenceLogger"> | string
+    createdAt?: DateTimeFilter<"ErrorConferenceLogger"> | Date | string
+    updatedAt?: DateTimeFilter<"ErrorConferenceLogger"> | Date | string
+  }
+
   export type ConferencesCreateWithoutRanksInput = {
     id?: string
     title: string
@@ -46285,6 +47776,7 @@ export namespace Prisma {
     organizations?: ConferenceOrganizationsCreateNestedManyWithoutBelongsToInput
     createdByUser?: UsersCreateNestedOneWithoutCreatedConferencesInput
     createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
+    errors?: ErrorConferenceLoggerCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesUncheckedCreateWithoutRanksInput = {
@@ -46303,6 +47795,7 @@ export namespace Prisma {
     follows?: ConferenceFollowsUncheckedCreateNestedManyWithoutBelongsToInput
     likes?: ConferenceLikesUncheckedCreateNestedManyWithoutBelongsToInput
     organizations?: ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput
+    errors?: ErrorConferenceLoggerUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesCreateOrConnectWithoutRanksInput = {
@@ -46377,6 +47870,7 @@ export namespace Prisma {
     organizations?: ConferenceOrganizationsUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneWithoutCreatedConferencesNestedInput
     createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
+    errors?: ErrorConferenceLoggerUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateWithoutRanksInput = {
@@ -46395,6 +47889,7 @@ export namespace Prisma {
     follows?: ConferenceFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
     likes?: ConferenceLikesUncheckedUpdateManyWithoutBelongsToNestedInput
     organizations?: ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput
+    errors?: ErrorConferenceLoggerUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
   export type FieldOfResearchsUpsertWithoutConferenceRanksInput = {
@@ -47451,6 +48946,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
     createdByUser?: UsersCreateNestedOneWithoutCreatedConferencesInput
     createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
+    errors?: ErrorConferenceLoggerCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesUncheckedCreateWithoutFollowsInput = {
@@ -47469,6 +48965,7 @@ export namespace Prisma {
     likes?: ConferenceLikesUncheckedCreateNestedManyWithoutBelongsToInput
     organizations?: ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
+    errors?: ErrorConferenceLoggerUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesCreateOrConnectWithoutFollowsInput = {
@@ -47560,6 +49057,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneWithoutCreatedConferencesNestedInput
     createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
+    errors?: ErrorConferenceLoggerUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateWithoutFollowsInput = {
@@ -47578,6 +49076,7 @@ export namespace Prisma {
     likes?: ConferenceLikesUncheckedUpdateManyWithoutBelongsToNestedInput
     organizations?: ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
+    errors?: ErrorConferenceLoggerUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
   export type UsersUpsertWithoutFollowConferenceInput = {
@@ -47659,6 +49158,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
     createdByUser?: UsersCreateNestedOneWithoutCreatedConferencesInput
     createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
+    errors?: ErrorConferenceLoggerCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesUncheckedCreateWithoutLikesInput = {
@@ -47677,6 +49177,7 @@ export namespace Prisma {
     follows?: ConferenceFollowsUncheckedCreateNestedManyWithoutBelongsToInput
     organizations?: ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
+    errors?: ErrorConferenceLoggerUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesCreateOrConnectWithoutLikesInput = {
@@ -47768,6 +49269,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneWithoutCreatedConferencesNestedInput
     createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
+    errors?: ErrorConferenceLoggerUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateWithoutLikesInput = {
@@ -47786,6 +49288,7 @@ export namespace Prisma {
     follows?: ConferenceFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
     organizations?: ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
+    errors?: ErrorConferenceLoggerUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
   export type UsersUpsertWithoutLikesInput = {
@@ -47867,6 +49370,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
     createdByUser?: UsersCreateNestedOneWithoutCreatedConferencesInput
     createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
+    errors?: ErrorConferenceLoggerCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesUncheckedCreateWithoutFeedbacksInput = {
@@ -47885,6 +49389,7 @@ export namespace Prisma {
     likes?: ConferenceLikesUncheckedCreateNestedManyWithoutBelongsToInput
     organizations?: ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
+    errors?: ErrorConferenceLoggerUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesCreateOrConnectWithoutFeedbacksInput = {
@@ -47976,6 +49481,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneWithoutCreatedConferencesNestedInput
     createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
+    errors?: ErrorConferenceLoggerUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateWithoutFeedbacksInput = {
@@ -47994,6 +49500,7 @@ export namespace Prisma {
     likes?: ConferenceLikesUncheckedUpdateManyWithoutBelongsToNestedInput
     organizations?: ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
+    errors?: ErrorConferenceLoggerUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
   export type UsersUpsertWithoutFeedbacksInput = {
@@ -48075,6 +49582,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
     createdByUser?: UsersCreateNestedOneWithoutCreatedConferencesInput
     createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
+    errors?: ErrorConferenceLoggerCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesUncheckedCreateWithoutCalendarsInput = {
@@ -48093,6 +49601,7 @@ export namespace Prisma {
     likes?: ConferenceLikesUncheckedCreateNestedManyWithoutBelongsToInput
     organizations?: ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
+    errors?: ErrorConferenceLoggerUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesCreateOrConnectWithoutCalendarsInput = {
@@ -48184,6 +49693,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneWithoutCreatedConferencesNestedInput
     createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
+    errors?: ErrorConferenceLoggerUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateWithoutCalendarsInput = {
@@ -48202,6 +49712,7 @@ export namespace Prisma {
     likes?: ConferenceLikesUncheckedUpdateManyWithoutBelongsToNestedInput
     organizations?: ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
+    errors?: ErrorConferenceLoggerUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
   export type UsersUpsertWithoutCalendarInput = {
@@ -48815,6 +50326,7 @@ export namespace Prisma {
     organizations?: ConferenceOrganizationsCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
     createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
+    errors?: ErrorConferenceLoggerCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesUncheckedCreateWithoutCreatedByUserInput = {
@@ -48833,6 +50345,7 @@ export namespace Prisma {
     likes?: ConferenceLikesUncheckedCreateNestedManyWithoutBelongsToInput
     organizations?: ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
+    errors?: ErrorConferenceLoggerUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesCreateOrConnectWithoutCreatedByUserInput = {
@@ -49333,6 +50846,7 @@ export namespace Prisma {
     organizations?: ConferenceOrganizationsCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
     createdByUser?: UsersCreateNestedOneWithoutCreatedConferencesInput
+    errors?: ErrorConferenceLoggerCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesUncheckedCreateWithoutCreateByAdminInput = {
@@ -49351,6 +50865,7 @@ export namespace Prisma {
     likes?: ConferenceLikesUncheckedCreateNestedManyWithoutBelongsToInput
     organizations?: ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
+    errors?: ErrorConferenceLoggerUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesCreateOrConnectWithoutCreateByAdminInput = {
@@ -49455,6 +50970,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
     createdByUser?: UsersCreateNestedOneWithoutCreatedConferencesInput
     createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
+    errors?: ErrorConferenceLoggerCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesUncheckedCreateWithoutCrawlJobsInput = {
@@ -49473,6 +50989,7 @@ export namespace Prisma {
     likes?: ConferenceLikesUncheckedCreateNestedManyWithoutBelongsToInput
     organizations?: ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
+    errors?: ErrorConferenceLoggerUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesCreateOrConnectWithoutCrawlJobsInput = {
@@ -49507,6 +51024,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneWithoutCreatedConferencesNestedInput
     createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
+    errors?: ErrorConferenceLoggerUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateWithoutCrawlJobsInput = {
@@ -49525,6 +51043,7 @@ export namespace Prisma {
     likes?: ConferenceLikesUncheckedUpdateManyWithoutBelongsToNestedInput
     organizations?: ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
+    errors?: ErrorConferenceLoggerUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesCreateWithoutBlacklistsInput = {
@@ -49543,6 +51062,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
     createdByUser?: UsersCreateNestedOneWithoutCreatedConferencesInput
     createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
+    errors?: ErrorConferenceLoggerCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesUncheckedCreateWithoutBlacklistsInput = {
@@ -49561,6 +51081,7 @@ export namespace Prisma {
     likes?: ConferenceLikesUncheckedCreateNestedManyWithoutBelongsToInput
     organizations?: ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
+    errors?: ErrorConferenceLoggerUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
   export type ConferencesCreateOrConnectWithoutBlacklistsInput = {
@@ -49652,6 +51173,7 @@ export namespace Prisma {
     ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneWithoutCreatedConferencesNestedInput
     createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
+    errors?: ErrorConferenceLoggerUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateWithoutBlacklistsInput = {
@@ -49670,6 +51192,7 @@ export namespace Prisma {
     likes?: ConferenceLikesUncheckedUpdateManyWithoutBelongsToNestedInput
     organizations?: ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
+    errors?: ErrorConferenceLoggerUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
   export type UsersUpsertWithoutBlacklistsInput = {
@@ -50533,6 +52056,98 @@ export namespace Prisma {
     interestedTopics?: TopicUserInterestedsUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
+  export type ConferencesCreateWithoutErrorsInput = {
+    id?: string
+    title: string
+    acronym: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    status?: string
+    blacklists?: ConferenceBlacklistsCreateNestedManyWithoutBelongsToInput
+    calendars?: ConferenceCalendarsCreateNestedManyWithoutBelongsToInput
+    crawlJobs?: ConferenceCrawlJobsCreateNestedManyWithoutBelongsToInput
+    feedbacks?: ConferenceFeedbacksCreateNestedManyWithoutBelongsToInput
+    follows?: ConferenceFollowsCreateNestedManyWithoutBelongsToInput
+    likes?: ConferenceLikesCreateNestedManyWithoutBelongsToInput
+    organizations?: ConferenceOrganizationsCreateNestedManyWithoutBelongsToInput
+    ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
+    createdByUser?: UsersCreateNestedOneWithoutCreatedConferencesInput
+    createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
+  }
+
+  export type ConferencesUncheckedCreateWithoutErrorsInput = {
+    id?: string
+    title: string
+    acronym: string
+    creatorId?: string | null
+    adminId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    status?: string
+    blacklists?: ConferenceBlacklistsUncheckedCreateNestedManyWithoutBelongsToInput
+    calendars?: ConferenceCalendarsUncheckedCreateNestedManyWithoutBelongsToInput
+    crawlJobs?: ConferenceCrawlJobsUncheckedCreateNestedManyWithoutBelongsToInput
+    feedbacks?: ConferenceFeedbacksUncheckedCreateNestedManyWithoutBelongsToInput
+    follows?: ConferenceFollowsUncheckedCreateNestedManyWithoutBelongsToInput
+    likes?: ConferenceLikesUncheckedCreateNestedManyWithoutBelongsToInput
+    organizations?: ConferenceOrganizationsUncheckedCreateNestedManyWithoutBelongsToInput
+    ranks?: ConferenceRanksUncheckedCreateNestedManyWithoutBelongsToInput
+  }
+
+  export type ConferencesCreateOrConnectWithoutErrorsInput = {
+    where: ConferencesWhereUniqueInput
+    create: XOR<ConferencesCreateWithoutErrorsInput, ConferencesUncheckedCreateWithoutErrorsInput>
+  }
+
+  export type ConferencesUpsertWithoutErrorsInput = {
+    update: XOR<ConferencesUpdateWithoutErrorsInput, ConferencesUncheckedUpdateWithoutErrorsInput>
+    create: XOR<ConferencesCreateWithoutErrorsInput, ConferencesUncheckedCreateWithoutErrorsInput>
+    where?: ConferencesWhereInput
+  }
+
+  export type ConferencesUpdateToOneWithWhereWithoutErrorsInput = {
+    where?: ConferencesWhereInput
+    data: XOR<ConferencesUpdateWithoutErrorsInput, ConferencesUncheckedUpdateWithoutErrorsInput>
+  }
+
+  export type ConferencesUpdateWithoutErrorsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    acronym?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    blacklists?: ConferenceBlacklistsUpdateManyWithoutBelongsToNestedInput
+    calendars?: ConferenceCalendarsUpdateManyWithoutBelongsToNestedInput
+    crawlJobs?: ConferenceCrawlJobsUpdateManyWithoutBelongsToNestedInput
+    feedbacks?: ConferenceFeedbacksUpdateManyWithoutBelongsToNestedInput
+    follows?: ConferenceFollowsUpdateManyWithoutBelongsToNestedInput
+    likes?: ConferenceLikesUpdateManyWithoutBelongsToNestedInput
+    organizations?: ConferenceOrganizationsUpdateManyWithoutBelongsToNestedInput
+    ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
+    createdByUser?: UsersUpdateOneWithoutCreatedConferencesNestedInput
+    createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
+  }
+
+  export type ConferencesUncheckedUpdateWithoutErrorsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    acronym?: StringFieldUpdateOperationsInput | string
+    creatorId?: NullableStringFieldUpdateOperationsInput | string | null
+    adminId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    blacklists?: ConferenceBlacklistsUncheckedUpdateManyWithoutBelongsToNestedInput
+    calendars?: ConferenceCalendarsUncheckedUpdateManyWithoutBelongsToNestedInput
+    crawlJobs?: ConferenceCrawlJobsUncheckedUpdateManyWithoutBelongsToNestedInput
+    feedbacks?: ConferenceFeedbacksUncheckedUpdateManyWithoutBelongsToNestedInput
+    follows?: ConferenceFollowsUncheckedUpdateManyWithoutBelongsToNestedInput
+    likes?: ConferenceLikesUncheckedUpdateManyWithoutBelongsToNestedInput
+    organizations?: ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput
+    ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
+  }
+
   export type ConferenceDatesCreateManyBelongsToInput = {
     id?: string
     fromDate?: Date | string | null
@@ -50789,6 +52404,14 @@ export namespace Prisma {
     rankId: string
   }
 
+  export type ErrorConferenceLoggerCreateManyBelongsToInput = {
+    id?: string
+    message: string
+    stack: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type ConferenceBlacklistsUpdateWithoutBelongsToInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -50997,6 +52620,30 @@ export namespace Prisma {
     year?: IntFieldUpdateOperationsInput | number
     fieldOfResearchId?: StringFieldUpdateOperationsInput | string
     rankId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ErrorConferenceLoggerUpdateWithoutBelongsToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    stack?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ErrorConferenceLoggerUncheckedUpdateWithoutBelongsToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    stack?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ErrorConferenceLoggerUncheckedUpdateManyWithoutBelongsToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    stack?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ConferenceRanksCreateManyInFieldOfResearchInput = {
@@ -51511,6 +53158,7 @@ export namespace Prisma {
     organizations?: ConferenceOrganizationsUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
     createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
+    errors?: ErrorConferenceLoggerUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateWithoutCreatedByUserInput = {
@@ -51529,6 +53177,7 @@ export namespace Prisma {
     likes?: ConferenceLikesUncheckedUpdateManyWithoutBelongsToNestedInput
     organizations?: ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
+    errors?: ErrorConferenceLoggerUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateManyWithoutCreatedByUserInput = {
@@ -51763,6 +53412,7 @@ export namespace Prisma {
     organizations?: ConferenceOrganizationsUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneWithoutCreatedConferencesNestedInput
+    errors?: ErrorConferenceLoggerUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateWithoutCreateByAdminInput = {
@@ -51781,6 +53431,7 @@ export namespace Prisma {
     likes?: ConferenceLikesUncheckedUpdateManyWithoutBelongsToNestedInput
     organizations?: ConferenceOrganizationsUncheckedUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUncheckedUpdateManyWithoutBelongsToNestedInput
+    errors?: ErrorConferenceLoggerUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
   export type ConferencesUncheckedUpdateManyWithoutCreateByAdminInput = {

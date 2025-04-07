@@ -1,8 +1,7 @@
 import parser from "any-date-parser";
 import { ConferenceDateInput } from "src/modules/conference-organization/models/date/conferencer-date.input";
-export function parseDateRange(dateRange: string): [Date, Date] {
+export function parseDateRange(dateRange: string): [Date | null, Date | null] {
   // Normalize dash types and remove any extra spaces
-  console.log("date" ,dateRange);
 
   dateRange = dateRange.replace("–", "-").replace(/\s*,\s*/g, ", ").trim();
   let parts = dateRange.split(" - ");
@@ -53,17 +52,15 @@ export const converStringToDate = (
   date: string,
   type: string,
   organizedId
-): ConferenceDateInput[] => {
+): ConferenceDateInput => {
   const [fromDate, toDate] = parseDateRange(date);
-  return [
-      {
+  return  ({
           fromDate,
           toDate,
           type,
           name: type,
           organizedId,
-      },
-  ];
+      })
 };
 
 export const convertObjectToDate = (

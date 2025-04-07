@@ -381,6 +381,15 @@ exports.Prisma.UserVerificationScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ErrorConferenceLoggerScalarFieldEnum = {
+  id: 'id',
+  message: 'message',
+  stack: 'stack',
+  conferenceId: 'conferenceId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -426,7 +435,8 @@ exports.Prisma.ModelName = {
   NotificationsTypes: 'NotificationsTypes',
   NotificationSettings: 'NotificationSettings',
   TopicUserInteresteds: 'TopicUserInteresteds',
-  UserVerification: 'UserVerification'
+  UserVerification: 'UserVerification',
+  ErrorConferenceLogger: 'ErrorConferenceLogger'
 };
 
 /**

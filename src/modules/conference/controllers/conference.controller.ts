@@ -378,7 +378,7 @@ export class ConferenceController {
     );
 
     const dateInput = [
-      ...conferenceDateInput,
+      conferenceDateInput,
       ...submissionDateInput,
       ...cameraReadyDateInput,
       ...registrationDateInput,

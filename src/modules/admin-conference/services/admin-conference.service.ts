@@ -8,7 +8,7 @@ import {
 } from '../models/admin-conference.dto';
 import { Readable } from 'stream';
 import * as papa from 'papaparse';
-import { ConferenceImportRow } from '../models/conference-import-row';
+import { ConferenceEvaluationRow, ConferenceImportRow } from '../models/conference-import-row';
 import { NativeConferenceService } from './native-conference.service';
 import {
   FieldOfResearchService,
@@ -18,6 +18,7 @@ import {
 import { ConferenceOrganizationSerivce } from 'src/modules/conference-organization';
 import { ConferenceRankService } from 'src/modules/conference/services/conference-rank.service';
 import { ConferenceService } from 'src/modules/conference/services/conference.service';
+import { converStringToDate, convertObjectToDate, parseDateRange } from 'src/modules/conference-job/utils/date-parse';
 const paginate: PaginatorTypes.PaginateFunction = paginator({ perPage: 10 });
 @Injectable()
 export class AdminConferenceService {
@@ -198,6 +199,20 @@ export class AdminConferenceService {
     return parseds;
   }
 
+  async parsePartEvaluateCsv  (
+    file: Express.Multer.File) : Promise<ConferenceEvaluationRow[] > {
+    const streamFile = Readable.from(file.buffer);
+    const csvData = await new Promise<any[]>((resolve, reject) => {
+      papa.parse(streamFile, {
+        delimiter: ',',
+        header: true,
+        complete: (result) => resolve(result.data),
+        error: (error) => reject(error),
+      });
+    });
+    return csvData;
+    }
+
   async importConference(
     conferences: ConferenceImportRow[] | null,
     adminId: string,
@@ -232,6 +247,7 @@ export class AdminConferenceService {
             conference.acronym,
             conference.title,
           );
+          console.log("in" ,    conferenceInDB)
         if (!conferenceInDB) {
           conferenceInDB = await this.prismaService.conferences.create({
             data: {
@@ -242,6 +258,7 @@ export class AdminConferenceService {
             },
             include: include,
           });
+        }
           const sourceInDB = await this.souceService.findOrCreateSource({
             name: conference.source,
             link: '',
@@ -263,14 +280,13 @@ export class AdminConferenceService {
                 `Research field with code ${researchFieldCode} not found`,
               );
             }
-            await this.conferenceService.createOrFindRank(
+            const t = await this.conferenceService.createOrFindRank(
               conferenceInDB?.id as string,
               rankInDB,
               researchFieldInDB?.id,
               new Date().getFullYear(),
             );
           }
-        }
 
         return {
           id: conferenceInDB?.id,
@@ -307,5 +323,88 @@ export class AdminConferenceService {
         return conferences.filter((conference) => conference !== undefined);
       },
     );
+  }
+
+  async importEvaluateConference(
+    conference: ConferenceEvaluationRow |undefined,
+    adminId: string,
+  ) {
+    if(
+      !conference
+    ) {
+      throw new Error('No data to import');
+    }
+    
+    const conferenceInDB = await this.conferenceService.getConferenceByAcronymAndTitle(
+      conference?.acronym, 
+      conference?.name,
+    )
+
+    if (!conferenceInDB) {
+      throw new Error('Conference not found');
+    }
+    try {
+      const conferenceOrganization = await this.conferenceOrganizationService.importOrganize(
+        {
+          ...conference, 
+          conferenceId: conferenceInDB.id,
+          isAvailable : true, 
+          summerize : conference.summary, 
+          callForPaper : conference.callForPapers,
+          accessType : conference.type,
+          year : parseInt(conference.year),
+          topics : conference.topics.split(',').map((topic) => topic.trim()),
+        }
+      )
+      if(!conferenceOrganization)
+        throw new Error('Conference organization cannot not be created');
+      const conferenceLocation = await this.conferenceOrganizationService.importPlace(
+        {
+          organizeId : conferenceOrganization.id, 
+          address : conference.location , 
+          cityStateProvince : conference.cityStateProvince,
+          country : conference.country,
+          continent : conference.continent,
+        }
+      )
+
+      const topics = await this.conferenceOrganizationService.importTopics (
+        conferenceOrganization.id,
+        conference.topics.split(',').map((topic) => topic.trim())
+      )
+      const conferenceDate = converStringToDate(conference.conferenceDates, 'conferenceDates', conferenceOrganization.id)
+
+      const submissionDate = convertObjectToDate(conference.submissionDate, 'submissionDate', conferenceOrganization.id);
+      const notificationDate = convertObjectToDate(conference.notificationDate, 'notificationDate', conferenceOrganization.id);
+      const cameraReadyDate = convertObjectToDate(conference.cameraReadyDate, 'cameraReadyDate', conferenceOrganization.id);
+      const registrationDate = convertObjectToDate(conference.registrationDate, 'registrationDate', conferenceOrganization.id);
+      const otherDate = convertObjectToDate(conference.otherDate, 'otherDate', conferenceOrganization.id)
+     
+      const allDates = [
+        conferenceDate,
+        ...submissionDate,
+        ...notificationDate,
+        ...cameraReadyDate,
+        ...registrationDate,
+        ...otherDate,
+      ]
+
+      for (let date of allDates) {
+        await this.conferenceOrganizationService.importDate(date);
+      }
+      return true;
+      
+    }
+    catch (error) {
+      this.prismaService.errorConferenceLogger.create({
+        data : {
+          conferenceId : conferenceInDB.id,
+          message : error.message,
+          stack : error.stack,
+        }
+      })
+      console.log('error', error);
+    return false;
+    }
   }
 }
