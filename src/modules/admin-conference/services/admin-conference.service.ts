@@ -19,6 +19,9 @@ import { ConferenceOrganizationSerivce } from 'src/modules/conference-organizati
 import { ConferenceRankService } from 'src/modules/conference/services/conference-rank.service';
 import { ConferenceService } from 'src/modules/conference/services/conference.service';
 import { converStringToDate, convertObjectToDate, parseDateRange } from 'src/modules/conference-job/utils/date-parse';
+import { json } from 'stream/consumers';
+import {Transactional} from "@nestjs-cls/transactional";
+import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 const paginate: PaginatorTypes.PaginateFunction = paginator({ perPage: 10 });
 @Injectable()
 export class AdminConferenceService {
@@ -210,8 +213,17 @@ export class AdminConferenceService {
         error: (error) => reject(error),
       });
     });
-    return csvData;
-    }
+    return csvData.map((row): ConferenceEvaluationRow => {
+      return {
+        ...row,
+        submissionDate : JSON.parse(row.submissionDate as unknown as string),
+        notificationDate : JSON.parse(row.notificationDate as unknown as string),
+        cameraReadyDate : JSON.parse(row.cameraReadyDate as unknown as string),
+        registrationDate : JSON.parse(row.registrationDate as unknown as string),
+        otherDate : JSON.parse(row.otherDate),
+      };
+    })
+  }
 
   async importConference(
     conferences: ConferenceImportRow[] | null,
@@ -247,7 +259,6 @@ export class AdminConferenceService {
             conference.acronym,
             conference.title,
           );
-          console.log("in" ,    conferenceInDB)
         if (!conferenceInDB) {
           conferenceInDB = await this.prismaService.conferences.create({
             data: {
@@ -336,12 +347,12 @@ export class AdminConferenceService {
     }
     
     const conferenceInDB = await this.conferenceService.getConferenceByAcronymAndTitle(
+      conference?.title,
       conference?.acronym, 
-      conference?.name,
     )
-
+    
     if (!conferenceInDB) {
-      throw new Error('Conference not found');
+      throw new Error('Conference not found ' + conference.acronym + " " +conference.title);
     }
     try {
       const conferenceOrganization = await this.conferenceOrganizationService.importOrganize(
@@ -356,8 +367,10 @@ export class AdminConferenceService {
           topics : conference.topics.split(',').map((topic) => topic.trim()),
         }
       )
-      if(!conferenceOrganization)
+      if(!conferenceOrganization){
         throw new Error('Conference organization cannot not be created');
+        return false;
+      }
       const conferenceLocation = await this.conferenceOrganizationService.importPlace(
         {
           organizeId : conferenceOrganization.id, 
@@ -368,10 +381,17 @@ export class AdminConferenceService {
         }
       )
 
-      const topics = await this.conferenceOrganizationService.importTopics (
-        conferenceOrganization.id,
-        conference.topics.split(',').map((topic) => topic.trim())
-      )
+      const topics = conference.topics.split(',').map( async (topic) => {
+        topic = topic.trim();
+        return await this.conferenceOrganizationService.importTopic(
+          {
+            organized : conferenceOrganization.id,
+            topic : topic,
+          }
+        )
+      });
+
+      await Promise.all(topics);
       const conferenceDate = converStringToDate(conference.conferenceDates, 'conferenceDates', conferenceOrganization.id)
 
       const submissionDate = convertObjectToDate(conference.submissionDate, 'submissionDate', conferenceOrganization.id);
@@ -388,7 +408,6 @@ export class AdminConferenceService {
         ...registrationDate,
         ...otherDate,
       ]
-
       for (let date of allDates) {
         await this.conferenceOrganizationService.importDate(date);
       }
@@ -396,6 +415,7 @@ export class AdminConferenceService {
       
     }
     catch (error) {
+      console.log('error', error);
       this.prismaService.errorConferenceLogger.create({
         data : {
           conferenceId : conferenceInDB.id,
@@ -403,7 +423,6 @@ export class AdminConferenceService {
           stack : error.stack,
         }
       })
-      console.log('error', error);
     return false;
     }
   }

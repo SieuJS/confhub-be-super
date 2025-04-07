@@ -589,8 +589,14 @@ export class ConferenceService {
   async getConferenceByAcronymAndTitle(title: string, acronym: string) {
     return await this.prismaService.conferences.findFirst({
       where: {
-        title,
-        acronym,
+        title : {
+          contains: !!title ? title.trim() : '',
+          mode: 'insensitive',
+        },
+        acronym : {
+          contains: !!acronym ? acronym.trim() : '',
+          mode: 'insensitive',
+        },
       },
     });
   }

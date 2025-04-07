@@ -6,15 +6,17 @@ import { ConferenceDateDTO } from "../models/date/conference-date.dto";
 import { OrganizedInput } from "../models/organize/organized.input";
 import { OrganizedDTO } from "../models/organize/organized.dto";
 import { Injectable } from "@nestjs/common";
-
+import { TransactionalAdapterPrisma } from "@nestjs-cls/transactional-adapter-prisma";
+import {Transactional, TransactionHost} from "@nestjs-cls/transactional";
 @Injectable()
 export class ConferenceOrganizationSerivce {
     constructor (
-        private prismaService : PrismaService
+        private prismaService : PrismaService,
+        private readonly txHost: TransactionHost<TransactionalAdapterPrisma>,
     ){}
 
     async importPlace(input : LocationInput) : Promise<LocationDTO> {
-        const location = await this.prismaService.locations.create({
+        const location = await this.txHost.tx   .locations.create({
             data : {
                 continent : input.continent,
                 country : input.country,
@@ -24,7 +26,7 @@ export class ConferenceOrganizationSerivce {
                 isAvailable : true
             }
         })
-        return {
+    return {
             ...location,
             continent: location.continent || '',
             country: location.country || '',
@@ -34,7 +36,7 @@ export class ConferenceOrganizationSerivce {
     }
 
     async importDate(input : ConferenceDateInput) : Promise<ConferenceDateDTO> {
-        const date = await this.prismaService.conferenceDates.create({
+        const date = await this.txHost.tx.conferenceDates.create({
             data : {
                 fromDate : input.fromDate,
                 toDate : input.toDate,
@@ -47,47 +49,51 @@ export class ConferenceOrganizationSerivce {
         return date;
     }
 
-    async importTopics (organizedId : string ,topics : string[]) {
-        topics = topics.map(topic => topic.trim()); 
-        let topicsInDb = await this.prismaService.topics.findMany({
+    async importTopic ({organized, topic} : {
+        organized : string,
+        topic : string
+    }) {
+        const topicInDb = await this.findOrCreateTopic(topic);
+
+        const organizedTopic = await this.txHost.tx.conferenceTopics.create({
+            data : {
+                organizeId : organized,
+                topicId : topicInDb.id
+            }
+        })
+        return {
+            ...organizedTopic,
+            topic : topicInDb.name
+        }
+    }
+
+    async findOrCreateTopic (topic : string) {
+        let topicInDb = await this.txHost.tx.topics.findFirst({
             where : {
                 name : {
-                    in : topics
+                    contains : topic,
+                    mode : 'insensitive'
                 }
             }
         })
-
-        const topicsToCreate = topics.filter(topic => {
-            const exists = topicsInDb.find(topicInDb => topicInDb.name === topic)
-            if(!exists) {
-                return true;
-            }
-            return false;
-        })
-
-        const topicsCreated = await this.prismaService.topics.createManyAndReturn({
-            data : topicsToCreate.map(topic => {
-                return {
+        if(!topicInDb) {
+            topicInDb = await this.txHost.tx.topics.upsert({
+                where : {
                     name : topic
-                }
-            })
-        })  
-        
-        topicsInDb = topicsInDb.concat(topicsCreated);
+                },
+                update : {
 
-        const organizedTopics = await this.prismaService.conferenceTopics.createMany({
-            data : topicsInDb.map(topic => {
-                return {
-                    organizeId : organizedId,
-                    topicId : topic.id
-                }
+                },
+                create : {
+                    name : topic,                }
             })
-        })
+        }
+        return topicInDb;
     }
 
     async importOrganize(input : OrganizedInput) : Promise<OrganizedDTO | undefined> {
 
-        const organize = await this.prismaService.conferenceOrganizations.create({
+        const organize = await this.txHost.tx.conferenceOrganizations.create({
             data : {
                 year    : isNaN(input.year as number) ? null : input.year,
                 accessType : input.accessType,
@@ -102,8 +108,15 @@ export class ConferenceOrganizationSerivce {
             }
         })
 
-        await this.importTopics(organize.id, input.topics);
-
+        if(!organize) {
+            return undefined;
+        }
+        if(input.topics && input.topics.length > 0) {
+            const topics = await Promise.all(input.topics.map(topic => this.importTopic({
+                organized : organize.id,
+                topic
+            })))
+        }
         return {
             ...organize,
             topics : input.topics
@@ -141,7 +154,7 @@ export class ConferenceOrganizationSerivce {
     }
 
     async getLocationsByOrganizedId(organizedId : string ) {
-        return this.prismaService.locations.findMany({
+        return this.txHost.tx.locations.findMany({
             where : {
                 isAvailable : true,
                 organizeId : organizedId

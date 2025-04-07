@@ -6,6 +6,8 @@ import { AdminConferenceParamsPipe } from "../pipes/admin-conference-params.pipe
 import { FileInterceptor } from "@nestjs/platform-express";
 import { FileSizeValidationPipe } from "../pipes/validation-file.pipe";
 import { PrismaService } from "src/modules/common";
+import { Transactional } from '@nestjs-cls/transactional'
+import { TransactionalAdapterPrisma } from "@nestjs-cls/transactional-adapter-prisma";
 
 @Controller('admin-conference')
 export class AdminConferenceController {
@@ -67,6 +69,8 @@ export class AdminConferenceController {
     }   
 
     @Post('/import-evaluate')
+    @Transactional<TransactionalAdapterPrisma>({isolationLevel: 'Serializable' , timeout : 15000})
+    @UseInterceptors(FileInterceptor('file'))
     @UsePipes(new FileSizeValidationPipe())
     async importConference(
         @UploadedFile(new FileSizeValidationPipe()) file: Express.Multer.File,
@@ -89,7 +93,13 @@ export class AdminConferenceController {
             return this.adminConferenceService.importEvaluateConference(item, admin.id);
         })
 
-        const result = await Promise.all(imports);
+        const result = await Promise.all(imports).catch((err) => {
+            console.log('error', err);
+            throw new HttpException({
+                message: 'error when importing conference',
+                error: err
+            }, 400);
+        });
         return {
             message: 'file is imported',
             data : result  
