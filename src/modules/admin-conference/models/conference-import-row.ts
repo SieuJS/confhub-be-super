@@ -7,7 +7,7 @@ export type ConferenceImportRow = {
 }
 
 export type ConferenceEvaluationRow = {
-    title: string;
+    name: string;
     acronym: string;
     link: string;
     cfpLink: string;

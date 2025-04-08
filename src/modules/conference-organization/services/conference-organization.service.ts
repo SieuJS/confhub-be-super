@@ -68,16 +68,7 @@ export class ConferenceOrganizationSerivce {
     }
 
     async findOrCreateTopic (topic : string) {
-        let topicInDb = await this.txHost.tx.topics.findFirst({
-            where : {
-                name : {
-                    contains : topic,
-                    mode : 'insensitive'
-                }
-            }
-        })
-        if(!topicInDb) {
-            topicInDb = await this.txHost.tx.topics.upsert({
+        let topicInDb = await this.txHost.tx.topics.upsert({
                 where : {
                     name : topic
                 },
@@ -87,13 +78,13 @@ export class ConferenceOrganizationSerivce {
                 create : {
                     name : topic,                }
             })
-        }
+        
         return topicInDb;
     }
 
     async importOrganize(input : OrganizedInput) : Promise<OrganizedDTO | undefined> {
 
-        const organize = await this.txHost.tx.conferenceOrganizations.create({
+        const organize = await this.prismaService.conferenceOrganizations.create({
             data : {
                 year    : isNaN(input.year as number) ? null : input.year,
                 accessType : input.accessType,
@@ -111,15 +102,9 @@ export class ConferenceOrganizationSerivce {
         if(!organize) {
             return undefined;
         }
-        if(input.topics && input.topics.length > 0) {
-            const topics = await Promise.all(input.topics.map(topic => this.importTopic({
-                organized : organize.id,
-                topic
-            })))
-        }
+
         return {
             ...organize,
-            topics : input.topics
         }
     }
 
@@ -149,7 +134,6 @@ export class ConferenceOrganizationSerivce {
         }
         return {
             ...organizedDb,
-            topics : organizedDb.topics?.map(topic => topic.inTopic.name)
         }
     }
 
@@ -194,6 +178,18 @@ export class ConferenceOrganizationSerivce {
 
     async getAllTopics () {
         return this.prismaService.topics.findMany({
+        })
+    }
+
+    async getAllTopicsByOrganizedId (organizedId : string) {
+        return this.txHost.tx.conferenceTopics.findMany({
+            where : {
+                isAvailable : true,
+                organizeId : organizedId
+            },
+            include : {
+                inTopic : true
+            }
         })
     }
 

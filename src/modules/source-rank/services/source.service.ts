@@ -2,21 +2,24 @@ import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../../common";
 import { SourceInputDTO } from "../models/source-input.dto";
 import { SourceDTO } from "../models/source.dto";
+import { TransactionalAdapterPrisma } from "@nestjs-cls/transactional-adapter-prisma";
+import { TransactionHost } from "@nestjs-cls/transactional";
 
 @Injectable() 
 export class SourceService {
     constructor(
-    private readonly prismaService : PrismaService
+    private readonly prismaService : PrismaService,
+    private readonly txHost: TransactionHost<TransactionalAdapterPrisma>
     ) {}
 
     public createSource (source : SourceInputDTO) : Promise<SourceDTO> {
-        return this.prismaService.sources.create ({
+        return this.txHost.tx.sources.create ({
             data : source
         })
     }
 
     public async isExistSourceName (name : string) : Promise<boolean> {
-        const source = await this.prismaService.sources.findUnique({
+        const source = await this.txHost.tx.sources.findUnique({
             where : {
                 name
             }
@@ -25,21 +28,14 @@ export class SourceService {
     }
 
     public async findOrCreateSource (source : SourceInputDTO) : Promise<SourceDTO> {
-        const existingSource = await this.prismaService.sources.findFirst({
+        const sourceI = await this.txHost.tx.sources.upsert({
             where : {
-                name : {
-                    equals : source.name.trim()
-                }
-            }
+                name : source.name
+            },
+            create : source,
+            update : {}
         })
-
-        if(existingSource) {
-            return existingSource;
-        }
-        console.log('create new source')
-        return await this.prismaService.sources.create({
-            data : source
-        })
+        return sourceI;
     }
 
 }

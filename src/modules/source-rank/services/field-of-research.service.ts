@@ -2,12 +2,15 @@ import { LoggerService, PrismaService } from "../../common";
 
 import { Injectable } from "@nestjs/common";
 import { FOR_DATA } from "../data/field-of-researchs";
+import { TransactionalAdapterPrisma } from "@nestjs-cls/transactional-adapter-prisma";
+import { TransactionHost } from "@nestjs-cls/transactional";
 
 @Injectable()
 export class FieldOfResearchService {
     constructor(
         private prismaService: PrismaService,
-        private logService: LoggerService
+        private logService: LoggerService,
+        private readonly txhost: TransactionHost<TransactionalAdapterPrisma>
     ) {
         this.initFieldOfResearch();
     }
@@ -43,13 +46,13 @@ export class FieldOfResearchService {
         if(!forCode) {
             return null;
         }
-        let result = await this.prismaService.fieldOfResearchs.findFirst({
+        let result = await this.txhost.tx.fieldOfResearchs.findFirst({
             where : {
                 code : `${forCode}`
             }
         });
         if(!result) {
-            result = await this.prismaService.fieldOfResearchs.create({
+            result = await this.txhost.tx.fieldOfResearchs.create({
                 data : {
                     code : forCode,
                     name : "UNDEFINED"
