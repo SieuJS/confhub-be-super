@@ -98,7 +98,6 @@ export class ConferenceImportProcessor extends WorkerHost {
                     summerize: crawlData.summary,
                     callForPaper: crawlData.callForPapers,
                     conferenceId: job.data.conferenceId,
-                    topics: crawlData.topics.split(","),
                     isAvailable: true,
                     publisher : crawlData.publisher
                 });
@@ -185,6 +184,15 @@ export class ConferenceImportProcessor extends WorkerHost {
             for (const date of dateInput) {
                 await this.conferenceOrganizationService.importDate(date);
             }
+
+            const createdTopics = await  crawlData.topics.split(' ').map((topic) => {
+                return this.conferenceOrganizationService.importTopic({
+                    organized: organizeData.id,
+                    topic: topic,
+                });
+            });
+
+            const t = Promise.all(createdTopics);
 
             job.data.progress = 100;
             job.data.message = "Imported conference data";

@@ -92,7 +92,7 @@ model Conferences {
   organizations ConferenceOrganizations[]
   ranks         ConferenceRanks[]
   createdByUser Users?                     @relation(fields: [creatorId], references: [id])
-  createByAdmin Admins?                    @relation(fields: [adminId], references: [id])
+  createdByAdmin Admins?                    @relation(fields: [adminId], references: [id])
   errors       ErrorConferenceLogger[]
   @@unique([title, acronym])
 }

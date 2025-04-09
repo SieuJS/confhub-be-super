@@ -1,4 +1,5 @@
 import parser from "any-date-parser";
+import { toArray } from "rxjs";
 import { ConferenceDateInput } from "src/modules/conference-organization/models/date/conferencer-date.input";
 export function parseDateRange(dateRange: string): [Date | null, Date | null] {
   // Normalize dash types and remove any extra spaces
@@ -16,7 +17,7 @@ export function parseDateRange(dateRange: string): [Date | null, Date | null] {
       singleDate = parser.fromString('1' + dateRange);
       if(!singleDate.isValid())
       {
-        throw new Error(`Could not parse the date: ${dateRange}`);
+        return [null, null];
       }
     else 
       return [singleDate, singleDate]
@@ -32,18 +33,20 @@ export function parseDateRange(dateRange: string): [Date | null, Date | null] {
     lastPart = firstPart.split(' ')[0] + lastPart
     lastDate = parser.fromString(lastPart)
   }
-  if (!lastDate) throw new Error(`Could not parse the end date: ${lastPart}`);
+  if (!lastDate.isValid()) 
+    return [null, null];
 
   // If firstPart lacks a year, inherit from lastDate
   let firstDate = parser.fromString(firstPart);
   
-  if (!firstDate) {
+  if (!firstDate.isValid()) {
 
     firstPart += ` ${lastDate.getFullYear()}`;
     firstDate = parser.fromString(firstPart);
   }
 
-  if (!firstDate) throw new Error(`Could not parse the start date: ${firstPart}`);
+  if (!firstDate.isValid()) return [null, null];
+
 
   return [firstDate, lastDate];
 }
@@ -69,15 +72,22 @@ export const convertObjectToDate = (
   organizedId
 ): ConferenceDateInput[] => {
   const result: ConferenceDateInput[] = [];
-  for (const key in date) {
+  for (const key  in Object.getOwnPropertyNames(date)) {
+
+      if (!date[key]) continue;
       const [fromDate, toDate] = parseDateRange(date[key]);
+      if(!fromDate || !toDate) continue;
       result.push({
           fromDate,
           toDate,
           type,
           name: key,
           organizedId,
-      });
+      }); 
+      console.log("dateeee", date)
+      console.log("key" , key , "date", date[key]);
+      console.log("date", Object.keys(date) )
+      break;
   }
   return result;
 };

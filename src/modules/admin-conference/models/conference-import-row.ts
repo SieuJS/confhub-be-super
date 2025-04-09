@@ -24,11 +24,11 @@ export type ConferenceEvaluationRow = {
     country: string;
     continent: string;
     type: string;
-    submissionDate: Record<string, string>;
-    notificationDate: Record<string, string>;
-    cameraReadyDate: Record<string, string>;
-    registrationDate: Record<string, string>;
-    otherDate: Record<string, string>;
+    submissionDate: object;
+    notificationDate: object;
+    cameraReadyDate: object;
+    registrationDate: object;
+    otherDate: object;
     topics: string;
     publisher: string;
     summary: string;
