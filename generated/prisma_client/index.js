@@ -316,6 +316,8 @@ exports.Prisma.NotificationsScalarFieldEnum = {
   notificationId: 'notificationId',
   userId: 'userId',
   message: 'message',
+  isImportant: 'isImportant',
+  isDeleted: 'isDeleted',
   isRead: 'isRead',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

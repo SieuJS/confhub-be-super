@@ -31405,6 +31405,8 @@ export namespace Prisma {
     notificationId: string | null
     userId: string | null
     message: string | null
+    isImportant: boolean | null
+    isDeleted: boolean | null
     isRead: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -31415,6 +31417,8 @@ export namespace Prisma {
     notificationId: string | null
     userId: string | null
     message: string | null
+    isImportant: boolean | null
+    isDeleted: boolean | null
     isRead: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -31425,6 +31429,8 @@ export namespace Prisma {
     notificationId: number
     userId: number
     message: number
+    isImportant: number
+    isDeleted: number
     isRead: number
     createdAt: number
     updatedAt: number
@@ -31437,6 +31443,8 @@ export namespace Prisma {
     notificationId?: true
     userId?: true
     message?: true
+    isImportant?: true
+    isDeleted?: true
     isRead?: true
     createdAt?: true
     updatedAt?: true
@@ -31447,6 +31455,8 @@ export namespace Prisma {
     notificationId?: true
     userId?: true
     message?: true
+    isImportant?: true
+    isDeleted?: true
     isRead?: true
     createdAt?: true
     updatedAt?: true
@@ -31457,6 +31467,8 @@ export namespace Prisma {
     notificationId?: true
     userId?: true
     message?: true
+    isImportant?: true
+    isDeleted?: true
     isRead?: true
     createdAt?: true
     updatedAt?: true
@@ -31540,6 +31552,8 @@ export namespace Prisma {
     notificationId: string
     userId: string
     message: string
+    isImportant: boolean
+    isDeleted: boolean
     isRead: boolean
     createdAt: Date
     updatedAt: Date
@@ -31567,6 +31581,8 @@ export namespace Prisma {
     notificationId?: boolean
     userId?: boolean
     message?: boolean
+    isImportant?: boolean
+    isDeleted?: boolean
     isRead?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -31579,6 +31595,8 @@ export namespace Prisma {
     notificationId?: boolean
     userId?: boolean
     message?: boolean
+    isImportant?: boolean
+    isDeleted?: boolean
     isRead?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -31591,6 +31609,8 @@ export namespace Prisma {
     notificationId?: boolean
     userId?: boolean
     message?: boolean
+    isImportant?: boolean
+    isDeleted?: boolean
     isRead?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -31603,12 +31623,14 @@ export namespace Prisma {
     notificationId?: boolean
     userId?: boolean
     message?: boolean
+    isImportant?: boolean
+    isDeleted?: boolean
     isRead?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type NotificationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "notificationId" | "userId" | "message" | "isRead" | "createdAt" | "updatedAt", ExtArgs["result"]["notifications"]>
+  export type NotificationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "notificationId" | "userId" | "message" | "isImportant" | "isDeleted" | "isRead" | "createdAt" | "updatedAt", ExtArgs["result"]["notifications"]>
   export type NotificationsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     belongToNotify?: boolean | NotificationsTypesDefaultArgs<ExtArgs>
     byUser?: boolean | UsersDefaultArgs<ExtArgs>
@@ -31633,6 +31655,8 @@ export namespace Prisma {
       notificationId: string
       userId: string
       message: string
+      isImportant: boolean
+      isDeleted: boolean
       isRead: boolean
       createdAt: Date
       updatedAt: Date
@@ -32065,6 +32089,8 @@ export namespace Prisma {
     readonly notificationId: FieldRef<"Notifications", 'String'>
     readonly userId: FieldRef<"Notifications", 'String'>
     readonly message: FieldRef<"Notifications", 'String'>
+    readonly isImportant: FieldRef<"Notifications", 'Boolean'>
+    readonly isDeleted: FieldRef<"Notifications", 'Boolean'>
     readonly isRead: FieldRef<"Notifications", 'Boolean'>
     readonly createdAt: FieldRef<"Notifications", 'DateTime'>
     readonly updatedAt: FieldRef<"Notifications", 'DateTime'>
@@ -38166,6 +38192,8 @@ export namespace Prisma {
     notificationId: 'notificationId',
     userId: 'userId',
     message: 'message',
+    isImportant: 'isImportant',
+    isDeleted: 'isDeleted',
     isRead: 'isRead',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -39969,6 +39997,8 @@ export namespace Prisma {
     notificationId?: StringFilter<"Notifications"> | string
     userId?: StringFilter<"Notifications"> | string
     message?: StringFilter<"Notifications"> | string
+    isImportant?: BoolFilter<"Notifications"> | boolean
+    isDeleted?: BoolFilter<"Notifications"> | boolean
     isRead?: BoolFilter<"Notifications"> | boolean
     createdAt?: DateTimeFilter<"Notifications"> | Date | string
     updatedAt?: DateTimeFilter<"Notifications"> | Date | string
@@ -39981,6 +40011,8 @@ export namespace Prisma {
     notificationId?: SortOrder
     userId?: SortOrder
     message?: SortOrder
+    isImportant?: SortOrder
+    isDeleted?: SortOrder
     isRead?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -39997,6 +40029,8 @@ export namespace Prisma {
     notificationId?: StringFilter<"Notifications"> | string
     userId?: StringFilter<"Notifications"> | string
     message?: StringFilter<"Notifications"> | string
+    isImportant?: BoolFilter<"Notifications"> | boolean
+    isDeleted?: BoolFilter<"Notifications"> | boolean
     isRead?: BoolFilter<"Notifications"> | boolean
     createdAt?: DateTimeFilter<"Notifications"> | Date | string
     updatedAt?: DateTimeFilter<"Notifications"> | Date | string
@@ -40009,6 +40043,8 @@ export namespace Prisma {
     notificationId?: SortOrder
     userId?: SortOrder
     message?: SortOrder
+    isImportant?: SortOrder
+    isDeleted?: SortOrder
     isRead?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -40025,6 +40061,8 @@ export namespace Prisma {
     notificationId?: StringWithAggregatesFilter<"Notifications"> | string
     userId?: StringWithAggregatesFilter<"Notifications"> | string
     message?: StringWithAggregatesFilter<"Notifications"> | string
+    isImportant?: BoolWithAggregatesFilter<"Notifications"> | boolean
+    isDeleted?: BoolWithAggregatesFilter<"Notifications"> | boolean
     isRead?: BoolWithAggregatesFilter<"Notifications"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Notifications"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Notifications"> | Date | string
@@ -42002,6 +42040,8 @@ export namespace Prisma {
   export type NotificationsCreateInput = {
     id?: string
     message: string
+    isImportant?: boolean
+    isDeleted?: boolean
     isRead?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -42014,6 +42054,8 @@ export namespace Prisma {
     notificationId: string
     userId: string
     message: string
+    isImportant?: boolean
+    isDeleted?: boolean
     isRead?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -42022,6 +42064,8 @@ export namespace Prisma {
   export type NotificationsUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
+    isImportant?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -42034,6 +42078,8 @@ export namespace Prisma {
     notificationId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
+    isImportant?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -42044,6 +42090,8 @@ export namespace Prisma {
     notificationId: string
     userId: string
     message: string
+    isImportant?: boolean
+    isDeleted?: boolean
     isRead?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -42052,6 +42100,8 @@ export namespace Prisma {
   export type NotificationsUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
+    isImportant?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -42062,6 +42112,8 @@ export namespace Prisma {
     notificationId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
+    isImportant?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -43603,6 +43655,8 @@ export namespace Prisma {
     notificationId?: SortOrder
     userId?: SortOrder
     message?: SortOrder
+    isImportant?: SortOrder
+    isDeleted?: SortOrder
     isRead?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -43613,6 +43667,8 @@ export namespace Prisma {
     notificationId?: SortOrder
     userId?: SortOrder
     message?: SortOrder
+    isImportant?: SortOrder
+    isDeleted?: SortOrder
     isRead?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -43623,6 +43679,8 @@ export namespace Prisma {
     notificationId?: SortOrder
     userId?: SortOrder
     message?: SortOrder
+    isImportant?: SortOrder
+    isDeleted?: SortOrder
     isRead?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -50479,6 +50537,8 @@ export namespace Prisma {
   export type NotificationsCreateWithoutByUserInput = {
     id?: string
     message: string
+    isImportant?: boolean
+    isDeleted?: boolean
     isRead?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -50489,6 +50549,8 @@ export namespace Prisma {
     id?: string
     notificationId: string
     message: string
+    isImportant?: boolean
+    isDeleted?: boolean
     isRead?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -50780,6 +50842,8 @@ export namespace Prisma {
     notificationId?: StringFilter<"Notifications"> | string
     userId?: StringFilter<"Notifications"> | string
     message?: StringFilter<"Notifications"> | string
+    isImportant?: BoolFilter<"Notifications"> | boolean
+    isDeleted?: BoolFilter<"Notifications"> | boolean
     isRead?: BoolFilter<"Notifications"> | boolean
     createdAt?: DateTimeFilter<"Notifications"> | Date | string
     updatedAt?: DateTimeFilter<"Notifications"> | Date | string
@@ -51539,6 +51603,8 @@ export namespace Prisma {
   export type NotificationsCreateWithoutBelongToNotifyInput = {
     id?: string
     message: string
+    isImportant?: boolean
+    isDeleted?: boolean
     isRead?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -51549,6 +51615,8 @@ export namespace Prisma {
     id?: string
     userId: string
     message: string
+    isImportant?: boolean
+    isDeleted?: boolean
     isRead?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -53011,6 +53079,8 @@ export namespace Prisma {
     id?: string
     notificationId: string
     message: string
+    isImportant?: boolean
+    isDeleted?: boolean
     isRead?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -53305,6 +53375,8 @@ export namespace Prisma {
   export type NotificationsUpdateWithoutByUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
+    isImportant?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -53315,6 +53387,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     notificationId?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
+    isImportant?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -53324,6 +53398,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     notificationId?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
+    isImportant?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -53502,6 +53578,8 @@ export namespace Prisma {
     id?: string
     userId: string
     message: string
+    isImportant?: boolean
+    isDeleted?: boolean
     isRead?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -53534,6 +53612,8 @@ export namespace Prisma {
   export type NotificationsUpdateWithoutBelongToNotifyInput = {
     id?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
+    isImportant?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -53544,6 +53624,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
+    isImportant?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -53553,6 +53635,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
+    isImportant?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
