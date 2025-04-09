@@ -151,9 +151,24 @@ export class UserController {
     req.logout();
   }
 
-  @UseGuards(LocalAuthGuard)
+  @UseGuards(JWTGuardUser)
   @Get('/me')
+  @ApiBearerAuth('access-token')
   async me(@Req() req) {
     return req.user;
   }
+
+  @UseGuards(JWTGuardUser)
+  @Post('/follow-conference') 
+  @ApiBearerAuth('access-token')
+  async followConference(@Body() body : { conferenceId : string }, @Req() req) {
+    const userId = req.user.id;
+    const conferenceId = body.conferenceId;
+    const result = await this.userService.followConference(userId, conferenceId);
+    return {
+      message: 'Conference followed',
+      result
+    }
+  }
+
 }

@@ -452,6 +452,8 @@ export class ConferenceService {
                 toDate: date.toDate,
                 name: date.name,
                 type: date.type,
+                createdAt: date.createdAt,
+                updatedAt: date.updatedAt,
               };
             })[0],
           link: organization.link,

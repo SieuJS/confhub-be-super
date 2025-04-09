@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { ConferenceService } from '../services/conference.service';
 import { ApiBody, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -220,11 +221,11 @@ export class ConferenceController {
     const feedbacks = await this.conferenceService.getFeedbacksByConferenceId(
       conference.id,
     );
-    const organization =
-      await this.conferenceOrganizationService.getFirstOrganizationsByConferenceId(
+    const organizations =
+      await this.conferenceOrganizationService.getAllOrganizedByConferenceId(
         conference.id,
       );
-    if (!organization) {
+    if (!organizations) {
       return {
         conference: {
           id: conference.id,
@@ -235,7 +236,7 @@ export class ConferenceController {
           updatedAt: conference.updatedAt,
           creatorName,
         },
-        organization: null,
+        organizations: null,
         location: null,
         dates: null,
         ranks: ranks,
@@ -243,14 +244,21 @@ export class ConferenceController {
         feedbacks: feedbacks,
       };
     }
-    let locations =
-      await this.conferenceOrganizationService.getLocationsByOrganizedId(
-        organization.id,
-      );
-    const dates =
-      await this.conferenceOrganizationService.getDatesByOrganizedId(
-        organization.id,
-      );
+    let locations = await Promise.all(
+      organizations.map(async (organization) => {
+        return await this.conferenceOrganizationService.getLocationsByOrganizedId(
+          organization.id,
+        );
+      })
+    )
+    const dates = await Promise.all(
+      organizations.map(async (organization) => {
+        return await this.conferenceOrganizationService.getDatesByOrganizedId(
+          organization.id,
+        );
+      })
+    )
+    console.log('dates', dates);
 
     return {
       conference: {
@@ -262,7 +270,7 @@ export class ConferenceController {
         updatedAt: conference.updatedAt,
         creatorName,
       },
-      organization,
+      organizations,
       location: {
         id: locations[0].id,
         createdAt: locations[0].createdAt,
@@ -274,10 +282,23 @@ export class ConferenceController {
         address: locations[0].address || '',
         continent: locations[0].continent || '',
       },
-      dates,
-      ranks,
+      dates : dates.flatMap((date) => {
+        return date.map((d) => {
+          return {
+            id: d.id,
+            fromDate: d.fromDate,
+            toDate: d.toDate,
+            type: d.type,
+            name: d.name,
+            isAvailable: d.isAvailable,
+            createdAt: d.createdAt,
+            updatedAt: d.updatedAt,
+          };
+        })
+      }),
       followBy: folowBy,
       feedbacks: feedbacks,
+      ranks: ranks,
     };
   }
 
@@ -440,7 +461,7 @@ export class ConferenceController {
     };
   }
 
-  @Post('follow')
+  @Post('follow')  
   @ApiBody({ type: ConferenceFollowInput })
   async followConference(
     @Body() input: { userId: string; conferenceId: string },

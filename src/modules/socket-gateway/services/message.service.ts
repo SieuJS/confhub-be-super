@@ -10,4 +10,13 @@ export class MessageService {
     async sendMessage(channel : string, message : any) {
         this.socketGateway.server.emit(channel, message);
     }
+
+    async sendMessageToUser(userId : string, message : any, channel : string) {
+        const socket = this.socketGateway.connectedUser.get(userId);
+        if (socket) {
+            socket.emit(channel, message);
+        } else {
+            console.log(`User ${userId} not connected`);
+        }
+    }
 }

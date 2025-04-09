@@ -154,7 +154,39 @@ export class ConferenceOrganizationSerivce {
         })
     }
 
-    async getConferenceDatesByOrganizedId(organizedId : string) {
+    async getAllOrganizedByConferenceId(conferenceId : string) : Promise<OrganizedDTO[]> {
+        const result = await this.prismaService.conferenceOrganizations.findMany({
+            where : {
+                isAvailable : true,
+                conferenceId
+            },
+            include: {
+                topics : {
+                    include : {
+                        inTopic : {
+                            select : {
+                                name : true
+                            }
+                        }
+                    }
+                }
+            },
+            orderBy : {
+                updatedAt : 'desc'
+            }
+        })
+        return result.map((organizedDb) => {
+            return {
+                ...organizedDb,
+                topics : organizedDb.topics.map((topic) => {
+                    return topic.inTopic.name;
+                }
+                )
+            }
+        })
+    }
+
+    async getConferenceDatesByOrganizedId(organizedId : string)  {
         return this.prismaService.conferenceDates.findMany({
             where : {
                 isAvailable : true,

@@ -26,7 +26,7 @@ export class ConferenceDetailDTO {
     conference : ConferenceInfoDTO
 
     @ApiProperty({description : "Organization information"})
-    organization : OrganizedDTO | null
+    organizations : OrganizedDTO[] | null
 
     @ApiProperty({description : "Location information"})
     location : LocationDTO | null
