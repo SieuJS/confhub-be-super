@@ -22,6 +22,7 @@ import { Transactional } from '@nestjs-cls/transactional';
 import { VerifyCodeBody } from '../models/verify-code-body';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { timeout } from 'rxjs';
+import { SignUpPipe } from '../pipes/signup.pipe';
 
 @ApiTags('user')
 @Controller('/user')
@@ -57,6 +58,7 @@ export class UserController {
   @ApiBody({
     type: UserInput,
   })
+  @UsePipes(new SignUpPipe())
   @Transactional()
   async signup(@Body() input: UserInput) {
     const user = await this.userService.getUserByEmail(input.email);

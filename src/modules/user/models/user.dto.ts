@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, Length, MaxLength, MinLength } from "class-validator";
+import { IsDate, IsDateString, IsEmail, Length, MaxLength, MinLength } from "class-validator";
 
 export class UserDTO {
 
@@ -42,6 +42,7 @@ export class UserDTO {
         description : "The user's date of birth",
         required : true
     })
+    @IsDate()
     dob : Date;
 
     @ApiProperty({
