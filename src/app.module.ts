@@ -16,6 +16,7 @@ import { ClsModule } from 'nestjs-cls';
 import { ClsPluginTransactional  } from '@nestjs-cls/transactional';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { NotifyModule } from './modules/notify/notify.module';
+import { EmailVerifyModule } from './modules/email-verify/email-verify.module';
 @Module({
   imports: [CommonModule, UserModule, AuthModule, SourceRankModule,
     BullModule.forRootAsync( {
@@ -49,7 +50,8 @@ import { NotifyModule } from './modules/notify/notify.module';
   ConferenceJobModule,
   ConferencesModule,
   AdminConferenceModule,
-  NotifyModule
+  NotifyModule,
+  EmailVerifyModule
   ],
   controllers: [AppController],
   providers: [AppService],

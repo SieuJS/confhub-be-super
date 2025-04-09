@@ -48,7 +48,7 @@ export class UserDTO {
         description : "The avatar of the user",
         required : false
     })
-    avatar : string;
+    avatar : string | null;
 
     @ApiProperty({
         description : "about me",
