@@ -182,9 +182,8 @@ export class ConferenceOrganizationSerivce {
     }
 
     async getAllTopicsByOrganizedId (organizedId : string) {
-        return this.txHost.tx.conferenceTopics.findMany({
+        return this.prismaService.conferenceTopics.findMany({
             where : {
-                isAvailable : true,
                 organizeId : organizedId
             },
             include : {

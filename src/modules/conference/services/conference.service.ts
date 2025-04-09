@@ -440,7 +440,7 @@ export class ConferenceService {
           researchFields: conference.ranks.map(
             (rank) => rank.inFieldOfResearch.name,
           ),
-          topics : topics,
+          topics : topics.map((topic) => topic.inTopic.name),
           dates: dates
             .filter((date) => {
               return date.type === 'conferenceDates';
