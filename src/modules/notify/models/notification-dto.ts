@@ -17,7 +17,13 @@ export class notificationDTO {
         description : "Notification message",
         example : "You have a new notification"
     })
-    description: string;
+    message: string;
+
+    @ApiProperty({
+        description : "Conference id",
+        example : "123e4567-e89b-12d3-a456-426614174000"
+    })
+    conferenceId: string;
 
     @ApiProperty({
 

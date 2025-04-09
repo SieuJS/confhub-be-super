@@ -94,6 +94,7 @@ model Conferences {
   createdByUser Users?                    @relation(fields: [creatorId], references: [id])
   createdByAdmin Admins?                   @relation(fields: [adminId], references: [id])
   errors        ErrorConferenceLogger[]
+  notifications  Notifications[]
 
   @@unique([title, acronym])
 }
@@ -169,8 +170,10 @@ model Journals {
   journalLikes    JournalLikes[]
   journalRanks    JournalRanks[]
   topics          JournalTopics[]
+  notifications   Notifications[]
   createdByUser   Users?             @relation(fields: [creatorId], references: [id])
   createByAdmin   Admins?            @relation(fields: [adminId], references: [id])
+
 }
 
 model ConferenceFollows {
@@ -315,6 +318,8 @@ model Notifications {
   id             String             @id @default(uuid())
   notificationId String
   userId         String
+  conferenceId   String?
+  journalId      String?
   message        String
   isImportant    Boolean            @default(false)
   isDeleted      Boolean            @default(false)
@@ -323,6 +328,8 @@ model Notifications {
   updatedAt      DateTime           @updatedAt
   belongToNotify NotificationsTypes @relation(fields: [notificationId], references: [id])
   byUser         Users              @relation(fields: [userId], references: [id])
+  inConference   Conferences?       @relation(fields: [conferenceId], references: [id])
+  inJournal      Journals?          @relation(fields: [journalId], references: [id])
 
   @@unique([userId, notificationId])
 }

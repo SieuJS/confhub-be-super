@@ -23,6 +23,7 @@ import { VerifyCodeBody } from '../models/verify-code-body';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { timeout } from 'rxjs';
 import { SignUpPipe } from '../pipes/signup.pipe';
+import { JwtService } from '@nestjs/jwt';
 
 @ApiTags('user')
 @Controller('/user')
@@ -31,6 +32,7 @@ export class UserController {
     private userService: UserService,
     private userVerifyService: UserVerifyService,
     private emailService: EmailService,
+    private jwtService : JwtService
   ) {}
   @Get()
   async getAllUsers() {
@@ -74,7 +76,13 @@ export class UserController {
       password: hashedPassword,
     });
 
-    const token = await this.userService.generateToken(newUser.id);
+    const token = await this.jwtService.signAsync({
+      payload : {
+        id : newUser.id,
+        email : newUser.email,
+        role : 'user'
+      }
+    })
 
     const verifyCode = await this.userVerifyService.createVerifyCode(
       newUser.id,

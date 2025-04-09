@@ -45,6 +45,7 @@ import { EmailVerifyModule } from './modules/email-verify/email-verify.module';
     global: true,
     middleware: { mount: true },
 }),
+
   FeedbacksModule,
   ConferenceOrganizationModule,
   ConferenceJobModule,

@@ -1,5 +1,5 @@
 
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { UserService } from '../../user/services/user.service'
 import * as crypto from 'crypto'
 import { UserDTO } from 'src/modules/user/models/user.dto';
@@ -65,34 +65,34 @@ export class AuthService {
 
   async validateJwtAdmin (payload : PayloadToken) {
     if(!payload) {
-      throw new Error('Invalid token');
+      throw new HttpException('Invalid token',401);
     }
     if(payload.role !== 'admin') {
-      throw new Error('Unauthorized');
+      throw new HttpException('Unauthorized',401 );
     }
     const admin = await this.admin.getAdminById(payload.id);
     if(!admin) {
-      throw new Error('Wrong token');
+      throw new HttpException('Wrong token',401);
     }
     if(admin.email !== payload.email) {
-      throw new Error('Wrong token');
+      throw new HttpException('Wrong token',401);
     }
     return true
   }
 
   async validateJwtUser (payload : PayloadToken) {
     if(!payload) {
-      throw new Error('Invalid token');
+      throw new HttpException('Invalid token', 401);
     }
     if(payload.role !== 'user') {
-      throw new Error('Unauthorized');
+      throw new HttpException('Unauthorized', 401);
     }
     const user = await this.usersService.getUserById(payload.id);
     if(!user) {
-      throw new Error('Wrong token');
+      throw new HttpException('Wrong token', 401);
     }
     if(user.email !== payload.email) {
-      throw new Error('Wrong token');
+      throw new HttpException('Wrong token', 401);
     }
     return true
   }
