@@ -2,19 +2,23 @@ import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../../common";
 import { RankInputDTO } from "../models/rank-input.dto";
 import { RankDTO } from "../models/rank.dto";
+import { TransactionalAdapterPrisma } from "@nestjs-cls/transactional-adapter-prisma";
+import { TransactionHost } from "@nestjs-cls/transactional";
 
 @Injectable()
 export class RankService { 
     private readonly prismaService: PrismaService;
     
-    constructor(prismaService: PrismaService) {
+    constructor(prismaService: PrismaService,
+        private  readonly txHost: TransactionHost<TransactionalAdapterPrisma>
+    ) {
         this.prismaService = prismaService;
     }
     
     
 
     public async createRank(rank: RankInputDTO): Promise<RankDTO> {
-        const rankCreated = await this.prismaService.ranks.create({
+        const rankCreated = await this.txHost.tx.ranks.create({
             data: {
                 name: rank.name,
                 value: rank.value,
@@ -34,7 +38,7 @@ export class RankService {
     }
 
     public async findOrCreateRank (rank : RankInputDTO) : Promise<RankDTO> {
-        const existingRank = await this.prismaService.ranks.findFirst({
+        const existingRank = await this.txHost.tx.ranks.findFirst({
             where : {
                 name : rank.name,
                 sourceId : rank.source.id
@@ -56,7 +60,7 @@ export class RankService {
     }
 
     public async findOrCreateFieldOfResearch (fieldOfResearch : string) {
-        const existingFieldOfResearch = await this.prismaService.fieldOfResearchs.findFirst({
+        const existingFieldOfResearch = await this.txHost.tx.fieldOfResearchs.findFirst({
             where : {
                 name : fieldOfResearch
             }
@@ -66,7 +70,7 @@ export class RankService {
             return existingFieldOfResearch;
         }
 
-        return await this.prismaService.fieldOfResearchs.create({
+        return await this.txHost.tx.fieldOfResearchs.create({
             data : {
                 name : fieldOfResearch,
                 code : 'UNDEFINE'

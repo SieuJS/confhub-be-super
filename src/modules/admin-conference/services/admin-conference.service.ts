@@ -17,10 +17,9 @@ import {
 } from 'src/modules/source-rank';
 import { ConferenceOrganizationSerivce } from 'src/modules/conference-organization';
 import { ConferenceRankService } from 'src/modules/conference/services/conference-rank.service';
+import {Transactional} from '@nestjs-cls/transactional';
 import { ConferenceService } from 'src/modules/conference/services/conference.service';
 import { converStringToDate, convertObjectToDate, parseDateRange } from 'src/modules/conference-job/utils/date-parse';
-import { json } from 'stream/consumers';
-import {Transactional} from "@nestjs-cls/transactional";
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 const paginate: PaginatorTypes.PaginateFunction = paginator({ perPage: 10 });
 @Injectable()
@@ -225,115 +224,82 @@ export class AdminConferenceService {
     })
   }
 
-  async importConference(
-    conferences: ConferenceImportRow[] | null,
-    adminId: string,
-  ) {
-    if (!conferences) {
+
+  async importConference (conference : ConferenceImportRow | undefined, adminId: string) {
+    if(!conference) {
       throw new Error('No data to import');
     }
-    const include = {
-      ranks: {
-        include: {
-          byRank: {
-            include: {
-              belongsToSource: true,
-            },
-          },
-          inFieldOfResearch: true,
-        },
-      },
-      organizations: {
-        include: {
-          locations: true,
-          topics: true,
-          conferenceDates: true,
-        },
-      },
-    };
-
-    const conferenceImported: Promise<AdminConferenceDTO>[] = conferences.map(
-      async (conference) => {
-        let conferenceInDB =
-          await this.nativeConferenceService.getConferenceByAcronym(
-            conference.acronym,
-            conference.title,
-          );
-        if (!conferenceInDB) {
-          conferenceInDB = await this.prismaService.conferences.create({
-            data: {
-              title: conference.title,
-              acronym: conference.acronym,
-              status: 'DRAFT',
-              adminId: adminId,
-            },
-            include: include,
-          });
+    let conferenceInDB = await this.nativeConferenceService.getConferenceByAcronym(
+      conference.acronym,
+      conference.title,
+    )
+    if(!conferenceInDB) {
+      conferenceInDB = await this.nativeConferenceService.createConference(
+        {
+          title : conference.title,
+          acronym : conference.acronym,
+          adminId : adminId,
+          status : 'DRAFT',
         }
-          const sourceInDB = await this.souceService.findOrCreateSource({
-            name: conference.source,
-            link: '',
-          });
-
-          const rankInDB = await this.rankService.findOrCreateRank({
-            name: conference.rank,
-            source: sourceInDB,
-            value: 0,
-          });
-
-          for (const researchFieldCode of conference.researchFieldCodes) {
-            const researchFieldInDB =
-              await this.fieldOfResearchService.getFieldOfResearchByCode(
-                researchFieldCode,
-              );
-            if (!researchFieldInDB) {
-              throw new Error(
-                `Research field with code ${researchFieldCode} not found`,
-              );
-            }
-            const t = await this.conferenceService.createOrFindRank(
-              conferenceInDB?.id as string,
-              rankInDB,
-              researchFieldInDB?.id,
-              new Date().getFullYear(),
-            );
-          }
-
-        return {
-          id: conferenceInDB?.id,
-          title: conferenceInDB.title,
-          sources: Array.from(
-            new Set(
-              conferenceInDB.ranks.map(
-                (rank) => rank.byRank.belongsToSource.name,
-              ),
-            ),
+      )
+    }
+    if(! await this.souceService.isExistSourceName(conference.source)) {
+      await this.souceService.createSource({
+        name : conference.source,
+        link : ''
+      })
+    }
+    const sourceInDB = await this.souceService.findOrCreateSource({
+      name : conference.source,
+      link : ''
+    })
+    const rankInDB = await this.rankService.findOrCreateRank({
+      name : conference.rank,
+      source : sourceInDB,
+      value : 0
+    })
+    for (const researchFieldCode of conference.researchFieldCodes) {
+      const researchFieldInDB = await this.fieldOfResearchService.getFieldOfResearchByCode(
+        researchFieldCode
+      )
+      if(!researchFieldInDB) {
+        throw new Error(`Research field with code ${researchFieldCode} not found`)
+      }
+      const t = await this.conferenceService.createOrFindRank(
+        conferenceInDB?.id as string,
+        rankInDB,
+        researchFieldInDB?.id,
+        new Date().getFullYear(),
+      )
+    }
+    return {
+      id : conferenceInDB?.id,
+      title : conferenceInDB.title,
+      sources : Array.from(
+        new Set(
+          conferenceInDB.ranks.map(
+            (rank) => rank.byRank.belongsToSource.name as string,
           ),
-          acronym: conferenceInDB.acronym,
-          ranks: Array.from(
-            new Set(
-              conferenceInDB.ranks.map((rank) => rank.byRank.name as string),
-            ),
+        ),
+      ) as string[],
+      acronym : conferenceInDB.acronym,
+      ranks : Array.from(
+        new Set(
+          conferenceInDB.ranks.map((rank) => rank.byRank.name as string),
+        ),
+      ) as string[],
+      researchFields : Array.from(
+        new Set(
+          conferenceInDB.ranks.map(
+            (rank) => rank.inFieldOfResearch.name as string,
           ),
-          researchFields: Array.from(
-            new Set(
-              conferenceInDB.ranks.map(
-                (rank) => rank.inFieldOfResearch.name as string,
-              ),
-            ),
-          ),
-          status: conferenceInDB.status,
-          createdAt: conferenceInDB.createdAt,
-          updatedAt: conferenceInDB.updatedAt,
-        };
-      },
-    );
+        ),
+      ) as string[],
+      status : conferenceInDB.status,
+      createdAt : conferenceInDB.createdAt,
+      updatedAt : conferenceInDB.updatedAt,
+    }
 
-    return await Promise.all(conferenceImported).then(
-      (conferences: AdminConferenceDTO[]) => {
-        return conferences.filter((conference) => conference !== undefined);
-      },
-    );
   }
 
   async importEvaluateConference(
@@ -347,12 +313,13 @@ export class AdminConferenceService {
     }
     
     const conferenceInDB = await this.conferenceService.getConferenceByAcronymAndTitle(
-      conference?.title,
+      conference?.name,
       conference?.acronym, 
     )
     
     if (!conferenceInDB) {
-      throw new Error('Conference not found ' + conference.acronym + " " +conference.title);
+      console.log('conference', conference);
+      throw new Error('Conference not found ' + conference.acronym + " " +conference.name);
     }
     try {
       const conferenceOrganization = await this.conferenceOrganizationService.importOrganize(
@@ -364,7 +331,6 @@ export class AdminConferenceService {
           callForPaper : conference.callForPapers,
           accessType : conference.type,
           year : parseInt(conference.year),
-          topics : conference.topics.split(',').map((topic) => topic.trim()),
         }
       )
       if(!conferenceOrganization){

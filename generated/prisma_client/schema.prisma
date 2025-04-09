@@ -75,25 +75,25 @@ model Topics {
 }
 
 model Conferences {
-  id            String                    @id @default(uuid())
-  title         String
-  acronym       String
-  creatorId     String?
-  adminId       String?
-  createdAt     DateTime                  @default(now())
-  updatedAt     DateTime                  @updatedAt
-  status        String                    @default("draft")
-  blacklists    ConferenceBlacklists[]
-  calendars     ConferenceCalendars[]
-  crawlJobs     ConferenceCrawlJobs[]
-  feedbacks     ConferenceFeedbacks[]
-  follows       ConferenceFollows[]
-  likes         ConferenceLikes[]
-  organizations ConferenceOrganizations[]
-  ranks         ConferenceRanks[]
-  createdByUser Users?                    @relation(fields: [creatorId], references: [id])
-  createByAdmin Admins?                   @relation(fields: [adminId], references: [id])
-  errors        ErrorConferenceLogger[]
+  id             String                    @id @default(uuid())
+  title          String
+  acronym        String
+  creatorId      String?
+  adminId        String?
+  createdAt      DateTime                  @default(now())
+  updatedAt      DateTime                  @updatedAt
+  status         String                    @default("draft")
+  blacklists     ConferenceBlacklists[]
+  calendars      ConferenceCalendars[]
+  crawlJobs      ConferenceCrawlJobs[]
+  feedbacks      ConferenceFeedbacks[]
+  follows        ConferenceFollows[]
+  likes          ConferenceLikes[]
+  organizations  ConferenceOrganizations[]
+  ranks          ConferenceRanks[]
+  createdByUser  Users?                    @relation(fields: [creatorId], references: [id])
+  createdByAdmin Admins?                   @relation(fields: [adminId], references: [id])
+  errors         ErrorConferenceLogger[]
 
   @@unique([title, acronym])
 }

@@ -321,7 +321,6 @@ export class ConferenceController {
         summerize: crawlData.summary,
         callForPaper: crawlData.callForPapers,
         conferenceId: conference.id,
-        topics: crawlData.topics.split(','),
         isAvailable: true,
         publisher: crawlData.publisher,
       });
@@ -390,6 +389,13 @@ export class ConferenceController {
     for (const date of dateInput) {
       await this.conferenceOrganizationService.importDate(date);
     }
+
+    const createdTopics = crawlData.topics.split(' ').map((topic) => {
+      return this.conferenceOrganizationService.importTopic({ 
+        organized: organizeData.id,
+        topic: topic,
+      });
+    });
 
     return {
       conferenceId: conference.id,

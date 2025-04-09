@@ -21,6 +21,8 @@ import { PaginatorTypes, paginator } from '@nodeteam/nestjs-prisma-pagination';
 import { ConferencePaginationDTO } from '../models/conference/conference-pagination.dto';
 import { GetConferencesParams } from '../models/conference-request/get-conference-params';
 import { AdminController } from 'src/modules/user/controllers/admin.controller';
+import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
+import { TransactionHost } from '@nestjs-cls/transactional';
 import { AddConferenceBody } from '../models/conference-request/add-conference-body';
 
 const paginate: PaginatorTypes.PaginateFunction = paginator({ perPage: 10 });
@@ -34,6 +36,7 @@ export class ConferenceService {
     private readonly sourceService: SourceService,
     private readonly conferenceOraganizationService: ConferenceOrganizationSerivce,
     private readonly conferenceRankService: ConferenceRankService,
+    private readonly txHost: TransactionHost<TransactionalAdapterPrisma>,
   ) {}
 
   async getConferences(
@@ -310,7 +313,7 @@ export class ConferenceService {
           conference.id,
           conferenceFilter,
         );
-
+        
         const organization =
           await this.conferenceOraganizationService.getFirstOrganizationsByConferenceId(
             conference.id,
@@ -347,6 +350,8 @@ export class ConferenceService {
             status: conference.status,
           };
         }
+        const topics = await this.conferenceOraganizationService.getAllTopicsByOrganizedId(
+          organization.id)
 
         const locations =
           await this.conferenceOraganizationService.getLocationsByOrganizedId(
@@ -403,7 +408,7 @@ export class ConferenceService {
             researchFields: conference.ranks.map(
               (rank) => rank.inFieldOfResearch.name,
             ),
-            topics: organization.topics,
+            topics,
             dates: {
               fromDate: new Date(),
               toDate: new Date(),
@@ -436,7 +441,7 @@ export class ConferenceService {
           researchFields: conference.ranks.map(
             (rank) => rank.inFieldOfResearch.name,
           ),
-          topics: organization.topics,
+          topics : topics.map((topic) => topic.inTopic.name),
           dates: dates
             .filter((date) => {
               return date.type === 'conferenceDates';
@@ -553,7 +558,7 @@ export class ConferenceService {
     fieldOfResearchId: string,
     year: number,
   ) {
-    return await this.prismaService.conferenceRanks.create({
+    return await this.txHost.tx.conferenceRanks.create({
       data: {
         conferenceId: conferenceId,
         rankId: rankInstance.id,
@@ -569,7 +574,7 @@ export class ConferenceService {
     fieldOfResearchId: string,
     year: number,
   ) {
-    const existingRank = await this.prismaService.conferenceRanks.findFirst({
+    const existingRank = await this.txHost.tx.conferenceRanks.findFirst({
       where: {
         conferenceId,
         rankId: rankInstance.id,

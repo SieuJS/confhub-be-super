@@ -9983,7 +9983,7 @@ export namespace Prisma {
     organizations?: boolean | Conferences$organizationsArgs<ExtArgs>
     ranks?: boolean | Conferences$ranksArgs<ExtArgs>
     createdByUser?: boolean | Conferences$createdByUserArgs<ExtArgs>
-    createByAdmin?: boolean | Conferences$createByAdminArgs<ExtArgs>
+    createdByAdmin?: boolean | Conferences$createdByAdminArgs<ExtArgs>
     errors?: boolean | Conferences$errorsArgs<ExtArgs>
     _count?: boolean | ConferencesCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["conferences"]>
@@ -9998,7 +9998,7 @@ export namespace Prisma {
     updatedAt?: boolean
     status?: boolean
     createdByUser?: boolean | Conferences$createdByUserArgs<ExtArgs>
-    createByAdmin?: boolean | Conferences$createByAdminArgs<ExtArgs>
+    createdByAdmin?: boolean | Conferences$createdByAdminArgs<ExtArgs>
   }, ExtArgs["result"]["conferences"]>
 
   export type ConferencesSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -10011,7 +10011,7 @@ export namespace Prisma {
     updatedAt?: boolean
     status?: boolean
     createdByUser?: boolean | Conferences$createdByUserArgs<ExtArgs>
-    createByAdmin?: boolean | Conferences$createByAdminArgs<ExtArgs>
+    createdByAdmin?: boolean | Conferences$createdByAdminArgs<ExtArgs>
   }, ExtArgs["result"]["conferences"]>
 
   export type ConferencesSelectScalar = {
@@ -10036,17 +10036,17 @@ export namespace Prisma {
     organizations?: boolean | Conferences$organizationsArgs<ExtArgs>
     ranks?: boolean | Conferences$ranksArgs<ExtArgs>
     createdByUser?: boolean | Conferences$createdByUserArgs<ExtArgs>
-    createByAdmin?: boolean | Conferences$createByAdminArgs<ExtArgs>
+    createdByAdmin?: boolean | Conferences$createdByAdminArgs<ExtArgs>
     errors?: boolean | Conferences$errorsArgs<ExtArgs>
     _count?: boolean | ConferencesCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ConferencesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     createdByUser?: boolean | Conferences$createdByUserArgs<ExtArgs>
-    createByAdmin?: boolean | Conferences$createByAdminArgs<ExtArgs>
+    createdByAdmin?: boolean | Conferences$createdByAdminArgs<ExtArgs>
   }
   export type ConferencesIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     createdByUser?: boolean | Conferences$createdByUserArgs<ExtArgs>
-    createByAdmin?: boolean | Conferences$createByAdminArgs<ExtArgs>
+    createdByAdmin?: boolean | Conferences$createdByAdminArgs<ExtArgs>
   }
 
   export type $ConferencesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10061,7 +10061,7 @@ export namespace Prisma {
       organizations: Prisma.$ConferenceOrganizationsPayload<ExtArgs>[]
       ranks: Prisma.$ConferenceRanksPayload<ExtArgs>[]
       createdByUser: Prisma.$UsersPayload<ExtArgs> | null
-      createByAdmin: Prisma.$AdminsPayload<ExtArgs> | null
+      createdByAdmin: Prisma.$AdminsPayload<ExtArgs> | null
       errors: Prisma.$ErrorConferenceLoggerPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -10476,7 +10476,7 @@ export namespace Prisma {
     organizations<T extends Conferences$organizationsArgs<ExtArgs> = {}>(args?: Subset<T, Conferences$organizationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceOrganizationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     ranks<T extends Conferences$ranksArgs<ExtArgs> = {}>(args?: Subset<T, Conferences$ranksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConferenceRanksPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     createdByUser<T extends Conferences$createdByUserArgs<ExtArgs> = {}>(args?: Subset<T, Conferences$createdByUserArgs<ExtArgs>>): Prisma__UsersClient<$Result.GetResult<Prisma.$UsersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    createByAdmin<T extends Conferences$createByAdminArgs<ExtArgs> = {}>(args?: Subset<T, Conferences$createByAdminArgs<ExtArgs>>): Prisma__AdminsClient<$Result.GetResult<Prisma.$AdminsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    createdByAdmin<T extends Conferences$createdByAdminArgs<ExtArgs> = {}>(args?: Subset<T, Conferences$createdByAdminArgs<ExtArgs>>): Prisma__AdminsClient<$Result.GetResult<Prisma.$AdminsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     errors<T extends Conferences$errorsArgs<ExtArgs> = {}>(args?: Subset<T, Conferences$errorsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ErrorConferenceLoggerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -11122,9 +11122,9 @@ export namespace Prisma {
   }
 
   /**
-   * Conferences.createByAdmin
+   * Conferences.createdByAdmin
    */
-  export type Conferences$createByAdminArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Conferences$createdByAdminArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Admins
      */
@@ -38745,7 +38745,7 @@ export namespace Prisma {
     organizations?: ConferenceOrganizationsListRelationFilter
     ranks?: ConferenceRanksListRelationFilter
     createdByUser?: XOR<UsersNullableScalarRelationFilter, UsersWhereInput> | null
-    createByAdmin?: XOR<AdminsNullableScalarRelationFilter, AdminsWhereInput> | null
+    createdByAdmin?: XOR<AdminsNullableScalarRelationFilter, AdminsWhereInput> | null
     errors?: ErrorConferenceLoggerListRelationFilter
   }
 
@@ -38767,7 +38767,7 @@ export namespace Prisma {
     organizations?: ConferenceOrganizationsOrderByRelationAggregateInput
     ranks?: ConferenceRanksOrderByRelationAggregateInput
     createdByUser?: UsersOrderByWithRelationInput
-    createByAdmin?: AdminsOrderByWithRelationInput
+    createdByAdmin?: AdminsOrderByWithRelationInput
     errors?: ErrorConferenceLoggerOrderByRelationAggregateInput
   }
 
@@ -38793,7 +38793,7 @@ export namespace Prisma {
     organizations?: ConferenceOrganizationsListRelationFilter
     ranks?: ConferenceRanksListRelationFilter
     createdByUser?: XOR<UsersNullableScalarRelationFilter, UsersWhereInput> | null
-    createByAdmin?: XOR<AdminsNullableScalarRelationFilter, AdminsWhereInput> | null
+    createdByAdmin?: XOR<AdminsNullableScalarRelationFilter, AdminsWhereInput> | null
     errors?: ErrorConferenceLoggerListRelationFilter
   }, "id" | "title_acronym">
 
@@ -40784,7 +40784,7 @@ export namespace Prisma {
     organizations?: ConferenceOrganizationsCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
     createdByUser?: UsersCreateNestedOneWithoutCreatedConferencesInput
-    createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
+    createdByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
     errors?: ErrorConferenceLoggerCreateNestedManyWithoutBelongsToInput
   }
 
@@ -40824,7 +40824,7 @@ export namespace Prisma {
     organizations?: ConferenceOrganizationsUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneWithoutCreatedConferencesNestedInput
-    createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
+    createdByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
     errors?: ErrorConferenceLoggerUpdateManyWithoutBelongsToNestedInput
   }
 
@@ -41781,7 +41781,7 @@ export namespace Prisma {
     fullName: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    createdConferences?: ConferencesCreateNestedManyWithoutCreateByAdminInput
+    createdConferences?: ConferencesCreateNestedManyWithoutCreatedByAdminInput
     createdJournals?: JournalsCreateNestedManyWithoutCreateByAdminInput
   }
 
@@ -41792,7 +41792,7 @@ export namespace Prisma {
     fullName: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    createdConferences?: ConferencesUncheckedCreateNestedManyWithoutCreateByAdminInput
+    createdConferences?: ConferencesUncheckedCreateNestedManyWithoutCreatedByAdminInput
     createdJournals?: JournalsUncheckedCreateNestedManyWithoutCreateByAdminInput
   }
 
@@ -41803,7 +41803,7 @@ export namespace Prisma {
     fullName?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdConferences?: ConferencesUpdateManyWithoutCreateByAdminNestedInput
+    createdConferences?: ConferencesUpdateManyWithoutCreatedByAdminNestedInput
     createdJournals?: JournalsUpdateManyWithoutCreateByAdminNestedInput
   }
 
@@ -41814,7 +41814,7 @@ export namespace Prisma {
     fullName?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdConferences?: ConferencesUncheckedUpdateManyWithoutCreateByAdminNestedInput
+    createdConferences?: ConferencesUncheckedUpdateManyWithoutCreatedByAdminNestedInput
     createdJournals?: JournalsUncheckedUpdateManyWithoutCreateByAdminNestedInput
   }
 
@@ -45883,10 +45883,10 @@ export namespace Prisma {
     deleteMany?: UserVerificationScalarWhereInput | UserVerificationScalarWhereInput[]
   }
 
-  export type ConferencesCreateNestedManyWithoutCreateByAdminInput = {
-    create?: XOR<ConferencesCreateWithoutCreateByAdminInput, ConferencesUncheckedCreateWithoutCreateByAdminInput> | ConferencesCreateWithoutCreateByAdminInput[] | ConferencesUncheckedCreateWithoutCreateByAdminInput[]
-    connectOrCreate?: ConferencesCreateOrConnectWithoutCreateByAdminInput | ConferencesCreateOrConnectWithoutCreateByAdminInput[]
-    createMany?: ConferencesCreateManyCreateByAdminInputEnvelope
+  export type ConferencesCreateNestedManyWithoutCreatedByAdminInput = {
+    create?: XOR<ConferencesCreateWithoutCreatedByAdminInput, ConferencesUncheckedCreateWithoutCreatedByAdminInput> | ConferencesCreateWithoutCreatedByAdminInput[] | ConferencesUncheckedCreateWithoutCreatedByAdminInput[]
+    connectOrCreate?: ConferencesCreateOrConnectWithoutCreatedByAdminInput | ConferencesCreateOrConnectWithoutCreatedByAdminInput[]
+    createMany?: ConferencesCreateManyCreatedByAdminInputEnvelope
     connect?: ConferencesWhereUniqueInput | ConferencesWhereUniqueInput[]
   }
 
@@ -45897,10 +45897,10 @@ export namespace Prisma {
     connect?: JournalsWhereUniqueInput | JournalsWhereUniqueInput[]
   }
 
-  export type ConferencesUncheckedCreateNestedManyWithoutCreateByAdminInput = {
-    create?: XOR<ConferencesCreateWithoutCreateByAdminInput, ConferencesUncheckedCreateWithoutCreateByAdminInput> | ConferencesCreateWithoutCreateByAdminInput[] | ConferencesUncheckedCreateWithoutCreateByAdminInput[]
-    connectOrCreate?: ConferencesCreateOrConnectWithoutCreateByAdminInput | ConferencesCreateOrConnectWithoutCreateByAdminInput[]
-    createMany?: ConferencesCreateManyCreateByAdminInputEnvelope
+  export type ConferencesUncheckedCreateNestedManyWithoutCreatedByAdminInput = {
+    create?: XOR<ConferencesCreateWithoutCreatedByAdminInput, ConferencesUncheckedCreateWithoutCreatedByAdminInput> | ConferencesCreateWithoutCreatedByAdminInput[] | ConferencesUncheckedCreateWithoutCreatedByAdminInput[]
+    connectOrCreate?: ConferencesCreateOrConnectWithoutCreatedByAdminInput | ConferencesCreateOrConnectWithoutCreatedByAdminInput[]
+    createMany?: ConferencesCreateManyCreatedByAdminInputEnvelope
     connect?: ConferencesWhereUniqueInput | ConferencesWhereUniqueInput[]
   }
 
@@ -45911,17 +45911,17 @@ export namespace Prisma {
     connect?: JournalsWhereUniqueInput | JournalsWhereUniqueInput[]
   }
 
-  export type ConferencesUpdateManyWithoutCreateByAdminNestedInput = {
-    create?: XOR<ConferencesCreateWithoutCreateByAdminInput, ConferencesUncheckedCreateWithoutCreateByAdminInput> | ConferencesCreateWithoutCreateByAdminInput[] | ConferencesUncheckedCreateWithoutCreateByAdminInput[]
-    connectOrCreate?: ConferencesCreateOrConnectWithoutCreateByAdminInput | ConferencesCreateOrConnectWithoutCreateByAdminInput[]
-    upsert?: ConferencesUpsertWithWhereUniqueWithoutCreateByAdminInput | ConferencesUpsertWithWhereUniqueWithoutCreateByAdminInput[]
-    createMany?: ConferencesCreateManyCreateByAdminInputEnvelope
+  export type ConferencesUpdateManyWithoutCreatedByAdminNestedInput = {
+    create?: XOR<ConferencesCreateWithoutCreatedByAdminInput, ConferencesUncheckedCreateWithoutCreatedByAdminInput> | ConferencesCreateWithoutCreatedByAdminInput[] | ConferencesUncheckedCreateWithoutCreatedByAdminInput[]
+    connectOrCreate?: ConferencesCreateOrConnectWithoutCreatedByAdminInput | ConferencesCreateOrConnectWithoutCreatedByAdminInput[]
+    upsert?: ConferencesUpsertWithWhereUniqueWithoutCreatedByAdminInput | ConferencesUpsertWithWhereUniqueWithoutCreatedByAdminInput[]
+    createMany?: ConferencesCreateManyCreatedByAdminInputEnvelope
     set?: ConferencesWhereUniqueInput | ConferencesWhereUniqueInput[]
     disconnect?: ConferencesWhereUniqueInput | ConferencesWhereUniqueInput[]
     delete?: ConferencesWhereUniqueInput | ConferencesWhereUniqueInput[]
     connect?: ConferencesWhereUniqueInput | ConferencesWhereUniqueInput[]
-    update?: ConferencesUpdateWithWhereUniqueWithoutCreateByAdminInput | ConferencesUpdateWithWhereUniqueWithoutCreateByAdminInput[]
-    updateMany?: ConferencesUpdateManyWithWhereWithoutCreateByAdminInput | ConferencesUpdateManyWithWhereWithoutCreateByAdminInput[]
+    update?: ConferencesUpdateWithWhereUniqueWithoutCreatedByAdminInput | ConferencesUpdateWithWhereUniqueWithoutCreatedByAdminInput[]
+    updateMany?: ConferencesUpdateManyWithWhereWithoutCreatedByAdminInput | ConferencesUpdateManyWithWhereWithoutCreatedByAdminInput[]
     deleteMany?: ConferencesScalarWhereInput | ConferencesScalarWhereInput[]
   }
 
@@ -45939,17 +45939,17 @@ export namespace Prisma {
     deleteMany?: JournalsScalarWhereInput | JournalsScalarWhereInput[]
   }
 
-  export type ConferencesUncheckedUpdateManyWithoutCreateByAdminNestedInput = {
-    create?: XOR<ConferencesCreateWithoutCreateByAdminInput, ConferencesUncheckedCreateWithoutCreateByAdminInput> | ConferencesCreateWithoutCreateByAdminInput[] | ConferencesUncheckedCreateWithoutCreateByAdminInput[]
-    connectOrCreate?: ConferencesCreateOrConnectWithoutCreateByAdminInput | ConferencesCreateOrConnectWithoutCreateByAdminInput[]
-    upsert?: ConferencesUpsertWithWhereUniqueWithoutCreateByAdminInput | ConferencesUpsertWithWhereUniqueWithoutCreateByAdminInput[]
-    createMany?: ConferencesCreateManyCreateByAdminInputEnvelope
+  export type ConferencesUncheckedUpdateManyWithoutCreatedByAdminNestedInput = {
+    create?: XOR<ConferencesCreateWithoutCreatedByAdminInput, ConferencesUncheckedCreateWithoutCreatedByAdminInput> | ConferencesCreateWithoutCreatedByAdminInput[] | ConferencesUncheckedCreateWithoutCreatedByAdminInput[]
+    connectOrCreate?: ConferencesCreateOrConnectWithoutCreatedByAdminInput | ConferencesCreateOrConnectWithoutCreatedByAdminInput[]
+    upsert?: ConferencesUpsertWithWhereUniqueWithoutCreatedByAdminInput | ConferencesUpsertWithWhereUniqueWithoutCreatedByAdminInput[]
+    createMany?: ConferencesCreateManyCreatedByAdminInputEnvelope
     set?: ConferencesWhereUniqueInput | ConferencesWhereUniqueInput[]
     disconnect?: ConferencesWhereUniqueInput | ConferencesWhereUniqueInput[]
     delete?: ConferencesWhereUniqueInput | ConferencesWhereUniqueInput[]
     connect?: ConferencesWhereUniqueInput | ConferencesWhereUniqueInput[]
-    update?: ConferencesUpdateWithWhereUniqueWithoutCreateByAdminInput | ConferencesUpdateWithWhereUniqueWithoutCreateByAdminInput[]
-    updateMany?: ConferencesUpdateManyWithWhereWithoutCreateByAdminInput | ConferencesUpdateManyWithWhereWithoutCreateByAdminInput[]
+    update?: ConferencesUpdateWithWhereUniqueWithoutCreatedByAdminInput | ConferencesUpdateWithWhereUniqueWithoutCreatedByAdminInput[]
+    updateMany?: ConferencesUpdateManyWithWhereWithoutCreatedByAdminInput | ConferencesUpdateManyWithWhereWithoutCreatedByAdminInput[]
     deleteMany?: ConferencesScalarWhereInput | ConferencesScalarWhereInput[]
   }
 
@@ -46643,7 +46643,7 @@ export namespace Prisma {
     likes?: ConferenceLikesCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
     createdByUser?: UsersCreateNestedOneWithoutCreatedConferencesInput
-    createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
+    createdByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
     errors?: ErrorConferenceLoggerCreateNestedManyWithoutBelongsToInput
   }
 
@@ -46784,7 +46784,7 @@ export namespace Prisma {
     likes?: ConferenceLikesUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneWithoutCreatedConferencesNestedInput
-    createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
+    createdByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
     errors?: ErrorConferenceLoggerUpdateManyWithoutBelongsToNestedInput
   }
 
@@ -47833,7 +47833,7 @@ export namespace Prisma {
     likes?: ConferenceLikesCreateNestedManyWithoutBelongsToInput
     organizations?: ConferenceOrganizationsCreateNestedManyWithoutBelongsToInput
     createdByUser?: UsersCreateNestedOneWithoutCreatedConferencesInput
-    createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
+    createdByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
     errors?: ErrorConferenceLoggerCreateNestedManyWithoutBelongsToInput
   }
 
@@ -47927,7 +47927,7 @@ export namespace Prisma {
     likes?: ConferenceLikesUpdateManyWithoutBelongsToNestedInput
     organizations?: ConferenceOrganizationsUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneWithoutCreatedConferencesNestedInput
-    createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
+    createdByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
     errors?: ErrorConferenceLoggerUpdateManyWithoutBelongsToNestedInput
   }
 
@@ -48761,7 +48761,7 @@ export namespace Prisma {
     fullName: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    createdConferences?: ConferencesCreateNestedManyWithoutCreateByAdminInput
+    createdConferences?: ConferencesCreateNestedManyWithoutCreatedByAdminInput
   }
 
   export type AdminsUncheckedCreateWithoutCreatedJournalsInput = {
@@ -48771,7 +48771,7 @@ export namespace Prisma {
     fullName: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    createdConferences?: ConferencesUncheckedCreateNestedManyWithoutCreateByAdminInput
+    createdConferences?: ConferencesUncheckedCreateNestedManyWithoutCreatedByAdminInput
   }
 
   export type AdminsCreateOrConnectWithoutCreatedJournalsInput = {
@@ -48975,7 +48975,7 @@ export namespace Prisma {
     fullName?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdConferences?: ConferencesUpdateManyWithoutCreateByAdminNestedInput
+    createdConferences?: ConferencesUpdateManyWithoutCreatedByAdminNestedInput
   }
 
   export type AdminsUncheckedUpdateWithoutCreatedJournalsInput = {
@@ -48985,7 +48985,7 @@ export namespace Prisma {
     fullName?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdConferences?: ConferencesUncheckedUpdateManyWithoutCreateByAdminNestedInput
+    createdConferences?: ConferencesUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   }
 
   export type ConferencesCreateWithoutFollowsInput = {
@@ -49003,7 +49003,7 @@ export namespace Prisma {
     organizations?: ConferenceOrganizationsCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
     createdByUser?: UsersCreateNestedOneWithoutCreatedConferencesInput
-    createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
+    createdByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
     errors?: ErrorConferenceLoggerCreateNestedManyWithoutBelongsToInput
   }
 
@@ -49114,7 +49114,7 @@ export namespace Prisma {
     organizations?: ConferenceOrganizationsUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneWithoutCreatedConferencesNestedInput
-    createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
+    createdByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
     errors?: ErrorConferenceLoggerUpdateManyWithoutBelongsToNestedInput
   }
 
@@ -49215,7 +49215,7 @@ export namespace Prisma {
     organizations?: ConferenceOrganizationsCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
     createdByUser?: UsersCreateNestedOneWithoutCreatedConferencesInput
-    createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
+    createdByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
     errors?: ErrorConferenceLoggerCreateNestedManyWithoutBelongsToInput
   }
 
@@ -49326,7 +49326,7 @@ export namespace Prisma {
     organizations?: ConferenceOrganizationsUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneWithoutCreatedConferencesNestedInput
-    createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
+    createdByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
     errors?: ErrorConferenceLoggerUpdateManyWithoutBelongsToNestedInput
   }
 
@@ -49427,7 +49427,7 @@ export namespace Prisma {
     organizations?: ConferenceOrganizationsCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
     createdByUser?: UsersCreateNestedOneWithoutCreatedConferencesInput
-    createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
+    createdByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
     errors?: ErrorConferenceLoggerCreateNestedManyWithoutBelongsToInput
   }
 
@@ -49538,7 +49538,7 @@ export namespace Prisma {
     organizations?: ConferenceOrganizationsUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneWithoutCreatedConferencesNestedInput
-    createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
+    createdByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
     errors?: ErrorConferenceLoggerUpdateManyWithoutBelongsToNestedInput
   }
 
@@ -49639,7 +49639,7 @@ export namespace Prisma {
     organizations?: ConferenceOrganizationsCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
     createdByUser?: UsersCreateNestedOneWithoutCreatedConferencesInput
-    createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
+    createdByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
     errors?: ErrorConferenceLoggerCreateNestedManyWithoutBelongsToInput
   }
 
@@ -49750,7 +49750,7 @@ export namespace Prisma {
     organizations?: ConferenceOrganizationsUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneWithoutCreatedConferencesNestedInput
-    createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
+    createdByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
     errors?: ErrorConferenceLoggerUpdateManyWithoutBelongsToNestedInput
   }
 
@@ -50383,7 +50383,7 @@ export namespace Prisma {
     likes?: ConferenceLikesCreateNestedManyWithoutBelongsToInput
     organizations?: ConferenceOrganizationsCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
-    createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
+    createdByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
     errors?: ErrorConferenceLoggerCreateNestedManyWithoutBelongsToInput
   }
 
@@ -50894,7 +50894,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"UserVerification"> | Date | string
   }
 
-  export type ConferencesCreateWithoutCreateByAdminInput = {
+  export type ConferencesCreateWithoutCreatedByAdminInput = {
     id?: string
     title: string
     acronym: string
@@ -50913,7 +50913,7 @@ export namespace Prisma {
     errors?: ErrorConferenceLoggerCreateNestedManyWithoutBelongsToInput
   }
 
-  export type ConferencesUncheckedCreateWithoutCreateByAdminInput = {
+  export type ConferencesUncheckedCreateWithoutCreatedByAdminInput = {
     id?: string
     title: string
     acronym: string
@@ -50932,13 +50932,13 @@ export namespace Prisma {
     errors?: ErrorConferenceLoggerUncheckedCreateNestedManyWithoutBelongsToInput
   }
 
-  export type ConferencesCreateOrConnectWithoutCreateByAdminInput = {
+  export type ConferencesCreateOrConnectWithoutCreatedByAdminInput = {
     where: ConferencesWhereUniqueInput
-    create: XOR<ConferencesCreateWithoutCreateByAdminInput, ConferencesUncheckedCreateWithoutCreateByAdminInput>
+    create: XOR<ConferencesCreateWithoutCreatedByAdminInput, ConferencesUncheckedCreateWithoutCreatedByAdminInput>
   }
 
-  export type ConferencesCreateManyCreateByAdminInputEnvelope = {
-    data: ConferencesCreateManyCreateByAdminInput | ConferencesCreateManyCreateByAdminInput[]
+  export type ConferencesCreateManyCreatedByAdminInputEnvelope = {
+    data: ConferencesCreateManyCreatedByAdminInput | ConferencesCreateManyCreatedByAdminInput[]
     skipDuplicates?: boolean
   }
 
@@ -50986,20 +50986,20 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type ConferencesUpsertWithWhereUniqueWithoutCreateByAdminInput = {
+  export type ConferencesUpsertWithWhereUniqueWithoutCreatedByAdminInput = {
     where: ConferencesWhereUniqueInput
-    update: XOR<ConferencesUpdateWithoutCreateByAdminInput, ConferencesUncheckedUpdateWithoutCreateByAdminInput>
-    create: XOR<ConferencesCreateWithoutCreateByAdminInput, ConferencesUncheckedCreateWithoutCreateByAdminInput>
+    update: XOR<ConferencesUpdateWithoutCreatedByAdminInput, ConferencesUncheckedUpdateWithoutCreatedByAdminInput>
+    create: XOR<ConferencesCreateWithoutCreatedByAdminInput, ConferencesUncheckedCreateWithoutCreatedByAdminInput>
   }
 
-  export type ConferencesUpdateWithWhereUniqueWithoutCreateByAdminInput = {
+  export type ConferencesUpdateWithWhereUniqueWithoutCreatedByAdminInput = {
     where: ConferencesWhereUniqueInput
-    data: XOR<ConferencesUpdateWithoutCreateByAdminInput, ConferencesUncheckedUpdateWithoutCreateByAdminInput>
+    data: XOR<ConferencesUpdateWithoutCreatedByAdminInput, ConferencesUncheckedUpdateWithoutCreatedByAdminInput>
   }
 
-  export type ConferencesUpdateManyWithWhereWithoutCreateByAdminInput = {
+  export type ConferencesUpdateManyWithWhereWithoutCreatedByAdminInput = {
     where: ConferencesScalarWhereInput
-    data: XOR<ConferencesUpdateManyMutationInput, ConferencesUncheckedUpdateManyWithoutCreateByAdminInput>
+    data: XOR<ConferencesUpdateManyMutationInput, ConferencesUncheckedUpdateManyWithoutCreatedByAdminInput>
   }
 
   export type JournalsUpsertWithWhereUniqueWithoutCreateByAdminInput = {
@@ -51033,7 +51033,7 @@ export namespace Prisma {
     organizations?: ConferenceOrganizationsCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
     createdByUser?: UsersCreateNestedOneWithoutCreatedConferencesInput
-    createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
+    createdByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
     errors?: ErrorConferenceLoggerCreateNestedManyWithoutBelongsToInput
   }
 
@@ -51087,7 +51087,7 @@ export namespace Prisma {
     organizations?: ConferenceOrganizationsUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneWithoutCreatedConferencesNestedInput
-    createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
+    createdByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
     errors?: ErrorConferenceLoggerUpdateManyWithoutBelongsToNestedInput
   }
 
@@ -51125,7 +51125,7 @@ export namespace Prisma {
     organizations?: ConferenceOrganizationsCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
     createdByUser?: UsersCreateNestedOneWithoutCreatedConferencesInput
-    createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
+    createdByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
     errors?: ErrorConferenceLoggerCreateNestedManyWithoutBelongsToInput
   }
 
@@ -51236,7 +51236,7 @@ export namespace Prisma {
     organizations?: ConferenceOrganizationsUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneWithoutCreatedConferencesNestedInput
-    createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
+    createdByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
     errors?: ErrorConferenceLoggerUpdateManyWithoutBelongsToNestedInput
   }
 
@@ -52140,7 +52140,7 @@ export namespace Prisma {
     organizations?: ConferenceOrganizationsCreateNestedManyWithoutBelongsToInput
     ranks?: ConferenceRanksCreateNestedManyWithoutBelongsToInput
     createdByUser?: UsersCreateNestedOneWithoutCreatedConferencesInput
-    createByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
+    createdByAdmin?: AdminsCreateNestedOneWithoutCreatedConferencesInput
   }
 
   export type ConferencesUncheckedCreateWithoutErrorsInput = {
@@ -52194,7 +52194,7 @@ export namespace Prisma {
     organizations?: ConferenceOrganizationsUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
     createdByUser?: UsersUpdateOneWithoutCreatedConferencesNestedInput
-    createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
+    createdByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
   }
 
   export type ConferencesUncheckedUpdateWithoutErrorsInput = {
@@ -53227,7 +53227,7 @@ export namespace Prisma {
     likes?: ConferenceLikesUpdateManyWithoutBelongsToNestedInput
     organizations?: ConferenceOrganizationsUpdateManyWithoutBelongsToNestedInput
     ranks?: ConferenceRanksUpdateManyWithoutBelongsToNestedInput
-    createByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
+    createdByAdmin?: AdminsUpdateOneWithoutCreatedConferencesNestedInput
     errors?: ErrorConferenceLoggerUpdateManyWithoutBelongsToNestedInput
   }
 
@@ -53450,7 +53450,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ConferencesCreateManyCreateByAdminInput = {
+  export type ConferencesCreateManyCreatedByAdminInput = {
     id?: string
     title: string
     acronym: string
@@ -53472,7 +53472,7 @@ export namespace Prisma {
     creatorId?: string | null
   }
 
-  export type ConferencesUpdateWithoutCreateByAdminInput = {
+  export type ConferencesUpdateWithoutCreatedByAdminInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     acronym?: StringFieldUpdateOperationsInput | string
@@ -53491,7 +53491,7 @@ export namespace Prisma {
     errors?: ErrorConferenceLoggerUpdateManyWithoutBelongsToNestedInput
   }
 
-  export type ConferencesUncheckedUpdateWithoutCreateByAdminInput = {
+  export type ConferencesUncheckedUpdateWithoutCreatedByAdminInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     acronym?: StringFieldUpdateOperationsInput | string
@@ -53510,7 +53510,7 @@ export namespace Prisma {
     errors?: ErrorConferenceLoggerUncheckedUpdateManyWithoutBelongsToNestedInput
   }
 
-  export type ConferencesUncheckedUpdateManyWithoutCreateByAdminInput = {
+  export type ConferencesUncheckedUpdateManyWithoutCreatedByAdminInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     acronym?: StringFieldUpdateOperationsInput | string
