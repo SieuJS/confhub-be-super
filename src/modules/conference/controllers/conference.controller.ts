@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { ConferenceService } from '../services/conference.service';
 import { ApiBody, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -440,7 +441,7 @@ export class ConferenceController {
     };
   }
 
-  @Post('follow')
+  @Post('follow')  
   @ApiBody({ type: ConferenceFollowInput })
   async followConference(
     @Body() input: { userId: string; conferenceId: string },
