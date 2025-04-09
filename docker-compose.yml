@@ -29,7 +29,7 @@ services:
     depends_on:
       - postgresql
     env_file:
-      - .env.product
+      - .env
     networks:
       - prisma-network
   confhub_redis:
