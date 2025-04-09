@@ -1,4 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiNotImplementedResponse, ApiProperty } from "@nestjs/swagger";
 
 export class ConferenceDatesDTO {
 
@@ -13,5 +13,17 @@ export class ConferenceDatesDTO {
 
     @ApiProperty({description : "To date", example : '2021-01-01T00:00:00.000Z'})
     toDate : Date | null
+
+    @ApiProperty({
+        description : "Created at",
+        example : '2021-01-01T00:00:00.000Z'
+    })
+    createdAt : Date | null
+
+    @ApiProperty({
+        description : "Updated at",
+        example : '2021-01-01T00:00:00.000Z'
+    })
+    updatedAt : Date | null
 
 }
