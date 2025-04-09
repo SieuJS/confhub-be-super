@@ -19,4 +19,4 @@ COPY . .
 # Build the NestJS application
 
 # Command to run the application
-CMD ["sh", "-c", "npm run db:deploy && npm run start"]
+CMD ["sh", "-c", "npm run db:resolve && npm run start"]
