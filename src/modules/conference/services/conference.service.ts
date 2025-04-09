@@ -21,6 +21,7 @@ import { PaginatorTypes, paginator } from '@nodeteam/nestjs-prisma-pagination';
 import { ConferencePaginationDTO } from '../models/conference/conference-pagination.dto';
 import { GetConferencesParams } from '../models/conference-request/get-conference-params';
 import { AdminController } from 'src/modules/user/controllers/admin.controller';
+import { AddConferenceBody } from '../models/conference-request/add-conference-body';
 
 const paginate: PaginatorTypes.PaginateFunction = paginator({ perPage: 10 });
 @Injectable()
@@ -490,7 +491,12 @@ export class ConferenceService {
     return conference ? true : false;
   }
 
-  async createConference(conference: ConferenceImportDTO) {
+  async createConference(conference: {
+    title: string;
+    acronym: string;
+    adminId?: string;
+    creatorId?: string;
+  }) {
     if (
       await this.isExistsConferenceNameAndAcronym(
         conference.title,
@@ -504,9 +510,7 @@ export class ConferenceService {
 
     return await this.prismaService.conferences.create({
       data: {
-        title: conference.title,
-        acronym: conference.acronym,
-        adminId: conference.adminId,
+        ...conference,
         status: 'pending',
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -589,11 +593,11 @@ export class ConferenceService {
   async getConferenceByAcronymAndTitle(title: string, acronym: string) {
     return await this.prismaService.conferences.findFirst({
       where: {
-        title : {
+        title: {
           contains: !!title ? title.trim() : '',
           mode: 'insensitive',
         },
-        acronym : {
+        acronym: {
           contains: !!acronym ? acronym.trim() : '',
           mode: 'insensitive',
         },
@@ -670,6 +674,7 @@ export class ConferenceService {
             lastName: true,
             firstName: true,
             email: true,
+            avatar: true,
           },
         },
       },
@@ -680,7 +685,7 @@ export class ConferenceService {
         id: follow.id,
         userId: follow.userId,
         user: {
-          email: follow.byUser.email,
+          avatar: follow.byUser.avatar,
           firstName: follow.byUser.firstName,
           lastName: follow.byUser.lastName,
         },
@@ -713,7 +718,7 @@ export class ConferenceService {
       include: {
         byUser: {
           select: {
-            email: true,
+            avatar: true,
             firstName: true,
             lastName: true,
           },
@@ -730,11 +735,9 @@ export class ConferenceService {
         star: feedback.star,
         createdAt: feedback.createdAt,
         updatedAt: feedback.updatedAt,
-        user: {
-          email: feedback.byUser.email,
-          firstName: feedback.byUser.firstName,
-          lastName: feedback.byUser.lastName,
-        },
+        avatar: feedback.byUser.avatar,
+        firstName: feedback.byUser.firstName,
+        lastName: feedback.byUser.lastName,
       };
     });
 
@@ -754,10 +757,15 @@ export class ConferenceService {
   }
 
   async isCrawledConference(conferenceId: string) {
-    const conferenceOrganization = await this.conferenceOraganizationService.getConferenceDatesByOrganizedId(conferenceId);
+    const conferenceOrganization =
+      await this.conferenceOraganizationService.getConferenceDatesByOrganizedId(
+        conferenceId,
+      );
     if (conferenceOrganization.length > 0) {
       return true;
     }
     return false;
   }
+
+  async addConferenceFromUser(input: AddConferenceBody) {}
 }

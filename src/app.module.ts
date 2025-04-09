@@ -15,6 +15,7 @@ import { AdminConferenceModule } from './modules/admin-conference/admin-conferen
 import { ClsModule } from 'nestjs-cls';
 import { ClsPluginTransactional  } from '@nestjs-cls/transactional';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
+import { NotifyModule } from './modules/notify/notify.module';
 @Module({
   imports: [CommonModule, UserModule, AuthModule, SourceRankModule,
     BullModule.forRootAsync( {
@@ -47,7 +48,8 @@ import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-pr
   ConferenceOrganizationModule,
   ConferenceJobModule,
   ConferencesModule,
-  AdminConferenceModule
+  AdminConferenceModule,
+  NotifyModule
   ],
   controllers: [AppController],
   providers: [AppService],

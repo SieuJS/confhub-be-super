@@ -36,6 +36,7 @@ import {
   convertObjectToDate,
 } from 'src/modules/conference-job/utils/date-parse';
 import { link } from 'joi';
+import { AddConferenceBody } from '../models/conference-request/add-conference-body';
 
 @ApiTags('/conference')
 @Controller('conference')
@@ -488,4 +489,50 @@ export class ConferenceController {
       conferenceId,
     );
   }
+
+  @Post('add')
+  @ApiBody({ type: ConferenceImportDTO })
+  async addConference(
+    @Body() conferenceImport: AddConferenceBody,
+  ): Promise<any> {
+    const user = await this.userService.getUserById(conferenceImport.userId);
+    if (!user) {
+      return new HttpException('User not found', 404);
+    }
+    conferenceImport.conference.creatorId = user.id;
+    const conferenceInstance =
+      await this.conferenceService.createConference({
+        acronym: conferenceImport.conference.acronym,
+        title: conferenceImport.conference.title,
+      });
+
+    const organizationInstance =
+      await this.conferenceOrganizationService.importOrganize(
+        {
+          ...conferenceImport.organization,
+          conferenceId: conferenceInstance.id,
+        })
+    if (!organizationInstance) {
+      return new HttpException('Fail when create conference', 404);
+    }
+    const locationInstance =
+      await this.conferenceOrganizationService.importPlace({
+        ...conferenceImport.location,
+        organizeId: organizationInstance?.id,
+      });
+
+    const dateInstance = await Promise.all( conferenceImport.dates.map((date) => {
+      return this.conferenceOrganizationService.importDate({
+        ...date,
+        organizedId: organizationInstance.id,
+      });
+    }));
+    
+    if (!locationInstance) {
+      return new HttpException('Fail when create location', 404);
+    }
+    return conferenceInstance;
+  }
+  
+
 }

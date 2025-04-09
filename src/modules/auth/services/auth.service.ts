@@ -27,7 +27,6 @@ export class AuthService {
     if(!isPasswordValid){
         throw Error ("Wrong password")
     }
-
     return user;
   }
 

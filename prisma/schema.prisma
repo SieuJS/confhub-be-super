@@ -79,7 +79,7 @@ model Conferences {
   title         String
   acronym       String
   creatorId     String?
-  adminId      String?
+  adminId       String?
   createdAt     DateTime                  @default(now())
   updatedAt     DateTime                  @updatedAt
   status        String                    @default("draft")
@@ -91,9 +91,10 @@ model Conferences {
   likes         ConferenceLikes[]
   organizations ConferenceOrganizations[]
   ranks         ConferenceRanks[]
-  createdByUser Users?                     @relation(fields: [creatorId], references: [id])
-  createByAdmin Admins?                    @relation(fields: [adminId], references: [id])
-  errors       ErrorConferenceLogger[]
+  createdByUser Users?                    @relation(fields: [creatorId], references: [id])
+  createByAdmin Admins?                   @relation(fields: [adminId], references: [id])
+  errors        ErrorConferenceLogger[]
+
   @@unique([title, acronym])
 }
 
@@ -161,15 +162,15 @@ model Journals {
   nation          String
   scope           String
   emailSubmission String
-  creatorId         String?
+  creatorId       String?
   adminId         String?
   crawlJobs       JournalCrawlJobs[]
   journalFollows  JournalFollows[]
   journalLikes    JournalLikes[]
   journalRanks    JournalRanks[]
   topics          JournalTopics[]
-  createdByUser   Users?              @relation(fields: [creatorId], references: [id])
-  createByAdmin   Admins?             @relation(fields: [adminId], references: [id])
+  createdByUser   Users?             @relation(fields: [creatorId], references: [id])
+  createByAdmin   Admins?            @relation(fields: [adminId], references: [id])
 }
 
 model ConferenceFollows {
@@ -268,14 +269,14 @@ model Users {
 }
 
 model Admins {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  password  String
-  fullName  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                 String        @id @default(uuid())
+  email              String        @unique
+  password           String
+  fullName           String
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
   createdConferences Conferences[]
-  createdJournals     Journals[]
+  createdJournals    Journals[]
 }
 
 model ConferenceCrawlJobs {
@@ -315,6 +316,8 @@ model Notifications {
   notificationId String
   userId         String
   message        String
+  isImportant    Boolean            @default(false)
+  isDeleted      Boolean            @default(false)
   isRead         Boolean            @default(false)
   createdAt      DateTime           @default(now())
   updatedAt      DateTime           @updatedAt
@@ -368,13 +371,12 @@ model UserVerification {
   @@unique([userId, verificationCode, verificationCodeExpires])
 }
 
-
-model ErrorConferenceLogger { 
-  id       String   @id @default(uuid())
-  message   String
-  stack     String
+model ErrorConferenceLogger {
+  id           String      @id @default(uuid())
+  message      String
+  stack        String
   conferenceId String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  belongsTo Conferences @relation(fields: [conferenceId], references: [id])
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  belongsTo    Conferences @relation(fields: [conferenceId], references: [id])
 }
