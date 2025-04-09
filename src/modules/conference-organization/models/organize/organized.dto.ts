@@ -13,4 +13,5 @@ export class OrganizedDTO{
     summerize : string;
     callForPaper : string;
     publisher : string;
+    topics : string[];
 }

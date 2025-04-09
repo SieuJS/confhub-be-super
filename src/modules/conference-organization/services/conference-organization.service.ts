@@ -105,6 +105,7 @@ export class ConferenceOrganizationSerivce {
 
         return {
             ...organize,
+            topics : [],
         }
     }
 
@@ -134,6 +135,10 @@ export class ConferenceOrganizationSerivce {
         }
         return {
             ...organizedDb,
+            topics : organizedDb.topics.map((topic) => {
+                return topic.inTopic.name;
+            }
+            )
         }
     }
 
