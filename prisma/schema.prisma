@@ -381,3 +381,11 @@ model ErrorConferenceLogger {
   updatedAt    DateTime    @updatedAt
   belongsTo    Conferences @relation(fields: [conferenceId], references: [id])
 }
+
+
+model EmailSettings {
+  id          String   @id @default(uuid())
+  senderEmail String
+  senderName  String
+  apiKey      String
+}

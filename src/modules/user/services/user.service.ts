@@ -2,19 +2,21 @@ import { Injectable } from "@nestjs/common";
 import { UserInput } from "../models/user.input";
 import { PrismaService } from "../../common";
 import * as jwt from 'jsonwebtoken';
-
+import { TransactionalAdapterPrisma } from "@nestjs-cls/transactional-adapter-prisma";
+import { TransactionHost } from "@nestjs-cls/transactional";
 @Injectable()
 export class UserService {
     constructor(
-        private prismaService : PrismaService
+        private prismaService : PrismaService,
+        private txHost : TransactionHost<TransactionalAdapterPrisma>
     ) {}
 
     async getAllUsers () {
-        return await this.prismaService.users.findMany();
+        return await this.txHost.tx.users.findMany();
     }
 
     async getUserByEmail(email : string) {
-        return await this.prismaService.users.findFirst({
+        return await this.txHost.tx.users.findFirst({
             where : {
                 email 
             }
@@ -22,7 +24,7 @@ export class UserService {
     }
 
     async getUserById(id : string) {
-        return await this.prismaService.users.findUnique({
+        return await this.txHost.tx.users.findUnique({
             where : {
                 id
             }
@@ -30,7 +32,7 @@ export class UserService {
     }
 
     async createUser(input : UserInput) {
-        return await this.prismaService.users.create({
+        return await this.txHost.tx.users.create({
             data : {
                 ...input ,
             }
@@ -38,7 +40,7 @@ export class UserService {
     }
     
     async followConference(userId : string, conferenceId : string) {
-        return await this.prismaService.conferenceFollows.create({
+        return await this.txHost.tx.conferenceFollows.create({
             data : {
                 userId,
                 conferenceId
@@ -47,7 +49,7 @@ export class UserService {
     }
 
     async unfollowConference(userId : string, conferenceId : string) {
-        return await this.prismaService.conferenceFollows.delete({
+        return await this.txHost.tx.conferenceFollows.delete({
             where : {
                 conferenceId_userId : {
                     userId,
@@ -58,7 +60,7 @@ export class UserService {
     }
 
     async getFollowedConferences(userId : string) {
-        return await this.prismaService.conferenceFollows.findMany({
+        return await this.txHost.tx.conferenceFollows.findMany({
             where : {
                 userId
             }
@@ -66,7 +68,7 @@ export class UserService {
     }
 
     async addToCalendar(userId : string, conferenceId : string) {
-        return await this.prismaService.conferenceCalendars.create({
+        return await this.txHost.tx.conferenceCalendars.create({
             data : {
                 userId,
                 conferenceId
@@ -75,7 +77,7 @@ export class UserService {
     }
 
     async removeFromCalendar(userId : string, conferenceId : string) {
-        return await this.prismaService.conferenceCalendars.delete({
+        return await this.txHost.tx.conferenceCalendars.delete({
             where : {
                 conferenceId_userId : {
                     userId,

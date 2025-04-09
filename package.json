@@ -22,6 +22,7 @@
     "db:resolve": "npx prisma db push && prisma generate"
   },
   "dependencies": {
+    "@getbrevo/brevo": "^2.2.0",
     "@nestjs-cls/transactional-adapter-prisma": "^1.2.19",
     "@nestjs/axios": "^4.0.0",
     "@nestjs/bullmq": "^11.0.2",

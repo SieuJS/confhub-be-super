@@ -17,7 +17,10 @@ export const configProvider = {
             HEALTH_TOKEN: Joi.string().required(),
             PASSENGERS_ALLOWED: Joi.string().valid('yes', 'no').required(),
             REDIS_HOST: Joi.string().required(),
-            REDIS_PORT: Joi.number().required()
+            REDIS_PORT: Joi.number().required(),
+            BREVO_API_KEY: Joi.string().required(),
+            SENDER_EMAIL: Joi.string().email().required(),
+            SENDER_NAME: Joi.string().required(),
         });
         const result = validationSchema.validate(env);
         if (result.error) {

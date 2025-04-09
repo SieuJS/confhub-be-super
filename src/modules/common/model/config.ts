@@ -17,4 +17,9 @@ export interface Config {
     readonly REDIS_HOST: string;
 
     readonly REDIS_PORT: number;
+
+    readonly BREVO_API_KEY: string;
+
+    readonly SENDER_EMAIL: string;
+    readonly SENDER_NAME: string;
 }

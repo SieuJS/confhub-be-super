@@ -24,7 +24,7 @@ export class AuthController {
 
     @Post('/logout')
     async logout() {
-        return {
+        return { 
             message : "Logout successful"
         }
     }

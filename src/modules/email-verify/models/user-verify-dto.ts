@@ -8,7 +8,7 @@ export class UserVerifyDTO {
     userId: string;
 
     @ApiProperty({description : "Verifycation code " , example : "123-321"})
-    code: string;
+    verificationCode: string;
 
     @ApiProperty({description : "Is the code verified" , example : true})
     isVerified: boolean;

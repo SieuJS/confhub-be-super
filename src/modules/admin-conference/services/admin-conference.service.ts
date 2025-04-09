@@ -17,7 +17,6 @@ import {
 } from 'src/modules/source-rank';
 import { ConferenceOrganizationSerivce } from 'src/modules/conference-organization';
 import { ConferenceRankService } from 'src/modules/conference/services/conference-rank.service';
-import {Transactional} from '@nestjs-cls/transactional';
 import { ConferenceService } from 'src/modules/conference/services/conference.service';
 import { converStringToDate, convertObjectToDate, parseDateRange } from 'src/modules/conference-job/utils/date-parse';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
