@@ -106,6 +106,8 @@ export class ConferenceOrganizationSerivce {
         return {
             ...organize,
             topics : [],
+            conferenceDates : [],
+            locations : []
         }
     }
 
@@ -138,7 +140,10 @@ export class ConferenceOrganizationSerivce {
             topics : organizedDb.topics.map((topic) => {
                 return topic.inTopic.name;
             }
-            )
+
+            ),
+            locations :[],
+            conferenceDates : []
         }
     }
 
@@ -181,7 +186,9 @@ export class ConferenceOrganizationSerivce {
                 topics : organizedDb.topics.map((topic) => {
                     return topic.inTopic.name;
                 }
-                )
+                ),
+                locations : [],
+                conferenceDates : []
             }
         })
     }

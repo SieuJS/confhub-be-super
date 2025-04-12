@@ -200,105 +200,12 @@ export class ConferenceController {
     if (!conference) {
       return new HttpException('Conference not found', 404);
     }
-    const creator = conference.creatorId
-      ? await this.userService.getUserById(conference.creatorId)
-      : null;
-    const adminCreator = conference.adminId
-      ? await this.adminService.getAdminById(conference.adminId)
-      : null;
-    let creatorName = '';
-    if (creator) {
-      creatorName = creator.firstName + ' ' + creator.lastName;
-    } else if (adminCreator) {
-      creatorName = adminCreator.fullName;
+    const conferenceDetail =
+      await this.conferenceService.getConferenceByIdWithDetail(id);
+    if (!conferenceDetail) {
+      return new HttpException('Conference not found', 404);
     }
-    const ranks = await this.conferenceRankService.getRankByConferenceId(
-      conference.id,
-    );
-    const folowBy = await this.conferenceService.getFollowedByConferenceId(
-      conference.id,
-    );
-    const feedbacks = await this.conferenceService.getFeedbacksByConferenceId(
-      conference.id,
-    );
-    const organizations =
-      await this.conferenceOrganizationService.getAllOrganizedByConferenceId(
-        conference.id,
-      );
-    if (!organizations) {
-      return {
-        conference: {
-          id: conference.id,
-          title: conference.title,
-          acronym: conference.acronym,
-          creatorId: conference.creatorId,
-          createdAt: conference.createdAt,
-          updatedAt: conference.updatedAt,
-          creatorName,
-        },
-        organizations: null,
-        location: null,
-        dates: null,
-        ranks: ranks,
-        followBy: folowBy,
-        feedbacks: feedbacks,
-      };
-    }
-    let locations = await Promise.all(
-      organizations.map(async (organization) => {
-        return await this.conferenceOrganizationService.getLocationsByOrganizedId(
-          organization.id,
-        );
-      })
-    )
-    const dates = await Promise.all(
-      organizations.map(async (organization) => {
-        return await this.conferenceOrganizationService.getDatesByOrganizedId(
-          organization.id,
-        );
-      })
-    )
-
-    return {
-      conference: {
-        id: conference.id,
-        title: conference.title,
-        acronym: conference.acronym,
-        creatorId: conference.creatorId,
-        createdAt: conference.createdAt,
-        updatedAt: conference.updatedAt,
-        creatorName,
-      },
-      organizations,
-      location: {
-        id: locations[0].id,
-        createdAt: locations[0].createdAt,
-        updatedAt: locations[0].updatedAt,
-        isAvailable: locations[0].isAvailable,
-        organizeId: locations[0].organizeId,
-        cityStateProvince: locations[0].cityStateProvince || '',
-        country: locations[0].country || '',
-        address: locations[0].address || '',
-        continent: locations[0].continent || '',
-      },
-      dates : dates.flatMap((date) => {
-        return date.map((d) => {
-          return {
-            id: d.id,
-            fromDate: d.fromDate,
-            toDate: d.toDate,
-            type: d.type,
-            name: d.name,
-            isAvailable: d.isAvailable,
-            createdAt: d.createdAt,
-            updatedAt: d.updatedAt,
-          };
-        })
-      }),
-      followBy: folowBy,
-      feedbacks: feedbacks,
-      ranks: ranks,
-    };
+    return conferenceDetail;
   }
 
   @Post('update/:id')
