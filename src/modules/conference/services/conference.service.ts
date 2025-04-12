@@ -58,7 +58,15 @@ export class ConferenceService {
       organizations: {
         include: {
           locations: true,
-          topics: true,
+          topics: {
+            include : {
+              inTopic : {
+                select : {
+                  name : true
+                }
+              } 
+            }
+          },
           conferenceDates: true,
         },
       },
