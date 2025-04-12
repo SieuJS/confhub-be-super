@@ -212,7 +212,7 @@ export class AdminConferenceService {
       });
     });
     return csvData.map((row): ConferenceEvaluationRow => {
-      return {
+      const t = {
         ...row,
         submissionDate : JSON.parse(row.submissionDate as unknown as string),
         notificationDate : JSON.parse(row.notificationDate as unknown as string),
@@ -220,6 +220,7 @@ export class AdminConferenceService {
         registrationDate : JSON.parse(row.registrationDate as unknown as string),
         otherDate : JSON.parse(row.otherDate),
       };
+      return t ;
     })
   }
 
@@ -315,9 +316,9 @@ export class AdminConferenceService {
       conference?.name,
       conference?.acronym, 
     )
+
     
     if (!conferenceInDB) {
-      console.log('conference', conference);
       throw new Error('Conference not found ' + conference.acronym + " " +conference.name);
     }
     try {
@@ -355,16 +356,14 @@ export class AdminConferenceService {
           }
         )
       });
-      console.log("cfp", conference)
       await Promise.all(topics);
       const conferenceDate = converStringToDate(conference.conferenceDates, 'conferenceDates', conferenceOrganization.id)
-
       const submissionDate = convertObjectToDate(conference.submissionDate, 'submissionDate', conferenceOrganization.id);
       const notificationDate = convertObjectToDate(conference.notificationDate, 'notificationDate', conferenceOrganization.id);
       const cameraReadyDate = convertObjectToDate(conference.cameraReadyDate, 'cameraReadyDate', conferenceOrganization.id);
       const registrationDate = convertObjectToDate(conference.registrationDate, 'registrationDate', conferenceOrganization.id);
       const otherDate = convertObjectToDate(conference.otherDate, 'otherDate', conferenceOrganization.id)
-     
+
       const allDates = [
         conferenceDate,
         ...submissionDate,
@@ -373,6 +372,7 @@ export class AdminConferenceService {
         ...registrationDate,
         ...otherDate,
       ]
+
       for (let date of allDates) {
         await this.conferenceOrganizationService.importDate(date);
       }
