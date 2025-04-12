@@ -46,7 +46,7 @@ export class AdminConferenceController {
     @Post('/upload-file-csv')  
       @Transactional<TransactionalAdapterPrisma>({
         
-        timeout: 30000,
+        timeout: 300000,
       })
     @UseInterceptors(FileInterceptor('file'))
     async importCSVFile(
