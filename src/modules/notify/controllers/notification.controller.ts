@@ -1,8 +1,9 @@
-import { Controller, Get, UseGuards } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { Body, Controller, Get, Put, UseGuards } from "@nestjs/common";
+import { ApiBearerAuth, ApiHeader, ApiTags } from "@nestjs/swagger";
 import { NotificationService } from "../services/notification.service";
 import { JWTGuardUser } from "src/modules/auth/guards/jwt.guard";
 import { Req } from "@nestjs/common";
+import { NotificationResponseDTO } from "../models/notification-reponse.dto";
 
 
 @Controller('/notification')
@@ -29,5 +30,24 @@ export class NotificationController {
         }))
     }
 
+    @Put('mark-all-as-read')
+    @UseGuards(JWTGuardUser)
+    async markAllAsRead(@Req() req) {
+        const userId = req.user.id
+        await this.notificationService.markAllAsRead(userId)
+        return {
+            message : "Mark all as read successfully"
+        }
+    }
+
+    @Put('/user')
+    @UseGuards(JWTGuardUser)
+    @ApiBearerAuth('access-token')
+    async upDateNotification(@Req() req , @Body('notifications') notifications : NotificationResponseDTO[]) {
+        const userId = req.user.id
+        const t = Promise.all(notifications.map(async (notify) => (
+            await this.notificationService.updateNotification({...notify, userId} )
+        )))
+    }
     
 }

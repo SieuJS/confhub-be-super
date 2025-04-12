@@ -258,7 +258,6 @@ export class ConferenceController {
         );
       })
     )
-    console.log('dates', dates);
 
     return {
       conference: {
@@ -561,5 +560,11 @@ export class ConferenceController {
     return conferenceInstance;
   }
   
+  @Get('list/detail')
+  async getListConferenceDetail(
+    @Query('conferenceIds') conferenceIds: string,
+  ): Promise<ConferenceDetailDTO[]> {
+      return "" as any
+  }
 
 }

@@ -355,7 +355,7 @@ export class AdminConferenceService {
           }
         )
       });
-
+      console.log("cfp", conference)
       await Promise.all(topics);
       const conferenceDate = converStringToDate(conference.conferenceDates, 'conferenceDates', conferenceOrganization.id)
 

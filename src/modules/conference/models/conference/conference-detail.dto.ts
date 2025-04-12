@@ -15,8 +15,8 @@ export class ConferenceInfoDTO extends PickType(ConferenceDTO , [
     'createdAt',
     'updatedAt'
 ]){
-    @ApiProperty({description :"Creator name"})
-    creatorName : string 
+    @ApiProperty({description : "Conference name"})
+    creatorName : string
 }
 
 

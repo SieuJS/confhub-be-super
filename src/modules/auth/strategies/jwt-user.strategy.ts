@@ -17,7 +17,7 @@ export class JwtUserStrategy extends PassportStrategy(Strategy, 'jwt-user') {
   async validate(extractedToken : {payload : PayloadToken , iat : number , exp : number}) : Promise<PayloadToken> {
     const {payload} = extractedToken; 
     try{
-        const isValid = this.authService.validateJwtUser(payload);
+        const isValid = await this.authService.validateJwtUser(payload);
     }
     catch (error) {
         throw new HttpException(error.message, 403);

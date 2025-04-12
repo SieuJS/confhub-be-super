@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Inject, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CommonModule, Config, PrismaService } from './modules/common';
@@ -17,6 +17,7 @@ import { ClsPluginTransactional  } from '@nestjs-cls/transactional';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { NotifyModule } from './modules/notify/notify.module';
 import { EmailVerifyModule } from './modules/email-verify/email-verify.module';
+import { JwtModule } from '@nestjs/jwt';
 @Module({
   imports: [CommonModule, UserModule, AuthModule, SourceRankModule,
     BullModule.forRootAsync( {
@@ -45,7 +46,19 @@ import { EmailVerifyModule } from './modules/email-verify/email-verify.module';
     global: true,
     middleware: { mount: true },
 }),
-
+  JwtModule.registerAsync({
+    imports: [CommonModule],
+    inject: [Service.CONFIG],
+    useFactory: (config: Config) => {
+      console.log('JWT_SECRET', config.JWT_SECRET);
+      return ({
+      global: true,
+      secret: "Must change",
+      signOptions: { expiresIn: '3600s' },
+    })},
+    global: true,
+  
+  }),
   FeedbacksModule,
   ConferenceOrganizationModule,
   ConferenceJobModule,

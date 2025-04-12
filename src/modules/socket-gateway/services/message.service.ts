@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { SocketGateway } from "../gateways/socket.gateway";
+import { SocketNotification } from "../models/socket-nofication";
 
 @Injectable()
 export class MessageService {
@@ -11,12 +12,12 @@ export class MessageService {
         this.socketGateway.server.emit(channel, message);
     }
 
-    async sendMessageToUser(userId : string, message : any, channel : string) {
-        const socket = this.socketGateway.connectedUser.get(userId);
+    async sendMessageToUser(input : SocketNotification) {
+        const socket = this.socketGateway.connectedUser.get(input.userId);
         if (socket) {
-            socket.emit(channel, message);
+            socket.emit(input.channel, input.payload);
         } else {
-            console.log(`User ${userId} not connected`);
+            console.log(`User ${input.userId} not connected`);
         }
     }
 }

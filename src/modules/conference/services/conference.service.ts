@@ -24,6 +24,7 @@ import { AdminController } from 'src/modules/user/controllers/admin.controller';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { TransactionHost } from '@nestjs-cls/transactional';
 import { AddConferenceBody } from '../models/conference-request/add-conference-body';
+import { ConferenceDetailDTO } from '../models/conference/conference-detail.dto';
 
 const paginate: PaginatorTypes.PaginateFunction = paginator({ perPage: 10 });
 @Injectable()
@@ -42,7 +43,26 @@ export class ConferenceService {
   async getConferences(
     conferenceFilter?: GetConferencesParams,
   ): Promise<ConferencePaginationDTO> {
-    const include = {
+
+    const include = conferenceFilter?.mode === 'detail' ?{
+      ranks: {
+        include: {
+          byRank: {
+            include: {
+              belongsToSource: true,
+            },
+          },
+          inFieldOfResearch: true,
+        },
+      },
+      organizations: {
+        include: {
+          locations: true,
+          topics: true,
+          conferenceDates: true,
+        },
+      },
+    } : {
       ranks: {
         include: {
           byRank: {
@@ -306,6 +326,10 @@ export class ConferenceService {
       },
     );
 
+    if(conferenceFilter?.mode === 'detail') {
+      return paginatedData as any
+    }
+
     const conferences = paginatedData.data as any;
     const conferenceToResponse: ConferenceDTO[] = await Promise.all(
       conferences.map(async (conference) => {
@@ -480,6 +504,31 @@ export class ConferenceService {
     };
   }
 
+  async getConferencesWithDetail () {
+    const conferences = await this.prismaService.conferences.findMany({
+      include: {
+        ranks: {
+          include: {
+            byRank: {
+              include: {
+                belongsToSource: true,
+              },
+            },
+            inFieldOfResearch: true,
+          },
+        },
+        organizations: {
+          include: {
+            locations: true,
+            topics: true,
+            conferenceDates: true,
+          },
+        },
+      },
+    });
+    return conferences;
+  }
+
   async getConferenceById(id: string) {
     return await this.prismaService.conferences.findUnique({
       where: {
@@ -625,49 +674,7 @@ export class ConferenceService {
     });
   }
 
-  async getConferenceDetails(conferenceId: string) {
-    const conference = await this.prismaService.conferences.findUnique({
-      where: {
-        id: conferenceId,
-      },
-    });
-    if (!conference) {
-      return undefined;
-    }
-    const organization =
-      await this.conferenceOraganizationService.getFirstOrganizationsByConferenceId(
-        conference.id,
-      );
-    if (!organization) {
-      return {
-        conference,
-        organization,
-        locations: [],
-        dates: [],
-        ranks: [],
-      };
-    }
-    const locations =
-      await this.conferenceOraganizationService.getLocationsByOrganizedId(
-        organization.id,
-      );
-    const dates =
-      await this.conferenceOraganizationService.getDatesByOrganizedId(
-        organization.id,
-      );
-    const ranks = await this.conferenceRankService.getRankByConferenceId(
-      conference.id,
-    );
-
-    return {
-      conference,
-      organization,
-      locations,
-      dates,
-      ranks,
-    };
-  }
-
+  
   async getFollowedByConferenceId(
     conferenceId: string,
   ): Promise<ConferenceFollowByDTO[]> {
@@ -774,5 +781,6 @@ export class ConferenceService {
     return false;
   }
 
-  async addConferenceFromUser(input: AddConferenceBody) {}
 }
+
+

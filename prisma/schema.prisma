@@ -330,8 +330,6 @@ model Notifications {
   byUser         Users              @relation(fields: [userId], references: [id])
   inConference   Conferences?       @relation(fields: [conferenceId], references: [id])
   inJournal      Journals?          @relation(fields: [journalId], references: [id])
-
-  @@unique([userId, notificationId])
 }
 
 model NotificationsTypes {
@@ -352,6 +350,7 @@ model NotificationSettings {
   updatedAt      DateTime           @updatedAt
   belongToNotify NotificationsTypes @relation(fields: [notificationId], references: [id])
   byUser         Users              @relation(fields: [userId], references: [id])
+  @@unique([userId, notificationId])
 }
 
 model TopicUserInteresteds {

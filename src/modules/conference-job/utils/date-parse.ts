@@ -84,9 +84,6 @@ export const convertObjectToDate = (
           name: key,
           organizedId,
       }); 
-      console.log("dateeee", date)
-      console.log("key" , key , "date", date[key]);
-      console.log("date", Object.keys(date) )
       break;
   }
   return result;

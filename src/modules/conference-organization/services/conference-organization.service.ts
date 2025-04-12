@@ -199,7 +199,7 @@ export class ConferenceOrganizationSerivce {
         })  
     }
 
-    async getDatesByOrganizedId(organizedId : string) {
+    async getDatesByOrganizedId(organizedId : string) : Promise<ConferenceDateDTO[]> {
         return this.prismaService.conferenceDates.findMany({
             where : {
                 isAvailable : true,

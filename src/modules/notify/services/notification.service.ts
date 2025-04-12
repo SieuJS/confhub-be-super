@@ -1,16 +1,18 @@
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/modules/common';
 import { TransactionHost } from '@nestjs-cls/transactional';
 import { notificationDTO } from '../models/notification-dto';
 import { NotificationResponseDTO } from '../models/notification-reponse.dto';
 import { DEFAULT_TYPE } from '../constants/default-type';
-import { connect } from 'http2';
+import { NotificationInput } from '../models/notification.input';
+import { MessageService } from 'src/modules/socket-gateway/services/message.service';
 @Injectable()
 export class NotificationService {
   constructor(
     private prismaService: PrismaService,
     private txHost: TransactionHost<TransactionalAdapterPrisma>,
+    private messageService : MessageService
   ) {
     this.initNotification();
   }
@@ -84,6 +86,144 @@ export class NotificationService {
         conferenceId: notification.conferenceId || '',
         createdAt: notification.createdAt,
         updatedAt: notification.updatedAt,
+    });
+  }
+
+  async createNotificationUnFollowConference(
+    userId: string,
+    conferenceId: string,
+  ) {
+    const notificationTypeID = await this.prismaService.notificationsTypes.findUnique({
+        where: {
+            name: DEFAULT_TYPE[1],
+        },
+    })
+    console.log("notificationTypeID", notificationTypeID, DEFAULT_TYPE[1]);
+    if(!notificationTypeID) {
+        throw new Error('Notification type not found')
+    }
+    const notification = await this.prismaService.notifications.create({
+      data: {
+        message: `You have unfollowed the conference ${conferenceId}`,
+        userId,
+        conferenceId,
+        notificationId : notificationTypeID?.id,
+      },
+    });
+    return this.transformNotification({
+      id: notification.id,
+      message: notification.message,
+      isRead: notification.isRead,
+      type: DEFAULT_TYPE[1],
+      isDelted: notification.isDeleted,
+      conferenceId: notification.conferenceId || '',
+      createdAt: notification.createdAt,
+      updatedAt: notification.updatedAt,
+    });
+  }
+
+  async setDefaultNotificationSettingForUser(userId: string) {
+    const notificationTypes = await this.txHost.tx.notificationsTypes.findMany();
+    for(const type of notificationTypes) {
+      await this.txHost.tx.notificationSettings.upsert({
+        where: {
+          userId_notificationId: {
+            userId,
+            notificationId: type.id,
+          },
+        },
+        update: {
+          isEnabled : true,
+        },
+        create: {
+          userId,
+          notificationId: type.id,
+          isEnabled: true,
+        },
+      })
+    }
+  }
+
+  async getNotificationSettingsByUserId(userId: string) {
+    return await this.prismaService.notificationSettings.findMany({
+      where: {
+        userId,
+      },
+      include : {
+        belongToNotify : {
+          select : {
+            name : true
+          }
+        }
+      }
+    });
+  }
+
+   async sendNotificationToUser(
+    notifyInput : NotificationResponseDTO , userId : string
+   ){
+    const { conferenceId, message, type } = notifyInput;
+    console.log('type', type);
+    const notificationType = await this.prismaService.notificationsTypes.findFirst({
+      where: {
+        name: type,
+      },
+    });
+    if (!notificationType) {
+      throw new HttpException('Notification type not found', 400);
+    }
+    const inSetting = await this.prismaService.notificationSettings.findFirst({
+      where: {
+        userId,
+        notificationId: notificationType.id,
+      },
+    })
+    console.log('inSetting', inSetting);
+    if (!inSetting) {
+      throw new HttpException ('User turn off the notification', 400);
+    }
+    const notification = await this.prismaService.notifications.create({
+      data: {
+        message,
+        userId,
+        conferenceId,
+        notificationId : notificationType.id
+      },
+    });
+    this.messageService.sendMessageToUser({
+      userId,
+      payload: notifyInput ,
+      channel : 'notification', 
+
+    })
+   }
+   sendNotificationThrouhghSocket(noty : notificationDTO) {
+   }
+
+  async markAllAsRead(userId: string) {
+    return await this.prismaService.notifications.updateMany({
+      where: {
+        userId,
+        isRead: false,
+        isDeleted: false,
+      },
+      data: {
+        isRead: true,
+      },
+    });
+  }
+
+  async updateNotification(noty : NotificationResponseDTO & {userId : string}) {
+    const { id, seenAt , deletedAt } = noty;
+    return await this.prismaService.notifications.update({
+      where: {
+        id,
+      },
+      data: {
+        isRead: !!seenAt,
+        isDeleted: !!deletedAt,
+        updatedAt: new Date(),
+      },
     });
   }
 }

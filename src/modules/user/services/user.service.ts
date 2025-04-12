@@ -1,14 +1,15 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, Injectable } from "@nestjs/common";
 import { UserInput } from "../models/user.input";
 import { PrismaService } from "../../common";
-import * as jwt from 'jsonwebtoken';
 import { TransactionalAdapterPrisma } from "@nestjs-cls/transactional-adapter-prisma";
 import { TransactionHost } from "@nestjs-cls/transactional";
+import { JwtService } from "@nestjs/jwt";
 @Injectable()
 export class UserService {
     constructor(
         private prismaService : PrismaService,
-        private txHost : TransactionHost<TransactionalAdapterPrisma>
+        private txHost : TransactionHost<TransactionalAdapterPrisma>,
+        private jwtService : JwtService
     ) {}
 
     async getAllUsers () {
@@ -40,7 +41,7 @@ export class UserService {
     }
     
     async followConference(userId : string, conferenceId : string) {
-        return await this.txHost.tx.conferenceFollows.create({
+        const follow =  await this.txHost.tx.conferenceFollows.create({
             data : {
                 userId,
                 conferenceId
@@ -49,7 +50,16 @@ export class UserService {
     }
 
     async unfollowConference(userId : string, conferenceId : string) {
-        return await this.txHost.tx.conferenceFollows.delete({
+        const follow = await this.txHost.tx.conferenceFollows.findFirst({
+            where : {
+                userId,
+                conferenceId
+            }
+        })
+        if (!follow) {
+            return ;
+        }
+        return await this.prismaService.conferenceFollows.delete({
             where : {
                 conferenceId_userId : {
                     userId,
@@ -88,16 +98,41 @@ export class UserService {
     }
 
     async generateToken(userId : string) {
-        const env = process.env ; 
-        const token = jwt.sign({
-            userId,
-            role : "user"
-        }, env.JWT_SECRET as any, {
-            expiresIn : '1h',
-            issuer : env.JWT_ISSUER
-        });
-        return token;
+        const user = await this.prismaService.users.findUnique({
+            where : {
+                id : userId
+            }
+        })
+        if (!user) {
+            throw new HttpException("User not found",400)
+        }
+        return {
+            token : this.jwtService.sign({
+                payload : {
+                    id : user.id,
+                    email : user.email,
+                    role : 'user'
+                }
+            })
+        }
     }
 
-    
+    async getSettings() {
+        return await this.prismaService.users.findFirst({
+            where : {
+                id : "f3fce1eb-db4a-47f6-83c4-233559b481a8"
+            },
+            include : {
+                notificationSettings : true,
+            }
+        })
+    }
+
+    async getFollowedConferencesByUserId(userId : string) {
+        return await this.prismaService.conferenceFollows.findMany({
+            where : {
+                userId
+            },
+        })
+    }
 }
