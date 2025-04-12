@@ -335,7 +335,48 @@ export class ConferenceService {
     );
 
     if(conferenceFilter?.mode === 'detail') {
-      return paginatedData as any
+      const data = paginatedData.data ;
+      const cleanedData = data.map((conference : any) => ({
+        id: conference.id,
+        title: conference.title,
+        acronym: conference.acronym,
+        creatorId: conference.creatorId,
+        adminId: conference.adminId,
+        createdAt: conference.createdAt,
+        updatedAt: conference.updatedAt,
+        status: conference.status,
+        ranks: conference.ranks.map((rank) => ({
+          year: rank.year,
+          rank: rank.byRank?.name,
+          source: rank.byRank?.belongsToSource?.name,
+          researchField: rank.inFieldOfResearch?.name,
+        })),
+        organizations: conference.organizations.map((org) => ({
+          year: org.year,
+          accessType: org.accessType,
+          summary: org.summerize,
+          callForPaper: org.callForPaper,
+          link: org.link,
+          cfpLink: org.cfpLink,
+          locations: org.locations.map((loc) => ({
+            address: loc.address,
+            cityStateProvince: loc.cityStateProvince,
+            country: loc.country,
+            continent: loc.continent,
+          })),
+          topics: org.topics.map((topic) => topic.inTopic?.name),
+          conferenceDates: org.conferenceDates.map((date) => ({
+            fromDate: date.fromDate,
+            toDate: date.toDate,
+            type: date.type,
+            name: date.name,
+          })),
+        })),
+      }));
+      return {
+        payload : cleanedData,
+        meta : paginatedData.meta
+      } as any
     }
 
     const conferences = paginatedData.data as any;
