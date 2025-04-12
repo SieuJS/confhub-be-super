@@ -65,12 +65,19 @@ export class NotificationService {
             name: DEFAULT_TYPE[0],
         },
     })
+
+    const conference = await this.prismaService.conferences.findUnique({where : {
+        id : conferenceId
+    }})
+    if (!conference) {
+        throw new Error('Conference not found')
+    }
     if(!notificationTypeID) {
         throw new Error('Notification type not found')
     }
     const notification = await this.prismaService.notifications.create({
       data: {
-        message: `You have followed the conference ${conferenceId}`,
+        message: `You have followed the conference ${conference.acronym} `,
         userId,
         conferenceId,
         notificationId : notificationTypeID?.id,
@@ -226,4 +233,6 @@ export class NotificationService {
       },
     });
   }
+
+  async createCalendarNotification() {}
 }

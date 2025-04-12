@@ -18,6 +18,7 @@ import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-pr
 import { NotifyModule } from './modules/notify/notify.module';
 import { EmailVerifyModule } from './modules/email-verify/email-verify.module';
 import { JwtModule } from '@nestjs/jwt';
+import { CalendarModule } from './modules/calendar/calendar.module';
 @Module({
   imports: [CommonModule, UserModule, AuthModule, SourceRankModule,
     BullModule.forRootAsync( {
@@ -65,7 +66,8 @@ import { JwtModule } from '@nestjs/jwt';
   ConferencesModule,
   AdminConferenceModule,
   NotifyModule,
-  EmailVerifyModule
+  EmailVerifyModule,
+  CalendarModule
   ],
   controllers: [AppController],
   providers: [AppService],

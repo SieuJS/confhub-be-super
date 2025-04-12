@@ -236,7 +236,7 @@ export class ConferenceController {
           updatedAt: conference.updatedAt,
           creatorName,
         },
-        organizations: null,
+        organization: null,
         location: null,
         dates: null,
         ranks: ranks,
@@ -269,7 +269,7 @@ export class ConferenceController {
         updatedAt: conference.updatedAt,
         creatorName,
       },
-      organizations,
+      organization :organizations[0],
       location: {
         id: locations[0].id,
         createdAt: locations[0].createdAt,
