@@ -1,4 +1,4 @@
-import { ApiProperty, PickType } from "@nestjs/swagger";
+import { ApiProperty, OmitType, PickType } from "@nestjs/swagger";
 import { ConferenceDTO } from "./conference.dto";
 import { OrganizedDTO } from "src/modules/conference-organization/models/organize/organized.dto";
 import { ConferenceDatesDTO } from "../conference-organization/conference-dates.dto";
@@ -21,21 +21,22 @@ export class ConferenceInfoDTO extends PickType(ConferenceDTO , [
 
 
 
-export class ConferenceDetailDTO {
-    @ApiProperty({description : "Conference information"})
-    conference : ConferenceInfoDTO
+export class ConferenceDetailDTO  extends PickType(ConferenceDTO, [
+    'id'
+,
+    'acronym' ,
+    'title',
+    'creatorId',
+    'createdAt',
+    'updatedAt',
+'adminId',
+'status']){
 
     @ApiProperty({description : "Organization information"})
-    organization : OrganizedDTO| null
+    organizations : OrganizedDTO[]| null
 
-    @ApiProperty({description : "Location information"})
-    location : LocationDTO | null
- 
     @ApiProperty({description : "Rank information"})
     ranks : ConferenceRankDTO[] | null
-
-    @ApiProperty({description : "Important dates"})
-    dates : ConferenceDatesDTO[] | null
 
     @ApiProperty({description : "Feedbacks"})
     feedbacks : ConferenceFeedBackDTO[] | null

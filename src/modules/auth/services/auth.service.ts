@@ -43,7 +43,7 @@ export class AuthService {
     return admin;
   }
 
-  async loginUser (user : UserDTO) {
+  loginUser (user : UserDTO) {
     return {
         token : this.jwtService.sign({payload : {
           id : user.id,

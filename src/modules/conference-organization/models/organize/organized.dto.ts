@@ -14,4 +14,8 @@ export class OrganizedDTO{
     callForPaper : string;
     publisher : string;
     topics : string[];
+    conferenceDates : Partial<ConferenceDateDTO>[];
+    locations : Partial<LocationDTO>[];
+    createdAt : Date;
+    updatedAt : Date;
 }

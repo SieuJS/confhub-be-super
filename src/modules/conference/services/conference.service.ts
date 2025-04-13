@@ -59,9 +59,13 @@ export class ConferenceService {
         include: {
           locations: true,
           topics: {
-            include: {
-              inTopic: true,
-            },
+            include : {
+              inTopic : {
+                select : {
+                  name : true
+                }
+              } 
+            }
           },
           conferenceDates: true,
         },
@@ -825,6 +829,124 @@ export class ConferenceService {
     }
     return false;
   }
+
+  async getConferenceByIdWithDetail(
+    conferenceId: string): Promise<ConferenceDetailDTO | undefined> {
+      const conference = await this.prismaService.conferences.findUnique({
+        where: {
+          id: conferenceId,
+        },
+        include : {
+          ranks: {
+            include: {
+              byRank: {
+                include: {
+                  belongsToSource: true,
+                },
+              },
+              inFieldOfResearch: true,
+            },
+          },
+          organizations: {
+            include: {
+              locations: true,
+              topics: {
+                include : {
+                  inTopic : {
+                    select : {
+                      name : true
+                    }
+                  } 
+                }
+              },
+              conferenceDates: true,
+            },
+          },
+          feedbacks : {
+            include : {
+              byUser : true
+            }
+          },
+
+          follows : {
+            include : {
+              byUser : true
+            }
+          },
+        }
+        })
+      if(!conference) {
+        return undefined
+      }
+      return {
+        id: conference.id,
+        title: conference.title,
+        acronym: conference.acronym,
+        creatorId: conference.creatorId,
+        adminId: conference.adminId ?? undefined,
+        createdAt: conference.createdAt,
+        updatedAt: conference.updatedAt,
+        status: conference.status,
+        ranks: conference.ranks.map((rank) => ({
+          year: rank.year,
+          rank: rank.byRank?.name,
+          source: rank.byRank?.belongsToSource?.name,
+          fieldOfResearch: rank.inFieldOfResearch?.name,
+        })),
+        organizations: conference.organizations.map((org) => ({
+          id: org.id,
+          isAvailable: org.isAvailable,
+          createdAt: org.createdAt,
+          updatedAt: org.updatedAt,
+          conferenceId: org.conferenceId,
+          year: org.year,
+          accessType: org.accessType,
+          summary: org.summerize,
+          callForPaper: org.callForPaper,
+          link: org.link,
+          impLink: org.impLink,
+          cfpLink: org.cfpLink,
+          summerize: org.summerize,
+          publisher: org.publisher,
+          locations: org.locations.map((loc) => ({
+            address: loc.address ?? undefined,
+            cityStateProvince: loc.cityStateProvince ?? undefined,
+            country: loc.country ?? undefined,
+            continent: loc.continent ?? undefined,
+          })),
+          topics: org.topics.map((topic) => topic.inTopic?.name),
+          conferenceDates: org.conferenceDates.map((date) => ({
+            fromDate: date.fromDate,
+            toDate: date.toDate,
+            type: date.type,
+            name: date.name,
+          })),
+        })),
+        feedbacks: conference.feedbacks.map((feedback) => ({
+          id: feedback.id,
+          creatorId: feedback.creatorId,
+          conferenceId: feedback.conferenceId,
+          description: feedback.description,
+          star: feedback.star,
+          createdAt: feedback.createdAt,
+          updatedAt: feedback.updatedAt,
+          avatar: feedback.byUser.avatar,
+          firstName: feedback.byUser.firstName,
+          lastName: feedback.byUser.lastName,
+        })),
+        followBy: conference.follows.map((follow) => ({
+          id: follow.id,
+          userId: follow.userId,
+          createdAt: follow.createdAt,
+          updatedAt: follow.updatedAt,
+          user: {
+            avatar: follow.byUser.avatar,
+            firstName: follow.byUser.firstName,
+            lastName: follow.byUser.lastName,
+          },
+        })),
+      }
+    }
 
 }
 

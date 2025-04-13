@@ -72,11 +72,11 @@ export const convertObjectToDate = (
   organizedId
 ): ConferenceDateInput[] => {
   const result: ConferenceDateInput[] = [];
-  for (const key  in Object.getOwnPropertyNames(date)) {
 
+  for (const key of Object.getOwnPropertyNames(date)) {
       if (!date[key]) continue;
       const [fromDate, toDate] = parseDateRange(date[key]);
-      if(!fromDate || !toDate) continue;
+      if(!fromDate && !toDate) continue;
       result.push({
           fromDate,
           toDate,
@@ -84,7 +84,6 @@ export const convertObjectToDate = (
           name: key,
           organizedId,
       }); 
-      break;
   }
   return result;
 };
