@@ -351,7 +351,7 @@ export class ConferenceService {
           source: rank.byRank?.belongsToSource?.name,
           researchField: rank.inFieldOfResearch?.name,
         })),
-        organizations: conference.organizations.map((org) => ({
+        organizations: (conference.organizations.map((org) => ({
           year: org.year,
           accessType: org.accessType,
           summary: org.summerize,
@@ -371,7 +371,7 @@ export class ConferenceService {
             type: date.type,
             name: date.name,
           })),
-        })),
+        }))).slice(-2,-1),
       }));
       return {
         payload : cleanedData,
