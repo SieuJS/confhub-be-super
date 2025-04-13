@@ -14,6 +14,7 @@ import { JWTGuardUser } from 'src/modules/auth/guards/jwt.guard';
 import { Transactional } from '@nestjs-cls/transactional';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { NotificationService } from '../../notify/services/notification.service';
+import { DEFAULT_TYPE } from 'src/modules/notify/constants/default-type';
 
 @ApiTags('user')
 @Controller('/user')
@@ -52,9 +53,15 @@ export class UserController {
     );
 
     const notifiConference =
-      await this.notificationService.createFollowConferenceNotification(
-        userId,
-        conferenceId,
+      await this.notificationService.createConferenceNotification(
+        {
+          userId,
+          conferenceId,
+          type: DEFAULT_TYPE.CONFERENCE_FOLLOWED,
+          message: `You have followed the conference with id ${conferenceId}`,
+          isDeleted: false,
+          isRead: false,
+        }
       );
     await this.notificationService.sendNotificationToUser(
       notifiConference,
@@ -80,9 +87,15 @@ export class UserController {
       conferenceId,
     );
     const notifiConference =
-      await this.notificationService.createNotificationUnFollowConference(
-        userId,
-        conferenceId,
+      await this.notificationService.createConferenceNotification(
+        {
+          userId,
+          conferenceId,
+          type: DEFAULT_TYPE.CONFERENCE_UNFOLLOWED,
+          message: `You have unfollowed the conference with id ${conferenceId}`,
+          isDeleted: false,
+          isRead: false,
+        }
       );
     await this.notificationService.sendNotificationToUser(
       notifiConference,

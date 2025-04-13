@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-export class notificationDTO { 
+export class NotificationDTO { 
     @ApiProperty({
         description : "Notification id",
         example : "123e4567-e89b-12d3-a456-426614174000"
@@ -11,7 +11,19 @@ export class notificationDTO {
         description : "Notification type",
         example : "Conference"
     })
+    typeId: string | null;
+
+    @ApiProperty({
+        description : "Notification type",
+        example : "Conference"
+    })
     type: string;
+
+    @ApiProperty({
+        description : "User id",
+        example : "New Conference"
+    })
+    userId: string;
 
     @ApiProperty({
         description : "Notification message",
@@ -23,12 +35,12 @@ export class notificationDTO {
         description : "Conference id",
         example : "123e4567-e89b-12d3-a456-426614174000"
     })
-    conferenceId: string;
+    conferenceId: string | null;
 
     @ApiProperty({
 
     })
-    isDelted: boolean;
+    isDeleted: boolean;
 
     @ApiProperty({
 
