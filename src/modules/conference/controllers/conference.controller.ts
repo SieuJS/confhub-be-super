@@ -36,7 +36,6 @@ import {
   converStringToDate,
   convertObjectToDate,
 } from 'src/modules/conference-job/utils/date-parse';
-import { link } from 'joi';
 import { AddConferenceBody } from '../models/conference-request/add-conference-body';
 
 @ApiTags('/conference')
