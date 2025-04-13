@@ -2,9 +2,7 @@ import { PrismaService } from '../../common';
 import { Injectable } from '@nestjs/common';
 import { ConferenceImportDTO } from '../models/conference/conference-import.dto';
 import { RankDTO } from '../../source-rank/models/rank.dto';
-import { ConferenceQueryDto } from '../models/conference/conference-query.dto';
 import { PaginationService } from '../../common/services/pagination.service';
-import { ConferenceFilter } from '../models/conference-filter/conference.filter';
 import parser from 'any-date-parser';
 import { ConferenceDTO } from '../models/conference/conference.dto';
 import {
@@ -20,10 +18,8 @@ import { ConferenceFeedBackInputDTO } from '../models/conference-feedback/confer
 import { PaginatorTypes, paginator } from '@nodeteam/nestjs-prisma-pagination';
 import { ConferencePaginationDTO } from '../models/conference/conference-pagination.dto';
 import { GetConferencesParams } from '../models/conference-request/get-conference-params';
-import { AdminController } from 'src/modules/user/controllers/admin.controller';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { TransactionHost } from '@nestjs-cls/transactional';
-import { AddConferenceBody } from '../models/conference-request/add-conference-body';
 import { ConferenceDetailDTO } from '../models/conference/conference-detail.dto';
 
 const paginate: PaginatorTypes.PaginateFunction = paginator({ perPage: 10 });
