@@ -33,11 +33,10 @@ export class ConferenceDetailDTO  extends PickType(ConferenceDTO, [
 'status']){
 
     @ApiProperty({description : "Organization information"})
-    organizations : OrganizedDTO[] | null
+    organizations : OrganizedDTO[]| null
 
     @ApiProperty({description : "Rank information"})
     ranks : ConferenceRankDTO[] | null
-
 
     @ApiProperty({description : "Feedbacks"})
     feedbacks : ConferenceFeedBackDTO[] | null

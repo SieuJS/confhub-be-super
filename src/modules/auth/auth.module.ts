@@ -8,6 +8,8 @@ import { JwtModule } from "@nestjs/jwt";
 import { AuthController } from "./controllers/auth.controller";
 import { JwtAdminStrategy } from "./strategies/jwt-admin.strategy";
 import { JwtUserStrategy } from "./strategies/jwt-user.strategy";
+import { NotifyModule } from "../notify/notify.module";
+import { EmailVerifyModule } from "../email-verify/email-verify.module";
 
 @Module({
     imports: [
@@ -18,9 +20,12 @@ import { JwtUserStrategy } from "./strategies/jwt-user.strategy";
             signOptions: {
                 expiresIn: '3600s',
             },
-        })
+        }),
+        NotifyModule,
+        EmailVerifyModule
     ],
     controllers : [AuthController],
     providers: [AuthService, LocalStrategy, LocalAuthGuard, JwtAdminStrategy,JwtUserStrategy ],
+    exports : [AuthService]
 })
 export class AuthModule {}

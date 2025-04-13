@@ -22,8 +22,10 @@ export class NotificationController {
             id : notification.id,
             message : notification.message,
             isRead : notification.isRead,
-            type : notification.belongToNotify.name,
-            isDelted : notification.isDeleted,
+            userId : userId,
+            type : notification.belongToNotify.name || "",
+            typeId : notification.belongToNotify.id,
+            isDeleted : notification.isDeleted,
             conferenceId : notification.conferenceId || "",
             createdAt : notification.createdAt,
             updatedAt : notification.updatedAt,
@@ -49,5 +51,4 @@ export class NotificationController {
             await this.notificationService.updateNotification({...notify, userId} )
         )))
     }
-    
 }
