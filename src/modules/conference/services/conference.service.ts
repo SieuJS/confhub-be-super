@@ -21,8 +21,8 @@ import { GetConferencesParams } from '../models/conference-request/get-conferenc
 import { AdminController } from 'src/modules/user/controllers/admin.controller';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { TransactionHost } from '@nestjs-cls/transactional';
-import { AddConferenceBody } from '../models/conference-request/add-conference-body';
 import { ConferenceDetailDTO } from '../models/conference/conference-detail.dto';
+import { Prisma } from 'generated/prisma_client';
 
 const paginate: PaginatorTypes.PaginateFunction = paginator({ perPage: 10 });
 @Injectable()
@@ -320,11 +320,16 @@ export class ConferenceService {
         : {}),
     };
 
+    const orderBy : Prisma.ConferencesOrderByWithRelationInput = {
+      updatedAt : 'desc'
+    }
+
     const paginatedData = await paginate(
       this.prismaService.conferences,
       {
         where: whereCondition,
         include: include,
+        orderBy : orderBy
       },
       {
         page: conferenceFilter?.page || 1,
@@ -369,7 +374,7 @@ export class ConferenceService {
             type: date.type,
             name: date.name,
           })),
-        }))).slice(-2,-1),
+        }))).slice(-2),
       }));
       return {
         payload : cleanedData,
