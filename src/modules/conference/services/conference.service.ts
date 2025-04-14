@@ -943,7 +943,73 @@ export class ConferenceService {
         })),
       }
     }
-
+    async getConferenceInfo (conferenceId: string) : Promise<ConferenceDTO|undefined> {
+      const conference = await this.prismaService.conferences.findUnique({
+        where : {
+          id : conferenceId
+        },
+        include : {
+          organizations : {
+            include : {
+              locations : true,
+              topics : {
+                include : {
+                  inTopic :true
+                }
+              },
+              conferenceDates : true
+            }
+          },
+          ranks : {
+            include : {
+              byRank : {
+                include : {
+                  belongsToSource : true
+                }
+              },
+              inFieldOfResearch : true
+            }
+          }
+        }
+      })
+      if(!conference) {
+        return undefined
+      }
+      const formated : ConferenceDTO = {
+        id : conference.id,
+        title : conference.title,
+        acronym : conference.acronym,
+        location : {
+          address : conference.organizations[0].locations[0].address,
+          cityStateProvince : conference.organizations[0].locations[0].cityStateProvince,
+          country : conference.organizations[0].locations[0].country,
+          continent : conference.organizations[0].locations[0].continent
+        },
+        rank : conference.ranks[0].byRank.name,
+        source : conference.ranks[0].byRank.belongsToSource.name,
+        year : conference.ranks[0].year,
+        researchFields : conference.ranks.map((rank) => rank.inFieldOfResearch.name),
+        topics : conference.organizations[0].topics.map((topic) => topic.inTopic.name),
+        dates : conference.organizations[0].conferenceDates.map((date) => {
+          return {
+            fromDate : date.fromDate,
+            toDate : date.toDate,
+            type : date.type,
+            name : date.name,
+            createdAt : date.createdAt,
+            updatedAt : date.updatedAt
+          }
+        })[0],
+        link : conference.organizations[0].link,
+        createdAt : conference.createdAt,
+        updatedAt : conference.updatedAt,
+        creatorId : conference.creatorId,
+        accessType : conference.organizations[0].accessType,
+        status : conference.status,
+        adminId : conference.adminId ?? undefined,
+      }
+      return formated;
+    }
 }
 
 

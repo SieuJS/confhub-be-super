@@ -19,6 +19,7 @@ import { NotifyModule } from './modules/notify/notify.module';
 import { EmailVerifyModule } from './modules/email-verify/email-verify.module';
 import { JwtModule } from '@nestjs/jwt';
 import { CalendarModule } from './modules/calendar/calendar.module';
+import { FollowConferenceModule } from './modules/follow-conference/follow-conference.module';
 @Module({
   imports: [CommonModule, UserModule, AuthModule, SourceRankModule,
     BullModule.forRootAsync( {
@@ -67,7 +68,8 @@ import { CalendarModule } from './modules/calendar/calendar.module';
   AdminConferenceModule,
   NotifyModule,
   EmailVerifyModule,
-  CalendarModule
+  CalendarModule,
+  FollowConferenceModule
   ],
   controllers: [AppController],
   providers: [AppService],
