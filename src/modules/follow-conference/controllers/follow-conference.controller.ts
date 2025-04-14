@@ -21,6 +21,7 @@ export class FollowConferenceController{
      @UseGuards(JWTGuardUser)
       @Post('/add')
       @ApiBearerAuth('access-token')
+      @Transactional<TransactionalAdapterPrisma>({ timeout: 30000 })
       async followConference(@Body() body: { conferenceId: string }, @Req() req) {
         const userId = req.user.id;
         const conferenceId = body.conferenceId;

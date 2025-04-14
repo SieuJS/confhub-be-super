@@ -34,7 +34,6 @@ export class CalendarService {
 
       if (conf && conference && conference.organizations) {
         conference.organizations[0].conferenceDates.forEach(date => {
-          console.log(`[12] Processing date:`, date);
           // Check for null values on date properties
           if (date && date.fromDate && date.toDate) {
             const fromDate = new Date(date.fromDate);
