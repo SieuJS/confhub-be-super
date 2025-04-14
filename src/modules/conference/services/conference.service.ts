@@ -2,9 +2,7 @@ import { PrismaService } from '../../common';
 import { Injectable } from '@nestjs/common';
 import { ConferenceImportDTO } from '../models/conference/conference-import.dto';
 import { RankDTO } from '../../source-rank/models/rank.dto';
-import { ConferenceQueryDto } from '../models/conference/conference-query.dto';
 import { PaginationService } from '../../common/services/pagination.service';
-import { ConferenceFilter } from '../models/conference-filter/conference.filter';
 import parser from 'any-date-parser';
 import { ConferenceDTO } from '../models/conference/conference.dto';
 import {
