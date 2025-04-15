@@ -6,10 +6,11 @@ import {
   Param,
   Post,
   Query,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { ConferenceService } from '../services/conference.service';
-import { ApiBody, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ConferencePaginationDTO } from '../models/conference/conference-pagination.dto';
 import { ConferenceImportDTO } from '../models/conference/conference-import.dto';
 import {
@@ -37,6 +38,9 @@ import {
   convertObjectToDate,
 } from 'src/modules/conference-job/utils/date-parse';
 import { AddConferenceBody } from '../models/conference-request/add-conference-body';
+import { JWTGuardUser } from 'src/modules/auth/guards/jwt.guard';
+import { Transactional } from '@nestjs-cls/transactional';
+import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 
 @ApiTags('/conference')
 @Controller('conference')
@@ -125,6 +129,10 @@ export class ConferenceController {
         await this.conferenceService.createConference(conferenceImport);
     }
 
+    if (!conferenceInstance) {
+      return new HttpException('Conference not found1', 404);
+    }
+
     const sourceIntance = await this.sourceService.findOrCreateSource({
       name: conferenceImport.source,
       link: '',
@@ -171,7 +179,7 @@ export class ConferenceController {
       await this.conferenceService.getConferenceById(conferenceId);
 
     if (!conferenceInstance) {
-      return new HttpException('Conference not found', 404);
+      return new HttpException('Conference not found1', 404);
     }
 
     const JobCrawlInstance =
@@ -191,28 +199,14 @@ export class ConferenceController {
     };
   }
 
-  @Get(':id')
-  async getConferenceDetail(
-    @Param('id') id: string,
-  ): Promise<ConferenceDetailDTO | HttpException> {
-    const conference = await this.conferenceService.getConferenceById(id);
-    if (!conference) {
-      return new HttpException('Conference not found', 404);
-    }
-    const conferenceDetail =
-      await this.conferenceService.getConferenceByIdWithDetail(id);
-    if (!conferenceDetail) {
-      return new HttpException('Conference not found', 404);
-    }
-    return conferenceDetail;
-  }
+
 
   @Post('update/:id')
   @ApiParam({ name: 'id' })
   async updateConference(@Param('id') id: string) {
     const conference = await this.conferenceService.getConferenceById(id);
     if (!conference) {
-      return new HttpException('Conference not found', 404);
+      throw new HttpException('Conference not found1', 404);
     }
     const organization =
       await this.conferenceOrganizationService.getFirstOrganizationsByConferenceId(
@@ -343,7 +337,7 @@ export class ConferenceController {
       );
 
     if (!conferenceInstance) {
-      return new HttpException('Conference not found', 404);
+      throw new HttpException('Conference not get', 404);
     }
 
     const JobCrawlInstance =
@@ -423,54 +417,93 @@ export class ConferenceController {
   }
 
   @Post('add')
-  @ApiBody({ type: ConferenceImportDTO })
+  @ApiBody({ type: AddConferenceBody })
+  @UseGuards(JWTGuardUser)
+  @Transactional<TransactionalAdapterPrisma>({ timeout: 30000 })
+  @ApiBearerAuth('access-token')
   async addConference(
+    @Req() req,
     @Body() conferenceImport: AddConferenceBody,
   ): Promise<any> {
-    const user = await this.userService.getUserById(conferenceImport.userId);
-    if (!user) {
-      return new HttpException('User not found', 404);
-    }
-    conferenceImport.conference.creatorId = user.id;
-    const conferenceInstance =
-      await this.conferenceService.createConference({
-        acronym: conferenceImport.conference.acronym,
-        title: conferenceImport.conference.title,
-      });
+    const user = req.user;
 
-    const organizationInstance =
-      await this.conferenceOrganizationService.importOrganize(
-        {
-          ...conferenceImport.organization,
-          conferenceId: conferenceInstance.id,
-        })
-    if (!organizationInstance) {
-      return new HttpException('Fail when create conference', 404);
-    }
-    const locationInstance =
-      await this.conferenceOrganizationService.importPlace({
-        ...conferenceImport.location,
-        organizeId: organizationInstance?.id,
-      });
+    const conferenceInstance = await this.conferenceService.createConference({
+      acronym : conferenceImport.acronym,
+      title : conferenceImport.title,
+      creatorId : user.id,
+    });
 
-    const dateInstance = await Promise.all( conferenceImport.dates.map((date) => {
+    const organization = await this.conferenceOrganizationService.importOrganize({
+      year: new Date().getFullYear(),
+      accessType: conferenceImport.type,
+      link: conferenceImport.link,
+      impLink : '',
+      cfpLink: '',
+      summerize: '',
+      callForPaper: '',
+      conferenceId: conferenceInstance.id,
+      isAvailable: true,
+      publisher: user.email,
+    });
+
+    if (!organization) {
+      return new HttpException('Organization not found', 404);
+    }
+
+    const location = await this.conferenceOrganizationService.importPlace({
+      continent: conferenceImport.location.continent,
+      country: conferenceImport.location.country,
+      cityStateProvince: conferenceImport.location.cityStateProvince,
+      address: conferenceImport.location.address,
+      organizeId: organization.id,
+    });
+
+    const dates = conferenceImport.dates.map((date) => {
       return this.conferenceOrganizationService.importDate({
         ...date,
-        organizedId: organizationInstance.id,
+        organizedId: organization.id,
       });
-    }));
-    
-    if (!locationInstance) {
-      return new HttpException('Fail when create location', 404);
+    });
+
+
+    return {
+      message : "Conference created successfully",
+      conferenceId: conferenceInstance.id,
+      organizationId: organization.id,
+      locationId: location.id,
+      dates: dates,
     }
-    return conferenceInstance;
   }
   
-  @Get('list/detail')
-  async getListConferenceDetail(
-    @Query('conferenceIds') conferenceIds: string,
-  ): Promise<ConferenceDetailDTO[]> {
-      return "" as any
+  @Get('user')
+  @UseGuards(JWTGuardUser)
+  @Transactional<TransactionalAdapterPrisma>({ timeout: 30000 })
+  @ApiBearerAuth('access-token')
+  async getMyConferences(@Req() req) {
+    console.log('getMyConferences called');
+    const user = req.user;
+    const conferences = await this.conferenceService.getConferenceByCreatorId(user.id);
+    console.log(conferences);
+    return conferences;
+  }
+
+
+  @Get(':id')
+  async getConferenceDetail(
+    @Param('id') id: string,
+  ): Promise<ConferenceDetailDTO | HttpException> {
+    const conference = await this.conferenceService.getConferenceById(id);
+    if (!conference) {
+      throw new HttpException('Conference not found1', 404);
+    }
+    const conferenceDetail =
+      await this.conferenceService.getConferenceByIdWithDetail(id);
+    if (!conferenceDetail) {
+      throw new HttpException('Conference not found1', 404);
+    }
+    return conferenceDetail;
   }
 
 }
+
+

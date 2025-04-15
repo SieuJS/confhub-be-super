@@ -1,5 +1,5 @@
 import { PrismaService } from '../../common';
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { ConferenceImportDTO } from '../models/conference/conference-import.dto';
 import { RankDTO } from '../../source-rank/models/rank.dto';
 import { PaginationService } from '../../common/services/pagination.service';
@@ -610,12 +610,12 @@ export class ConferenceService {
         conference.acronym,
       )
     ) {
-      throw new Error(
-        `Conference with title ${conference.title} and acronym ${conference.acronym} already exists`,
+      throw new  HttpException(
+        `Conference with title ${conference.title} and acronym ${conference.acronym} already exists`, 400
       );
     }
 
-    return await this.prismaService.conferences.create({
+    return await this.txHost.tx.conferences.create({
       data: {
         ...conference,
         status: 'pending',
@@ -1015,6 +1015,118 @@ export class ConferenceService {
         adminId : conference.adminId ?? undefined,
       }
       return formated;
+    }
+
+
+    async getConferenceByCreatorId (creatorId : string) : Promise<any[]> {
+      const conferences = await this.txHost.tx.conferences.findMany({
+        where : {
+          creatorId : creatorId
+        },
+        include : {
+          ranks: {
+            include: {
+              byRank: {
+                include: {
+                  belongsToSource: true,
+                },
+              },
+              inFieldOfResearch: true,
+            },
+          },
+          organizations: {
+            include: {
+              locations: true,
+              topics: {
+                include : {
+                  inTopic : {
+                    select : {
+                      name : true
+                    }
+                  } 
+                }
+              },
+              conferenceDates: true,
+            },
+          },
+        }
+      });
+
+
+      if(!conferences) {
+        return []
+      }
+      const formatedConferences = await Promise.all( conferences.map((conference) : Partial<any> => {
+        return {
+          id: conference.id,
+          title: conference.title,
+          acronym: conference.acronym,
+          creatorId: conference.creatorId,
+          adminId: conference.adminId ?? undefined,
+          createdAt: conference.createdAt,
+          updatedAt: conference.updatedAt,
+          status: conference.status,
+          ranks: conference.ranks?.length > 0 ? conference.ranks.map((rank) => ({
+            year: rank.year,
+            rank: rank.byRank?.name,
+            source: rank.byRank?.belongsToSource?.name,
+            fieldOfResearch: rank.inFieldOfResearch?.name,
+          })) : [],
+          organizations: conference.organizations?.length > 0 ? conference.organizations.map((org) => ({
+            id: org.id,
+            isAvailable: org.isAvailable,
+            createdAt: org.createdAt,
+            updatedAt: org.updatedAt,
+            conferenceId: org.conferenceId,
+            year: org.year,
+            accessType: org.accessType,
+            summary: org.summerize,
+            callForPaper: org.callForPaper,
+            link: org.link,
+            impLink: org.impLink,
+            cfpLink: org.cfpLink,
+            summerize: org.summerize,
+            publisher: org.publisher,
+            locations: org.locations?.map((loc) => ({
+              address: loc.address ?? undefined,
+              cityStateProvince: loc.cityStateProvince ?? undefined,
+              country: loc.country ?? undefined,
+              continent: loc.continent ?? undefined,
+            })) || [],
+            topics: org.topics?.map((topic) => topic.inTopic?.name) || [],
+            conferenceDates: org.conferenceDates?.map((date) => ({
+              fromDate: date.fromDate,
+              toDate: date.toDate,
+              type: date.type,
+              name: date.name,
+            })) || [],
+          })) : [],
+          feedbacks: conference.feedbacks?.map((feedback) => ({
+            id: feedback.id,
+            creatorId: feedback.creatorId,
+            conferenceId: feedback.conferenceId,
+            description: feedback.description,
+            star: feedback.star,
+            createdAt: feedback.createdAt,
+            updatedAt: feedback.updatedAt,
+            avatar: feedback.byUser.avatar,
+            firstName: feedback.byUser.firstName,
+            lastName: feedback.byUser.lastName,
+          })) || [],
+          followBy: conference.follows?.map((follow) => ({
+            id: follow.id,
+            userId: follow.userId,
+            createdAt: follow.createdAt,
+            updatedAt: follow.updatedAt,
+            user: {
+              avatar: follow.byUser.avatar,
+              firstName: follow.byUser.firstName,
+              lastName: follow.byUser.lastName,
+            },
+          })) || []
+        }
+      }))
+      return formatedConferences;
     }
 }
 

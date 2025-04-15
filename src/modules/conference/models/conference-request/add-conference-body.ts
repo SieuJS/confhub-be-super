@@ -1,61 +1,55 @@
-import { ApiProperty, PickType } from "@nestjs/swagger";
+import { ApiProperty, OmitType, PickType } from "@nestjs/swagger";
 import { ConferenceDTO } from "../conference/conference.dto";
-import { OrganizedDTO } from "src/modules/conference-organization/models/organize/organized.dto";
+
 import { LocationInput } from "src/modules/conference-organization/models/location/location.input";
-import { OrganizedInput } from "src/modules/conference-organization/models/organize/organized.input";
+
 import { ConferenceDateInput } from "src/modules/conference-organization/models/date/conferencer-date.input";
 
 class ConferenceRequestBody  extends PickType(ConferenceDTO, [
     'acronym',
     'title',
-    'creatorId'
+]) {}
+
+class ConferenceRequestLocation extends OmitType(LocationInput, [
+    'organizeId'
+]) {}
+
+class ConferenceRequestDate extends OmitType(ConferenceDateInput, [
+    'organizedId'
 ]) {}
 
 
-class ConferenceRequestDates extends PickType(ConferenceDTO, [
-    'dates'
-]) {}
-
-class ConferenceRequestOrganization extends OrganizedDTO {}
-
-export class AddConferenceBody {
-    @ApiProperty({
-        description : "Conference information",
-        type : ConferenceRequestBody
-    })
-    conference: ConferenceRequestBody;
+export class AddConferenceBody extends ConferenceRequestBody  {
 
     @ApiProperty({
         description : "Location information",
         type : LocationInput
     })
-    location: LocationInput;
+    location: ConferenceRequestLocation;
 
     @ApiProperty({
         description : "Dates information",
-        type : ConferenceDateInput
+        type : ConferenceRequestDate,
+        isArray : true
     })
     dates: ConferenceDateInput[];
 
     @ApiProperty({
-        description : "Organization information",
-        type : OrganizedInput
+        description : "Topics information",
+        isArray : true,
     })
-    organization: ConferenceRequestOrganization;
-
-
-    @ApiProperty({
-        description : "Research fields",
-        example : "AI" ,
-    })
-    researchFields: string;
+    topics : string[]
 
     @ApiProperty({
-        example : "A" , 
+        description : "Access type" 
     })
-    rank: string;
-    @ApiProperty({description : "Source of conference"})
-    source: string;
+    type : string
+
+    @ApiProperty({
+        description : "link to the conference",
+        type : String
+    })
+    link: string;
 
     @ApiProperty({description : "User id "})
     userId: string;
