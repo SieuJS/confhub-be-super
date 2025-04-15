@@ -19,13 +19,13 @@ export class ConferenceDTO {
 
     @ApiProperty({description : "Location of conference" , example : 'Paris'})
     @Length(1, 255)
-    location: ConferenceLocation
+    location: ConferenceLocation | null
 
     @ApiProperty({description : 'Rank of conference', example : 'A*'})
-    rank: string
+    rank: string 
 
     @ApiProperty({description : 'Source of conference', example : 'CORE'})
-    source: string
+    source: string 
 
     @ApiProperty({description : 'Year of conference', example : '2021'})
     year: number

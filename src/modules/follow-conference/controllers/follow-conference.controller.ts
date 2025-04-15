@@ -36,7 +36,7 @@ export class FollowConferenceController{
               userId,
               conferenceId,
               type: DEFAULT_TYPE.CONFERENCE_FOLLOWED,
-              message: `You have followed the conference with id ${conferenceId}`,
+              message: `You have followed the conference ${result.belongsTo.title}`,
               isDeleted: false,
               isRead: false,
             }
@@ -58,7 +58,6 @@ export class FollowConferenceController{
       async unfollowConference(@Body() body: { conferenceId: string }, @Req() req) {
         const userId = req.user.id;
         const conferenceId = body.conferenceId;
-        console.log('conferenceId', conferenceId);
         const result = await this.userService.unfollowConference(
           userId,
           conferenceId,
@@ -69,7 +68,7 @@ export class FollowConferenceController{
               userId,
               conferenceId,
               type: DEFAULT_TYPE.CONFERENCE_UNFOLLOWED,
-              message: `You have unfollowed the conference with id ${conferenceId}`,
+              message: `You have unfollowed the conference ${result?.belongsTo.title}`,
               isDeleted: false,
               isRead: false,
             }
