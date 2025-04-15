@@ -41,7 +41,6 @@ export class UserService {
     }
     
     async followConference(userId : string, conferenceId : string) {
-        console.log('conferenceId', conferenceId);
         const conference = await this.txHost.tx.conferences.findUnique({
             where : {
                 id : conferenceId
@@ -50,11 +49,18 @@ export class UserService {
         if (!conference) {
             throw new HttpException("Conference not found",400)
         }
-        console.log('conference', conference);
         const follow =  await this.txHost.tx.conferenceFollows.create({
             data : {
                 userId,
                 conferenceId
+            },
+            include : {
+                belongsTo : {
+                    select : {
+                        title : true,
+                        acronym : true
+                    }
+                }
             }
         })
         return follow;
@@ -76,7 +82,15 @@ export class UserService {
                     userId,
                     conferenceId
                 }
-            }
+            },
+            include : {
+                belongsTo : {
+                    select : {
+                        title : true,
+                        acronym : true
+                    }
+                }
+            }  
         })
     }
 

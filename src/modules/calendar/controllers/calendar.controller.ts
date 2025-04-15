@@ -31,12 +31,13 @@ export class CalendarController {
     async addEvent(@Req() req, @Body('conferenceId') conferenceId: string) {
         const userId = req.user.id
         const t = await this.calendarService.addEvent(userId, conferenceId); 
+
         const notifiConference = await this.notificationService.createConferenceNotification({
             userId,
             conferenceId,
             type : DEFAULT_TYPE.CONFERENCE_CALENDAR_ADDED,
             isDeleted : false,
-            message : `You have added the conference with id ${conferenceId} to your calendar`,
+            message : `You have added the conference ${t.belongsTo.title} to your calendar`,
             isRead : false,
         })
 
@@ -51,6 +52,17 @@ export class CalendarController {
     async removeEvent(@Req() req, @Body('conferenceId') conferenceId: string) {
         const userId = req.user.id
         const t = await this.calendarService.removeEvent(userId, conferenceId); 
+        const notifiConference = await this.notificationService.createConferenceNotification({
+            userId,
+            conferenceId,
+            type : DEFAULT_TYPE.CONFERENCE_CALENDAR_REMOVED,
+            isDeleted : false,
+            message : `You have removed the conference  ${t?.belongsTo.title} from your calendar`,
+            isRead : false,
+        })
+
+        await this.notificationService.sendNotificationToUser(notifiConference, userId);
+
         const events = await this.calendarService.getCalendarEventsByUserId(userId)
         return events;
     }

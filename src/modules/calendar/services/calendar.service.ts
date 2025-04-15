@@ -88,6 +88,14 @@ export class CalendarService {
         userId: userId,
         conferenceId: conferenceId,
       },
+      include : {
+        belongsTo : {
+          select : {
+            title : true,
+            acronym : true,
+          }
+        }
+      }
     });
   }
 
@@ -97,6 +105,7 @@ export class CalendarService {
         userId: userId,
         conferenceId: conferenceId,
       },
+
     });
     if (!event) {
       return;
@@ -105,6 +114,14 @@ export class CalendarService {
       where: {
         id: event.id,
       },
+      include : {
+        belongsTo : {
+          select : {
+            title : true,
+            acronym : true,
+          }
+        }
+      }
     });
   }
 }
