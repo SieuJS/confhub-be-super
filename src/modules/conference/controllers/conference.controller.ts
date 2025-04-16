@@ -439,7 +439,7 @@ export class ConferenceController {
       link: conferenceImport.link,
       impLink : '',
       cfpLink: '',
-      summerize: '',
+      summerize: conferenceImport.description,
       callForPaper: '',
       conferenceId: conferenceInstance.id,
       isAvailable: true,
@@ -458,14 +458,12 @@ export class ConferenceController {
       organizeId: organization.id,
     });
 
-    const dates = conferenceImport.dates.map((date) => {
+    const dates = await Promise.all( conferenceImport.dates.map((date) => {
       return this.conferenceOrganizationService.importDate({
         ...date,
         organizedId: organization.id,
       });
-    });
-
-
+    }));
     return {
       message : "Conference created successfully",
       conferenceId: conferenceInstance.id,
@@ -483,7 +481,6 @@ export class ConferenceController {
     console.log('getMyConferences called');
     const user = req.user;
     const conferences = await this.conferenceService.getConferenceByCreatorId(user.id);
-    console.log(conferences);
     return conferences;
   }
 

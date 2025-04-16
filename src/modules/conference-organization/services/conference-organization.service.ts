@@ -8,6 +8,7 @@ import { OrganizedDTO } from "../models/organize/organized.dto";
 import { Injectable } from "@nestjs/common";
 import { TransactionalAdapterPrisma } from "@nestjs-cls/transactional-adapter-prisma";
 import {Transactional, TransactionHost} from "@nestjs-cls/transactional";
+import parser from "any-date-parser";
 @Injectable()
 export class ConferenceOrganizationSerivce {
     constructor (
@@ -16,7 +17,7 @@ export class ConferenceOrganizationSerivce {
     ){}
 
     async importPlace(input : LocationInput) : Promise<LocationDTO> {
-        const location = await this.txHost.tx   .locations.create({
+        const location = await this.txHost.tx.locations.create({
             data : {
                 continent : input.continent,
                 country : input.country,
@@ -38,8 +39,8 @@ export class ConferenceOrganizationSerivce {
     async importDate(input : ConferenceDateInput) : Promise<ConferenceDateDTO> {
         const date = await this.txHost.tx.conferenceDates.create({
             data : {
-                fromDate : input.fromDate,
-                toDate : input.toDate,
+                fromDate : (parser.fromAny( input.fromDate as any).isValid() ? parser.fromAny( input.fromDate as any) : null),
+                toDate : (parser.fromAny ( input.toDate as any).isValid() ? parser.fromAny ( input.toDate as any) : null),
                 organizedId : input.organizedId,
                 type : input.type,
                 name : input.name,
@@ -84,7 +85,7 @@ export class ConferenceOrganizationSerivce {
 
     async importOrganize(input : OrganizedInput) : Promise<OrganizedDTO | undefined> {
 
-        const organize = await this.prismaService.conferenceOrganizations.create({
+        const organize = await this.txHost.tx.conferenceOrganizations.create({
             data : {
                 year    : isNaN(input.year as number) ? null : input.year,
                 accessType : input.accessType,

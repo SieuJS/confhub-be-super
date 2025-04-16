@@ -589,7 +589,7 @@ export class ConferenceService {
   }
 
   async isExistsConferenceNameAndAcronym(title: string, acronym: string) {
-    const conference = await this.prismaService.conferences.findFirst({
+    const conference = await this.txHost.tx.conferences.findFirst({
       where: {
         title,
         acronym,

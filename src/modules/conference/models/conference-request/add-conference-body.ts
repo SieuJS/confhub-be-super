@@ -53,4 +53,10 @@ export class AddConferenceBody extends ConferenceRequestBody  {
 
     @ApiProperty({description : "User id "})
     userId: string;
+
+    @ApiProperty({
+        description : "Conference description",
+        example : "This is a conference about AI and ML",
+    })
+    description: string;
 }
