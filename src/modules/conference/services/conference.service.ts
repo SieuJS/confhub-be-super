@@ -284,7 +284,7 @@ export class ConferenceService {
                       : {}),
                   },
                 },
-                dates: {
+                conferenceDates: {
                   ...(conferenceFilter?.fromDate || conferenceFilter?.toDate
                     ? {
                         some: {
@@ -359,6 +359,7 @@ export class ConferenceService {
           summary: org.summerize,
           callForPaper: org.callForPaper,
           link: org.link,
+          pulisher : org.pulisher || "",
           cfpLink: org.cfpLink,
           locations: org.locations.map((loc) => ({
             address: loc.address,
