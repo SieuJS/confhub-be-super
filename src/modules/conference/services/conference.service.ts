@@ -284,7 +284,7 @@ export class ConferenceService {
                       : {}),
                   },
                 },
-                conferenceDates: {
+                dates: {
                   ...(conferenceFilter?.fromDate || conferenceFilter?.toDate
                     ? {
                         some: {
@@ -367,13 +367,18 @@ export class ConferenceService {
             continent: loc.continent,
           })),
           topics: org.topics.map((topic) => topic.inTopic?.name),
-          conferenceDates: org.conferenceDates.map((date) => ({
+          dates: org.conferenceDates.map((date) => ({
             fromDate: date.fromDate,
             toDate: date.toDate,
             type: date.type,
             name: date.name,
           })),
-        }))).slice(-2),
+        }))).slice(-2).map((org , index) => ( index === 0 ?{
+          ...org,
+          callForPaper : '',
+          topics : [],
+          summary : ''
+        } : org),)
       }));
       return {
         payload : cleanedData,
