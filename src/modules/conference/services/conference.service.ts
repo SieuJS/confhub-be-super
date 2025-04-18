@@ -713,18 +713,20 @@ export class ConferenceService {
   }
 
   async getConferenceByAcronymAndTitle(title: string, acronym: string) {
-    return await this.prismaService.conferences.findFirst({
+    const conferences =  await this.txHost.tx.conferences.findFirst({
       where: {
-        title: {
-          contains: !!title ? title.trim() : '',
-          mode: 'insensitive',
+        title : {
+          contains : title.trim(),
+          mode : 'insensitive'
         },
-        acronym: {
-          equals: !!acronym ? acronym.trim() : '',
-          mode: 'insensitive',
-        },
+        acronym : {
+          equals : acronym.trim(),
+          mode : 'insensitive'
+        }
       },
     });
+
+    return conferences
   }
 
   async createConferenceByImport(conferenceImport: ConferenceImportDTO) {
