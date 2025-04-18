@@ -22,6 +22,7 @@ import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-pr
 import { TransactionHost } from '@nestjs-cls/transactional';
 import { ConferenceDetailDTO } from '../models/conference/conference-detail.dto';
 import { Prisma } from 'generated/prisma_client';
+import { equal } from 'joi';
 
 const paginate: PaginatorTypes.PaginateFunction = paginator({ perPage: 10 });
 @Injectable()
@@ -166,7 +167,7 @@ export class ConferenceService {
       ...(conferenceFilter?.acronym
         ? {
             acronym: {
-              contains: conferenceFilter?.acronym,
+              equal: conferenceFilter?.acronym,
               mode: 'insensitive',
             },
           }
@@ -718,7 +719,7 @@ export class ConferenceService {
           mode: 'insensitive',
         },
         acronym: {
-          contains: !!acronym ? acronym.trim() : '',
+          equals: !!acronym ? acronym.trim() : '',
           mode: 'insensitive',
         },
       },
