@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { paginator, PaginatorTypes } from '@nodeteam/nestjs-prisma-pagination';
-import { Conferences, Prisma } from 'generated/prisma_client';
+import {  Prisma } from 'generated/prisma_client';
 import { PrismaService } from 'src/modules/common';
 import {
   AdminConferenceDTO,
@@ -16,10 +16,8 @@ import {
   SourceService,
 } from 'src/modules/source-rank';
 import { ConferenceOrganizationSerivce } from 'src/modules/conference-organization';
-import { ConferenceRankService } from 'src/modules/conference/services/conference-rank.service';
 import { ConferenceService } from 'src/modules/conference/services/conference.service';
-import { converStringToDate, convertObjectToDate, parseDateRange } from 'src/modules/conference-job/utils/date-parse';
-import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
+import { converStringToDate, convertObjectToDate } from 'src/modules/conference-job/utils/date-parse';
 const paginate: PaginatorTypes.PaginateFunction = paginator({ perPage: 10 });
 @Injectable()
 export class AdminConferenceService {
@@ -149,15 +147,15 @@ export class AdminConferenceService {
         id: item.id,
         title: item.title,
         sources: Array.from(
-          new Set(item.ranks.map((rank) => rank.byRank.belongsToSource.name)),
+          new Set(item.ranks.map((rank: { byRank: { belongsToSource: { name: any; }; }; }) => rank.byRank.belongsToSource.name)),
         ),
         acronym: item.acronym,
         ranks: Array.from(
-          new Set(item.ranks.map((rank) => rank.byRank.name as string)),
+          new Set(item.ranks.map((rank: { byRank: { name: string; }; }) => rank.byRank.name as string)),
         ),
         researchFields: Array.from(
           new Set(
-            item.ranks.map((rank) => rank.inFieldOfResearch.name as string),
+            item.ranks.map((rank: { inFieldOfResearch: { name: string; }; }) => rank.inFieldOfResearch.name as string),
           ),
         ),
         status: item.status,
@@ -180,8 +178,8 @@ export class AdminConferenceService {
       papa.parse(streamFile, {
         delimiter: ',',
         header: false,
-        complete: (result) => resolve(result.data),
-        error: (error) => reject(error),
+        complete: (result: { data: any[] | PromiseLike<any[]>; }) => resolve(result.data),
+        error: (error: any) => reject(error),
       });
     });
 
@@ -193,8 +191,8 @@ export class AdminConferenceService {
         rank: row[4],
         researchFieldCodes: row
           .slice(6)
-          .map((code) => code.trim())
-          .filter((code) => code !== ''),
+          .map((code: string) => code.trim())
+          .filter((code: string) => code !== ''),
       };
     });
     return parseds;
@@ -207,8 +205,8 @@ export class AdminConferenceService {
       papa.parse(streamFile, {
         delimiter: ',',
         header: true,
-        complete: (result) => resolve(result.data),
-        error: (error) => reject(error),
+        complete: (result: { data: any[] | PromiseLike<any[]>; }) => resolve(result.data),
+        error: (error: any) => reject(error),
       });
     });
     return csvData.map((row): ConferenceEvaluationRow => {
@@ -225,7 +223,7 @@ export class AdminConferenceService {
   }
 
 
-  async importConference (conference : ConferenceImportRow | undefined, adminId: string) {
+  async importConference (conference : ConferenceImportRow | undefined, adminId: string) : Promise<AdminConferenceDTO> {
     if(!conference) {
       throw new Error('No data to import');
     }
@@ -258,6 +256,7 @@ export class AdminConferenceService {
       source : sourceInDB,
       value : 0
     })
+    const researchFieldInDBs : any[] = []
     for (const researchFieldCode of conference.researchFieldCodes) {
       const researchFieldInDB = await this.fieldOfResearchService.getFieldOfResearchByCode(
         researchFieldCode
@@ -271,31 +270,33 @@ export class AdminConferenceService {
         researchFieldInDB?.id,
         new Date().getFullYear(),
       )
+      researchFieldInDBs.push(researchFieldInDB);
     }
+
+    const organization = await this.conferenceOrganizationService.getFirstOrganizationsByConferenceId(
+      conferenceInDB?.id as string)
     return {
       id : conferenceInDB?.id,
       title : conferenceInDB.title,
       sources : Array.from(
         new Set(
           conferenceInDB.ranks.map(
-            (rank) => rank.byRank.belongsToSource.name as string,
+            (rank: { byRank: { belongsToSource: { name: string; }; }; }) => rank.byRank.belongsToSource.name as string,
           ),
         ),
       ) as string[],
       acronym : conferenceInDB.acronym,
-      ranks : Array.from(
-        new Set(
-          conferenceInDB.ranks.map((rank) => rank.byRank.name as string),
-        ),
-      ) as string[],
-      researchFields : Array.from(
-        new Set(
-          conferenceInDB.ranks.map(
-            (rank) => rank.inFieldOfResearch.name as string,
-          ),
-        ),
-      ) as string[],
-      status : conferenceInDB.status,
+      ranks : [
+        ...
+            conferenceInDB.ranks.map((rank: { byRank: { name: string; }; }) => rank.byRank.name as string)
+      ,
+        rankInDB.name,
+      ],
+      researchFields : 
+         [ ...conferenceInDB.ranks.map(
+            (rank: { inFieldOfResearch: { name: string; }; }) => rank.inFieldOfResearch.name as string,
+          ), ...researchFieldInDBs.map(rs => rs.name as any)],
+      status : organization?  'CRAWLED' : 'NOT CRAWLED',
       createdAt : conferenceInDB.createdAt,
       updatedAt : conferenceInDB.updatedAt,
     }

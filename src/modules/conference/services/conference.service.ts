@@ -41,7 +41,7 @@ export class ConferenceService {
     conferenceFilter?: GetConferencesParams,
   ): Promise<ConferencePaginationDTO> {
 
-    const include = conferenceFilter?.mode === 'detail' ?{
+    const include : Prisma.ConferencesInclude = conferenceFilter?.mode === 'detail' ?{
       ranks: {
         include: {
           byRank: {
@@ -320,7 +320,7 @@ export class ConferenceService {
     };
 
     const orderBy : Prisma.ConferencesOrderByWithRelationInput = {
-      updatedAt : 'desc'
+      updatedAt : 'asc'
     }
 
     const paginatedData = await paginate(
