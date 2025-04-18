@@ -320,7 +320,7 @@ export class ConferenceService {
     };
 
     const orderBy : Prisma.ConferencesOrderByWithRelationInput = {
-      updatedAt : 'desc'
+      updatedAt : 'asc'
     }
 
     const paginatedData = await paginate(
