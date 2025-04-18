@@ -382,7 +382,14 @@ export class ConferenceService {
       }));
       return {
         payload : cleanedData,
-        meta : paginatedData.meta
+        meta: {
+          curPage: paginatedData.meta.currentPage,
+          perPage: paginatedData.meta.perPage,
+          totalItems: paginatedData.meta.total,
+          totalPage: paginatedData.meta.lastPage,
+          prevPage: paginatedData.meta.prev,
+          nextPage: paginatedData.meta.next,
+        },
       } as any
     }
 
