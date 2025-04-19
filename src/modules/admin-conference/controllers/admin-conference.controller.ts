@@ -89,7 +89,9 @@ export class AdminConferenceController {
     }   
 
     @Post('/import-evaluate')
-    @Transactional<TransactionalAdapterPrisma>({  timeout : 300000})
+    @Transactional<TransactionalAdapterPrisma>({
+        isolationLevel: 'Serializable',
+        timeout : 300000})
     @UseInterceptors(FileInterceptor('file'))
     @UsePipes(new FileSizeValidationPipe())
     async importConference(
@@ -100,25 +102,13 @@ export class AdminConferenceController {
                 message: 'file is required'
             }, 400);
         }
-        const admin = await this.prismaService.admins.findFirst();
-
-        if(!admin) {
-            throw new HttpException({
-                message: 'admin not found'
-            }, 400);
-        }
 
         const data = await this.adminConferenceService.parsePartEvaluateCsv(file);
         const imports = data.map(async (item) => {
-            return this.adminConferenceService.importEvaluateConference(item, admin.id);
+            return this.adminConferenceService.importEvaluateConference(item);
         })
- 
         const result = await Promise.all(imports).catch((err) => {
             console.log('error', err);
-            throw new HttpException({
-                message: 'error when importing conference',
-                error: err
-            }, 400);
         });
         return {
             message: 'file is imported',

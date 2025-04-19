@@ -61,7 +61,7 @@ export const converStringToDate = (
           fromDate,
           toDate,
           type,
-          name: type,
+          name: "Conference Date",
           organizedId,
       })
 };

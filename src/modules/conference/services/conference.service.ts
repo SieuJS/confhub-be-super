@@ -22,6 +22,8 @@ import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-pr
 import { TransactionHost } from '@nestjs-cls/transactional';
 import { ConferenceDetailDTO } from '../models/conference/conference-detail.dto';
 import { Prisma } from 'generated/prisma_client';
+import { equal } from 'joi';
+import { equals } from 'class-validator';
 
 const paginate: PaginatorTypes.PaginateFunction = paginator({ perPage: 10 });
 @Injectable()
@@ -166,7 +168,7 @@ export class ConferenceService {
       ...(conferenceFilter?.acronym
         ? {
             acronym: {
-              contains: conferenceFilter?.acronym,
+              equals: conferenceFilter?.acronym,
               mode: 'insensitive',
             },
           }
@@ -359,6 +361,7 @@ export class ConferenceService {
           summary: org.summerize,
           callForPaper: org.callForPaper,
           link: org.link,
+          pulisher : org.pulisher || "",
           cfpLink: org.cfpLink,
           locations: org.locations.map((loc) => ({
             address: loc.address,
@@ -367,17 +370,29 @@ export class ConferenceService {
             continent: loc.continent,
           })),
           topics: org.topics.map((topic) => topic.inTopic?.name),
-          conferenceDates: org.conferenceDates.map((date) => ({
+          dates: org.conferenceDates.map((date) => ({
             fromDate: date.fromDate,
             toDate: date.toDate,
             type: date.type,
             name: date.name,
           })),
-        }))).slice(-2),
+        }))).slice(-2).map((org , index) => ( index === 0 ?{
+          ...org,
+          callForPaper : '',
+          topics : [],
+          summary : ''
+        } : org),)
       }));
       return {
         payload : cleanedData,
-        meta : paginatedData.meta
+        meta: {
+          curPage: paginatedData.meta.currentPage,
+          perPage: paginatedData.meta.perPage,
+          totalItems: paginatedData.meta.total,
+          totalPage: paginatedData.meta.lastPage,
+          prevPage: paginatedData.meta.prev,
+          nextPage: paginatedData.meta.next,
+        },
       } as any
     }
 
@@ -698,18 +713,20 @@ export class ConferenceService {
   }
 
   async getConferenceByAcronymAndTitle(title: string, acronym: string) {
-    return await this.prismaService.conferences.findFirst({
+    const conferences =  await this.txHost.tx.conferences.findFirst({
       where: {
-        title: {
-          contains: !!title ? title.trim() : '',
-          mode: 'insensitive',
+        title : {
+          contains : title.trim(),
+          mode : 'insensitive'
         },
-        acronym: {
-          contains: !!acronym ? acronym.trim() : '',
-          mode: 'insensitive',
-        },
+        acronym : {
+          equals : acronym.trim(),
+          mode : 'insensitive'
+        }
       },
     });
+
+    return conferences
   }
 
   async createConferenceByImport(conferenceImport: ConferenceImportDTO) {

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { paginator, PaginatorTypes } from '@nodeteam/nestjs-prisma-pagination';
 import {  Prisma } from 'generated/prisma_client';
 import { PrismaService } from 'src/modules/common';
@@ -17,7 +17,9 @@ import {
 } from 'src/modules/source-rank';
 import { ConferenceOrganizationSerivce } from 'src/modules/conference-organization';
 import { ConferenceService } from 'src/modules/conference/services/conference.service';
-import { converStringToDate, convertObjectToDate } from 'src/modules/conference-job/utils/date-parse';
+import { converStringToDate, convertObjectToDate, parseDateRange } from 'src/modules/conference-job/utils/date-parse';
+import { TransactionHost } from '@nestjs-cls/transactional';
+import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 const paginate: PaginatorTypes.PaginateFunction = paginator({ perPage: 10 });
 @Injectable()
 export class AdminConferenceService {
@@ -29,6 +31,7 @@ export class AdminConferenceService {
     private readonly rankService: RankService,
     private readonly souceService: SourceService,
     private readonly conferenceService: ConferenceService,
+    private readonly txHost : TransactionHost<TransactionalAdapterPrisma>,
   ) {}
 
   convertToPrismaWhereInput(
@@ -227,15 +230,22 @@ export class AdminConferenceService {
     if(!conference) {
       throw new Error('No data to import');
     }
+    const cleanedAcronym = conference.acronym
+      .replace(/\([^)]*\)/g, '') // Remove content inside parentheses
+      .replace(/\s{2,}/g, ' ') // Replace double spaces with a single space
+      .trim();
+    const cleanedTitle = conference.title.replace(/\([^)]*\)/g, '') // Remove content inside parentheses
+    .replace(/\s{2,}/g, ' ') // Replace double spaces with a single space
+    .trim();
     let conferenceInDB = await this.nativeConferenceService.getConferenceByAcronym(
-      conference.acronym,
-      conference.title,
-    )
+      cleanedAcronym,
+      cleanedTitle
+    );
     if(!conferenceInDB) {
       conferenceInDB = await this.nativeConferenceService.createConference(
         {
-          title : conference.title,
-          acronym : conference.acronym,
+          title : cleanedTitle,
+          acronym : cleanedAcronym,
           adminId : adminId,
           status : 'DRAFT',
         }
@@ -305,22 +315,20 @@ export class AdminConferenceService {
 
   async importEvaluateConference(
     conference: ConferenceEvaluationRow |undefined,
-    adminId: string,
   ) {
     if(
       !conference
     ) {
       throw new Error('No data to import');
     }
-    
     const conferenceInDB = await this.conferenceService.getConferenceByAcronymAndTitle(
-      conference?.name,
-      conference?.acronym, 
+      conference?.title,
+      conference?.acronym
     )
 
-    
     if (!conferenceInDB) {
-      throw new Error('Conference not found ' + conference.acronym + " " +conference.name);
+      console.log('No conference foudn', conference)
+      return undefined;
     }
     try {
       const conferenceOrganization = await this.conferenceOrganizationService.importOrganize(
@@ -382,12 +390,17 @@ export class AdminConferenceService {
     }
     catch (error) {
       console.log('error', error);
-      this.prismaService.errorConferenceLogger.create({
+      // throw new HttpException({
+      //   message: 'error when importing conference',
+      //   error: error,
+      // }, 400);
+      this.txHost.tx.errorConferenceLogger.create({
         data : {
           conferenceId : conferenceInDB.id,
           message : error.message,
           stack : error.stack,
         }
+      
       })
     return false;
     }
