@@ -21,6 +21,7 @@ import { GetConferencesParams } from '../models/conference-request/get-conferenc
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { TransactionHost } from '@nestjs-cls/transactional';
 import { ConferenceDetailDTO } from '../models/conference/conference-detail.dto';
+import { ConferenceBlacklistByDTO } from '../models/conference-blacklist/conference-added-blacklist-by.dto';
 import { Prisma } from 'generated/prisma_client';
 import { equal } from 'joi';
 import { equals } from 'class-validator';
@@ -1144,6 +1145,42 @@ export class ConferenceService {
         }
       }))
       return formatedConferences;
+    }
+
+    async getAddedBlacklistByConferenceId(
+      conferenceId: string,
+    ): Promise<ConferenceBlacklistByDTO[]> {
+      const blacklists = await this.prismaService.conferenceBlacklists.findMany({
+        where: {
+          conferenceId,
+        },
+        include: {
+          byUser: {
+            select: {
+              lastName: true,
+              firstName: true,
+              email: true,
+              avatar: true,
+            },
+          },
+        },
+      });
+  
+      const results = blacklists.map((blacklist): ConferenceBlacklistByDTO => {
+        return {
+          id: blacklist.id,
+          userId: blacklist.userId,
+          user: {
+            avatar: blacklist.byUser.avatar,
+            firstName: blacklist.byUser.firstName,
+            lastName: blacklist.byUser.lastName,
+          },
+          createdAt: blacklist.createdAt,
+          updatedAt: blacklist.updatedAt,
+        };
+      });
+  
+      return results;
     }
 }
 

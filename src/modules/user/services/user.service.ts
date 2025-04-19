@@ -160,4 +160,40 @@ export class UserService {
             },
         })
     }
+
+    async addToBlacklist(userId : string, conferenceId : string) {
+        const conference = await this.txHost.tx.conferences.findUnique({
+            where : {
+                id : conferenceId
+            }
+        })
+        if (!conference) {
+            throw new HttpException("Conference not found",400)
+        }
+
+        const blacklist =  await this.txHost.tx.conferenceBlacklists.create({
+            data : {
+                userId,
+                conferenceId
+            },
+            include : {
+                belongsTo : {
+                    select : {
+                        title : true,
+                        acronym : true
+                    }
+                }
+            }
+        })
+        return blacklist;
+    }
+
+    async getAddedBlacklistConferences(userId : string) {
+        return await this.txHost.tx.conferenceBlacklists.findMany({
+            where : {
+                userId
+            },
+        })
+    }
+    
 }

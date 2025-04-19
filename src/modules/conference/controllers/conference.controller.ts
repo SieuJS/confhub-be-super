@@ -33,6 +33,7 @@ import { UserService } from '../../user/services/user.service';
 import { ConferenceFollowInput } from '../models/conference-follow/conference-follow.input';
 import { ConferenceDetailDTO } from '../models/conference/conference-detail.dto';
 import { ConferenceFeedBackInputDTO } from '../models/conference-feedback/conference-feedback.input';
+import { ConferenceBlacklistInput } from '../models/conference-blacklist/conference-blacklist.input';
 import {
   converStringToDate,
   convertObjectToDate,
@@ -484,7 +485,37 @@ export class ConferenceController {
     return conferences;
   }
 
+  @Post('addBlacklist')  
+  @ApiBody({ type: ConferenceBlacklistInput })
+  async addToBlacklist(
+    @Body() input: { userId: string; conferenceId: string },
+  ) {
+    const conferenceIds = await this.userService.addToBlacklist(
+      input.userId,
+      input.conferenceId,
+    );
+    return conferenceIds;
+  }
 
+  @Get('addedBlacklistBy/:conferenceId')
+  @ApiParam({ name: 'conferenceId' })
+  async getAddedBlacklistByConferenceId(@Param('conferenceId') conferenceId: string) {
+    return await this.conferenceService.getAddedBlacklistByConferenceId(conferenceId);
+  }
+  
+  @Get('addedBlacklist')
+  async getAddedBlacklistConferences(@Query('userId') userId: string) {
+    const conferenceIds = await this.userService.getAddedBlacklistConferences(userId);
+    const results = await Promise.all(
+      conferenceIds.map(async (conferenceId) => {
+        return await this.conferenceService.getConferenceById(
+          conferenceId.conferenceId,
+        );
+      }),
+    );
+    return results;
+  }
+  
   @Get(':id')
   async getConferenceDetail(
     @Param('id') id: string,
@@ -500,7 +531,6 @@ export class ConferenceController {
     }
     return conferenceDetail;
   }
-
 }
 
 
