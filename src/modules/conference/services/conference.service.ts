@@ -500,7 +500,8 @@ export class ConferenceService {
             })),
           }))
           .slice(-2)
-          .map((org, index) =>
+          .map((org, index , arr) =>
+            arr.length === 1?
             index === 0
               ? {
                   ...org,
@@ -508,7 +509,7 @@ export class ConferenceService {
                   topics: [],
                   summary: '',
                 }
-              : org,
+              : org : org,
           ),
       }));
       return {
