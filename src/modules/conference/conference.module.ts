@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConferenceService } from './services/conference.service';
+import { NotificationService } from '../notify/services/notification.service';
 import { ConferenceController } from './controllers/conference.controller';
 import { CommonModule } from '../common';
 import { ConferenceDtoToModelPipe } from './pipes/conference-dto-to-model.pipe';
@@ -8,10 +9,12 @@ import { ConferenceJobModule } from '../conference-job/conference-job.module';
 import { ConferenceOrganizationModule } from '../conference-organization';
 import { UserModule } from '../user/user.module';
 import { ConferenceRankService } from './services/conference-rank.service';
+import { NotifyModule } from '../notify/notify.module';
+import { SocketGatewayModule } from '../socket-gateway/socket-gateway.module';
 
 @Module({
-  imports : [CommonModule, SourceRankModule, ConferenceJobModule, ConferenceOrganizationModule, UserModule ],
-  providers: [ ConferenceService, ConferenceDtoToModelPipe, ConferenceRankService],
+  imports : [SocketGatewayModule, CommonModule, SourceRankModule, ConferenceJobModule,NotifyModule, ConferenceOrganizationModule, UserModule ],
+  providers: [ ConferenceService, ConferenceDtoToModelPipe, ConferenceRankService, NotificationService],
   controllers: [ConferenceController],
   exports : [ConferenceService]
 })
