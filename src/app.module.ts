@@ -20,7 +20,7 @@ import { EmailVerifyModule } from './modules/email-verify/email-verify.module';
 import { JwtModule } from '@nestjs/jwt';
 import { CalendarModule } from './modules/calendar/calendar.module';
 import { FollowConferenceModule } from './modules/follow-conference/follow-conference.module';
-import { BlacklistConferenceModule } from './modules/blacklist-conference/blacklist-conference.module';
+import { ConferenceBlacklistModule } from './modules/conference-blacklist/conference-blacklist.module';
 @Module({
   imports: [CommonModule, UserModule, AuthModule, SourceRankModule,
     BullModule.forRootAsync( {
@@ -71,7 +71,7 @@ import { BlacklistConferenceModule } from './modules/blacklist-conference/blackl
   EmailVerifyModule,
   CalendarModule,
   FollowConferenceModule,
-  BlacklistConferenceModule
+  ConferenceBlacklistModule
   ],
   controllers: [AppController],
   providers: [AppService],

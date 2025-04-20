@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { FeedbackService } from './services/feedback.service';
-import { FeedbackController } from './controller/feedback.controller';
+import { ConferenceBlacklistService } from './services/conference-blacklist.service';
+import { ConferenceBlacklistController } from './controller/conference-blacklist.controller';
 import { CommonModule } from '../common';
 import { UserModule } from '../user/user.module';
 import { ConferencesModule } from '../conference/conference.module';
@@ -8,7 +8,7 @@ import { NotifyModule } from '../notify/notify.module';
 
 @Module({
     imports : [CommonModule, UserModule, ConferencesModule, NotifyModule],
-    controllers : [FeedbackController],
-    providers: [FeedbackService],
+    controllers : [ConferenceBlacklistController],
+    providers: [ConferenceBlacklistService],
 })
-export class FeedbacksModule {}
+export class ConferenceBlacklistModule {}
