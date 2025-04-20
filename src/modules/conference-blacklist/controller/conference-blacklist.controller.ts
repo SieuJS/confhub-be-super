@@ -25,6 +25,7 @@ export class ConferenceBlacklistController {
     constructor(
         private readonly conferenceService: ConferenceService,
         private readonly userService: UserService,
+        private readonly notificationService: NotificationService
     ) {}
 
     @UseGuards(JWTGuardUser)
@@ -35,15 +36,74 @@ export class ConferenceBlacklistController {
     async addToBlacklist(
         @Body() input: { conferenceId: string }, @Req() req 
     ) {
-        const conferenceIds = await this.userService.addToBlacklist(
-            req.user.id,
-            input.conferenceId,
+        const userId = req.user.id;
+        const conferenceId = input.conferenceId;
+        const result = await this.userService.addToBlacklist(
+            userId,
+            conferenceId,
         );
-        return conferenceIds;
+
+        const notifiConference =
+          await this.notificationService.createConferenceNotification(
+            {
+              userId,
+              conferenceId,
+              type: DEFAULT_TYPE.CONFERENCE_BLACKLISTED,
+              message: `You have added the conference ${result.belongsTo.title} to blacklist`,
+              isDeleted: false,
+              isRead: false,
+            }
+          );
+        await this.notificationService.sendNotificationToUser(
+          notifiConference,
+          userId,
+        );
+        return result;
     }
 
     @UseGuards(JWTGuardUser)
-    @Get('/added')
+    @Post('/remove')
+    @ApiBearerAuth('access-token')
+    @Transactional<TransactionalAdapterPrisma>({ timeout: 30000 })  
+    @ApiBody({ type: ConferenceBlacklistInput })
+    async removeFromBlacklist(
+        @Body() input: { conferenceId: string }, @Req() req 
+    ) {
+        const userId = req.user.id;
+        const conferenceId = input.conferenceId;
+        const conferenceInfo = await this.conferenceService.getConferenceById(conferenceId);
+        const result = await this.userService.removeFromBlacklist(
+            userId,
+            conferenceId,
+        );
+
+        if (!result) {
+            throw new HttpException('Conference not found', 404);
+          }
+        
+        const notifiConference =
+          await this.notificationService.createConferenceNotification(
+            {
+              userId,
+              conferenceId,
+              type: DEFAULT_TYPE.CONFERENCE_UNBLACKLISTED,
+              message: `You have removed the conference ${conferenceInfo?.title} from blacklist`,
+              isDeleted: false,
+              isRead: false,
+            }
+          );
+
+        await this.notificationService.sendNotificationToUser(
+          notifiConference,
+          userId,
+        );
+
+        const blacklistConference = await this.userService.getAddedBlacklistConferences(userId);
+        return blacklistConference;
+    }
+
+    @UseGuards(JWTGuardUser)
+    @Get('')
     @ApiBearerAuth('access-token')
     async getAddedBlacklistConferences(@Req() req) {
         const userId = req.user.id;
@@ -55,6 +115,7 @@ export class ConferenceBlacklistController {
                 );
             }),
         );
+
         return results;
     }
 
