@@ -93,7 +93,6 @@ export class FollowConferenceController{
         }
         return followedConference;
       }
-    
       @Get('/followed') 
       @UseGuards(JWTGuardUser)
       @ApiBearerAuth('access-token')

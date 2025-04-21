@@ -22,7 +22,7 @@ export class RankDTO {
             example : 'Google'
         }
     ) 
-    name : string ; 
+    name? : string ; 
 
     @ApiProperty(
         {
