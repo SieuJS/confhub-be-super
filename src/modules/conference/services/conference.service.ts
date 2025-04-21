@@ -21,6 +21,8 @@ import { GetConferencesParams } from '../models/conference-request/get-conferenc
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { TransactionHost } from '@nestjs-cls/transactional';
 import { ConferenceDetailDTO } from '../models/conference/conference-detail.dto';
+import { ConferenceBlacklistByDTO } from '../models/conference-blacklist/conference-added-blacklist-by.dto';
+
 import { Prisma } from 'generated/prisma_client';
 import { equal } from 'joi';
 import { equals } from 'class-validator';
@@ -1221,77 +1223,102 @@ export class ConferenceService {
           createdAt: conference.createdAt,
           updatedAt: conference.updatedAt,
           status: conference.status,
-          ranks:
-            conference.ranks?.length > 0
-              ? conference.ranks.map((rank) => ({
-                  year: rank.year,
-                  rank: rank.byRank?.name,
-                  source: rank.byRank?.belongsToSource?.name,
-                  fieldOfResearch: rank.inFieldOfResearch?.name,
-                }))
-              : [],
-          organizations:
-            conference.organizations?.length > 0
-              ? conference.organizations.map((org) => ({
-                  id: org.id,
-                  isAvailable: org.isAvailable,
-                  createdAt: org.createdAt,
-                  updatedAt: org.updatedAt,
-                  conferenceId: org.conferenceId,
-                  year: org.year,
-                  accessType: org.accessType,
-                  summary: org.summerize,
-                  callForPaper: org.callForPaper,
-                  link: org.link,
-                  impLink: org.impLink,
-                  cfpLink: org.cfpLink,
-                  summerize: org.summerize,
-                  publisher: org.publisher,
-                  locations:
-                    org.locations?.map((loc) => ({
-                      address: loc.address ?? undefined,
-                      cityStateProvince: loc.cityStateProvince ?? undefined,
-                      country: loc.country ?? undefined,
-                      continent: loc.continent ?? undefined,
-                    })) || [],
-                  topics: org.topics?.map((topic) => topic.inTopic?.name) || [],
-                  conferenceDates:
-                    org.conferenceDates?.map((date) => ({
-                      fromDate: date.fromDate,
-                      toDate: date.toDate,
-                      type: date.type,
-                      name: date.name,
-                    })) || [],
-                }))
-              : [],
-          feedbacks:
-            conference.feedbacks?.map((feedback) => ({
-              id: feedback.id,
-              creatorId: feedback.creatorId,
-              conferenceId: feedback.conferenceId,
-              description: feedback.description,
-              star: feedback.star,
-              createdAt: feedback.createdAt,
-              updatedAt: feedback.updatedAt,
-              avatar: feedback.byUser.avatar,
-              firstName: feedback.byUser.firstName,
-              lastName: feedback.byUser.lastName,
+          ranks: conference.ranks?.length > 0 ? conference.ranks.map((rank) => ({
+            year: rank.year,
+            rank: rank.byRank?.name,
+            source: rank.byRank?.belongsToSource?.name,
+            fieldOfResearch: rank.inFieldOfResearch?.name,
+          })) : [],
+          organizations: conference.organizations?.length > 0 ? conference.organizations.map((org) => ({
+            id: org.id,
+            isAvailable: org.isAvailable,
+            createdAt: org.createdAt,
+            updatedAt: org.updatedAt,
+            conferenceId: org.conferenceId,
+            year: org.year,
+            accessType: org.accessType,
+            summary: org.summerize,
+            callForPaper: org.callForPaper,
+            link: org.link,
+            impLink: org.impLink,
+            cfpLink: org.cfpLink,
+            summerize: org.summerize,
+            publisher: org.publisher,
+            locations: org.locations?.map((loc) => ({
+              address: loc.address ?? undefined,
+              cityStateProvince: loc.cityStateProvince ?? undefined,
+              country: loc.country ?? undefined,
+              continent: loc.continent ?? undefined,
             })) || [],
-          followBy:
-            conference.follows?.map((follow) => ({
-              id: follow.id,
-              userId: follow.userId,
-              createdAt: follow.createdAt,
-              updatedAt: follow.updatedAt,
-              user: {
-                avatar: follow.byUser.avatar,
-                firstName: follow.byUser.firstName,
-                lastName: follow.byUser.lastName,
-              },
+            topics: org.topics?.map((topic) => topic.inTopic?.name) || [],
+            conferenceDates: org.conferenceDates?.map((date) => ({
+              fromDate: date.fromDate,
+              toDate: date.toDate,
+              type: date.type,
+              name: date.name,
             })) || [],
+          })) : [],
+          feedbacks: conference.feedbacks?.map((feedback) => ({
+            id: feedback.id,
+            creatorId: feedback.creatorId,
+            conferenceId: feedback.conferenceId,
+            description: feedback.description,
+            star: feedback.star,
+            createdAt: feedback.createdAt,
+            updatedAt: feedback.updatedAt,
+            avatar: feedback.byUser.avatar,
+            firstName: feedback.byUser.firstName,
+            lastName: feedback.byUser.lastName,
+          })) || [],
+          followBy: conference.follows?.map((follow) => ({
+            id: follow.id,
+            userId: follow.userId,
+            createdAt: follow.createdAt,
+            updatedAt: follow.updatedAt,
+            user: {
+              avatar: follow.byUser.avatar,
+              firstName: follow.byUser.firstName,
+              lastName: follow.byUser.lastName,
+            },
+          })) || []
+        }
+      }))
+      return formatedConferences;
+    }
+
+    async getAddedBlacklistByConferenceId(
+      conferenceId: string,
+    ): Promise<ConferenceBlacklistByDTO[]> {
+      const blacklists = await this.prismaService.conferenceBlacklists.findMany({
+        where: {
+          conferenceId,
+        },
+        include: {
+          byUser: {
+            select: {
+              lastName: true,
+              firstName: true,
+              email: true,
+              avatar: true,
+            },
+          },
+        },
+      });
+  
+      const results = blacklists.map((blacklist): ConferenceBlacklistByDTO => {
+        return {
+          id: blacklist.id,
+          userId: blacklist.userId,
+          user: {
+            avatar: blacklist.byUser.avatar,
+            firstName: blacklist.byUser.firstName,
+            lastName: blacklist.byUser.lastName,
+          },
+          createdAt: blacklist.createdAt,
+          updatedAt: blacklist.updatedAt,
         };
-      }),
-    );
-    return formatedConferences;
+      });
+  
+      return results;
+    }
   }
-}

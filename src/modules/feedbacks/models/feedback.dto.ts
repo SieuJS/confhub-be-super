@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { UserPublicDTO } from "../../user/models/user-public.dto";
 
-export class FeedBackDTO {
+export class FeedBackDTO extends UserPublicDTO {
     @ApiProperty({description : "Id of feedback" , example : "123e4567-e89b-12d3-a456-426614174000"})
     id: string;
 
@@ -10,9 +10,6 @@ export class FeedBackDTO {
 
     @ApiProperty({description : "Id of user who gave feedback" , example : "123e4567-e89b-12d3-a456-426614174000"})
     creatorId: string;
-
-    @ApiProperty({description : "Infomation of user", type : UserPublicDTO})
-    user: UserPublicDTO;
 
     @ApiProperty({description : "Content of feedback" , example : "This is a feedback"})
     description: string;

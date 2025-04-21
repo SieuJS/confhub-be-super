@@ -160,4 +160,65 @@ export class UserService {
             },
         })
     }
+
+    async addToBlacklist(userId : string, conferenceId : string) {
+        const conference = await this.txHost.tx.conferences.findUnique({
+            where : {
+                id : conferenceId
+            }
+        })
+        if (!conference) {
+            throw new HttpException("Conference not found",400)
+        }
+
+        const blacklist =  await this.txHost.tx.conferenceBlacklists.create({
+            data : {
+                userId,
+                conferenceId
+            },
+            include : {
+                belongsTo : {
+                    select : {
+                        title : true,
+                        acronym : true
+                    }
+                }
+            }
+        })
+        return blacklist;
+    }
+
+    async removeFromBlacklist(userId : string, conferenceId : string) {
+        const blacklist = await this.txHost.tx.conferenceBlacklists.findFirst({
+            where : {
+                userId,
+                conferenceId
+            }
+        })
+        if (!blacklist) {
+            return ;
+        }
+        return await this.prismaService.conferenceBlacklists.delete({
+            where : {
+                id : blacklist.id
+            },
+            include : {
+                belongsTo : {
+                    select : {
+                        title : true,
+                        acronym : true
+                    }
+                }
+            }  
+        })
+    }
+
+    async getAddedBlacklistConferences(userId : string) {
+        return await this.txHost.tx.conferenceBlacklists.findMany({
+            where : {
+                userId
+            },
+        })
+    }
+    
 }

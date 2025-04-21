@@ -33,6 +33,8 @@ import { UserService } from '../../user/services/user.service';
 import { ConferenceFollowInput } from '../models/conference-follow/conference-follow.input';
 import { ConferenceDetailDTO } from '../models/conference/conference-detail.dto';
 import { ConferenceFeedBackInputDTO } from '../models/conference-feedback/conference-feedback.input';
+import { NotificationService } from 'src/modules/notify/services/notification.service';
+import { DEFAULT_TYPE } from 'src/modules/notify/constants/default-type';
 import {
   converStringToDate,
   convertObjectToDate,
@@ -56,6 +58,7 @@ export class ConferenceController {
     private readonly adminService: AdminService,
     private readonly userService: UserService,
     private readonly conferenceRankService: ConferenceRankService,
+    private readonly notificationService: NotificationService
   ) {}
   @ApiResponse({
     status: 200,
@@ -199,14 +202,12 @@ export class ConferenceController {
     };
   }
 
-
-
   @Post('update/:id')
   @ApiParam({ name: 'id' })
   async updateConference(@Param('id') id: string) {
     const conference = await this.conferenceService.getConferenceById(id);
     if (!conference) {
-      throw new HttpException('Conference not found1', 404);
+      throw new HttpException('Conference not found!', 404);
     }
     const organization =
       await this.conferenceOrganizationService.getFirstOrganizationsByConferenceId(
@@ -231,6 +232,26 @@ export class ConferenceController {
       link: organization.link,
     };
 
+    const followedUsers = await this.conferenceService.getFollowedByConferenceId(conference.id);
+    followedUsers.map(async user => {
+      const notifiConference =
+      await this.notificationService.createConferenceNotification(
+        {
+          userId: user.userId,
+          conferenceId: conference.id,
+          type: DEFAULT_TYPE.CONFERENCE_FOLLOWED,
+          message: `You have followed the conference ${conference.title}`,
+          isDeleted: false,
+          isRead: false,
+        }
+      );
+      await this.notificationService.sendNotificationToUser(
+        notifiConference,
+        user.userId,
+      );
+    })
+    
+      
     const organizeData =
       await this.conferenceOrganizationService.importOrganize({
         year: parseInt(crawlData.year),
@@ -484,7 +505,8 @@ export class ConferenceController {
     return conferences;
   }
 
-
+  
+  
   @Get(':id')
   async getConferenceDetail(
     @Param('id') id: string,
@@ -500,7 +522,6 @@ export class ConferenceController {
     }
     return conferenceDetail;
   }
-
 }
 
 
