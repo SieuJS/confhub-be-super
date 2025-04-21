@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { paginator, PaginatorTypes } from '@nodeteam/nestjs-prisma-pagination';
 import {  Prisma } from 'generated/prisma_client';
 import { PrismaService } from 'src/modules/common';
@@ -17,9 +17,10 @@ import {
 } from 'src/modules/source-rank';
 import { ConferenceOrganizationSerivce } from 'src/modules/conference-organization';
 import { ConferenceService } from 'src/modules/conference/services/conference.service';
-import { converStringToDate, convertObjectToDate, parseDateRange } from 'src/modules/conference-job/utils/date-parse';
+import { converStringToDate, convertObjectToDate} from 'src/modules/conference-job/utils/date-parse';
 import { TransactionHost } from '@nestjs-cls/transactional';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
+import axios from 'axios';
 const paginate: PaginatorTypes.PaginateFunction = paginator({ perPage: 10 });
 @Injectable()
 export class AdminConferenceService {
@@ -405,4 +406,41 @@ export class AdminConferenceService {
     return false;
     }
   }
+
+  async sendToCrawlConference (conferenceIds : string[]) {
+    
+    const params = {dataSource : 'client'}
+    const conferences = await this.prismaService.conferences.findMany({
+      where : {
+        id : {
+          in : conferenceIds
+        }
+      }
+    })
+
+    const sendToCrawl = conferences.map((c) => 
+    ({
+      Acronym : c.acronym, 
+      Title : c.title
+    })) 
+
+    const response = await axios.post<File>(
+      'http://localhost:3001/crawl-conferences',
+      sendToCrawl,
+      {
+        params: params,
+        headers: { 'Content-Type': 'application/json' },
+        timeout: 600000 // Tăng timeout (vd: 10 phút) cho các request lớn/chunk
+    }
+    )
+  }
+
+  async getConferenceById (id : string)  {
+    return this.txHost.tx.conferences.findUnique({
+      where : {
+        id
+      }
+    })
+  }
+
 }

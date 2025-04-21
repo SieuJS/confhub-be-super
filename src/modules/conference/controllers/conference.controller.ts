@@ -205,6 +205,7 @@ export class ConferenceController {
       conferenceId: conferenceInstance.id,
       channel: 'cfp-crawl-' + JobCrawlInstance.id,
     };
+    
   }
 
   @Post('update/:id')

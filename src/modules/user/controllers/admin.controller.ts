@@ -16,5 +16,4 @@ export class AdminController {
     async getAdmin() {
         return await this.adminService.getAdmin();
     }
-
 }
