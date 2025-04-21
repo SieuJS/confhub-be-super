@@ -202,8 +202,6 @@ export class ConferenceController {
     };
   }
 
-
-
   @Post('update/:id')
   @ApiParam({ name: 'id' })
   async updateConference(@Param('id') id: string) {
