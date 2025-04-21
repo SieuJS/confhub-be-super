@@ -22,19 +22,19 @@ export class ConferenceDTO {
     location: ConferenceLocation | null
 
     @ApiProperty({description : 'Rank of conference', example : 'A*'})
-    rank: string 
+    rank?: string
 
     @ApiProperty({description : 'Source of conference', example : 'CORE'})
-    source: string 
+    source?: string 
 
     @ApiProperty({description : 'Year of conference', example : '2021'})
-    year: number
+    year?: number
 
     @ApiProperty({description : 'Field of conference', example : ['4601', '4602'] , isArray : true})
-    researchFields: string[]
+    researchFields?: string[]
 
     @ApiProperty({description : 'Topics of conference', example : 'Artificial Intelligence'})
-    topics: string[]
+    topics?: string[]
 
     @ApiProperty({description : 'Conference dates',type : ConferenceDatesDTO})
     dates: ConferenceDatesDTO | null

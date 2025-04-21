@@ -20,7 +20,7 @@ export class SourceDTO {
             example : 'Google'
         }
     ) 
-    name : string ; 
+    name? : string ; 
 
     @ApiProperty(
         {

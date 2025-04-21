@@ -807,7 +807,7 @@ export class ConferenceService {
     conferenceId: string,
     rankInstance: RankDTO,
     fieldOfResearchId: string,
-    year: number,
+    year?: number,
   ) {
     return await this.txHost.tx.conferenceRanks.create({
       data: {
@@ -823,7 +823,7 @@ export class ConferenceService {
     conferenceId: string,
     rankInstance: RankDTO,
     fieldOfResearchId: string,
-    year: number,
+    year?: number ,
   ) {
     const existingRank = await this.txHost.tx.conferenceRanks.findFirst({
       where: {
@@ -1134,6 +1134,7 @@ export class ConferenceService {
     if (!conference) {
       return undefined;
     }
+    const hasRank = conference.ranks.length > 0;
     const formated: ConferenceDTO = {
       id: conference.id,
       title: conference.title,
@@ -1145,12 +1146,12 @@ export class ConferenceService {
         country: conference.organizations[0].locations[0].country,
         continent: conference.organizations[0].locations[0].continent,
       },
-      rank: conference.ranks[0].byRank.name,
-      source: conference.ranks[0].byRank.belongsToSource.name,
-      year: conference.ranks[0].year,
-      researchFields: conference.ranks.map(
+      rank: hasRank ? conference.ranks[0].byRank.name : undefined,
+      source: hasRank? conference.ranks[0].byRank.belongsToSource.name : undefined,
+      year: hasRank ?  conference.ranks[0].year : undefined,
+      researchFields: hasRank ? conference.ranks.map(
         (rank) => rank.inFieldOfResearch.name,
-      ),
+      ) : undefined,
       topics: conference.organizations[0].topics.map(
         (topic) => topic.inTopic.name,
       ),
