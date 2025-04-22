@@ -114,7 +114,6 @@ export class ConferenceBlacklistController {
                 );
             }),
         );
-
         return results;
     }
 
@@ -123,6 +122,5 @@ export class ConferenceBlacklistController {
     async getAddedBlacklistByConferenceId(@Param('conferenceId') conferenceId: string) {
         return await this.conferenceService.getAddedBlacklistByConferenceId(conferenceId);
     }
-
 }
 
