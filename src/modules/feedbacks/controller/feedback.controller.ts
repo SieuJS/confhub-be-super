@@ -56,6 +56,7 @@ export class FeedbackController {
           notifiConference,
           userId,
         );
+      return result;
     }
 
     @Get('/:conferenceId')

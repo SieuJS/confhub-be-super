@@ -97,9 +97,8 @@ export class ConferenceBlacklistController {
           notifiConference,
           userId,
         );
-
         const blacklistConference = await this.userService.getAddedBlacklistConferences(userId);
-        return blacklistConference;
+        return result;
     }
 
     @UseGuards(JWTGuardUser)
@@ -115,7 +114,6 @@ export class ConferenceBlacklistController {
                 );
             }),
         );
-
         return results;
     }
 
@@ -124,6 +122,5 @@ export class ConferenceBlacklistController {
     async getAddedBlacklistByConferenceId(@Param('conferenceId') conferenceId: string) {
         return await this.conferenceService.getAddedBlacklistByConferenceId(conferenceId);
     }
-
 }
 

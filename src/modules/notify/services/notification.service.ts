@@ -14,7 +14,11 @@ export class NotificationService {
     private txHost: TransactionHost<TransactionalAdapterPrisma>,
     private messageService : MessageService
   ) {
-    this.initNotification();
+    const init = async () => {
+      await this.initNotification();
+      await this.resetAllUserNotificationSetting();
+    }
+    init();
   }
 
   async getNotificationByUserId(userId: string) {
@@ -26,6 +30,13 @@ export class NotificationService {
         belongToNotify: true,
       },
     });
+  }
+
+  async resetAllUserNotificationSetting() {
+    const users = await this.prismaService.users.findMany();
+    for (const user of users) {
+      await this.setDefaultNotificationSettingForUser(user.id);
+    }
   }
 
   transformNotification(
@@ -115,7 +126,7 @@ export class NotificationService {
   }
 
   async getNotificationSettingsByUserId(userId: string) {
-    return await this.prismaService.notificationSettings.findMany({
+    const setting =  await this.prismaService.notificationSettings.findMany({
       where: {
         userId,
       },
@@ -127,6 +138,10 @@ export class NotificationService {
         }
       }
     });
+    return setting.map((setting) => ({
+      type: setting.belongToNotify.name,
+      isEnabled: setting.isEnabled,
+    }));
   }
 
    async sendNotificationToUser(
@@ -193,4 +208,41 @@ export class NotificationService {
   }
 
   async createCalendarNotification() {}
+
+  async getAllNotificationTypes() {
+    return await this.prismaService.notificationsTypes.findMany();
+  }
+
+  async updateNotificationSetting({
+    userId ,
+    type,
+    enable,
+  } : {userId : string , type : string , enable : boolean}) {
+    const notificationType = await this.txHost.tx.notificationsTypes.findFirst({
+      where: {
+        name: type,
+      },
+    });
+    if (!notificationType) {
+      console.log('Notification type not found', type);
+      throw new HttpException('Notification type not found', 400);
+    }
+    const setting = await this.txHost.tx.notificationSettings.findFirst({
+      where: {
+        userId,
+        notificationId: notificationType.id,
+      },
+    });
+    if (!setting) {
+      throw new HttpException('Notification setting not found', 400);
+    }
+    return await this.txHost.tx.notificationSettings.update({
+      where: {
+        id: setting.id,
+      },
+      data: {
+        isEnabled: enable
+      },
+    });
+  }
 }
