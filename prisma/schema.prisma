@@ -144,7 +144,7 @@ model JournalTopics {
 
 model JournalRanks {
   id                String           @id @default(uuid())
-  year              Int
+  year              String
   quartile          String
   journalId         String
   cateId String
