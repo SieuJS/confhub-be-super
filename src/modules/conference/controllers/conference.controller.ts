@@ -216,15 +216,26 @@ export class ConferenceController {
     if (!organization) {
       return new HttpException('Organization not found', 404);
     }
+    console.log('data', {
+      cfpLink: organization.cfpLink || "",
+      impLink: organization.impLink || "",
+      Acronym: conference.acronym,
+      Title: conference.title,
+      mainLink: organization.link,
+    })
     const responseData =
       await this.conferenceCrawlJobService.fetchUpdateConferenceCrawlData({
-        cfpLink: organization.cfpLink,
-        impLink: organization.impLink,
+        cfpLink: organization.cfpLink || "",
+        impLink: organization.impLink || "",
         Acronym: conference.acronym,
         Title: conference.title,
         mainLink: organization.link,
       });
+    if(responseData.data.length === 0) {
+      return new HttpException('Nothing update', 400);
+    }
     let crawlData = responseData.data[0];
+    
     crawlData = {
       ...crawlData,
       cfpLink: organization.cfpLink,
