@@ -93,18 +93,14 @@ export class FollowConferenceController{
         }
         return followedConference;
       }
-    
+      
       @Get('/followed') 
       @UseGuards(JWTGuardUser)
       @ApiBearerAuth('access-token')
       async getNotificationByUserId(@Req() req) {
         const userId = req.user.id;
-        const conferences =
+        const result =
           await this.userService.getFollowedConferencesByUserId(userId);
-    
-        const formated = await Promise.all ( conferences.map((conf) => {
-          return this.conferenceService.getConferenceInfo(conf.conferenceId);
-        }))
-        return formated;
+        return result;
       }
 }
