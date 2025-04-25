@@ -33,7 +33,17 @@ export class UserController {
   @Get('/me')
   @ApiBearerAuth('access-token')
   async me(@Req() req) {
-    return req.user;
+    const userInfo = await this.userService.getUserByEmail(req.user.email);
+    return {
+      id: userInfo.id,
+      email: userInfo.email,
+      firstName: userInfo.firstName,
+      lastName: userInfo.lastName,
+      dob: userInfo.dob,
+      avatar: userInfo.avatar,
+      aboutMe: userInfo.aboutMe,
+      background: userInfo.background,
+    };
   }
   
   @Get('/notificationSetting')
