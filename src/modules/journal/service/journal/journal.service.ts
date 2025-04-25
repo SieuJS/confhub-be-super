@@ -25,10 +25,53 @@ export class JournalService {
       },
     });
 
-    if (journalByTitle) {
-      return journalByTitle;
-    }
-    return this.importJournalEntries(journalImport);
+    return this.txHost.tx.journals.upsert({
+      where : {
+        id : journalByTitle?.id || '',
+      },
+      update : {
+        scimagoLink: journalImport.scimagoLink,
+        bioxbio: journalImport.bioxbio,
+        image: journalImport.Image,
+        imageContext: journalImport.Image_Context,
+        title: journalImport.Title,
+        issn: journalImport.Issn,
+        sjr: journalImport.SJR,
+        hIndex: journalImport['H index'],
+        scope: journalImport.Scope || "",
+        publisher: journalImport.Publisher,
+        country: journalImport.Country,
+        emailSubmission: '',
+        totalDocs : journalImport['Total Docs. (2023)'],
+        totalDocs3Years : journalImport['Total Docs. (3years)'],
+        totalRefs : journalImport['Total Refs.'], 
+        refsPerDoc : journalImport['Ref. / Doc.'],
+        region : journalImport.Region,
+
+      },
+      create :{
+        scimagoLink: journalImport.scimagoLink,
+        bioxbio: journalImport.bioxbio,
+        image: journalImport.Image,
+        imageContext: journalImport.Image_Context,
+        title: journalImport.Title,
+        issn: journalImport.Issn,
+        sjr: journalImport.SJR,
+        hIndex: journalImport['H index'],
+        scope: journalImport.Scope || "",
+        publisher: journalImport.Publisher,
+        country: journalImport.Country,
+        emailSubmission: journalImport['Information.Mail'] || '',
+        totalDocs : journalImport['Total Docs. (2023)'],
+        totalDocs3Years : journalImport['Citable Docs. (3years)'],
+        totalRefs : journalImport['Total Refs.'], 
+        refsPerDoc : journalImport['Ref. / Doc.'],
+        region : journalImport.Region,
+        coverage : journalImport.Coverage,
+        areas : journalImport['Subject Area and Category.Areas'] || '',
+
+      }
+    })
   }
 
   async importJournalEntries(journalImport: JournalImport) {
@@ -50,7 +93,7 @@ export class JournalService {
         totalDocs3Years : journalImport['Citable Docs. (3years)'],
         totalRefs : journalImport['Total Refs.'], 
         refsPerDoc : journalImport['Ref. / Doc.'],
-        
+        region : journalImport.Region,
       },
     });
   }
