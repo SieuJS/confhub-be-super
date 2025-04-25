@@ -154,11 +154,68 @@ export class UserService {
     }
 
     async getFollowedConferencesByUserId(userId : string) {
-        return await this.txHost.tx.conferenceFollows.findMany({
+        const followed = await this.txHost.tx.conferenceFollows.findMany({
             where : {
                 userId
             },
+            include: {
+                belongsTo: {
+                    include: {
+                        organizations: {
+                            include: {
+                                conferenceDates: {
+                                    where: 
+                                    {
+                                        name: "Conference Date"
+                                    }
+                                },
+                                locations: true,
+                            }
+                        }
+                    }
+                }
+            }
         })
+
+        const formatedFollowedConferences = await Promise.all(
+            followed.map((conference): Partial<any> => {
+                const conferenceDate = conference.belongsTo?.organizations?.[conference.belongsTo?.organizations?.length - 1].conferenceDates?.length > 0 ? conference.belongsTo?.organizations?.[conference.belongsTo?.organizations?.length - 1].conferenceDates?.map((date) => (
+                    {
+                        fromDate: date.fromDate,
+                        toDate: date.toDate,
+                    })): [];
+                const location = conference.belongsTo?.organizations?.[conference.belongsTo?.organizations?.length - 1].locations?.length > 0 ? conference.belongsTo?.organizations?.[conference.belongsTo?.organizations?.length - 1].locations?.map((location) => (
+                    {
+                        address: location.address ?? undefined,
+                        cityStateProvince: location.cityStateProvince ?? undefined,
+                        country: location.country ?? undefined,
+                        continent: location.continent ?? undefined,
+                    })): [];
+              return {
+                id: conference.conferenceId,
+                title: conference.belongsTo?.title,
+                acronym: conference.belongsTo?.acronym,
+                creatorId: conference.creatorId,
+                adminId: conference.adminId ?? undefined,
+                followedAt: conference.createdAt,
+                updatedAt: conference.updatedAt,
+                status: conference.belongsTo.status,
+                dates: 
+                {
+                    fromDate: conferenceDate?.[0]?.fromDate,
+                    toDate: conferenceDate?.[0]?.toDate,
+                },
+                location: 
+                {
+                    address: location?.[0]?.address ?? undefined,
+                    cityStateProvince: location?.[0]?.cityStateProvince ?? undefined,
+                    country: location?.[0]?.country ?? undefined,
+                    continent: location?.[0]?.continent ?? undefined,
+                },
+              }
+            }))
+
+        return formatedFollowedConferences
     }
 
     async addToBlacklist(userId : string, conferenceId : string) {
