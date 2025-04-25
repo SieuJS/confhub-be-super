@@ -69,16 +69,19 @@ export class ConferenceOrganizationSerivce {
     }
 
     async findOrCreateTopic (topic : string) {
-        let topicInDb = await this.txHost.tx.topics.upsert({
-                where : {
-                    name : topic
-                },
-                update : {
+        const topicInDb = await this.txHost.tx.topics.findFirst({
+            where : {
+                name : topic
+            },
 
-                },
-                create : {
-                    name : topic,                }
+        })
+        if(!topicInDb) {
+            return this.txHost.tx.topics.create({
+                data : {
+                    name : topic
+                }
             })
+        }
         
         return topicInDb;
     }
