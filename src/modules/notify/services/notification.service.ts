@@ -165,14 +165,6 @@ export class NotificationService {
     if (!inSetting) {
       throw new HttpException ('User turn off the notification', 400);
     }
-    const notification = await this.txHost.tx.notifications.create({
-      data: {
-        message,
-        userId,
-        conferenceId,
-        notificationId : notificationType.id
-      },
-    });
     this.messageService.sendMessageToUser({
       userId,
       payload: notifyInput ,
