@@ -107,14 +107,7 @@ export class ConferenceBlacklistController {
     @ApiBearerAuth('access-token')
     async getAddedBlacklistConferences(@Req() req) {
         const userId = req.user.id;
-        const conferenceIds = await this.userService.getAddedBlacklistConferences(userId);
-        const results = await Promise.all(
-            conferenceIds.map(async (conferenceId) => {
-                return await this.conferenceService.getConferenceById(
-                    conferenceId.conferenceId,
-                );
-            }),
-        );
+        const results = await this.userService.getAddedBlacklistConferences(userId);
 
         return results;
     }
