@@ -10,7 +10,13 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ConferenceService } from '../services/conference.service';
-import { ApiBearerAuth, ApiBody, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { ConferencePaginationDTO } from '../models/conference/conference-pagination.dto';
 import { ConferenceImportDTO } from '../models/conference/conference-import.dto';
 import {
@@ -58,7 +64,7 @@ export class ConferenceController {
     private readonly adminService: AdminService,
     private readonly userService: UserService,
     private readonly conferenceRankService: ConferenceRankService,
-    private readonly notificationService: NotificationService
+    private readonly notificationService: NotificationService,
   ) {}
   @ApiResponse({
     status: 200,
@@ -111,7 +117,7 @@ export class ConferenceController {
   })
   @Post('import')
   async importConferences(
-    @Body() conferenceImport : ConferenceImportDTO,
+    @Body() conferenceImport: ConferenceImportDTO,
   ): Promise<any> {
     let isExists = true;
     const user = await this.adminService.getAdmin();
@@ -122,7 +128,8 @@ export class ConferenceController {
     let conferenceInstance =
       await this.conferenceService.getConferenceByAcronymAndTitle(
         conferenceImport.title,
-        conferenceImport.acronym)
+        conferenceImport.acronym,
+      );
     const year = new Date().getFullYear();
     conferenceImport.year = year;
 
@@ -161,16 +168,17 @@ export class ConferenceController {
       }
     });
     const isCrawled = await this.conferenceService.isCrawledConference(
-      conferenceInstance.id);
-      let status = '';
-    if(!isCrawled) {
-        status = 'not crawled';
-    }else {
-        status = 'crawled';
+      conferenceInstance.id,
+    );
+    let status = '';
+    if (!isCrawled) {
+      status = 'not crawled';
+    } else {
+      status = 'crawled';
     }
     return {
       conferenceId: conferenceInstance.id,
-      status 
+      status,
     };
   }
 
@@ -216,15 +224,26 @@ export class ConferenceController {
     if (!organization) {
       return new HttpException('Organization not found', 404);
     }
+    console.log('data', {
+      cfpLink: organization.cfpLink || '',
+      impLink: organization.impLink || '',
+      Acronym: conference.acronym,
+      Title: conference.title,
+      mainLink: organization.link,
+    });
     const responseData =
       await this.conferenceCrawlJobService.fetchUpdateConferenceCrawlData({
-        cfpLink: organization.cfpLink,
-        impLink: organization.impLink,
+        cfpLink: organization.cfpLink || '',
+        impLink: organization.impLink || '',
         Acronym: conference.acronym,
         Title: conference.title,
         mainLink: organization.link,
       });
+    if (responseData.data.length === 0) {
+      return new HttpException('Nothing update', 400);
+    }
     let crawlData = responseData.data[0];
+
     crawlData = {
       ...crawlData,
       cfpLink: organization.cfpLink,
@@ -232,26 +251,24 @@ export class ConferenceController {
       link: organization.link,
     };
 
-    const followedUsers = await this.conferenceService.getFollowedByConferenceId(conference.id);
-    followedUsers.map(async user => {
+    const followedUsers =
+      await this.conferenceService.getFollowedByConferenceId(conference.id);
+    followedUsers.map(async (user) => {
       const notifiConference =
-      await this.notificationService.createConferenceNotification(
-        {
+        await this.notificationService.createConferenceNotification({
           userId: user.userId,
           conferenceId: conference.id,
           type: DEFAULT_TYPE.CONFERENCE_FOLLOWED,
           message: `You have followed the conference ${conference.title}`,
           isDeleted: false,
           isRead: false,
-        }
-      );
+        });
       await this.notificationService.sendNotificationToUser(
         notifiConference,
         user.userId,
       );
-    })
-    
-      
+    });
+
     const organizeData =
       await this.conferenceOrganizationService.importOrganize({
         year: parseInt(crawlData.year),
@@ -332,7 +349,7 @@ export class ConferenceController {
     }
 
     const createdTopics = crawlData.topics.split(' ').map((topic) => {
-      return this.conferenceOrganizationService.importTopic({ 
+      return this.conferenceOrganizationService.importTopic({
         organized: organizeData.id,
         topic: topic,
       });
@@ -381,7 +398,7 @@ export class ConferenceController {
     };
   }
 
-  @Post('follow')  
+  @Post('follow')
   @ApiBody({ type: ConferenceFollowInput })
   async followConference(
     @Body() input: { userId: string; conferenceId: string },
@@ -449,23 +466,24 @@ export class ConferenceController {
     const user = req.user;
 
     const conferenceInstance = await this.conferenceService.createConference({
-      acronym : conferenceImport.acronym,
-      title : conferenceImport.title,
-      creatorId : user.id,
+      acronym: conferenceImport.acronym,
+      title: conferenceImport.title,
+      creatorId: user.id,
     });
 
-    const organization = await this.conferenceOrganizationService.importOrganize({
-      year: new Date().getFullYear(),
-      accessType: conferenceImport.type,
-      link: conferenceImport.link,
-      impLink : '',
-      cfpLink: '',
-      summerize: conferenceImport.description,
-      callForPaper: '',
-      conferenceId: conferenceInstance.id,
-      isAvailable: true,
-      publisher: user.email,
-    });
+    const organization =
+      await this.conferenceOrganizationService.importOrganize({
+        year: new Date().getFullYear(),
+        accessType: conferenceImport.type,
+        link: conferenceImport.link,
+        impLink: '',
+        cfpLink: '',
+        summerize: conferenceImport.description,
+        callForPaper: '',
+        conferenceId: conferenceInstance.id,
+        isAvailable: true,
+        publisher: user.email,
+      });
 
     if (!organization) {
       return new HttpException('Organization not found', 404);
@@ -479,21 +497,23 @@ export class ConferenceController {
       organizeId: organization.id,
     });
 
-    const dates = await Promise.all( conferenceImport.dates.map((date) => {
-      return this.conferenceOrganizationService.importDate({
-        ...date,
-        organizedId: organization.id,
-      });
-    }));
+    const dates = await Promise.all(
+      conferenceImport.dates.map((date) => {
+        return this.conferenceOrganizationService.importDate({
+          ...date,
+          organizedId: organization.id,
+        });
+      }),
+    );
     return {
-      message : "Conference created successfully",
+      message: 'Conference created successfully',
       conferenceId: conferenceInstance.id,
       organizationId: organization.id,
       locationId: location.id,
       dates: dates,
-    }
+    };
   }
-  
+
   @Get('user')
   @UseGuards(JWTGuardUser)
   @Transactional<TransactionalAdapterPrisma>({ timeout: 30000 })
@@ -501,12 +521,12 @@ export class ConferenceController {
   async getMyConferences(@Req() req) {
     console.log('getMyConferences called');
     const user = req.user;
-    const conferences = await this.conferenceService.getConferenceByCreatorId(user.id);
+    const conferences = await this.conferenceService.getConferenceByCreatorId(
+      user.id,
+    );
     return conferences;
   }
 
-  
-  
   @Get(':id')
   async getConferenceDetail(
     @Param('id') id: string,
@@ -523,5 +543,3 @@ export class ConferenceController {
     return conferenceDetail;
   }
 }
-
-

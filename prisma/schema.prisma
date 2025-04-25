@@ -115,7 +115,6 @@ model FieldOfResearchs {
   name            String
   code            String
   conferenceRanks ConferenceRanks[]
-  journalRanks    JournalRanks[]
 }
 
 model Ranks {
@@ -145,26 +144,59 @@ model JournalTopics {
 
 model JournalRanks {
   id                String           @id @default(uuid())
-  year              Int
+  year              String
+  quartile          String
   journalId         String
-  fieldOfResearchId String
+  cateId String
   rankId            String
-  inFieldOfResearch FieldOfResearchs @relation(fields: [fieldOfResearchId], references: [id])
+  category          JournalCategories @relation(fields: [cateId], references: [id])
   belongsTo         Journals         @relation(fields: [journalId], references: [id])
   byRank            Ranks            @relation(fields: [rankId], references: [id])
 }
 
+model JournalCategories {
+  id       String   @id @default(uuid())
+  category  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ranks   JournalRanks[]
+}
+
 model Journals {
   id              String             @id @default(uuid())
-  name            String
+  title           String
   issn            String
-  hIndex          Int
+  hIndex          String
   publisher       String
-  nation          String
+  country         String
+  scimagoLink     String
+  sjr             String
+  bioxbio         String?
+  image           String?
+  imageContext    String?
   scope           String
   emailSubmission String
   creatorId       String?
   adminId         String?
+  totalDocs       String?
+  totalDocs3Years String?
+  totalRefs       String?
+  totalCites3Years String?
+  citableDocs3Years String?
+  citesPerDoc2Years String?
+  refsPerDoc      String?
+  percentFemale   String?
+  overton         String?
+  sdg             String?
+  region          String?
+  coverage        String?
+  categories      String?
+  areas           String?
+  subjectAreaFieldOfResearch String?
+  subjectAreaTopics String[]
+  homepage        String?
+  howToPublish    String?
+  mail            String?
   crawlJobs       JournalCrawlJobs[]
   journalFollows  JournalFollows[]
   journalLikes    JournalLikes[]
@@ -172,7 +204,7 @@ model Journals {
   topics          JournalTopics[]
   notifications   Notifications[]
   createdByUser   Users?             @relation(fields: [creatorId], references: [id])
-  createByAdmin   Admins?            @relation(fields: [adminId], references: [id])
+  createdByAdmin  Admins?            @relation(fields: [adminId], references: [id])
 
 }
 
