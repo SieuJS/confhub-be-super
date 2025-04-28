@@ -115,4 +115,5 @@ export class AdminConferenceController {
             data : result  
         }
     }
+
 }

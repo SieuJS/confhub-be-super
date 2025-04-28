@@ -281,6 +281,9 @@ export class AdminConferenceService {
         new Date().getFullYear(),
       )
     }
+    const conferenceOrg =  await this.conferenceOrganizationService.getFirstOrganizationsByConferenceId      (conferenceInDB?.id as string)
+    let status = conferenceOrg ? 'CRAWLED' : 'NOT CRAWLED';
+    let lastTimeCrawl = conferenceOrg ? conferenceOrg.updatedAt : undefined;
     return {
       id : conferenceInDB?.id,
       title : conferenceInDB.title,
@@ -304,9 +307,9 @@ export class AdminConferenceService {
           ),
         ),
       ) as string[],
-      status : conferenceInDB.status,
+      status : status,
       createdAt : conferenceInDB.createdAt,
-      updatedAt : conferenceInDB.updatedAt,
+      updatedAt : lastTimeCrawl || conferenceInDB.updatedAt,
     }
 
   }
