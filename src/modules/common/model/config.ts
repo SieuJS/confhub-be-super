@@ -22,4 +22,7 @@ export interface Config {
 
     readonly SENDER_EMAIL: string;
     readonly SENDER_NAME: string;
+
+    readonly GOOGLE_CLIENT_ID: string;
+    readonly GOOGLE_CLIENT_SECRET: string;
 }

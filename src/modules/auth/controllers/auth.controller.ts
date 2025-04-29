@@ -24,6 +24,7 @@ import { EmailService } from 'src/modules/email-verify/services/email.service';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { VerifyCodeBody } from 'src/modules/user/models/verify-code-body';
 import { JwtService } from '@nestjs/jwt';
+import { GoogleOAuthGuard } from '../guards/google-auth.guard';
 @ApiTags('auth')
 @Controller('/auth')
 export class AuthController {
@@ -177,5 +178,38 @@ export class AuthController {
     } catch (error) {
       throw new HttpException('Invalid verification code', 400);
     }
+  }
+
+  @Get('/google')
+  @UseGuards(GoogleOAuthGuard)
+  async googleAuth(@Req() req) {}
+
+  @Get('google-redirect')
+  @UseGuards(GoogleOAuthGuard)
+  async googleAuthRedirect(@Req() req) {
+    if (!req.user) {
+      return 'No user from google';
+    }
+    const user = req.user;
+    let existUser = await this.userService.getUserByEmail(user.email);
+    if (!existUser) {
+      existUser = this.userService.createUser({
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        password: `${user.email}google`,
+        avatar: user.picture,
+        dob: user.dob || null,
+        aboutMe: '',
+        background: '',
+      })
+    }
+
+    const loginPayload = this.authService.loginUser(user);
+
+    return {
+      message: 'User information from google',
+      ...loginPayload
+    };
   }
 }

@@ -21,6 +21,8 @@ export const configProvider = {
             BREVO_API_KEY: Joi.string().required(),
             SENDER_EMAIL: Joi.string().email().required(),
             SENDER_NAME: Joi.string().required(),
+            GOOGLE_CLIENT_ID: Joi.string().required(),
+            GOOGLE_CLIENT_SECRET: Joi.string().required(),
         });
         const result = validationSchema.validate(env);
         if (result.error) {

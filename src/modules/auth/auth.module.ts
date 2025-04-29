@@ -10,9 +10,12 @@ import { JwtAdminStrategy } from "./strategies/jwt-admin.strategy";
 import { JwtUserStrategy } from "./strategies/jwt-user.strategy";
 import { NotifyModule } from "../notify/notify.module";
 import { EmailVerifyModule } from "../email-verify/email-verify.module";
+import { GoogleStrategy } from "./strategies/google.strategy";
+import { CommonModule } from "../common";
 
 @Module({
     imports: [
+        CommonModule,
         UserModule,
         PassportModule,
         JwtModule.register({
@@ -25,7 +28,7 @@ import { EmailVerifyModule } from "../email-verify/email-verify.module";
         EmailVerifyModule
     ],
     controllers : [AuthController],
-    providers: [AuthService, LocalStrategy, LocalAuthGuard, JwtAdminStrategy,JwtUserStrategy ],
+    providers: [AuthService, LocalStrategy, LocalAuthGuard, JwtAdminStrategy,JwtUserStrategy, GoogleStrategy ],
     exports : [AuthService]
 })
 export class AuthModule {}
