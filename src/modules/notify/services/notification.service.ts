@@ -15,7 +15,7 @@ export class NotificationService {
     private messageService : MessageService
   ) {
     const init = async () => {
-      await this.initNotification();
+      // await this.initNotification();
       await this.resetAllUserNotificationSetting();
     }
     init();
