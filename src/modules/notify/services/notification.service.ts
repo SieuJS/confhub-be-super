@@ -55,13 +55,13 @@ export class NotificationService {
   }
   async initNotification() {
     for (const type of Object.keys(DEFAULT_TYPE)) {
-      const notificationType = await this.prismaService.notificationsTypes.findFirst({
+      const notificationType = await this.txHost.tx.notificationsTypes.findFirst({
         where: {
           name: type,
         },
       });
       if (!notificationType) {
-        await this.prismaService.notificationsTypes.create({
+        await this.txHost.tx.notificationsTypes.create({
           data: {
             name: type,
           },
@@ -78,7 +78,7 @@ export class NotificationService {
     if(!type){
       throw new HttpException('Notification type is required', 400);
     }
-    const notificationType = await this.prismaService.notificationsTypes.findFirst({
+    const notificationType = await this.txHost.tx.notificationsTypes.findFirst({
       where: {
         name: type,
       },
