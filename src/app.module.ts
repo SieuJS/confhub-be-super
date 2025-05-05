@@ -1,4 +1,4 @@
-import { Inject, Module } from '@nestjs/common';
+import { Inject, MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CommonModule, Config, PrismaService } from './modules/common';
@@ -22,6 +22,7 @@ import { CalendarModule } from './modules/calendar/calendar.module';
 import { FollowConferenceModule } from './modules/follow-conference/follow-conference.module';
 import { ConferenceBlacklistModule } from './modules/conference-blacklist/conference-blacklist.module';
 import { JournalModule } from './modules/journal/journal.module';
+import { StoreRedirectMiddleware } from './modules/auth/middlewares/store-url.middleware';
 
 @Module({
   imports: [CommonModule, UserModule, AuthModule, SourceRankModule,
@@ -79,4 +80,11 @@ import { JournalModule } from './modules/journal/journal.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+      configure(consumer: MiddlewareConsumer) {
+          consumer
+            .apply(StoreRedirectMiddleware)
+            .forRoutes({ path: '/auth/google', method: RequestMethod.GET 
+            });
+        }
+}

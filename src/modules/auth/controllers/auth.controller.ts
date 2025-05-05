@@ -4,7 +4,9 @@ import {
   Get,
   HttpException,
   Post,
+  Query,
   Req,
+  Res,
   UseGuards,
   UsePipes,
 } from '@nestjs/common';
@@ -25,6 +27,7 @@ import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-pr
 import { VerifyCodeBody } from 'src/modules/user/models/verify-code-body';
 import { JwtService } from '@nestjs/jwt';
 import { GoogleOAuthGuard } from '../guards/google-auth.guard';
+import { Request, Response } from 'express';
 @ApiTags('auth')
 @Controller('/auth')
 export class AuthController {
@@ -180,13 +183,18 @@ export class AuthController {
     }
   }
 
-  @Get('/google')
+  @Get('google')
   @UseGuards(GoogleOAuthGuard)
-  async googleAuth(@Req() req) {}
+  googleAuth(@Res({passthrough : true}) res, @Query('redirect') redirect: string) {
+    console.log('Google Auth', redirect);
+    if (redirect) {
+      res.cookie('redirect', redirect, { httpOnly: true, maxAge: 5 * 60 * 1000 }); // 5 min
+    }
+  }
 
   @Get('google-redirect')
   @UseGuards(GoogleOAuthGuard)
-  async googleAuthRedirect(@Req() req) {
+  async googleAuthRedirect(@Req() req , @Res({passthrough : true}) res) {
     if (!req.user) {
       return 'No user from google';
     }
@@ -198,18 +206,19 @@ export class AuthController {
         firstName: user.firstName,
         lastName: user.lastName,
         password: `${user.email}google`,
-        avatar: user.picture,
+        avatar: user.picture || null,
         dob: user.dob || null,
         aboutMe: '',
         background: '',
       })
     }
 
-    const loginPayload = this.authService.loginUser(user);
+    const loginPayload = this.authService.loginUser(existUser);
+    const redirectUrl = req.cookies?.redirect
+    res.clearCookie('redirect');
+    
+    const finalRedirect = `${redirectUrl || process.env.REDIRECT_URL}?accessToken=${loginPayload.token}`;
 
-    return {
-      message: 'User information from google',
-      ...loginPayload
-    };
+    return res.redirect(finalRedirect);
   }
 }

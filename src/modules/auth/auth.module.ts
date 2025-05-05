@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { MiddlewareConsumer, Module, RequestMethod } from "@nestjs/common";
 import { UserModule } from "../user/user.module";
 import { PassportModule } from "@nestjs/passport";
 import { AuthService } from "./services/auth.service";
@@ -12,6 +12,7 @@ import { NotifyModule } from "../notify/notify.module";
 import { EmailVerifyModule } from "../email-verify/email-verify.module";
 import { GoogleStrategy } from "./strategies/google.strategy";
 import { CommonModule } from "../common";
+import { StoreRedirectMiddleware } from "./middlewares/store-url.middleware";
 
 @Module({
     imports: [
@@ -31,4 +32,10 @@ import { CommonModule } from "../common";
     providers: [AuthService, LocalStrategy, LocalAuthGuard, JwtAdminStrategy,JwtUserStrategy, GoogleStrategy ],
     exports : [AuthService]
 })
-export class AuthModule {}
+export class AuthModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer
+          .apply(StoreRedirectMiddleware)
+          .forRoutes({ path: '/google', method: RequestMethod.GET });
+      }
+}
