@@ -1,4 +1,9 @@
-import { Inject, MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
+import {
+  Inject,
+  MiddlewareConsumer,
+  Module,
+  RequestMethod,
+} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CommonModule, Config, PrismaService } from './modules/common';
@@ -13,7 +18,7 @@ import { ConferenceJobModule } from './modules/conference-job';
 import { ConferencesModule } from './modules/conference/conference.module';
 import { AdminConferenceModule } from './modules/admin-conference/admin-conference.module';
 import { ClsModule } from 'nestjs-cls';
-import { ClsPluginTransactional  } from '@nestjs-cls/transactional';
+import { ClsPluginTransactional } from '@nestjs-cls/transactional';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { NotifyModule } from './modules/notify/notify.module';
 import { EmailVerifyModule } from './modules/email-verify/email-verify.module';
@@ -22,69 +27,65 @@ import { CalendarModule } from './modules/calendar/calendar.module';
 import { FollowConferenceModule } from './modules/follow-conference/follow-conference.module';
 import { ConferenceBlacklistModule } from './modules/conference-blacklist/conference-blacklist.module';
 import { JournalModule } from './modules/journal/journal.module';
-import { StoreRedirectMiddleware } from './modules/auth/middlewares/store-url.middleware';
 
 @Module({
-  imports: [CommonModule, UserModule, AuthModule, SourceRankModule,
-    BullModule.forRootAsync( {
-      imports : [CommonModule],
+  imports: [
+    CommonModule,
+    UserModule,
+    AuthModule,
+    SourceRankModule,
+    BullModule.forRootAsync({
+      imports: [CommonModule],
       inject: [Service.CONFIG],
-      useFactory : async (config : Config) => ({
-          connection : {
-              host : config.REDIS_HOST,
-              port : config.REDIS_PORT
-          }
-      })
-  }),
-  ClsModule.forRoot({
-    plugins: [
+      useFactory: async (config: Config) => ({
+        connection: {
+          host: config.REDIS_HOST,
+          port: config.REDIS_PORT,
+        },
+      }),
+    }),
+    ClsModule.forRoot({
+      plugins: [
         new ClsPluginTransactional({
-            imports: [
-              // module in which the PrismaClient is provided
-              CommonModule
-            ],
-            adapter: new TransactionalAdapterPrisma({
-                // the injection token of the PrismaClient
-                prismaInjectionToken: PrismaService,
-            }),
+          imports: [
+            // module in which the PrismaClient is provided
+            CommonModule,
+          ],
+          adapter: new TransactionalAdapterPrisma({
+            // the injection token of the PrismaClient
+            prismaInjectionToken: PrismaService,
+          }),
         }),
-    ],
-    global: true,
-    middleware: { mount: true },
-}),
-  JwtModule.registerAsync({
-    imports: [CommonModule],
-    inject: [Service.CONFIG],
-    useFactory: (config: Config) => {
-      console.log('JWT_SECRET', config.JWT_SECRET);
-      return ({
+      ],
       global: true,
-      secret: "Must change",
-      signOptions: { expiresIn: '3600s' },
-    })},
-    global: true,
-  
-  }),
-  FeedbacksModule,
-  ConferenceOrganizationModule,
-  ConferenceJobModule,
-  ConferencesModule,
-  AdminConferenceModule,
-  NotifyModule,
-  EmailVerifyModule,
-  CalendarModule,
-  FollowConferenceModule,
-  ConferenceBlacklistModule,
-  JournalModule
+      middleware: { mount: true },
+    }),
+    JwtModule.registerAsync({
+      imports: [CommonModule],
+      inject: [Service.CONFIG],
+      useFactory: (config: Config) => {
+        console.log('JWT_SECRET', config.JWT_SECRET);
+        return {
+          global: true,
+          secret: 'Must change',
+          signOptions: { expiresIn: '3600s' },
+        };
+      },
+      global: true,
+    }),
+    FeedbacksModule,
+    ConferenceOrganizationModule,
+    ConferenceJobModule,
+    ConferencesModule,
+    AdminConferenceModule,
+    NotifyModule,
+    EmailVerifyModule,
+    CalendarModule,
+    FollowConferenceModule,
+    ConferenceBlacklistModule,
+    JournalModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {
-      configure(consumer: MiddlewareConsumer) {
-          consumer
-            .apply(StoreRedirectMiddleware)
-            .forRoutes({ path: '/auth/google', method: RequestMethod.GET 
-            });
-        }
-}
+export class AppModule {}

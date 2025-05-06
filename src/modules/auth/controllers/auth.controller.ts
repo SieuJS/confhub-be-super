@@ -192,6 +192,33 @@ export class AuthController {
     }
   }
 
+  @Post('google')
+  async googleLogin(@Body('access_token') token: string) {
+    const user = await this.authService.validateGoogleToken(token);
+    if (!user || !user.email) {
+      throw new HttpException('Invalid token', 401);
+    }
+    let existUser = await this.userService.getUserByEmail(user.email);
+    if (!existUser) {
+      existUser = await this.userService.createUser({
+        email: user.email,
+        firstName: user.firstName || '',
+        lastName: user.lastName,
+        password: `${user.email}google`,
+        avatar: user.picture || null,
+        dob: user.dob || null,
+        aboutMe: '',
+        background: '',
+      })
+    }
+
+    const loginPayload = this.authService.loginUser(existUser);
+    return {
+      message : 'Login successful',
+      ...loginPayload
+    }
+  }
+
   @Get('google-redirect')
   @UseGuards(GoogleOAuthGuard)
   async googleAuthRedirect(@Req() req , @Res({passthrough : true}) res) {

@@ -16,7 +16,7 @@ export class UserService {
         return await this.txHost.tx.users.findMany();
     }
 
-    async getUserByEmail(email : string) {
+    async getUserByEmail(email : string | undefined) {
         return await this.txHost.tx.users.findFirst({
             where : {
                 email 

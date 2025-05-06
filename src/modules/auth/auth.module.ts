@@ -12,7 +12,7 @@ import { NotifyModule } from "../notify/notify.module";
 import { EmailVerifyModule } from "../email-verify/email-verify.module";
 import { GoogleStrategy } from "./strategies/google.strategy";
 import { CommonModule } from "../common";
-import { StoreRedirectMiddleware } from "./middlewares/store-url.middleware";
+import { OAuth2Client } from "google-auth-library";
 
 @Module({
     imports: [
@@ -26,16 +26,12 @@ import { StoreRedirectMiddleware } from "./middlewares/store-url.middleware";
             },
         }),
         NotifyModule,
-        EmailVerifyModule
+        EmailVerifyModule,
     ],
     controllers : [AuthController],
     providers: [AuthService, LocalStrategy, LocalAuthGuard, JwtAdminStrategy,JwtUserStrategy, GoogleStrategy ],
     exports : [AuthService]
 })
 export class AuthModule {
-    configure(consumer: MiddlewareConsumer) {
-        consumer
-          .apply(StoreRedirectMiddleware)
-          .forRoutes({ path: '/google', method: RequestMethod.GET });
-      }
+
 }
