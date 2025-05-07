@@ -124,4 +124,57 @@ export class EmailService {
       throw new Error('Failed to send verification email.');
     }
   }
+
+  async sendPasswordResetEmail(
+    toEmail: string,
+    resetCode: string,
+    firstName: string,
+  ) {
+    const sendSmtpEmail = new brevo.SendSmtpEmail();
+    const { senderEmail, senderName } = await this.getSender();
+    const apiInstance = this.brevoClient;
+    const setting = await this.isExistsSetting();
+    if (!setting) {
+      this.logger.error('Brevo setting not found');
+      throw new Error('Brevo setting not found');
+    }
+    apiInstance.setApiKey(
+      brevo.TransactionalEmailsApiApiKeys.apiKey,
+      setting.apiKey,
+    );
+
+    sendSmtpEmail.subject = 'Reset Your Password';
+    sendSmtpEmail.htmlContent = `
+        <html>
+            <body>
+                <h1>Hello ${firstName}!</h1>
+                <p>We received a request to reset your password. Please use the following code to reset your password:</p>
+                <p style="font-size: 24px; font-weight: bold; letter-spacing: 2px; margin: 20px 0; padding: 10px; background-color: #f0f0f0; display: inline-block;">
+                    ${resetCode}
+                </p>
+                <p>This code will expire in 15 minutes.</p>
+                <p>If you did not request a password reset, please ignore this email or contact support if you have concerns.</p>
+                <br/>
+                <p>Thanks,</p>
+                <p>The Your App Name Team</p>
+            </body>
+        </html>
+    `;
+
+    sendSmtpEmail.sender = { name: senderName, email: senderEmail };
+    sendSmtpEmail.to = [{ email: toEmail, name: firstName }];
+
+    try {
+      const data = await apiInstance.sendTransacEmail(sendSmtpEmail);
+    } catch (error: any) {
+      console.error('Error sending password reset email via Brevo:');
+      if (error.response) {
+        console.error('Status:', error.response.status);
+        console.error('Body:', error.response.body || error.response.text);
+      } else {
+        console.error('Error Message:', error.message);
+      }
+      throw new Error('Failed to send password reset email.');
+    }
+  }
 }

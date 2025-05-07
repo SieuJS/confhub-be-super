@@ -96,4 +96,16 @@ export class UserVerifyService {
       throw new Error('Failed to verify user');
     }
   }
+
+  async getUserVerificationStatus(userId: string) {
+    return await this.txHost.tx.userVerification.findFirst({
+      where: {
+        userId,
+        isValid: true
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
+  }
 }
