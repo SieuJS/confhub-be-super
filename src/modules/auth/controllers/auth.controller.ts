@@ -4,9 +4,7 @@ import {
   Get,
   HttpException,
   Post,
-  Query,
   Req,
-  Res,
   UseGuards,
   UsePipes,
 } from '@nestjs/common';
@@ -25,19 +23,34 @@ import { UserVerifyService } from 'src/modules/email-verify/services/user-verify
 import { EmailService } from 'src/modules/email-verify/services/email.service';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { VerifyCodeBody } from 'src/modules/user/models/verify-code-body';
-import { JwtService } from '@nestjs/jwt';
-import { GoogleOAuthGuard } from '../guards/google-auth.guard';
-import { Request, Response } from 'express';
+import { Request } from 'express';
+import { PayloadToken } from '../models/payload-token';
+import { UserDTO } from 'src/modules/user/models/user.dto';
+import { AdminService } from 'src/modules/user/services/admin.service';
+import { AdminDto } from 'src/modules/user/models/admin/admin.dto';
+
+interface GoogleUser {
+  email: string;
+  firstName: string;
+  lastName: string;
+  picture?: string;
+  dob?: string;
+}
+
+interface RequestWithUser extends Request {
+  user: PayloadToken;
+}
+
 @ApiTags('auth')
 @Controller('/auth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UserService,
+    private readonly adminService: AdminService,
     private readonly notificationService: NotificationService,
     private readonly userVerifyService: UserVerifyService,
     private readonly emailService: EmailService,
-    private readonly jwtService : JwtService
   ) {}
 
   @Post('/login')
@@ -45,13 +58,16 @@ export class AuthController {
     type: LoginInput,
   })
   @UseGuards(LocalAuthGuard)
-  async login(@Req() req) {
-    const user = req.user;
-    return await this.authService.loginUser(user);
+  async login(@Req() req: RequestWithUser) {
+    const user = (await this.userService.getUserById(req.user.id)) as UserDTO;
+    if (!user) {
+      throw new HttpException('User not found', 404);
+    }
+    return this.authService.loginUser(user);
   }
 
   @Post('/logout')
-  async logout() {
+  logout() {
     return {
       message: 'Logout successful',
     };
@@ -62,13 +78,16 @@ export class AuthController {
     type: LoginInput,
   })
   @UseGuards(LocalAuthGuard)
-  async loginAdmin(@Req() req) {
-    const admin = req.user;
-    return await this.authService.loginAdmin(admin);
+  async loginAdmin(@Req() req: RequestWithUser) {
+    const admin = await this.adminService.getAdminById(req.user.id);
+    if (!admin) {
+      throw new HttpException('Admin not found', 404);
+    }
+    return this.authService.loginAdmin(admin as AdminDto);
   }
 
   @Post('/admin/logout')
-  async logoutAdmin() {
+  logoutAdmin() {
     return {
       message: 'Logout successful',
     };
@@ -81,7 +100,7 @@ export class AuthController {
     description: 'Bearer token',
   })
   @UseGuards(JWTGuardAdmin)
-  async getMe(@Req() req) {
+  getMe(@Req() req: RequestWithUser) {
     const user = req.user;
     return user;
   }
@@ -93,7 +112,7 @@ export class AuthController {
     description: 'Bearer token',
   })
   @UseGuards(JWTGuardUser)
-  async getMeUser(@Req() req) {
+  getMeUser(@Req() req: RequestWithUser) {
     const user = req.user;
     return user;
   }
@@ -105,7 +124,9 @@ export class AuthController {
   @UsePipes(new SignUpPipe())
   @Transactional()
   async signup(@Body() input: UserInput) {
-    const user = await this.userService.getUserByEmail(input.email);
+    const user = (await this.userService.getUserByEmail(
+      input.email,
+    )) as UserDTO | null;
     if (user) {
       throw new HttpException('User already exists', 400);
     }
@@ -113,10 +134,10 @@ export class AuthController {
       .createHash('sha256')
       .update(input.password)
       .digest('hex');
-    const newUser = await this.userService.createUser({
+    const newUser = (await this.userService.createUser({
       ...input,
       password: hashedPassword,
-    });
+    })) as UserDTO;
 
     await this.notificationService.setDefaultNotificationSettingForUser(
       newUser.id,
@@ -136,17 +157,17 @@ export class AuthController {
     return {
       message: 'User created',
       verifyCode: verifyCode.verificationCode,
-       ...loginPayLoad
+      ...loginPayLoad,
     };
   }
   @UseGuards(JWTGuardUser)
   @ApiBearerAuth('access-token')
   @Get('re-send-verify')
-  async resendVerify(@Req() req) {
+  async resendVerify(@Req() req: RequestWithUser) {
     const userId = req.user.id;
     const verificationCode =
       await this.userVerifyService.createVerifyCode(userId);
-    const user = await this.userService.getUserById(userId);
+    const user = (await this.userService.getUserById(userId)) as UserDTO;
     if (!user) {
       throw new HttpException('User not found', 404);
     }
@@ -167,85 +188,52 @@ export class AuthController {
     type: VerifyCodeBody,
   })
   @Transactional<TransactionalAdapterPrisma>({ timeout: 30000 })
-  async verify(@Body() body: { code: string }, @Req() req) {
+  async verify(@Body() body: { code: string }, @Req() req: RequestWithUser) {
     const userId = req.user.id;
     const code = body.code;
     try {
-      const verifyCode = await this.userVerifyService.verifyCode(userId, code);
-      const t = await this.userVerifyService.verifyUser(verifyCode.id);
-
+      const verifyCode = (await this.userVerifyService.verifyCode(
+        userId,
+        code,
+      )) as { id: string };
+      await this.userVerifyService.verifyUser(verifyCode.id);
       await this.userVerifyService.disableVerifyCode(verifyCode.id);
       return {
         message: 'User verified',
       };
-    } catch (error) {
+    } catch {
       throw new HttpException('Invalid verification code', 400);
-    }
-  }
-
-  @Get('google')
-  @UseGuards(GoogleOAuthGuard)
-  googleAuth(@Res({passthrough : true}) res, @Query('redirect') redirect: string) {
-    console.log('Google Auth', redirect);
-    if (redirect) {
-      res.cookie('redirect', redirect, { httpOnly: true, maxAge: 5 * 60 * 1000 }); // 5 min
     }
   }
 
   @Post('google')
   async googleLogin(@Body('access_token') token: string) {
-    const user = await this.authService.validateGoogleToken(token);
+    const user = (await this.authService.validateGoogleToken(
+      token,
+    )) as GoogleUser;
     if (!user || !user.email) {
       throw new HttpException('Invalid token', 401);
     }
-    let existUser = await this.userService.getUserByEmail(user.email);
+    let existUser = (await this.userService.getUserByEmail(
+      user.email,
+    )) as UserDTO | null;
     if (!existUser) {
-      existUser = await this.userService.createUser({
+      existUser = (await this.userService.createUser({
         email: user.email,
         firstName: user.firstName || '',
         lastName: user.lastName,
         password: `${user.email}google`,
         avatar: user.picture || null,
-        dob: user.dob || null,
+        dob: user.dob ? new Date(user.dob) : new Date('2000-01-01'),
         aboutMe: '',
         background: '',
-      })
+      })) as UserDTO;
     }
 
     const loginPayload = this.authService.loginUser(existUser);
     return {
-      message : 'Login successful',
-      ...loginPayload
-    }
-  }
-
-  @Get('google-redirect')
-  @UseGuards(GoogleOAuthGuard)
-  async googleAuthRedirect(@Req() req , @Res({passthrough : true}) res) {
-    if (!req.user) {
-      return 'No user from google';
-    }
-    const user = req.user;
-    let existUser = await this.userService.getUserByEmail(user.email);
-    if (!existUser) {
-      existUser = this.userService.createUser({
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        password: `${user.email}google`,
-        avatar: user.picture || null,
-        dob: user.dob || null,
-        aboutMe: '',
-        background: '',
-      })
-    }
-
-    const loginPayload = this.authService.loginUser(existUser);
-    const redirectUrl = req.cookies?.redirect
-    res.clearCookie('redirect');
-    
-    const finalRedirect = `${redirectUrl || process.env.REDIRECT_URL}?accessToken=${loginPayload.token}`;
-
-    return res.redirect(finalRedirect);
+      message: 'Login successful',
+      ...loginPayload,
+    };
   }
 }
