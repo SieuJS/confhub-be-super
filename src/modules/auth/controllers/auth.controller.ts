@@ -63,6 +63,12 @@ export class AuthController {
     if (!user) {
       throw new HttpException('User not found', 404);
     }
+
+    const verificationStatus = await this.userVerifyService.getUserVerificationStatus(user.id);
+    if (!verificationStatus?.isVerified) {
+      throw new HttpException('Please verify your email before logging in', 403);
+    }
+
     return this.authService.loginUser(user);
   }
 
@@ -260,6 +266,10 @@ export class AuthController {
     if (!user) {
       // Don't reveal that the user doesn't exist for security
       return { message: 'If your email is registered, you will receive a password reset code.' };
+    }
+    const verificationStatus = await this.userVerifyService.getUserVerificationStatus(user.id);
+    if (!verificationStatus?.isVerified) {
+      throw new HttpException('Please verify your email before logging in', 403);
     }
 
     const verifyCode = await this.userVerifyService.createVerifyCode(user.id);
