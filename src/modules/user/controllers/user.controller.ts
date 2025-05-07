@@ -10,6 +10,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { LocalAuthGuard } from '../../auth/guards/local.guard';
 import { JWTGuardUser } from 'src/modules/auth/guards/jwt.guard';
 import { NotificationService } from '../../notify/services/notification.service';
+import { UserVerifyService } from '../../email-verify/services/user-verify.service';
 
 @ApiTags('user')
 @Controller('/user')
@@ -17,6 +18,7 @@ export class UserController {
   constructor(
     private userService: UserService,
     private readonly notificationService: NotificationService,
+    private readonly userVerifyService: UserVerifyService,
   ) {}
   @Get()
   async getAllUsers() {
@@ -34,6 +36,7 @@ export class UserController {
   @ApiBearerAuth('access-token')
   async me(@Req() req) {
     const userInfo = await this.userService.getUserByEmail(req.user.email);
+    const verificationStatus = await this.userVerifyService.getUserVerificationStatus(userInfo.id);
     return {
       id: userInfo.id,
       email: userInfo.email,
@@ -43,6 +46,7 @@ export class UserController {
       avatar: userInfo.avatar,
       aboutMe: userInfo.aboutMe,
       background: userInfo.background,
+      isVerified: verificationStatus?.isVerified || false
     };
   }
   

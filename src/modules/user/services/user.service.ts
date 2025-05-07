@@ -32,12 +32,35 @@ export class UserService {
         });
     }
 
+    async getUserVerificationStatus(userId: string) {
+        return await this.txHost.tx.userVerification.findFirst({
+            where: {
+                userId,
+                isValid: true
+            },
+            orderBy: {
+                createdAt: 'desc'
+            }
+        });
+    }
+
     async createUser(input : UserInput) {
         return await this.txHost.tx.users.create({
             data : {
                 ...input ,
             }
         })
+    }
+
+    async updateUser(userId: string, data: Partial<UserInput>) {
+        return await this.txHost.tx.users.update({
+            where: {
+                id: userId
+            },
+            data: {
+                ...data
+            }
+        });
     }
     
     async followConference(userId : string, conferenceId : string) {

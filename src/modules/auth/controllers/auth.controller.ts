@@ -112,9 +112,13 @@ export class AuthController {
     description: 'Bearer token',
   })
   @UseGuards(JWTGuardUser)
-  getMeUser(@Req() req: RequestWithUser) {
-    const user = req.user;
-    return user;
+  async getMeUser(@Req() req: RequestWithUser) {
+    const user = await this.userService.getUserById(req.user.id);
+    const verificationStatus = await this.userVerifyService.getUserVerificationStatus(user.id);
+    return {
+      ...user,
+      isVerified: verificationStatus?.isVerified || false
+    };
   }
 
   @Post('/signup')
@@ -229,11 +233,79 @@ export class AuthController {
         background: '',
       })) as UserDTO;
     }
+    const verificationStatus = await this.userVerifyService.getUserVerificationStatus(existUser.id);
+    if (!verificationStatus?.isVerified) {
+      const verifyCode = await this.userVerifyService.createVerifyCode(existUser.id);
+      await this.userVerifyService.verifyUser(verifyCode.id);
+    }
 
     const loginPayload = this.authService.loginUser(existUser);
     return {
       message: 'Login successful',
       ...loginPayload,
     };
+  }
+
+  @Post('/forgot-password')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        email: { type: 'string', format: 'email' }
+      }
+    }
+  })
+  async forgotPassword(@Body('email') email: string) {
+    const user = await this.userService.getUserByEmail(email);
+    if (!user) {
+      // Don't reveal that the user doesn't exist for security
+      return { message: 'If your email is registered, you will receive a password reset code.' };
+    }
+
+    const verifyCode = await this.userVerifyService.createVerifyCode(user.id);
+    await this.emailService.sendPasswordResetEmail(
+      user.email,
+      verifyCode.verificationCode,
+      user.firstName,
+    );
+
+    return { message: 'If your email is registered, you will receive a password reset code.' };
+  }
+
+  @Post('/reset-password')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        email: { type: 'string', format: 'email' },
+        code: { type: 'string' },
+        newPassword: { type: 'string', minLength: 6 }
+      }
+    }
+  })
+  async resetPassword(
+    @Body('email') email: string,
+    @Body('code') code: string,
+    @Body('newPassword') newPassword: string,
+  ) {
+    const user = await this.userService.getUserByEmail(email);
+    if (!user) {
+      throw new HttpException('Invalid request', 400);
+    }
+
+    try {
+      const verifyCode = await this.userVerifyService.verifyCode(user.id, code);
+      const hashedPassword = crypto
+        .createHash('sha256')
+        .update(newPassword)
+        .digest('hex');
+
+      await this.userService.updateUser(user.id, { password: hashedPassword });
+      await this.userVerifyService.disableVerifyCode(verifyCode.id);
+
+      return { message: 'Password has been reset successfully' };
+    } catch (error) {
+      throw new HttpException('Invalid or expired verification code', 400);
+    }
   }
 }
