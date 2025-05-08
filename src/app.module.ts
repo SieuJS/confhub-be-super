@@ -1,9 +1,4 @@
-import {
-  Inject,
-  MiddlewareConsumer,
-  Module,
-  RequestMethod,
-} from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CommonModule, Config, PrismaService } from './modules/common';
@@ -37,7 +32,7 @@ import { JournalModule } from './modules/journal/journal.module';
     BullModule.forRootAsync({
       imports: [CommonModule],
       inject: [Service.CONFIG],
-      useFactory: async (config: Config) => ({
+      useFactory: (config: Config) => ({
         connection: {
           host: config.REDIS_HOST,
           port: config.REDIS_PORT,
