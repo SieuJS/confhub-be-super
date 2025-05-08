@@ -1,4 +1,3 @@
-
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { HttpException, Injectable } from '@nestjs/common';
@@ -14,15 +13,16 @@ export class JwtAdminStrategy extends PassportStrategy(Strategy, 'jwt-admin') {
     });
   }
 
-  async validate(extractedToken : {payload : PayloadToken , iat : number , exp : number}) : Promise<PayloadToken> {
+  async validate(extractedToken : {payload : PayloadToken , iat : number , exp : number}) : Promise<PayloadToken > {
     const {payload} = extractedToken; 
-    try{
-        const isValid = this.authService.validateJwtAdmin(payload);
+    try {
+      const isValid = await this.authService.validateJwtAdmin(payload);
+      if (!isValid) {
+        throw new HttpException('Invalid admin token', 403);
+      }
+      return payload;
+    } catch (error) {
+      throw new HttpException(error.message, 403);
     }
-    catch (error) {
-        throw new HttpException(error.message, 403);
-    }
-    
-    return payload;
   }
 }
