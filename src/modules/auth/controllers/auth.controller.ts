@@ -347,4 +347,45 @@ export class AuthController {
       throw new HttpException('Invalid or expired verification code', 400);
     }
   }
+
+  @Post('change-password')
+  @UseGuards(JWTGuardUser)
+  @ApiBearerAuth('access-token')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        oldPassword: { type: 'string' },
+        newPassword: { type: 'string', minLength: 6 }
+      }
+    }
+  })
+  async changePassword(
+    @Body('oldPassword') oldPassword: string,
+    @Body('newPassword') newPassword: string,
+    @Req() req: RequestWithUser
+  ) {
+    const user = (await this.userService.getUserById(req.user.id)) as UserDTO;
+    if (!user) {
+      throw new HttpException('User not found', 404);
+    }
+
+    const hashedOldPassword = crypto
+      .createHash('sha256')
+      .update(oldPassword)
+      .digest('hex');
+
+    if (hashedOldPassword !== user.password) {
+      throw new HttpException('Current password is incorrect', 400);
+    }
+
+    const hashedNewPassword = crypto
+      .createHash('sha256')
+      .update(newPassword)
+      .digest('hex');
+
+    await this.userService.updateUser(user.id, { password: hashedNewPassword });
+
+    return { message: 'Password changed successfully' };
+  }
 }
