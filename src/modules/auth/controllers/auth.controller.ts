@@ -64,11 +64,6 @@ export class AuthController {
       throw new HttpException('User not found', 404);
     }
 
-    const verificationStatus = await this.userVerifyService.getUserVerificationStatus(user.id);
-    if (!verificationStatus?.isVerified) {
-      throw new HttpException('Please verify your email before logging in', 403);
-    }
-
     return this.authService.loginUser(user);
   }
 
@@ -119,11 +114,15 @@ export class AuthController {
   })
   @UseGuards(JWTGuardUser)
   async getMeUser(@Req() req: RequestWithUser) {
-    const user = await this.userService.getUserById(req.user.id);
-    const verificationStatus = await this.userVerifyService.getUserVerificationStatus(user.id);
+    const user = (await this.userService.getUserById(req.user.id)) as UserDTO;
+    const verificationStatus = await (
+      this.userVerifyService.getUserVerificationStatus as (
+        id: string,
+      ) => Promise<{ isVerified: boolean } | null>
+    )(user.id);
     return {
       ...user,
-      isVerified: verificationStatus?.isVerified || false
+      isVerified: verificationStatus?.isVerified ?? false,
     };
   }
 
@@ -239,9 +238,15 @@ export class AuthController {
         background: '',
       })) as UserDTO;
     }
-    const verificationStatus = await this.userVerifyService.getUserVerificationStatus(existUser.id);
+    const verificationStatus = await (
+      this.userVerifyService.getUserVerificationStatus as (
+        id: string,
+      ) => Promise<{ isVerified: boolean } | null>
+    )(existUser.id);
     if (!verificationStatus?.isVerified) {
-      const verifyCode = await this.userVerifyService.createVerifyCode(existUser.id);
+      const verifyCode = await this.userVerifyService.createVerifyCode(
+        existUser.id,
+      );
       await this.userVerifyService.verifyUser(verifyCode.id);
     }
 
@@ -257,29 +262,44 @@ export class AuthController {
     schema: {
       type: 'object',
       properties: {
-        email: { type: 'string', format: 'email' }
-      }
-    }
+        email: { type: 'string', format: 'email' },
+      },
+    },
   })
   async forgotPassword(@Body('email') email: string) {
-    const user = await this.userService.getUserByEmail(email);
+    const user = (await this.userService.getUserByEmail(email)) as UserDTO;
     if (!user) {
       // Don't reveal that the user doesn't exist for security
-      return { message: 'If your email is registered, you will receive a password reset code.' };
+      return {
+        message:
+          'If your email is registered, you will receive a password reset code.',
+      };
     }
-    const verificationStatus = await this.userVerifyService.getUserVerificationStatus(user.id);
+    const verificationStatus = await (
+      this.userVerifyService.getUserVerificationStatus as (
+        id: string,
+      ) => Promise<{ isVerified: boolean } | null>
+    )(user.id);
     if (!verificationStatus?.isVerified) {
-      throw new HttpException('Please verify your email before logging in', 403);
+      throw new HttpException(
+        'Please verify your email before logging in',
+        403,
+      );
     }
 
     const verifyCode = await this.userVerifyService.createVerifyCode(user.id);
-    await this.emailService.sendPasswordResetEmail(
-      user.email,
-      verifyCode.verificationCode,
-      user.firstName,
-    );
+    await (
+      this.emailService.sendPasswordResetEmail as (
+        email: string,
+        code: string,
+        name: string,
+      ) => Promise<void>
+    )(user.email, verifyCode.verificationCode, user.firstName);
 
-    return { message: 'If your email is registered, you will receive a password reset code.' };
+    return {
+      message:
+        'If your email is registered, you will receive a password reset code.',
+    };
   }
 
   @Post('/reset-password')
@@ -289,32 +309,41 @@ export class AuthController {
       properties: {
         email: { type: 'string', format: 'email' },
         code: { type: 'string' },
-        newPassword: { type: 'string', minLength: 6 }
-      }
-    }
+        newPassword: { type: 'string', minLength: 6 },
+      },
+    },
   })
   async resetPassword(
     @Body('email') email: string,
     @Body('code') code: string,
     @Body('newPassword') newPassword: string,
   ) {
-    const user = await this.userService.getUserByEmail(email);
+    const user = (await this.userService.getUserByEmail(email)) as UserDTO;
     if (!user) {
       throw new HttpException('Invalid request', 400);
     }
 
     try {
-      const verifyCode = await this.userVerifyService.verifyCode(user.id, code);
+      const verifyCode = (await this.userVerifyService.verifyCode(
+        user.id,
+        code,
+      )) as { id: string };
       const hashedPassword = crypto
         .createHash('sha256')
         .update(newPassword)
         .digest('hex');
 
-      await this.userService.updateUser(user.id, { password: hashedPassword });
+      await (
+        this.userService.updateUser as (
+          id: string,
+          data: { password: string },
+        ) => Promise<void>
+      )(user.id, { password: hashedPassword });
       await this.userVerifyService.disableVerifyCode(verifyCode.id);
 
       return { message: 'Password has been reset successfully' };
     } catch (error) {
+      console.log(error);
       throw new HttpException('Invalid or expired verification code', 400);
     }
   }
