@@ -112,7 +112,7 @@ export class UserVerifyService {
     return await this.txHost.tx.userVerification.findFirst({
       where: {
         userId,
-        isValid: true,
+        isVerified: true,
       },
       orderBy: {
         createdAt: 'desc',
