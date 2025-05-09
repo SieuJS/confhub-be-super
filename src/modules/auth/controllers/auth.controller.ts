@@ -356,14 +356,14 @@ export class AuthController {
       type: 'object',
       properties: {
         oldPassword: { type: 'string' },
-        newPassword: { type: 'string', minLength: 6 }
-      }
-    }
+        newPassword: { type: 'string', minLength: 6 },
+      },
+    },
   })
   async changePassword(
     @Body('oldPassword') oldPassword: string,
     @Body('newPassword') newPassword: string,
-    @Req() req: RequestWithUser
+    @Req() req: RequestWithUser,
   ) {
     const user = (await this.userService.getUserById(req.user.id)) as UserDTO;
     if (!user) {

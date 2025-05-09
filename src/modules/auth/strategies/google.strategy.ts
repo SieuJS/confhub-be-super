@@ -4,25 +4,35 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Service } from 'src/modules/tokens';
 import { Config } from 'src/modules/common';
 
+interface GoogleProfile {
+  name: {
+    givenName: string;
+    familyName: string;
+  };
+  emails: Array<{ value: string }>;
+  photos: Array<{ value: string }>;
+}
+
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   constructor(
     @Inject(Service.CONFIG)
-    private readonly config: Config
-) {
+    private readonly config: Config,
+  ) {
     super({
-      clientID: config.GOOGLE_CLIENT_ID ,
+      clientID: config.GOOGLE_CLIENT_ID,
       clientSecret: config.GOOGLE_CLIENT_SECRET,
       callbackURL: 'http://localhost:3000/api/v1/auth/google-redirect',
       scope: ['email', 'profile'],
     });
   }
-  async validate(
+
+  validate(
     accessToken: string,
     refreshToken: string,
-    profile: any,
+    profile: GoogleProfile,
     done: VerifyCallback,
-  ): Promise<any> {
+  ): void {
     const { name, emails, photos } = profile;
     const user = {
       email: emails[0].value,
