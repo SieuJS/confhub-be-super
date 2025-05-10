@@ -117,7 +117,7 @@ export class EmailService {
         console.error('Status:', error.response.status);
         console.error('Body:', error.response.body || error.response.text); // Log body hoặc text
       } else {
-        // Lỗi mạng hoặc lỗi khác
+        // L  ỗi mạng hoặc lỗi khác
         console.error('Error Message:', error.message);
       }
       // Ném lỗi để controller biết việc gửi mail thất bại và xử lý phù hợp

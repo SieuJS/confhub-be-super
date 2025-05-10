@@ -149,7 +149,7 @@ export class NotificationService {
     notifyInput: NotificationResponseDTO,
     userId: string,
   ) {
-    const { conferenceId, message, type } = notifyInput;
+    const { message, type } = notifyInput;
     const notificationType = await this.txHost.tx.notificationsTypes.findFirst({
       where: {
         name: type,
