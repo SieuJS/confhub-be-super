@@ -503,15 +503,18 @@ export class ConferenceService {
           }))
           .slice(-2)
           .map((org, index , arr) =>
-            arr.length === 1?
-            index === 0
-              ? {
-                  ...org,
-                  callForPaper: '',
-                  topics: [],
-                  summary: '',
-                }
-              : org : org,
+            arr.length === 1 ?
+            org : (
+            index === 0 ?
+            {
+              org
+            } : {
+              ...org,
+              topics : [],
+              callForPaper: '',
+              summary: '',
+            }
+            )
           ),
       }));
       return {
