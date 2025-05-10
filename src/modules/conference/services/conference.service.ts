@@ -1325,4 +1325,92 @@ export class ConferenceService {
   
       return results;
     }
+
+    async checkUpcomingEvents(daysThreshold: number = 30): Promise<ConferenceDTO[]> {
+      const currentDate = new Date();
+      const futureDate = new Date();
+      futureDate.setDate(currentDate.getDate() + daysThreshold);
+
+      const upcomingConferences = await this.prismaService.conferences.findMany({
+        where: {
+          organizations: {
+            some: {
+              conferenceDates: {
+                some: {
+                  type: 'conferenceDates',
+                  fromDate: {
+                    gte: currentDate,
+                    lte: futureDate,
+                  },
+                },
+              },
+            },
+          },
+        },
+        include: {
+          organizations: {
+            include: {
+              locations: true,
+              topics: {
+                include: {
+                  inTopic: true,
+                },
+              },
+              conferenceDates: true,
+            },
+          },
+          ranks: {
+            include: {
+              byRank: {
+                include: {
+                  belongsToSource: true,
+                },
+              },
+              inFieldOfResearch: true,
+            },
+          },
+        },
+      });
+
+      return upcomingConferences.map(conference => {
+        const hasRank = conference.ranks.length > 0;
+        const organization = conference.organizations[0];
+        
+        return {
+          id: conference.id,
+          title: conference.title,
+          acronym: conference.acronym,
+          location: {
+            address: organization?.locations[0]?.address ?? '',
+            cityStateProvince: organization?.locations[0]?.cityStateProvince ?? '',
+            country: organization?.locations[0]?.country ?? '',
+            continent: organization?.locations[0]?.continent ?? '',
+          },
+          rank: hasRank ? conference.ranks[0].byRank.name : undefined,
+          source: hasRank ? conference.ranks[0].byRank.belongsToSource.name : undefined,
+          year: hasRank ? conference.ranks[0].year : undefined,
+          researchFields: hasRank ? conference.ranks.map(
+            (rank) => rank.inFieldOfResearch.name,
+          ) : undefined,
+          topics: organization?.topics.map(
+            (topic) => topic.inTopic.name,
+          ) ?? [],
+          dates: organization?.conferenceDates.find(date => date.type === 'conferenceDates') ?? {
+            fromDate: new Date(),
+            toDate: new Date(),
+            type: 'conferenceDates',
+            name: '',
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          },
+          link: organization?.link ?? '',
+          createdAt: conference.createdAt,
+          updatedAt: conference.updatedAt,
+          creatorId: conference.creatorId,
+          accessType: organization?.accessType ?? '',
+          status: conference.status,
+          adminId: conference.adminId ?? undefined,
+        };
+      });
+    }
   }

@@ -5,12 +5,9 @@ import { NotificationService } from './services/notification.service';
 import { SocketGatewayModule } from '../socket-gateway/socket-gateway.module';
 
 @Module({
-    imports : [
-        CommonModule,
-        SocketGatewayModule
-    ],
-    controllers : [NotificationController],
-    providers : [NotificationService],
-    exports : [NotificationService]
+  imports: [CommonModule, SocketGatewayModule],
+  controllers: [NotificationController],
+  providers: [NotificationService],
+  exports: [NotificationService],
 })
 export class NotifyModule {}

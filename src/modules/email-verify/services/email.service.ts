@@ -2,17 +2,17 @@ import { Inject, Injectable } from '@nestjs/common';
 import * as brevo from '@getbrevo/brevo';
 import { Service } from 'src/modules/tokens';
 import { Config, LoggerService, PrismaService } from 'src/modules/common';
+import { ConferenceDTO } from 'src/modules/conference/models/conference/conference.dto';
 @Injectable()
 export class EmailService {
-    private brevoClient: brevo.TransactionalEmailsApi
+  private brevoClient: brevo.TransactionalEmailsApi;
   constructor(
     @Inject(Service.CONFIG) private readonly config: Config,
     private prismaService: PrismaService,
     private logger: LoggerService,
-
   ) {
     this.isExistsSetting()
-      .then( async (setting) => {
+      .then(async (setting) => {
         const newBrevo = new brevo.TransactionalEmailsApi();
         if (setting) {
           newBrevo.setApiKey(
@@ -76,9 +76,9 @@ export class EmailService {
       throw new Error('Brevo setting not found');
     }
     apiInstance.setApiKey(
-        brevo.TransactionalEmailsApiApiKeys.apiKey,
-        setting.apiKey,
-    )
+      brevo.TransactionalEmailsApiApiKeys.apiKey,
+      setting.apiKey,
+    );
     sendSmtpEmail.subject = 'Verify Your Account - Your App Name'; // <<< Thay đổi Subject nếu cần
     sendSmtpEmail.htmlContent = `
         <html>
@@ -175,6 +175,47 @@ export class EmailService {
         console.error('Error Message:', error.message);
       }
       throw new Error('Failed to send password reset email.');
+    }
+  }
+
+  async sendUpcomingEventEmail(
+    toEmail: string,
+    firstName: string,
+    content: string,
+  ) {
+    const sendSmtpEmail = new brevo.SendSmtpEmail();
+    const { senderEmail, senderName } = await this.getSender();
+    const apiInstance = this.brevoClient;
+    const setting = await this.isExistsSetting();
+    if (!setting) {
+      this.logger.error('Brevo setting not found');
+      return;
+    }
+    apiInstance.setApiKey(
+      brevo.TransactionalEmailsApiApiKeys.apiKey,
+      setting.apiKey,
+    );
+    sendSmtpEmail.subject = `Upcoming Event`;
+    sendSmtpEmail.htmlContent = `
+        <html>
+            <body>
+                <h1>Hello ${firstName}!</h1>
+                ${content}
+            </body>
+        </html>
+    `;
+    sendSmtpEmail.sender = { name: senderName, email: senderEmail };
+    sendSmtpEmail.to = [{ email: toEmail, name: firstName }];
+    try {
+      const data = await apiInstance.sendTransacEmail(sendSmtpEmail);
+    } catch (error: any) {
+      console.error('Error sending upcoming event email via Brevo:');
+      if (error.response) {
+        console.error('Status:', error.response.status);
+        console.error('Body:', error.response.body || error.response.text);
+      } else {
+        console.error('Error Message:', error.message);
+      }
     }
   }
 }
