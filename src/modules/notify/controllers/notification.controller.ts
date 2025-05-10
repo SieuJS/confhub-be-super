@@ -136,9 +136,6 @@ export class NotificationController {
                 default:
                     continue; // Skip if the key doesn't match any known setting
             }
-            console.log("typeSetting", typeSetting)
-            console.log("key", key)
-            console.log("value", value)
             if (value !== undefined) {
                 await this.notificationService.updateNotificationSetting({
                     userId,

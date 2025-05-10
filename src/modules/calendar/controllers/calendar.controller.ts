@@ -40,8 +40,12 @@ export class CalendarController {
             message : `You have added the conference ${t.belongsTo.title} to your calendar`,
             isRead : false,
         })
-
-        await this.notificationService.sendNotificationToUser(notifiConference, userId);
+        try{
+            await this.notificationService.sendNotificationToUser(notifiConference, userId);
+        }
+        catch (error) {
+            console.error('Error sending notification:', error);
+        }
         const events = await this.calendarService.getCalendarEventsByUserId(userId)
         return events;
     }
@@ -60,9 +64,13 @@ export class CalendarController {
             message : `You have removed the conference  ${t?.belongsTo.title} from your calendar`,
             isRead : false,
         })
-
+        
+        try{
         await this.notificationService.sendNotificationToUser(notifiConference, userId);
-
+        }
+        catch (error) {
+            console.error('Error sending notification:', error);
+        }
         const events = await this.calendarService.getCalendarEventsByUserId(userId)
         return events;
     }

@@ -45,13 +45,16 @@ export class FollowConferenceController{
               isRead: false,
             }
           );
+        try{
         await this.notificationService.sendNotificationToUser(
           notifiConference,
           userId,
         );
+       } catch (error) {
+          console.error('Error sending notification:', error);
+       }
         const followedConference = await this.userService.getFollowedConferencesByUserId(
           userId);
-        
         return followedConference
       }
     
@@ -79,10 +82,14 @@ export class FollowConferenceController{
               isRead: false,
             }
           );
+        try {
         await this.notificationService.sendNotificationToUser(
           notifiConference,
           userId,
         );
+      } catch (error) {
+          console.error('Error sending notification:', error);
+      }
         if (!result) {
           throw new HttpException('Conference not found', 404);
         }

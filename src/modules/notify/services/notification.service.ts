@@ -7,18 +7,19 @@ import { NotificationResponseDTO } from '../models/notification-reponse.dto';
 import { DEFAULT_TYPE } from '../constants/default-type';
 import { MessageService } from 'src/modules/socket-gateway/services/message.service';
 import { NotificationInput } from '../models/notification.input';
+import { PrismaClient } from 'generated/prisma_client';
 @Injectable()
 export class NotificationService {
   constructor(
     private prismaService: PrismaService,
-    private txHost: TransactionHost<TransactionalAdapterPrisma>,
+    private txHost: TransactionHost<TransactionalAdapterPrisma<PrismaClient>>,
     private messageService: MessageService,
   ) {
     const init = async () => {
       await this.initNotification();
       await this.resetAllUserNotificationSetting();
     };
-    init();
+    // init();
   }
 
   async getNotificationByUserId(userId: string) {
@@ -161,6 +162,7 @@ export class NotificationService {
       where: {
         userId,
         notificationId: notificationType.id,
+        isEnabled: true,
       },
     });
     if (!inSetting) {
@@ -224,6 +226,11 @@ export class NotificationService {
       console.log('Notification type not found', type);
       throw new HttpException('Notification type not found', 400);
     }
+    if(type === DEFAULT_TYPE.ON_NOTIFICATION) {
+      console.log('Turn off all notification');
+      await this.turnOffAllNotification(userId)
+      return;
+    }
     const setting = await this.txHost.tx.notificationSettings.findFirst({
       where: {
         userId,
@@ -239,6 +246,80 @@ export class NotificationService {
       },
       data: {
         isEnabled: enable,
+      },
+    });
+  }
+
+  async turnOffAllNotification(userId: string) {
+    const notificationTypes =
+      await this.txHost.tx.notificationsTypes.findMany();
+    for (const type of notificationTypes) {
+      await this.txHost.tx.notificationSettings.upsert({
+        where: {
+          userId_notificationId: {
+            userId,
+            notificationId: type.id,
+          },
+        },
+        update: {
+          isEnabled: false,
+        },
+        create: {
+          userId,
+          notificationId: type.id,
+          isEnabled: false,
+        },
+      });
+    }
+  }
+
+  async turnOnAllNotification(userId: string) {
+    const notificationTypes =
+      await this.txHost.tx.notificationsTypes.findMany();
+    for (const type of notificationTypes) {
+      await this.txHost.tx.notificationSettings.upsert({
+        where: {
+          userId_notificationId: {
+            userId,
+            notificationId: type.id,
+          },
+        },
+        update: {
+          isEnabled: true,
+        },
+        create: {
+          userId,
+          notificationId: type.id,
+          isEnabled: true,
+        },
+      });
+    }
+  }
+
+  async turnOnNofificationOption (userID : string, type: string) {
+    const notificationType = await this.txHost.tx.notificationsTypes.findFirst({
+      where: {
+        name: type,
+      },
+    });
+    if (!notificationType) {
+      throw new HttpException('Notification type not found', 400);
+    }
+    const setting = await this.txHost.tx.notificationSettings.findFirst({
+      where: {
+        userId: userID,
+        notificationId: notificationType.id,
+      },
+    });
+    if (!setting) {
+      throw new HttpException('Notification setting not found', 400);
+    }
+    return await this.txHost.tx.notificationSettings.update({
+      where: {
+        id: setting.id,
+      },
+      data: {
+        isEnabled: true,
       },
     });
   }

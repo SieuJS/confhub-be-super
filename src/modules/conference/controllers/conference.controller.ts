@@ -224,13 +224,7 @@ export class ConferenceController {
     if (!organization) {
       return new HttpException('Organization not found', 404);
     }
-    console.log('data', {
-      cfpLink: organization.cfpLink || '',
-      impLink: organization.impLink || '',
-      Acronym: conference.acronym,
-      Title: conference.title,
-      mainLink: organization.link,
-    });
+
     const responseData =
       await this.conferenceCrawlJobService.fetchUpdateConferenceCrawlData({
         cfpLink: organization.cfpLink || '',
