@@ -1,7 +1,7 @@
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { HttpException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/modules/common';
-import {  TransactionHost } from '@nestjs-cls/transactional';
+import { TransactionHost } from '@nestjs-cls/transactional';
 import { NotificationDTO } from '../models/notification-dto';
 import { NotificationResponseDTO } from '../models/notification-reponse.dto';
 import { DEFAULT_TYPE } from '../constants/default-type';
@@ -12,12 +12,12 @@ export class NotificationService {
   constructor(
     private prismaService: PrismaService,
     private txHost: TransactionHost<TransactionalAdapterPrisma>,
-    private messageService : MessageService
+    private messageService: MessageService,
   ) {
     const init = async () => {
-      // await this.initNotification();
+      await this.initNotification();
       await this.resetAllUserNotificationSetting();
-    }
+    };
     init();
   }
 
@@ -55,11 +55,12 @@ export class NotificationService {
   }
   async initNotification() {
     for (const type of Object.keys(DEFAULT_TYPE)) {
-      const notificationType = await this.txHost.tx.notificationsTypes.findFirst({
-        where: {
-          name: type,
-        },
-      });
+      const notificationType =
+        await this.txHost.tx.notificationsTypes.findFirst({
+          where: {
+            name: type,
+          },
+        });
       if (!notificationType) {
         await this.txHost.tx.notificationsTypes.create({
           data: {
@@ -68,14 +69,12 @@ export class NotificationService {
         });
         console.log('Notification type created:', type);
       }
-    } 
+    }
   }
 
-  async createConferenceNotification (
-    input : NotificationInput
-  ){
+  async createConferenceNotification(input: NotificationInput) {
     const { conferenceId, message, type } = input;
-    if(!type){
+    if (!type) {
       throw new HttpException('Notification type is required', 400);
     }
     const notificationType = await this.txHost.tx.notificationsTypes.findFirst({
@@ -88,24 +87,25 @@ export class NotificationService {
     }
     const notification = await this.txHost.tx.notifications.create({
       data: {
-        userId : input.userId,
-        message : message,
-        conferenceId : conferenceId,
-        isRead : input.isRead,
-        isDeleted : input.isDeleted,
-        notificationId : notificationType.id,
-      }
+        userId: input.userId,
+        message: message,
+        conferenceId: conferenceId,
+        isRead: input.isRead,
+        isDeleted: input.isDeleted,
+        notificationId: notificationType.id,
+      },
     });
     return this.transformNotification({
       ...notification,
-      type : type ,
-      typeId : notificationType.id,
+      type: type,
+      typeId: notificationType.id,
     });
   }
 
   async setDefaultNotificationSettingForUser(userId: string) {
-    const notificationTypes = await this.txHost.tx.notificationsTypes.findMany();
-    for(const type of notificationTypes) {
+    const notificationTypes =
+      await this.txHost.tx.notificationsTypes.findMany();
+    for (const type of notificationTypes) {
       await this.txHost.tx.notificationSettings.upsert({
         where: {
           userId_notificationId: {
@@ -114,29 +114,29 @@ export class NotificationService {
           },
         },
         update: {
-          isEnabled : true,
+          isEnabled: true,
         },
         create: {
           userId,
           notificationId: type.id,
           isEnabled: true,
         },
-      })
+      });
     }
   }
 
   async getNotificationSettingsByUserId(userId: string) {
-    const setting =  await this.prismaService.notificationSettings.findMany({
+    const setting = await this.prismaService.notificationSettings.findMany({
       where: {
         userId,
       },
-      include : {
-        belongToNotify : {
-          select : {
-            name : true
-          }
-        }
-      }
+      include: {
+        belongToNotify: {
+          select: {
+            name: true,
+          },
+        },
+      },
     });
     return setting.map((setting) => ({
       type: setting.belongToNotify.name,
@@ -144,9 +144,10 @@ export class NotificationService {
     }));
   }
 
-   async sendNotificationToUser(
-    notifyInput : NotificationResponseDTO , userId : string
-   ){
+  async sendNotificationToUser(
+    notifyInput: NotificationResponseDTO,
+    userId: string,
+  ) {
     const { conferenceId, message, type } = notifyInput;
     const notificationType = await this.txHost.tx.notificationsTypes.findFirst({
       where: {
@@ -161,16 +162,16 @@ export class NotificationService {
         userId,
         notificationId: notificationType.id,
       },
-    })
+    });
     if (!inSetting) {
-      throw new HttpException ('User turn off the notification', 400);
+      throw new HttpException('User turn off the notification', 400);
     }
     this.messageService.sendMessageToUser({
       userId,
-      payload: notifyInput ,
-      channel : 'notification', 
-    })
-   }
+      payload: notifyInput,
+      channel: 'notification',
+    });
+  }
 
   async markAllAsRead(userId: string) {
     return await this.prismaService.notifications.updateMany({
@@ -185,8 +186,8 @@ export class NotificationService {
     });
   }
 
-  async updateNotification(noty : NotificationResponseDTO & {userId : string}) {
-    const { id, seenAt , deletedAt } = noty;
+  async updateNotification(noty: NotificationResponseDTO & { userId: string }) {
+    const { id, seenAt, deletedAt } = noty;
     return await this.prismaService.notifications.update({
       where: {
         id,
@@ -206,10 +207,14 @@ export class NotificationService {
   }
 
   async updateNotificationSetting({
-    userId ,
+    userId,
     type,
     enable,
-  } : {userId : string , type : string , enable : boolean}) {
+  }: {
+    userId: string;
+    type: string;
+    enable: boolean;
+  }) {
     const notificationType = await this.txHost.tx.notificationsTypes.findFirst({
       where: {
         name: type,
@@ -233,7 +238,7 @@ export class NotificationService {
         id: setting.id,
       },
       data: {
-        isEnabled: enable
+        isEnabled: enable,
       },
     });
   }
