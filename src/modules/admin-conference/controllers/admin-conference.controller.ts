@@ -1,119 +1,247 @@
-import {  Controller, DefaultValuePipe, Get, HttpException, Post, Query, UploadedFile, UseInterceptors, UsePipes } from "@nestjs/common";
-import {  ApiTags } from "@nestjs/swagger";
-import { AdminConferenceService } from "../services/admin-conference.service";
-import { AdminConferenceDTO, AdminConferenceParams } from "../models/admin-conference.dto";
-import { AdminConferenceParamsPipe } from "../pipes/admin-conference-params.pipe";
-import { FileInterceptor } from "@nestjs/platform-express";
-import { FileSizeValidationPipe } from "../pipes/validation-file.pipe";
-import { PrismaService } from "src/modules/common";
-import { Transactional } from '@nestjs-cls/transactional'
-import { TransactionalAdapterPrisma } from "@nestjs-cls/transactional-adapter-prisma";
-import { ConferenceDTO } from "src/modules/conference/models/conference/conference.dto";
-
+/* eslint-disable */
+import {
+  Controller,
+  DefaultValuePipe,
+  Get,
+  HttpException,
+  Post,
+  Query,
+  UploadedFile,
+  UseInterceptors,
+  UsePipes,
+  Param,
+  Body,
+  Req,
+  Patch,
+  UseGuards,
+} from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
+import { AdminConferenceService } from '../services/admin-conference.service';
+import {
+  AdminConferenceDTO,
+  AdminConferenceParams,
+} from '../models/admin-conference.dto';
+import { AdminConferenceParamsPipe } from '../pipes/admin-conference-params.pipe';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { FileSizeValidationPipe } from '../pipes/validation-file.pipe';
+import { PrismaService } from 'src/modules/common';
+import { Transactional } from '@nestjs-cls/transactional';
+import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
+import { JWTGuardAdmin } from 'src/modules/auth/guards/jwt.guard';
+import { ConferencePostRequestDTO, CreateConferencePostRequestDTO, UpdateConferencePostRequestDTO } from '../models/conference-request-post.dto';
 @Controller('admin-conference')
 export class AdminConferenceController {
+  constructor(
+    private readonly adminConferenceService: AdminConferenceService,
+    private readonly prismaService: PrismaService,
+  ) {}
 
-    constructor (
-        private readonly adminConferenceService : AdminConferenceService,
-        private readonly prismaService : PrismaService,
-    ) {}
+  @ApiTags('get')
+  @Get('get')
+  getConferenceInstances(
+    @Query(new AdminConferenceParamsPipe()) params: AdminConferenceParams,
+    @Query('page', new DefaultValuePipe(1)) page: number,
+    @Query('perPage', new DefaultValuePipe(10)) perPage: number,
+  ) {
+    const where = this.adminConferenceService.convertToPrismaWhereInput({
+      search: params.search,
+      status: params.status,
+      source: params.source,
+      researchFields: params.researchFields,
+      ranks: params.ranks,
+    });
+    return this.adminConferenceService.getConferenceInstances({
+      where,
+      orderBy: {},
+      include: {},
+      page: page,
+      perPage: perPage,
+    });
+  }
 
-    @ApiTags('get') 
-    @Get('get')
-    getConferenceInstances(
-        @Query(
-            new AdminConferenceParamsPipe()
-        ) params : AdminConferenceParams,
-        @Query('page', new DefaultValuePipe(1)) page : number,
-        @Query('perPage', new DefaultValuePipe(10)) perPage : number,
-    ) {
-        const where = this.adminConferenceService.convertToPrismaWhereInput({
-            search : params.search,
-            status : params.status,
-            source : params.source,
-            researchFields : params.researchFields,
-            ranks : params.ranks,
-        })
-        return this.adminConferenceService.getConferenceInstances({
-            where ,
-            orderBy : {},
-            include : {},
-            page : page,
-            perPage : perPage,
-        })
+  @Post('/upload-file-csv')
+  @Transactional<TransactionalAdapterPrisma>({
+    timeout: 300000,
+  })
+  @UseInterceptors(FileInterceptor('file'))
+  async importCSVFile(
+    @UploadedFile(new FileSizeValidationPipe()) file: Express.Multer.File,
+  ) {
+    if (!file) {
+      throw new HttpException(
+        {
+          message: 'file is required',
+        },
+        400,
+      );
+    }
+    const admin = await this.prismaService.admins.findFirst();
+
+    if (!admin) {
+      throw new HttpException(
+        {
+          message: 'admin not found',
+        },
+        400,
+      );
     }
 
-    @Post('/upload-file-csv')  
-      @Transactional<TransactionalAdapterPrisma>({
-        timeout: 300000,
-      })
-    @UseInterceptors(FileInterceptor('file'))
-    async importCSVFile(
-        @UploadedFile(new FileSizeValidationPipe()) file: Express.Multer.File
-    ) {
-        if (!file) {
-            throw new HttpException({
-                message: 'file is required'
-            }, 400);
-        }
-        const admin = await this.prismaService.admins.findFirst();
-
-        if(!admin) {
-            throw new HttpException({
-                message: 'admin not found'
-            }, 400);
-        }
-
-        const data = await this.adminConferenceService.parseCSVFile(file);
-        if (!data) {
-            throw new HttpException({
-                message: 'file is empty'
-            }, 400);
-        }
-        const results : AdminConferenceDTO[] = [];
-        for(const item of data) {
-            const conference = await this.adminConferenceService.importConference(item, admin.id).catch((err) => {
-                console.log('error', err);
-                throw new HttpException({
-                    message: 'error when importing conference',
-                    error: err
-                }, 400);
-            });
-            results.push(conference);
-        }
-
-        return {
-            message: 'file is imported',
-            data : results
-        }
-    }   
-
-    @Post('/import-evaluate')
-    @Transactional<TransactionalAdapterPrisma>({
-        isolationLevel: 'Serializable',
-        timeout : 300000})
-    @UseInterceptors(FileInterceptor('file'))
-    @UsePipes(new FileSizeValidationPipe())
-    async importConference(
-        @UploadedFile(new FileSizeValidationPipe()) file: Express.Multer.File,
-    ) {
-        if (!file) {
-            throw new HttpException({
-                message: 'file is required'
-            }, 400);
-        }
-
-        const data = await this.adminConferenceService.parsePartEvaluateCsv(file);
-        const imports = data.map(async (item) => {
-            return this.adminConferenceService.importEvaluateConference(item);
-        })
-        const result = await Promise.all(imports).catch((err) => {
-            console.log('error', err);
+    const data = await this.adminConferenceService.parseCSVFile(file);
+    if (!data) {
+      throw new HttpException(
+        {
+          message: 'file is empty',
+        },
+        400,
+      );
+    }
+    const results: AdminConferenceDTO[] = [];
+    for (const item of data) {
+      const conference = await this.adminConferenceService
+        .importConference(item, admin.id)
+        .catch((err) => {
+          console.log('error', err);
+          throw new HttpException(
+            {
+              message: 'error when importing conference',
+              error: err,
+            },
+            400,
+          );
         });
-        return {
-            message: 'file is imported',
-            data : result  
-        }
+      results.push(conference as AdminConferenceDTO);
     }
 
+    return {
+      message: 'file is imported',
+      data: results,
+    };
+  }
+
+  @Post('/import-evaluate')
+  @Transactional<TransactionalAdapterPrisma>({
+    isolationLevel: 'Serializable',
+    timeout: 300000,
+  })
+  @UseInterceptors(FileInterceptor('file'))
+  @UsePipes(new FileSizeValidationPipe())
+  async importConference(
+    @UploadedFile(new FileSizeValidationPipe()) file: Express.Multer.File,
+  ) {
+    if (!file) {
+      throw new HttpException(
+        {
+          message: 'file is required',
+        },
+        400,
+      );
+    }
+
+    const data = await this.adminConferenceService.parsePartEvaluateCsv(file);
+    const imports = data.map(async (item) => {
+      return this.adminConferenceService.importEvaluateConference(item);
+    });
+    const result = await Promise.all(imports).catch((err) => {
+      console.log('error', err);
+    });
+    return {
+      message: 'file is imported',
+      data: result,
+    };
+  }
+
+  @Get('requests')
+  @ApiOperation({ summary: 'Get all conference post requests' })
+  @ApiResponse({
+    status: 200,
+    description: 'List of conference post requests',
+    type: [ConferencePostRequestDTO],
+  })
+  @ApiQuery({ name: 'status', required: false, description: 'Filter by request status' })
+  @ApiQuery({ name: 'startDate', required: false, description: 'Filter by start date (YYYY-MM-DD)' })
+  @ApiQuery({ name: 'endDate', required: false, description: 'Filter by end date (YYYY-MM-DD)' })
+  @ApiQuery({ 
+    name: 'sortBy', 
+    required: false, 
+    description: 'Sort by field',
+    enum: ['createdAt', 'updatedAt'],
+    default: 'createdAt'
+  })
+  @ApiQuery({ 
+    name: 'sortOrder', 
+    required: false, 
+    description: 'Sort order',
+    enum: ['asc', 'desc'],
+    default: 'desc'
+  })
+  async getConferenceRequests(
+    @Query('status') status?: string,
+    @Query('startDate') startDate?: string,
+    @Query('endDate') endDate?: string,
+    @Query('sortBy') sortBy: 'createdAt' | 'updatedAt' = 'createdAt',
+    @Query('sortOrder') sortOrder: 'asc' | 'desc' = 'desc',
+  ) {
+    return this.adminConferenceService.getConferenceRequest({
+      status,
+      startDate: startDate ? new Date(startDate) : undefined,
+      endDate: endDate ? new Date(endDate) : undefined,
+      sortBy,
+      sortOrder,
+    });
+  }
+
+  @Get('requests/:id')
+  @ApiOperation({ summary: 'Get conference post request by ID' })
+  @ApiParam({ name: 'id', description: 'Request ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'Conference post request details',
+    type: ConferencePostRequestDTO,
+  })
+  @ApiResponse({ status: 404, description: 'Request not found' })
+  async getConferenceRequestById(@Param('id') id: string) {
+    return this.adminConferenceService.getConferenceRequestById(id);
+  }
+
+  @Post('requests')
+  @UseGuards(JWTGuardAdmin)
+  @ApiBearerAuth('access-token')
+  @ApiOperation({ summary: 'Create a new conference post request' })
+  @ApiResponse({
+    status: 201,
+    description: 'Conference post request created successfully',
+    type: ConferencePostRequestDTO,
+  })
+  async createConferenceRequest(
+    @Req() req: any,
+    @Body() data: CreateConferencePostRequestDTO,
+  ) {
+    return this.adminConferenceService.createConferenceRequest(
+      req.user.id,
+      req.user.id, // adminId is the same as the authenticated admin's id
+      data,
+    );
+  }
+
+  @Patch('requests/:id/status')
+  @UseGuards(JWTGuardAdmin)
+  @ApiBearerAuth('access-token')
+  @ApiOperation({ summary: 'Update conference post request status' })
+  @ApiParam({ name: 'id', description: 'Conference post request ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'Conference post request status updated successfully',
+    type: ConferencePostRequestDTO,
+  })
+  async updateConferenceRequestStatus(
+    @Param('id') id: string,
+    @Req() req: any,
+    @Body() data: UpdateConferencePostRequestDTO,
+  ) {
+    return this.adminConferenceService.updateConferenceRequestStatus(
+      id,
+      req.user.id, // adminId is the same as the authenticated admin's id
+      data,
+    );
+  }
 }

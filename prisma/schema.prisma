@@ -97,6 +97,7 @@ model Conferences {
   notifications  Notifications[]
 
   @@unique([title, acronym])
+  ConferencePostRequests ConferencePostRequests[]
 }
 
 model ConferenceRanks {
@@ -301,6 +302,8 @@ model Users {
   notifications        Notifications[]
   interestedTopics     TopicUserInteresteds[]
   verification         UserVerification[]
+
+  ConferencePostRequests ConferencePostRequests[]
 }
 
 model Admins {
@@ -312,6 +315,8 @@ model Admins {
   updatedAt          DateTime      @updatedAt
   createdConferences Conferences[]
   createdJournals    Journals[]
+
+  ConferencePostRequests ConferencePostRequests[]
 }
 
 model ConferenceCrawlJobs {
@@ -426,4 +431,18 @@ model EmailSettings {
   senderEmail String
   senderName  String
   apiKey      String
+}
+
+model ConferencePostRequests {
+  id String @id @default(uuid())
+  conferenceId String
+  userId String
+  adminId String?
+  status String
+  message String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  belongsTo Conferences @relation(fields: [conferenceId], references: [id])
+  byUser Users @relation(fields: [userId], references: [id])
+  byAdmin Admins? @relation(fields: [adminId], references: [id])
 }

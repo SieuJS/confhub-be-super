@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-floating-promises */
+
 import {
   Body,
   Controller,
@@ -22,6 +22,7 @@ import {
   ApiParam,
   ApiResponse,
   ApiTags,
+  ApiQuery,
 } from '@nestjs/swagger';
 import { ConferencePaginationDTO } from '../models/conference/conference-pagination.dto';
 import { ConferenceImportDTO } from '../models/conference/conference-import.dto';
@@ -79,10 +80,26 @@ export class ConferenceController {
     description: 'Get all conferences',
     type: ConferencePaginationDTO,
   })
+  @ApiQuery({ 
+    name: 'sortBy', 
+    required: false, 
+    description: 'Sort by field',
+    enum: ['createdAt', 'updatedAt', 'title', 'acronym', 'rank', 'source'],
+    default: 'createdAt'
+  })
+  @ApiQuery({ 
+    name: 'sortOrder', 
+    required: false, 
+    description: 'Sort order',
+    enum: ['asc', 'desc'],
+    default: 'desc'
+  })
   @Get()
   async getConferences(
     @Query() params: GetConferencesParams,
     @Query('topics') topics: string | string[],
+    @Query('sortBy') sortBy: 'createdAt' | 'updatedAt' | 'title' | 'acronym' | 'rank' | 'source' = 'createdAt',
+    @Query('sortOrder') sortOrder: 'asc' | 'desc' = 'desc',
   ): Promise<ConferencePaginationDTO> {
     if (topics instanceof Array) {
       params.topics = topics;
@@ -105,7 +122,10 @@ export class ConferenceController {
       params.perPage = parseInt(params.perPage as any);
     }
 
-    const conferences = await this.conferenceService.getConferences(params);
+    const conferences = await this.conferenceService.getConferences(params, {
+      sortBy,
+      sortOrder,
+    });
 
     return conferences;
   }
@@ -580,12 +600,21 @@ export class ConferenceController {
         });
       }),
     );
+
+    // Create conference post request
+    const postRequest =
+      await this.conferenceService.createConferencePostRequest(user.id, {
+        conferenceId: conferenceInstance.id,
+        message: 'Request to publish conference',
+      });
+
     return {
       message: 'Conference created successfully',
       conferenceId: conferenceInstance.id,
       organizationId: organization.id,
       locationId: location.id,
       dates: dates,
+      postRequest,
     };
   }
 

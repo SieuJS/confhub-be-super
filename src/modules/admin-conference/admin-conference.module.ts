@@ -9,8 +9,18 @@ import { SourceRankModule } from '../source-rank';
 import { ConferencesModule } from '../conference/conference.module';
 
 @Module({
-    imports : [CommonModule, ConferenceOrganizationModule, SourceRankModule, ConferencesModule],
-    controllers : [AdminConferenceController],
-    providers : [AdminConferenceService, NativeConferenceService, AdminSourceService],
+  imports: [
+    CommonModule,
+    ConferenceOrganizationModule,
+    SourceRankModule,
+    ConferencesModule,
+  ],
+  controllers: [AdminConferenceController],
+  providers: [
+    AdminConferenceService,
+    NativeConferenceService,
+    AdminSourceService,
+  ],
+  exports: [AdminConferenceService],
 })
 export class AdminConferenceModule {}
