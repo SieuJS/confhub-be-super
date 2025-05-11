@@ -1,175 +1,27 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, NotFoundException, Logger } from '@nestjs/common';
 import { PrismaService } from '../../../common';
-import { GetJournalParams } from '../../models/journal-request/get-journal-params';
-import { JournalPaginationDTO } from '../../models/journal/journal-pagination.dto';
-import {
-  JournalResponse,
-  JournalSort,
-  JournalWhereInput,
-} from '../../models/journal/journal.types';
-import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
-import { PrismaClient } from 'generated/prisma_client';
-import { TransactionHost } from '@nestjs-cls/transactional';
-import { CreateJournalDto } from '../../dto/journal.dto';
-import { NotFoundException } from '@nestjs/common';
-import * as fs from 'fs';
-import * as readline from 'readline';
 import { JournalImport } from '../../models/journal.import';
 import { JournalRankInput } from '../../models/journal-rank.dto';
+import { RankService, SourceService } from 'src/modules/source-rank';
+import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
+import { TransactionHost } from '@nestjs-cls/transactional';
+import { CreateJournalDto } from '../../dto/journal.dto';
+import * as fs from 'fs';
+import * as readline from 'readline';
 
 @Injectable()
 export class JournalService {
   private readonly logger = new Logger(JournalService.name);
 
   constructor(
-    private readonly prismaService: PrismaService,
-    private readonly txHost: TransactionHost<
-      TransactionalAdapterPrisma<PrismaClient>
-    >,
+    private prismaService: PrismaService,
+    private readonly rankService: RankService,
+    private readonly sourceService: SourceService,
+    private readonly txHost: TransactionHost<TransactionalAdapterPrisma>,
   ) {}
 
-  async getJournals(
-    params: GetJournalParams,
-    sortOptions: JournalSort,
-  ): Promise<JournalPaginationDTO> {
-    const {
-      page = 1,
-      perPage = 10,
-      search,
-      publisher,
-      country,
-      region,
-      categories,
-      fields,
-    } = params;
-
-    const where: JournalWhereInput = {};
-
-    if (search) {
-      where.OR = [
-        { title: { contains: search, mode: 'insensitive' } },
-        { publisher: { contains: search, mode: 'insensitive' } },
-        { country: { contains: search, mode: 'insensitive' } },
-      ];
-    }
-
-    if (publisher) {
-      where.publisher = { contains: publisher, mode: 'insensitive' };
-    }
-
-    if (country) {
-      where.country = { contains: country, mode: 'insensitive' };
-    }
-
-    if (region) {
-      where.region = { contains: region, mode: 'insensitive' };
-    }
-
-    if (categories && categories.length > 0) {
-      where.categories = {
-        contains: categories.join(','),
-        mode: 'insensitive',
-      };
-    }
-
-    if (fields && fields.length > 0) {
-      where.areas = {
-        contains: fields.join(','),
-        mode: 'insensitive',
-      };
-    }
-
-    const [journals, total] = await Promise.all([
-      this.prismaService.journals.findMany({
-        where,
-        skip: (page - 1) * perPage,
-        take: perPage,
-        orderBy: {
-          [sortOptions.sortBy]: sortOptions.sortOrder,
-        },
-      }),
-      this.prismaService.journals.count({ where }),
-    ]);
-
-    return {
-      data: journals.map((journal): JournalResponse => ({
-        id: journal.id,
-        title: journal.title,
-        issn: journal.issn || '',
-        hIndex: journal.hIndex || '',
-        publisher: journal.publisher || '',
-        country: journal.country || '',
-        scimagoLink: journal.scimagoLink || '',
-        sjr: journal.sjr || '',
-        scope: journal.scope || '',
-        emailSubmission: journal.emailSubmission || '',
-        totalDocs: journal.totalDocs || '',
-        totalDocs3Years: journal.totalDocs3Years || '',
-        totalRefs: journal.totalRefs || '',
-        totalCites3Years: journal.totalCites3Years || '',
-        citableDocs3Years: journal.citableDocs3Years || '',
-        citesPerDoc2Years: journal.citesPerDoc2Years || '',
-        refsPerDoc: journal.refsPerDoc || '',
-        percentFemale: journal.percentFemale || '',
-        overton: journal.overton || '',
-        sdg: journal.sdg || '',
-        region: journal.region || '',
-        coverage: journal.coverage || '',
-        categories: journal.categories || '',
-        areas: journal.areas || '',
-        homepage: journal.homepage || '',
-        howToPublish: journal.howToPublish || '',
-        mail: journal.mail || '',
-        createdAt: journal.createdAt,
-        updatedAt: journal.updatedAt,
-      })),
-      total,
-      page,
-      perPage,
-      totalPages: Math.ceil(total / perPage),
-    };
-  }
-
-  async getJournalById(id: string): Promise<JournalResponse | null> {
-    const journal = await this.prismaService.journals.findUnique({
-      where: { id },
-    });
-
-    if (!journal) {
-      return null;
-    }
-
-    return {
-      id: journal.id,
-      title: journal.title,
-      issn: journal.issn || '',
-      hIndex: journal.hIndex || '',
-      publisher: journal.publisher || '',
-      country: journal.country || '',
-      scimagoLink: journal.scimagoLink || '',
-      sjr: journal.sjr || '',
-      scope: journal.scope || '',
-      emailSubmission: journal.emailSubmission || '',
-      totalDocs: journal.totalDocs || '',
-      totalDocs3Years: journal.totalDocs3Years || '',
-      totalRefs: journal.totalRefs || '',
-      totalCites3Years: journal.totalCites3Years || '',
-      citableDocs3Years: journal.citableDocs3Years || '',
-      citesPerDoc2Years: journal.citesPerDoc2Years || '',
-      refsPerDoc: journal.refsPerDoc || '',
-      percentFemale: journal.percentFemale || '',
-      overton: journal.overton || '',
-      sdg: journal.sdg || '',
-      region: journal.region || '',
-      coverage: journal.coverage || '',
-      categories: journal.categories || '',
-      areas: journal.areas || '',
-      homepage: journal.homepage || '',
-      howToPublish: journal.howToPublish || '',
-      mail: journal.mail || '',
-      createdAt: journal.createdAt,
-      updatedAt: journal.updatedAt,
-    };
+  async getAllJournalEntries() {
+    return await this.prismaService.journals.findMany({});
   }
 
   async createOrCreateJournalEntry(journalImport: JournalImport) {
@@ -290,26 +142,24 @@ export class JournalService {
       throw new NotFoundException('Category not found');
     }
 
-    const source = await this.txHost.tx.sources.findFirst({
-      where: {
-        name: 'Scrimago',
-        link: 'https://www.scimagojr.com/',
-      },
+    const source = await this.sourceService.findOrCreateSource({
+      name: 'Scrimago',
+      link: 'https://www.scimagojr.com/',
     });
 
-    const rankInDb = await this.txHost.tx.ranks.findFirst({
-      where: {
-        name: input.quartile,
-      },
+    const rankInDb = await this.rankService.findOrCreateRank({
+      name: input.quartile,
+      value: 1,
+      source: source,
     });
 
     return this.txHost.tx.journalRanks.create({
       data: {
         journalId: journal.id,
         cateId: category?.id,
-        year: input.year,
+        year: parseInt(input.year),
         quartile: input.quartile,
-        rankId: rankInDb?.id || '',
+        rankId: rankInDb.id,
       },
     });
   }
@@ -371,4 +221,4 @@ export class JournalService {
       },
     });
   }
-} 
+}
