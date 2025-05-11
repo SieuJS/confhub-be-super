@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/require-await */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { PrismaService } from '../../common';
 import { HttpException, Injectable } from '@nestjs/common';
 import { ConferenceImportDTO } from '../models/conference/conference-import.dto';
@@ -40,6 +42,16 @@ export class ConferenceService {
 
   async getConferences(
     conferenceFilter?: GetConferencesParams,
+    sortOptions?: {
+      sortBy:
+        | 'createdAt'
+        | 'updatedAt'
+        | 'title'
+        | 'acronym'
+        | 'rank'
+        | 'source';
+      sortOrder: 'asc' | 'desc';
+    },
   ): Promise<ConferencePaginationDTO> {
     const include =
       conferenceFilter?.mode === 'detail'
@@ -440,9 +452,19 @@ export class ConferenceService {
         : {}),
     };
 
-    const orderBy: Prisma.ConferencesOrderByWithRelationInput = {
-      updatedAt: 'asc',
-    };
+    let orderBy: Prisma.ConferencesOrderByWithRelationInput = {};
+
+    if (sortOptions?.sortBy === 'rank' || sortOptions?.sortBy === 'source') {
+      orderBy = {
+        ranks: {
+          _count: sortOptions.sortOrder,
+        },
+      };
+    } else {
+      orderBy = {
+        [sortOptions?.sortBy || 'createdAt']: sortOptions?.sortOrder || 'desc',
+      };
+    }
 
     const paginatedData = await paginate(
       this.prismaService.conferences,
@@ -1438,5 +1460,24 @@ export class ConferenceService {
       return undefined;
     }
     return topic;
+  }
+
+  async createConferencePostRequest(
+    userId: string,
+    data: { conferenceId: string; message: string },
+  ) {
+    return this.txHost.tx.conferencePostRequests.create({
+      data: {
+        userId,
+        conferenceId: data.conferenceId,
+        status: 'PENDING',
+        message: data.message,
+      },
+      include: {
+        belongsTo: true,
+        byUser: true,
+        byAdmin: true,
+      },
+    });
   }
 }

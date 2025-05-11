@@ -11,6 +11,7 @@ import { UserModule } from '../user/user.module';
 import { ConferenceRankService } from './services/conference-rank.service';
 import { NotifyModule } from '../notify/notify.module';
 import { SocketGatewayModule } from '../socket-gateway/socket-gateway.module';
+import { AdminConferenceModule } from '../admin-conference/admin-conference.module';
 
 @Module({
   imports: [

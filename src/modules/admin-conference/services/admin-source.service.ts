@@ -1,27 +1,22 @@
-import { Injectable } from "@nestjs/common";
-import { PrismaService } from "src/modules/common";
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/modules/common';
 
-@Injectable() 
+@Injectable()
 export class AdminSourceService {
+  constructor(private readonly prismaService: PrismaService) {}
 
-    constructor(
-        private readonly prismaService: PrismaService
-    ){}
-
-    async getSourcesForConference(conferenceId : string) {
-        const queryResult =  await this.prismaService.conferenceRanks.findMany({
-            where : {
-                conferenceId : conferenceId
-            },
-            include : {
-                byRank : {
-                    include : {
-                        belongsToSource : true
-                    }
-                }
-            }
-        })
-    }
-
-     
+  async getSourcesForConference(conferenceId: string) {
+    const queryResult = await this.prismaService.conferenceRanks.findMany({
+      where: {
+        conferenceId: conferenceId,
+      },
+      include: {
+        byRank: {
+          include: {
+            belongsToSource: true,
+          },
+        },
+      },
+    });
+  }
 }
