@@ -2,7 +2,6 @@ import { Inject, Injectable } from '@nestjs/common';
 import * as brevo from '@getbrevo/brevo';
 import { Service } from 'src/modules/tokens';
 import { Config, LoggerService, PrismaService } from 'src/modules/common';
-import { ConferenceDTO } from 'src/modules/conference/models/conference/conference.dto';
 @Injectable()
 export class EmailService {
   private brevoClient: brevo.TransactionalEmailsApi;

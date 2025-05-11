@@ -8,17 +8,19 @@ import { DEFAULT_TYPE } from '../constants/default-type';
 import { MessageService } from 'src/modules/socket-gateway/services/message.service';
 import { NotificationInput } from '../models/notification.input';
 import { PrismaClient } from 'generated/prisma_client';
+import { EmailService } from 'src/modules/email-verify/services/email.service';
 @Injectable()
 export class NotificationService {
   constructor(
     private prismaService: PrismaService,
     private txHost: TransactionHost<TransactionalAdapterPrisma<PrismaClient>>,
+    private emailService: EmailService,
     private messageService: MessageService,
   ) {
-    const init = async () => {
-      await this.initNotification();
-      await this.resetAllUserNotificationSetting();
-    };
+    // const init = async () => {
+    //   await this.initNotification();
+    //   await this.resetAllUserNotificationSetting();
+    // };
     // init();
   }
 
@@ -86,6 +88,17 @@ export class NotificationService {
     if (!notificationType) {
       throw new HttpException('Notification type not found', 400);
     }
+    const setting = await this.txHost.tx.notificationSettings.findFirst({
+      where: {
+        userId: input.userId,
+        notificationId: notificationType.id,
+        isEnabled: true,
+      },
+    });
+    if (!setting) {
+      throw new HttpException('User turn off the notification', 400);
+    }
+
     const notification = await this.txHost.tx.notifications.create({
       data: {
         userId: input.userId,
@@ -149,7 +162,7 @@ export class NotificationService {
     notifyInput: NotificationResponseDTO,
     userId: string,
   ) {
-    const { message, type } = notifyInput;
+    const { type } = notifyInput;
     const notificationType = await this.txHost.tx.notificationsTypes.findFirst({
       where: {
         name: type,
@@ -202,8 +215,6 @@ export class NotificationService {
     });
   }
 
-  async createCalendarNotification() {}
-
   async getAllNotificationTypes() {
     return await this.prismaService.notificationsTypes.findMany();
   }
@@ -226,9 +237,9 @@ export class NotificationService {
       console.log('Notification type not found', type);
       throw new HttpException('Notification type not found', 400);
     }
-    if(type === DEFAULT_TYPE.ON_NOTIFICATION) {
+    if (type === DEFAULT_TYPE.ON_NOTIFICATION) {
       console.log('Turn off all notification');
-      await this.turnOffAllNotification(userId)
+      await this.turnOffAllNotification(userId);
       return;
     }
     const setting = await this.txHost.tx.notificationSettings.findFirst({
@@ -296,7 +307,7 @@ export class NotificationService {
     }
   }
 
-  async turnOnNofificationOption (userID : string, type: string) {
+  async turnOnNofificationOption(userID: string, type: string) {
     const notificationType = await this.txHost.tx.notificationsTypes.findFirst({
       where: {
         name: type,
@@ -322,5 +333,80 @@ export class NotificationService {
         isEnabled: true,
       },
     });
+  }
+
+  async sendUpdateConferenceNotification(conferenceId: string) {
+    const notificationType = await this.txHost.tx.notificationsTypes.findFirst({
+      where: {
+        name: DEFAULT_TYPE.CONFERENCE_UPDATED,
+      },
+    });
+    if (!notificationType) {
+      throw new HttpException('Notification type not found', 400);
+    }
+    const conference = await this.prismaService.conferences.findUnique({
+      where: {
+        id: conferenceId,
+      },
+    });
+    if (!conference) {
+      throw new HttpException('Conference not found', 400);
+    }
+    const users = await this.prismaService.users.findMany({
+      where: {
+        notificationSettings: {
+          some: {
+            isEnabled: true,
+            notificationId: notificationType.id,
+          },
+        },
+      },
+    });
+    for (const user of users) {
+      await this.createConferenceNotification({
+        userId: user.id,
+        conferenceId: conferenceId,
+        message: `${conference.title} has been updated`,
+        isDeleted: false,
+        isRead: false,
+        type: DEFAULT_TYPE.CONFERENCE_UPDATED,
+      });
+    }
+  }
+
+  async sendEmailNotification(userId: string, content: string) {
+    const emailType = DEFAULT_TYPE.SEND_THROUGH_EMAIL;
+    const notificationType = await this.txHost.tx.notificationsTypes.findFirst({
+      where: {
+        name: emailType,
+      },
+    });
+    if (!notificationType) {
+      throw new HttpException('Notification type not found', 400);
+    }
+    const userSetting = await this.txHost.tx.notificationSettings.findFirst({
+      where: {
+        userId,
+        notificationId: notificationType.id,
+        isEnabled: true,
+      },
+    });
+    if (!userSetting) {
+      throw new HttpException('User turn off the notification', 400);
+    }
+    const user = await this.prismaService.users.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+    if (!user) {
+      throw new HttpException('User not found', 400);
+    }
+    const emailService = await this.emailService.sendUpcomingEventEmail(
+      user.email,
+      user.firstName,
+      content,
+    );
+    return emailService;
   }
 }

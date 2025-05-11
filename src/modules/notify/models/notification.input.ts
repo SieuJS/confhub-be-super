@@ -1,5 +1,11 @@
-import { ApiProperty, OmitType } from "@nestjs/swagger";
-import { NotificationDTO } from "./notification-dto";
+import { OmitType } from '@nestjs/swagger';
+import { NotificationDTO } from './notification-dto';
 
-export class NotificationInput extends OmitType(NotificationDTO , ['id', 'createdAt', 'updatedAt', 'typeId']) {
+export class NotificationInput extends OmitType(NotificationDTO, [
+  'id',
+  'createdAt',
+  'updatedAt',
+  'typeId',
+]) {
+  type: string;
 }

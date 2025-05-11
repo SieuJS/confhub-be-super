@@ -1,3 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-floating-promises */
 import {
   Body,
   Controller,
@@ -49,6 +55,8 @@ import { AddConferenceBody } from '../models/conference-request/add-conference-b
 import { JWTGuardUser } from 'src/modules/auth/guards/jwt.guard';
 import { Transactional } from '@nestjs-cls/transactional';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
+import { emailUpdate } from '../template/email-update';
+import { ConferenceDatesDTO } from '../models/conference-organization/conference-dates.dto';
 
 @ApiTags('/conference')
 @Controller('conference')
@@ -245,24 +253,6 @@ export class ConferenceController {
       link: organization.link,
     };
 
-    const followedUsers =
-      await this.conferenceService.getFollowedByConferenceId(conference.id);
-    followedUsers.map(async (user) => {
-      const notifiConference =
-        await this.notificationService.createConferenceNotification({
-          userId: user.userId,
-          conferenceId: conference.id,
-          type: DEFAULT_TYPE.CONFERENCE_FOLLOWED,
-          message: `You have followed the conference ${conference.title}`,
-          isDeleted: false,
-          isRead: false,
-        });
-      await this.notificationService.sendNotificationToUser(
-        notifiConference,
-        user.userId,
-      );
-    });
-
     const organizeData =
       await this.conferenceOrganizationService.importOrganize({
         year: parseInt(crawlData.year),
@@ -342,12 +332,103 @@ export class ConferenceController {
       await this.conferenceOrganizationService.importDate(date);
     }
 
-    const createdTopics = crawlData.topics.split(' ').map((topic) => {
-      return this.conferenceOrganizationService.importTopic({
-        organized: organizeData.id,
-        topic: topic,
-      });
-    });
+    await Promise.all(
+      crawlData.topics.split(' ').map(async (topic) => {
+        const topicInstance =
+          await this.conferenceService.getTopicByName(topic);
+        if (!topicInstance) {
+          return this.conferenceOrganizationService.importTopic({
+            organized: organizeData.id,
+            topic: topic,
+          });
+        }
+      }),
+    );
+    try {
+      const followedUsers =
+        await this.conferenceService.getFollowedByConferenceId(conference.id);
+      await Promise.all(
+        followedUsers.map(async (user) => {
+          const notifiConference =
+            await this.notificationService.createConferenceNotification({
+              userId: user.userId,
+              conferenceId: conference.id,
+              type: DEFAULT_TYPE.CONFERENCE_FOLLOWED,
+              message: `${conference.title} has been updated`,
+              isDeleted: false,
+              isRead: false,
+            });
+          await this.notificationService.sendNotificationToUser(
+            notifiConference,
+            user.userId,
+          );
+          const conferenceDetail =
+            await this.conferenceService.getConferenceByIdWithDetail(
+              conference.id,
+            );
+          if (!conferenceDetail) {
+            throw new HttpException('Conference details not found', 404);
+          }
+          const conferenceDTO: ConferenceDTO = {
+            ...conferenceDetail,
+            location: conferenceDetail.organizations?.[0]?.locations?.[0]
+              ? {
+                  address:
+                    conferenceDetail.organizations[0].locations[0].address ||
+                    null,
+                  cityStateProvince:
+                    conferenceDetail.organizations[0].locations[0]
+                      .cityStateProvince || null,
+                  country:
+                    conferenceDetail.organizations[0].locations[0].country ||
+                    null,
+                  continent:
+                    conferenceDetail.organizations[0].locations[0].continent ||
+                    null,
+                }
+              : null,
+            dates: conferenceDetail.organizations?.[0]?.conferenceDates?.[0]
+              ? new ConferenceDatesDTO()
+              : null,
+            link: conferenceDetail.organizations?.[0]?.link || '',
+            accessType: conferenceDetail.organizations?.[0]?.accessType || '',
+            topics: conferenceDetail.organizations?.[0]?.topics || [],
+          };
+          if (
+            conferenceDTO.dates &&
+            conferenceDetail.organizations?.[0]?.conferenceDates?.[0]
+          ) {
+            conferenceDTO.dates.type =
+              conferenceDetail.organizations[0].conferenceDates[0].type ||
+              'conferenceDates';
+            conferenceDTO.dates.name =
+              conferenceDetail.organizations[0].conferenceDates[0].name || '';
+            conferenceDTO.dates.fromDate =
+              conferenceDetail.organizations[0].conferenceDates[0].fromDate ||
+              null;
+            conferenceDTO.dates.toDate =
+              conferenceDetail.organizations[0].conferenceDates[0].toDate ||
+              null;
+            conferenceDTO.dates.createdAt =
+              conferenceDetail.organizations[0].conferenceDates[0].createdAt ||
+              new Date();
+            conferenceDTO.dates.updatedAt =
+              conferenceDetail.organizations[0].conferenceDates[0].updatedAt ||
+              new Date();
+            try {
+              await this.notificationService.sendEmailNotification(
+                user.userId,
+                emailUpdate(conferenceDTO),
+              );
+            } catch (error) {
+              console.log(error);
+            }
+          }
+        }),
+      );
+    } catch (error) {
+      console.log(error);
+    }
 
     return {
       conferenceId: conference.id,

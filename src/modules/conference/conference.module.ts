@@ -13,9 +13,21 @@ import { NotifyModule } from '../notify/notify.module';
 import { SocketGatewayModule } from '../socket-gateway/socket-gateway.module';
 
 @Module({
-  imports : [SocketGatewayModule, CommonModule, SourceRankModule, ConferenceJobModule,NotifyModule, ConferenceOrganizationModule, UserModule ],
-  providers: [ ConferenceService, ConferenceDtoToModelPipe, ConferenceRankService, NotificationService],
+  imports: [
+    SocketGatewayModule,
+    CommonModule,
+    SourceRankModule,
+    ConferenceJobModule,
+    NotifyModule,
+    ConferenceOrganizationModule,
+    UserModule,
+  ],
+  providers: [
+    ConferenceService,
+    ConferenceDtoToModelPipe,
+    ConferenceRankService,
+  ],
   controllers: [ConferenceController],
-  exports : [ConferenceService]
+  exports: [ConferenceService],
 })
 export class ConferencesModule {}

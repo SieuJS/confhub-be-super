@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Put, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiHeader, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { NotificationService } from '../services/notification.service';
 import { JWTGuardUser } from 'src/modules/auth/guards/jwt.guard';
 import { Req } from '@nestjs/common';
@@ -97,7 +97,6 @@ export class NotificationController {
           break;
 
         case DEFAULT_TYPE.SEND_THROUGH_EMAIL:
-          defaultSetting.notificationThroughEmail;
           defaultSetting.notificationThroughEmail = setting.isEnabled;
           break;
         case DEFAULT_TYPE.CONFERENCE_UPDATED:
