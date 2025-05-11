@@ -1,20 +1,14 @@
-import { Controller, Get } from "@nestjs/common";
-import { AdminService } from "../services/admin.service";
-import { ApiTags } from "@nestjs/swagger";
+import { Controller, Get } from '@nestjs/common';
+import { AdminService } from '../services/admin.service';
+import { ApiTags } from '@nestjs/swagger';
 
-@Controller('admin') 
+@Controller('admin')
 @ApiTags('admin')
 export class AdminController {
+  constructor(private adminService: AdminService) {}
 
-    constructor(
-        private adminService : AdminService
-    ) {
-        
-    }
-
-    @Get('/')
-    async getAdmin() {
-        return await this.adminService.getAdmin();
-    }
-
+  @Get('/')
+  async getAdmin() {
+    return await this.adminService.getAdmin();
+  }
 }

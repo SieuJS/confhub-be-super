@@ -68,13 +68,14 @@ export class AuthService {
 
   loginAdmin(admin: AdminDto) {
     return {
-      access_token: this.jwtService.sign({
+      token: this.jwtService.sign({
         payload: {
           id: admin.id,
           email: admin.email,
           role: 'admin',
         },
       }),
+      user: admin,
     };
   }
 
