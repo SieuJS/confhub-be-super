@@ -80,25 +80,32 @@ export class ConferenceController {
     description: 'Get all conferences',
     type: ConferencePaginationDTO,
   })
-  @ApiQuery({ 
-    name: 'sortBy', 
-    required: false, 
+  @ApiQuery({
+    name: 'sortBy',
+    required: false,
     description: 'Sort by field',
     enum: ['createdAt', 'updatedAt', 'title', 'acronym', 'rank', 'source'],
-    default: 'createdAt'
+    default: 'createdAt',
   })
-  @ApiQuery({ 
-    name: 'sortOrder', 
-    required: false, 
+  @ApiQuery({
+    name: 'sortOrder',
+    required: false,
     description: 'Sort order',
     enum: ['asc', 'desc'],
-    default: 'desc'
+    default: 'desc',
   })
   @Get()
   async getConferences(
     @Query() params: GetConferencesParams,
     @Query('topics') topics: string | string[],
-    @Query('sortBy') sortBy: 'createdAt' | 'updatedAt' | 'title' | 'acronym' | 'rank' | 'source' = 'createdAt',
+    @Query('sortBy')
+    sortBy:
+      | 'createdAt'
+      | 'updatedAt'
+      | 'title'
+      | 'acronym'
+      | 'rank'
+      | 'source' = 'createdAt',
     @Query('sortOrder') sortOrder: 'asc' | 'desc' = 'desc',
   ): Promise<ConferencePaginationDTO> {
     if (topics instanceof Array) {

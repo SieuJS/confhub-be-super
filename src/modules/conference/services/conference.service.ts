@@ -471,7 +471,7 @@ export class ConferenceService {
       {
         where: whereCondition,
         include: include,
-        orderBy: orderBy,
+        // orderBy: orderBy,
       },
       {
         page: conferenceFilter?.page || 1,
