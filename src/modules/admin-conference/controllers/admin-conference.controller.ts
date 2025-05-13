@@ -287,6 +287,10 @@ export class AdminConferenceController {
     description: 'Unauthorized',
   })
   async importConferences(@Body() conferencesData: ConferenceSaveDto[]) {
-    return await this.adminConferenceService.importConferences(conferencesData);
+    const data = await this.adminConferenceService.importConferences(conferencesData);
+    return {
+      success: true,
+      data: data,
+    };
   }
 }
