@@ -14,6 +14,8 @@ import {
   Req,
   Patch,
   UseGuards,
+  HttpStatus,
+  HttpCode,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 import { AdminConferenceService } from '../services/admin-conference.service';
@@ -29,7 +31,12 @@ import { Transactional } from '@nestjs-cls/transactional';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { JWTGuardAdmin } from 'src/modules/auth/guards/jwt.guard';
 import { ConferencePostRequestDTO, CreateConferencePostRequestDTO, UpdateConferencePostRequestDTO } from '../models/conference-request-post.dto';
-@Controller('admin-conference')
+import { ConferenceSaveDto } from '../models/conference-save.dto';
+
+@ApiTags('admin-conference')
+@Controller('admin/conferences')
+// @UseGuards(JWTGuardAdmin)
+@ApiBearerAuth()
 export class AdminConferenceController {
   constructor(
     private readonly adminConferenceService: AdminConferenceService,
@@ -243,5 +250,43 @@ export class AdminConferenceController {
       req.user.id, // adminId is the same as the authenticated admin's id
       data,
     );
+  }
+
+  @Post('save')
+  @HttpCode(HttpStatus.CREATED)
+  @ApiOperation({ summary: 'Create or update a conference' })
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'The conference has been successfully created/updated',
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Invalid conference data',
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Unauthorized',
+  })
+  async createConference(@Body() conferenceData: ConferenceSaveDto) {
+    return await this.adminConferenceService.saveConference(conferenceData);
+  }
+
+  @Post('import')
+  @HttpCode(HttpStatus.CREATED)
+  @ApiOperation({ summary: 'Import multiple conferences' })
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'The conferences have been successfully imported',
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Invalid conference data',
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Unauthorized',
+  })
+  async importConferences(@Body() conferencesData: ConferenceSaveDto[]) {
+    return await this.adminConferenceService.importConferences(conferencesData);
   }
 }

@@ -1,5 +1,5 @@
 /* eslint-disable*/
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, Injectable, BadRequestException } from '@nestjs/common';
 import { paginator, PaginatorTypes } from '@nodeteam/nestjs-prisma-pagination';
 import { Conferences, Prisma } from 'generated/prisma_client';
 import { PrismaService } from 'src/modules/common';
@@ -28,6 +28,8 @@ import {
 import { TransactionHost } from '@nestjs-cls/transactional';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { ConferencePostRequestStatus } from '../models/conference-request-post.dto';
+import { ConferenceSaveDto } from '../models/conference-save.dto';
+
 const paginate: PaginatorTypes.PaginateFunction = paginator({ perPage: 10 });
 @Injectable()
 export class AdminConferenceService {
@@ -648,5 +650,163 @@ export class AdminConferenceService {
         fullName: request.byAdmin.fullName,
       } : null,
     };
+  }
+
+  async saveConference(conferenceData: ConferenceSaveDto): Promise<any> {
+    try {
+      // Check if conference with same acronym already exists
+      let conference;
+      
+      if (conferenceData.acronym) {
+        conference = await this.prismaService.conferences.findFirst({
+          where: { acronym: conferenceData.acronym }
+        });
+      }
+
+      // Create base conference data object
+      const conferenceDataToSave = {
+        title: conferenceData.title?.title || '',
+        acronym: conferenceData.acronym || conferenceData.title?.acronym || '',
+        status: 'PUBLISHED', // Or set appropriate default status
+      };
+
+      // Create or update the conference
+      let savedConference;
+      if (!conference) {
+        // Create new conference
+        savedConference = await this.prismaService.conferences.create({
+          data: conferenceDataToSave
+        });
+      } else {
+        // Update existing conference
+        savedConference = await this.prismaService.conferences.update({
+          where: { id: conference.id },
+          data: conferenceDataToSave
+        });
+      }
+
+      // Create a conference organization
+      const year = conferenceData.year ? parseInt(conferenceData.year) : new Date().getFullYear();
+      
+      // Create the conference organization
+      const organizeData = await this.conferenceOrganizationService.importOrganize({
+        conferenceId: savedConference.id,
+        year: year,
+        accessType: conferenceData.type || 'Offline',
+        isAvailable: true,
+        publisher: conferenceData.publisher || '',
+        summerize: conferenceData.summary || '',
+        callForPaper: conferenceData.callForPapers || '',
+        link: conferenceData.title?.link || '',
+        cfpLink: conferenceData.title?.cfpLink || '',
+        impLink: conferenceData.title?.impLink || '',
+      });
+
+      if (!organizeData) {
+        throw new Error('Failed to create conference organization data');
+      }
+
+      // Create location if available
+      if (conferenceData.location || conferenceData.cityStateProvince || conferenceData.country || conferenceData.continent) {
+        await this.conferenceOrganizationService.importPlace({
+          organizeId: organizeData.id,
+          address: conferenceData.location || '',
+          cityStateProvince: conferenceData.cityStateProvince || '',
+          country: conferenceData.country || '',
+          continent: conferenceData.continent || '',
+        });
+      }
+
+      // Process dates
+      const conferenceDateInput = converStringToDate(
+        conferenceData.conferenceDates || '',
+        'conferenceDates',
+        organizeData.id
+      );
+      
+      const submissionDateInput = convertObjectToDate(
+        conferenceData.submissionDate || [],
+        'submissionDate',
+        organizeData.id
+      );
+      
+      const cameraReadyDateInput = convertObjectToDate(
+        conferenceData.cameraReadyDate || [],
+        'cameraReadyDate',
+        organizeData.id
+      );
+      
+      const registrationDateInput = convertObjectToDate(
+        conferenceData.registrationDate || [],
+        'registrationDate',
+        organizeData.id
+      );
+      
+      const notificationDateInput = convertObjectToDate(
+        conferenceData.notificationDate || [],
+        'notificationDate',
+        organizeData.id
+      );
+      
+      const otherDateInput = convertObjectToDate(
+        conferenceData.otherDate || [],
+        'otherDate',
+        organizeData.id
+      );
+
+      const dateInput = [
+        conferenceDateInput,
+        ...submissionDateInput,
+        ...cameraReadyDateInput,
+        ...registrationDateInput,
+        ...notificationDateInput,
+        ...otherDateInput,
+      ];
+
+      for (const date of dateInput) {
+        await this.conferenceOrganizationService.importDate(date);
+      }
+
+      // Create topics if available
+      if (conferenceData.topics) {
+        const topicPromises = conferenceData.topics.split(',').map((topic) => {
+          return this.conferenceOrganizationService.importTopic({
+            organized: organizeData.id,
+            topic: topic.trim(),
+          });
+        });
+
+        await Promise.all(topicPromises);
+      }
+
+      // Return the complete conference data
+      return {
+        ...savedConference,
+        organization: organizeData,
+      };
+    } catch (error) {
+      throw new BadRequestException(
+        `Failed to save conference: ${error.message}`,
+      );
+    }
+  }
+
+  async importConferences(
+    conferencesData: ConferenceSaveDto[],
+  ): Promise<any[]> {
+    try {
+      const savedConferences = <any>[];
+
+      for (const conferenceData of conferencesData) {
+        const savedConference = await this.saveConference(conferenceData);
+        savedConferences.push(savedConference as any);
+      }
+      
+      return savedConferences;
+    } catch (error) {
+      throw new BadRequestException(
+        `Failed to import conferences: ${error.message}`,
+      );
+    }
   }
 }

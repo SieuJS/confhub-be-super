@@ -67,16 +67,24 @@ export class ConferenceImportProcessor extends WorkerHost {
 
             job.data.progress = 40;
             job.data.message = "Crawl data success, importing data";
-            this.messageService.sendMessage(channel, {progress : 40, message : "Crawl data success, importing data" , status : "processing"});
+            this.messageService.sendMessage(channel, {
+                progress: 40,
+                message: 'Crawl data success, importing data',
+                status: 'processing',
+            });
             await job.updateProgress(40);
 
             const crawlData = crawlDataResponse.data[0];
 
             if(!crawlData.link) {
-                this.messageService.sendMessage(channel, {progress : 100, message : "No link found for "+job.data.conferenceTitle, status : "failed"});
+                this.messageService.sendMessage(channel, {
+                    progress: 100,
+                    message: 'No link found for ' + job.data.conferenceTitle,
+                    status: 'failed',
+                });
                 await job.updateProgress(100);
-                await this.conferenceCrawlJobService.updateConferenceCrawlJob(job.data.id , {
-                    status : ConferenceAttribute.JOB_STATUS_FAILED,
+                await this.conferenceCrawlJobService.updateConferenceCrawlJob(job.data.id, {
+                    status: ConferenceAttribute.JOB_STATUS_FAILED,
                     progress : 100,
                     message : "No link found for "+job.data.conferenceTitle
                 });

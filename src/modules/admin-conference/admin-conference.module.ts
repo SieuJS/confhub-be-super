@@ -1,26 +1,23 @@
 import { Module } from '@nestjs/common';
-import { CommonModule } from '../common';
 import { AdminConferenceController } from './controllers/admin-conference.controller';
 import { AdminConferenceService } from './services/admin-conference.service';
+import { AuthModule } from '../auth/auth.module';
+import { CommonModule } from '../common';
 import { NativeConferenceService } from './services/native-conference.service';
-import { AdminSourceService } from './services/admin-source.service';
-import { ConferenceOrganizationModule } from '../conference-organization';
 import { SourceRankModule } from '../source-rank';
 import { ConferencesModule } from '../conference/conference.module';
+import { ConferenceOrganizationModule } from '../conference-organization';
 
 @Module({
   imports: [
     CommonModule,
-    ConferenceOrganizationModule,
+    AuthModule,
     SourceRankModule,
     ConferencesModule,
+    ConferenceOrganizationModule,
   ],
   controllers: [AdminConferenceController],
-  providers: [
-    AdminConferenceService,
-    NativeConferenceService,
-    AdminSourceService,
-  ],
+  providers: [AdminConferenceService, NativeConferenceService],
   exports: [AdminConferenceService],
 })
 export class AdminConferenceModule {}

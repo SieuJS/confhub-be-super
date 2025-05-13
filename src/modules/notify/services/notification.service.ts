@@ -17,11 +17,11 @@ export class NotificationService {
     private emailService: EmailService,
     private messageService: MessageService,
   ) {
-    // const init = async () => {
-    //   await this.initNotification();
-    //   await this.resetAllUserNotificationSetting();
-    // };
-    // init();
+    const init = async () => {
+      await this.initNotification();
+      await this.resetAllUserNotificationSetting();
+    };
+    init();
   }
 
   async getNotificationByUserId(userId: string) {
