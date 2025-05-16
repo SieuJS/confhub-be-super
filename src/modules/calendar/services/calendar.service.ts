@@ -33,7 +33,7 @@ export class CalendarService {
       });
 
       if (conf && conference && conference.organizations) {
-        conference.organizations[0].conferenceDates.forEach(date => {
+        conference.organizations.pop()?.conferenceDates.forEach(date => {
           // Check for null values on date properties
           if (date && date.fromDate && date.toDate) {
             const fromDate = new Date(date.fromDate);
