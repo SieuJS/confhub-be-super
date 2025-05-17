@@ -293,4 +293,98 @@ export class AdminConferenceController {
       data: data,
     };
   }
+
+  @Get('filter-options/status')
+  @ApiOperation({ summary: 'Get all available conference statuses' })
+  @ApiResponse({
+    status: 200,
+    description: 'List of available conference statuses',
+    type: [String],
+  })
+  async getStatusOptions() {
+    const statuses = await this.prismaService.conferences.findMany({
+      select: {
+        status: true
+      },
+      distinct: ['status']
+    });
+    return statuses.map(s => s.status);
+  }
+
+  @Get('filter-options/sources')
+  @ApiOperation({ summary: 'Get all available conference sources' })
+  @ApiResponse({
+    status: 200,
+    description: 'List of available conference sources',
+    type: [String],
+  })
+  async getSourceOptions() {
+    const sources = await this.prismaService.sources.findMany({
+      select: {
+        name: true
+      }
+    });
+    return sources.map(s => s.name);
+  }
+
+  @Get('filter-options/research-fields')
+  @ApiOperation({ summary: 'Get all available research fields' })
+  @ApiResponse({
+    status: 200,
+    description: 'List of available research fields',
+    type: [String],
+  })
+  async getResearchFieldOptions() {
+    const fields = await this.prismaService.fieldOfResearchs.findMany({
+      select: {
+        name: true
+      }
+    });
+    return fields.map(f => f.name);
+  }
+
+  @Get('filter-options/ranks/:source')
+  @ApiOperation({ summary: 'Get available ranks for a specific source' })
+  @ApiParam({ name: 'source', description: 'Conference source (e.g., IEEE, ACM)' })
+  @ApiResponse({
+    status: 200,
+    description: 'List of available ranks for the specified source',
+    type: [String],
+  })
+  async getRankOptionsBySource(@Param('source') source: string) {
+    const ranks = await this.prismaService.ranks.findMany({
+      where: {
+        belongsToSource: {
+          name: source
+        }
+      },
+      select: {
+        name: true
+      },
+      orderBy: {
+        value: 'asc'
+      }
+    });
+    return ranks.map(r => r.name);
+  }
+
+  @Get('filter-options/ranks')
+  @ApiOperation({ summary: 'Get all available ranks across all sources' })
+  @ApiResponse({
+    status: 200,
+    description: 'List of all available ranks',
+    type: [String],
+  })
+  async getAllRankOptions() {
+    const ranks = await this.prismaService.ranks.findMany({
+      select: {
+        name: true
+      },
+      distinct: ['name'],
+      orderBy: {
+        value: 'asc'
+      }
+    });
+    return ranks.map(r => r.name);
+  }
 }

@@ -5,6 +5,7 @@ import {
   HttpException,
   Post,
   Req,
+  Res,
   UseGuards,
   UsePipes,
 } from '@nestjs/common';
@@ -28,6 +29,7 @@ import { PayloadToken } from '../models/payload-token';
 import { UserDTO } from 'src/modules/user/models/user.dto';
 import { AdminService } from 'src/modules/user/services/admin.service';
 import { AdminDto } from 'src/modules/user/models/admin/admin.dto';
+import { GoogleOAuthGuard } from '../guards/google-auth.guard';
 
 interface GoogleUser {
   email: string;
@@ -213,6 +215,52 @@ export class AuthController {
     } catch {
       throw new HttpException('Invalid verification code', 400);
     }
+  }
+
+  @Get('google')
+  @UseGuards(GoogleOAuthGuard)
+  async googleLoginRedirect() {
+    return {
+      message: 'Google login successful',
+    };
+  }
+
+  @Get('google/callback')
+  @UseGuards(GoogleOAuthGuard)
+  async googleLoginCallback(@Req() req: {user: GoogleUser}, @Res() res) {
+    const user = req.user;
+    if (!user) {
+      throw new HttpException('User not found', 404);
+    }
+    let existUser = (await this.userService.getUserByEmail(
+      user.email,
+    )) as UserDTO | null;
+    if (!existUser) {
+      existUser = (await this.userService.createUser({
+        email: user.email,
+        firstName: user.firstName || '',
+        lastName: user.lastName,
+        password: `${user.email}google`,
+        avatar: user.picture || null,
+        dob: user.dob ? new Date(user.dob) : new Date('2000-01-01'),
+        aboutMe: '',
+        background: '',
+      })) as UserDTO;
+    }
+    const verificationStatus = await (
+      this.userVerifyService.getUserVerificationStatus as (
+        id: string,
+      ) => Promise<{ isVerified: boolean } | null>
+    )(existUser.id);
+    if (!verificationStatus?.isVerified) {
+      const verifyCode = await this.userVerifyService.createVerifyCode(
+        existUser.id,
+      );
+      await this.userVerifyService.verifyUser(verifyCode.id);
+    }
+
+    const loginPayload = this.authService.loginUser(existUser);
+    return res.redirect(process.env.FRONTEND_URL + '?token=' + loginPayload.token);
   }
 
   @Post('google')

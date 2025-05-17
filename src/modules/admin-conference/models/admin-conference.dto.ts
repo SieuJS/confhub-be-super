@@ -1,6 +1,72 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { array } from "joi";
 
+export class ConferenceLocationDTO {
+    @ApiProperty()
+    address: string;
+
+    @ApiProperty()
+    cityStateProvince: string;
+
+    @ApiProperty()
+    country: string;
+
+    @ApiProperty()
+    continent: string;
+}
+
+export class ConferenceDateDTO {
+    @ApiProperty()
+    type: string;
+
+    @ApiProperty()
+    startDate: Date;
+
+    @ApiProperty()
+    endDate: Date;
+}
+
+export class ConferenceOrganizationDTO {
+    @ApiProperty()
+    id: string;
+
+    @ApiProperty()
+    year: number;
+
+    @ApiProperty()
+    accessType: string;
+
+    @ApiProperty()
+    isAvailable: boolean;
+
+    @ApiProperty()
+    publisher: string;
+
+    @ApiProperty()
+    summerize: string;
+
+    @ApiProperty()
+    callForPaper: string;
+
+    @ApiProperty()
+    link: string;
+
+    @ApiProperty()
+    cfpLink: string;
+
+    @ApiProperty()
+    impLink: string;
+
+    @ApiProperty({ type: [ConferenceLocationDTO] })
+    locations: ConferenceLocationDTO[];
+
+    @ApiProperty({ type: [String] })
+    topics: string[];
+
+    @ApiProperty({ type: [ConferenceDateDTO] })
+    dates: ConferenceDateDTO[];
+}
+
 export class AdminConferenceDTO {
     @ApiProperty()
     id: string;
@@ -28,7 +94,9 @@ export class AdminConferenceDTO {
 
     @ApiProperty()
     status : string ;
-    
+
+    @ApiProperty({ type: [ConferenceOrganizationDTO] })
+    organizationHistory: ConferenceOrganizationDTO[];
 }
 
 export class AdminConferenceParams {
