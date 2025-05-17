@@ -139,6 +139,9 @@ export class AdminConferenceService {
           topics: true,
           conferenceDates: true,
         },
+        orderBy: {
+          year: 'desc'
+        }
       },
     };
 
@@ -180,6 +183,30 @@ export class AdminConferenceService {
         status: item.status,
         createdAt: item.createdAt,
         updatedAt: item.updatedAt,
+        organizationHistory: item.organizations.map((org: any) => ({
+          id: org.id,
+          year: org.year,
+          accessType: org.accessType,
+          isAvailable: org.isAvailable,
+          publisher: org.publisher,
+          summerize: org.summerize,
+          callForPaper: org.callForPaper,
+          link: org.link,
+          cfpLink: org.cfpLink,
+          impLink: org.impLink,
+          locations: org.locations.map((loc: any) => ({
+            address: loc.address,
+            cityStateProvince: loc.cityStateProvince,
+            country: loc.country,
+            continent: loc.continent,
+          })),
+          topics: org.topics.map((topic: any) => topic.topic),
+          dates: org.conferenceDates.map((date: any) => ({
+            type: date.type,
+            startDate: date.fromDate,
+            endDate: date.toDate,
+          })),
+        })),
       }),
     );
 
@@ -453,7 +480,10 @@ export class AdminConferenceService {
   }) {
     const requests = await this.prismaService.conferencePostRequests.findMany({
       where: {
-        ...(params?.status ? { status: params.status } : {}),
+        ...(params?.status ? { status: {
+          equals: params.status,
+          mode : 'insensitive'
+        } } : {}),
         ...(params?.startDate || params?.endDate
           ? {
               createdAt: {
@@ -578,7 +608,7 @@ export class AdminConferenceService {
     if (data.status === ConferencePostRequestStatus.APPROVED) {
       await this.prismaService.conferences.update({
         where: { id: request.conferenceId },
-        data: { status: 'PUBLISHED' },
+        data: { status: data.status },
       });
     }
 
