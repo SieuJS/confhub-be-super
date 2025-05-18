@@ -128,6 +128,7 @@ export class ConferenceController {
     if (params.perPage) {
       params.perPage = parseInt(params.perPage as any);
     }
+    console.log('params', params);
 
     const conferences = await this.conferenceService.getConferences(params, {
       sortBy,
