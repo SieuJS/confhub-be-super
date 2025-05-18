@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { CommonModule, LogInterceptor } from './modules/common';
+import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
 import * as session from 'express-session';
 import * as passport from 'passport';
@@ -10,6 +11,16 @@ const API_DEFAULT_PREFIX = '/api/v1/';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
   app.use(cookieParser());
+
+  // Set up global validation pipe with transformation enabled
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      transformOptions: { enableImplicitConversion: true },
+      whitelist: true,
+    }),
+  );
+
   const config = new DocumentBuilder()
     .setTitle('Cats example')
     .setDescription('The cats API description')

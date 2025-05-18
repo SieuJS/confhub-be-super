@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString } from 'class-validator';
+import { IsDate, IsOptional, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class UpdateUserDto {
   @ApiProperty({ description: 'User first name', required: false })
@@ -11,6 +12,16 @@ export class UpdateUserDto {
   @IsOptional()
   @IsString()
   lastName?: string;
+
+  @ApiProperty({
+    description: 'User date of birth',
+    required: false,
+    type: Date,
+  })
+  @IsOptional()
+  @IsDate()
+  @Type(() => Date)
+  dob?: Date;
 
   @ApiProperty({ description: 'User avatar URL', required: false })
   @IsOptional()
@@ -26,4 +37,4 @@ export class UpdateUserDto {
   @IsOptional()
   @IsString()
   aboutMe?: string;
-} 
+}

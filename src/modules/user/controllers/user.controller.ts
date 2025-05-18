@@ -15,6 +15,7 @@ import { NotificationService } from '../../notify/services/notification.service'
 import { UserVerifyService } from '../../email-verify/services/user-verify.service';
 import { UpdateUserDto } from '../models/update-user.dto';
 import { Request } from 'express';
+import { UserPropertyTransformPipe } from '../pipes/user-property-transform.pipe';
 
 @ApiTags('user')
 @Controller('/user')
@@ -80,14 +81,14 @@ export class UserController {
   @ApiBearerAuth('access-token')
   @ApiOperation({ summary: 'Update user profile information' })
   async updateUser(
-    @Req() req: Request, 
-    @Body() updateUserDto: UpdateUserDto
+    @Req() req: Request,
+    @Body(UserPropertyTransformPipe) updateUserDto: UpdateUserDto
   ) {
     const user = req.user as { id: string };
     const userId = user.id;
     const updatedUser = await this.userService.updateUser(
       userId,
-      updateUserDto
+      updateUserDto,
     );
     return {
       id: updatedUser.id,
