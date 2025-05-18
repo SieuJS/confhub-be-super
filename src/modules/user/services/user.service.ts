@@ -45,6 +45,19 @@ export class UserService {
     });
   }
 
+  async getUserInterestedTopics(userId: string) {
+    const topics = await this.txHost.tx.topicUserInteresteds.findMany({
+      where: {
+        userId,
+      },
+      include: {
+        inTopic: true,
+      },
+    });
+
+    return topics.map((topic) => topic.inTopic.name);
+  }
+
   async createUser(input: UserInput) {
     return await this.txHost.tx.users.create({
       data: {
@@ -62,6 +75,40 @@ export class UserService {
         ...data,
       },
     });
+  }
+
+  async updateUserInterestedTopics(userId: string, topicNames: string[]) {
+    // Delete existing interested topics for the user
+    await this.txHost.tx.topicUserInteresteds.deleteMany({
+      where: {
+        userId,
+      },
+    });
+
+    // For each topic name, find or create the topic, then associate it with the user
+    for (const name of topicNames) {
+      // Find existing topic or create a new one
+      let topic = await this.txHost.tx.topics.findFirst({
+        where: { name },
+      });
+
+      if (!topic) {
+        // Create the topic if it doesn't exist
+        topic = await this.txHost.tx.topics.create({
+          data: { name },
+        });
+      }
+
+      // Create the association between user and topic
+      await this.txHost.tx.topicUserInteresteds.create({
+        data: {
+          userId,
+          topicId: topic.id,
+        },
+      });
+    }
+
+    return this.getUserInterestedTopics(userId);
   }
 
   async followConference(userId: string, conferenceId: string) {

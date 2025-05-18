@@ -8,9 +8,9 @@ import { NotifyModule } from '../notify/notify.module';
 import { EmailVerifyModule } from '../email-verify/email-verify.module';
 
 @Module({
-    imports: [CommonModule, NotifyModule, EmailVerifyModule],
-    controllers : [AdminController, UserController],
-    providers: [AdminService, UserService],
-    exports: [AdminService, UserService ]
+  imports: [CommonModule, NotifyModule, EmailVerifyModule],
+  controllers: [AdminController, UserController],
+  providers: [AdminService, UserService],
+  exports: [AdminService, UserService],
 })
 export class UserModule {}

@@ -5,7 +5,7 @@ import {
   Patch,
   Post,
   Req,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -49,9 +49,13 @@ export class UserController {
     if (!userInfo) {
       return null;
     }
-
     const verificationStatus =
       await this.userVerifyService.getUserVerificationStatus(userInfo.id);
+    const interestedTopics = await this.userService.getUserInterestedTopics(
+      userInfo.id,
+    );
+    console.log('interestedTopics', interestedTopics);
+    
     return {
       id: userInfo.id,
       email: userInfo.email,
@@ -62,6 +66,7 @@ export class UserController {
       aboutMe: userInfo.aboutMe,
       background: userInfo.background,
       isVerified: verificationStatus?.isVerified || false,
+      interestedTopics,
     };
   }
 
@@ -82,14 +87,25 @@ export class UserController {
   @ApiOperation({ summary: 'Update user profile information' })
   async updateUser(
     @Req() req: Request,
-    @Body(UserPropertyTransformPipe) updateUserDto: UpdateUserDto
+    @Body(UserPropertyTransformPipe) updateUserDto: UpdateUserDto,
   ) {
     const user = req.user as { id: string };
     const userId = user.id;
+    
+    // Extract interested topics from the DTO
+    const { interestedTopics, ...userData } = updateUserDto;
+    
     const updatedUser = await this.userService.updateUser(
       userId,
-      updateUserDto,
+      userData,
     );
+    
+    // Update interested topics if provided
+    let userTopics = await this.userService.getUserInterestedTopics(userId);
+    if (interestedTopics) {
+      userTopics = await this.userService.updateUserInterestedTopics(userId, interestedTopics);
+    }
+    
     return {
       id: updatedUser.id,
       email: updatedUser.email,
@@ -99,6 +115,7 @@ export class UserController {
       avatar: updatedUser.avatar,
       aboutMe: updatedUser.aboutMe,
       background: updatedUser.background,
+      interestedTopics: userTopics,
     };
   }
 }
