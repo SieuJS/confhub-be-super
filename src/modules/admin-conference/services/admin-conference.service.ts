@@ -605,12 +605,10 @@ export class AdminConferenceService {
     });
 
     // If approved, update conference status
-    if (data.status === ConferencePostRequestStatus.APPROVED) {
       await this.prismaService.conferences.update({
         where: { id: request.conferenceId },
         data: { status: data.status },
       });
-    }
 
     return {
       id: request.id,

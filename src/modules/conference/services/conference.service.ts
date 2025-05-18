@@ -499,6 +499,12 @@ export class ConferenceService {
             },
           }
         : {}),
+      NOT: {
+        status: {
+          in: ['pending', 'deleted', 'rejected'],
+          mode: 'insensitive',
+        },
+      },
     };
 
     const paginatedData = await paginate(
