@@ -130,10 +130,7 @@ export class ConferenceController {
     }
     console.log('params', params);
 
-    const conferences = await this.conferenceService.getConferences(params, {
-      sortBy,
-      sortOrder,
-    });
+    const conferences = await this.conferenceService.getConferences(params);
 
     return conferences;
   }
