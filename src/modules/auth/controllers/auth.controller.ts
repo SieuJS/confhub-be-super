@@ -394,12 +394,7 @@ export class AuthController {
         .update(newPassword)
         .digest('hex');
 
-      await (
-        this.userService.updateUser as (
-          id: string,
-          data: { password: string },
-        ) => Promise<void>
-      )(user.id, { password: hashedPassword });
+      await this.userService.updateUser(user.id, { password: hashedPassword });
       await this.userVerifyService.disableVerifyCode(verifyCode.id);
 
       return { message: 'Password has been reset successfully' };

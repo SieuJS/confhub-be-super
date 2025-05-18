@@ -1,10 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Req,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { LocalAuthGuard } from '../../auth/guards/local.guard';
@@ -36,7 +30,13 @@ export class UserController {
   @ApiBearerAuth('access-token')
   async me(@Req() req) {
     const userInfo = await this.userService.getUserByEmail(req.user.email);
-    const verificationStatus = await this.userVerifyService.getUserVerificationStatus(userInfo.id);
+
+    if (!userInfo) {
+      return null;
+    }
+
+    const verificationStatus =
+      await this.userVerifyService.getUserVerificationStatus(userInfo.id);
     return {
       id: userInfo.id,
       email: userInfo.email,
@@ -46,10 +46,10 @@ export class UserController {
       avatar: userInfo.avatar,
       aboutMe: userInfo.aboutMe,
       background: userInfo.background,
-      isVerified: verificationStatus?.isVerified || false
+      isVerified: verificationStatus?.isVerified || false,
     };
   }
-  
+
   @Get('/notificationSetting')
   @UseGuards(JWTGuardUser)
   @ApiBearerAuth('access-token')
