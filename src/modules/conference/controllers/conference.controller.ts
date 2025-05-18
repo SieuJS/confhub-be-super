@@ -98,15 +98,6 @@ export class ConferenceController {
   async getConferences(
     @Query() params: GetConferencesParams,
     @Query('topics') topics: string | string[],
-    @Query('sortBy')
-    sortBy:
-      | 'createdAt'
-      | 'updatedAt'
-      | 'title'
-      | 'acronym'
-      | 'rank'
-      | 'source' = 'createdAt',
-    @Query('sortOrder') sortOrder: 'asc' | 'desc' = 'desc',
   ): Promise<ConferencePaginationDTO> {
     if (topics instanceof Array) {
       params.topics = topics;
@@ -128,7 +119,6 @@ export class ConferenceController {
     if (params.perPage) {
       params.perPage = parseInt(params.perPage as any);
     }
-    console.log('params', params);
 
     const conferences = await this.conferenceService.getConferences(params);
 

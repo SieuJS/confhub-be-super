@@ -140,7 +140,6 @@ export class ConferenceService {
                 : {}),
             },
           };
-    console.log(JSON.stringify(include));
     // Only use standard orderBy for non-rank/source fields
     if (sortOptions?.sortBy !== 'rank' && sortOptions?.sortBy !== 'source') {
       orderBy = {
@@ -499,6 +498,12 @@ export class ConferenceService {
             },
           }
         : {}),
+      NOT: {
+        status: {
+          in: ['pending', 'deleted', 'rejected'],
+          mode: 'insensitive',
+        },
+      },
     };
 
     const paginatedData = await paginate(
