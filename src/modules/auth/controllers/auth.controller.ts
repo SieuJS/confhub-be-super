@@ -24,7 +24,7 @@ import { UserVerifyService } from 'src/modules/email-verify/services/user-verify
 import { EmailService } from 'src/modules/email-verify/services/email.service';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { VerifyCodeBody } from 'src/modules/user/models/verify-code-body';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { PayloadToken } from '../models/payload-token';
 import { UserDTO } from 'src/modules/user/models/user.dto';
 import { AdminService } from 'src/modules/user/services/admin.service';
@@ -219,19 +219,26 @@ export class AuthController {
 
   @Get('google')
   @UseGuards(GoogleOAuthGuard)
-  async googleLoginRedirect() {
-    return {
-      message: 'Google login successful',
-    };
+  googleLoginRedirect() {
+    // The redirectUrl is saved by the middleware
+    // The GoogleOAuthGuard will handle the redirection
+    return { message: 'Redirecting to Google login...' };
   }
 
   @Get('google/callback')
   @UseGuards(GoogleOAuthGuard)
-  async googleLoginCallback(@Req() req: {user: GoogleUser}, @Res() res) {
+  async googleLoginCallback(
+    @Req() req: Request & { user: GoogleUser },
+    @Res() res: Response,
+  ) {
     const user = req.user;
     if (!user) {
       throw new HttpException('User not found', 404);
     }
+
+    // Get redirectUrl from session or use default
+    const redirectUrl = req.session?.redirectUrl || '/en/dashboard';
+
     let existUser = (await this.userService.getUserByEmail(
       user.email,
     )) as UserDTO | null;
@@ -260,7 +267,13 @@ export class AuthController {
     }
 
     const loginPayload = this.authService.loginUser(existUser);
-    return res.redirect(process.env.FRONTEND_URL + '?token=' + loginPayload.token);
+
+    // Clear the session redirectUrl after use
+    if (req.session) {
+      delete req.session.redirectUrl;
+    }
+
+    return res.redirect(`${redirectUrl}?token=${loginPayload.token}`);
   }
 
   @Post('google')

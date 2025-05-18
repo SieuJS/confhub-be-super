@@ -11,7 +11,13 @@ import { NotifyModule } from '../notify/notify.module';
 import { EmailVerifyModule } from '../email-verify/email-verify.module';
 import { GoogleStrategy } from './strategies/google.strategy';
 import { CommonModule } from '../common';
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
+import { RedirectUrlMiddleware } from './middlewares/redirect-url.middleware';
 
 @Module({
   imports: [
@@ -38,4 +44,10 @@ import { Module } from '@nestjs/common';
   ],
   exports: [AuthService],
 })
-export class AuthModule {}
+export class AuthModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(RedirectUrlMiddleware)
+      .forRoutes({ path: 'auth/google', method: RequestMethod.GET });
+  }
+}
