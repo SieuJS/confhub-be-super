@@ -53,7 +53,9 @@ export class ConferenceService {
       sortOrder: 'asc' | 'desc';
     },
   ): Promise<ConferencePaginationDTO> {
-    const include =
+    let orderBy: Prisma.ConferencesOrderByWithRelationInput = {};
+    console.log(sortOptions?.sortBy);
+    const include = 
       conferenceFilter?.mode === 'detail'
         ? {
             ranks: {
@@ -65,6 +67,26 @@ export class ConferenceService {
                 },
                 inFieldOfResearch: true,
               },
+              ...(sortOptions?.sortBy === 'rank' 
+                ? { 
+                    orderBy: {
+                      byRank: { 
+                        name: sortOptions?.sortOrder || 'desc',
+                      },
+                    },
+                  } 
+                : {}),
+              ...(sortOptions?.sortBy === 'source'
+                ? { 
+                    orderBy: {
+                      byRank: {
+                        belongsToSource: {
+                          name: sortOptions?.sortOrder || 'desc',
+                        },
+                      },
+                    },
+                  } 
+                : {}),
             },
             organizations: {
               include: {
@@ -96,8 +118,35 @@ export class ConferenceService {
                   },
                 },
               },
+              ...(sortOptions?.sortBy === 'rank' 
+                ? { 
+                    orderBy: {
+                      byRank: { 
+                        name: sortOptions?.sortOrder || 'desc',
+                      },
+                    },
+                  } 
+                : {}),
+              ...(sortOptions?.sortBy === 'source'
+                ? { 
+                    orderBy: {
+                      byRank: {
+                        belongsToSource: {
+                          name: sortOptions?.sortOrder || 'desc',
+                        },
+                      },
+                    },
+                  } 
+                : {}),
             },
           };
+    console.log(JSON.stringify(include));
+    // Only use standard orderBy for non-rank/source fields
+    if (sortOptions?.sortBy !== 'rank' && sortOptions?.sortBy !== 'source') {
+      orderBy = {
+        [sortOptions?.sortBy || 'createdAt']: sortOptions?.sortOrder || 'desc',
+      };
+    }
 
     const whereCondition = {
       ...(conferenceFilter?.keyword
@@ -452,26 +501,12 @@ export class ConferenceService {
         : {}),
     };
 
-    let orderBy: Prisma.ConferencesOrderByWithRelationInput = {};
-
-    if (sortOptions?.sortBy === 'rank' || sortOptions?.sortBy === 'source') {
-      orderBy = {
-        ranks: {
-          _count: sortOptions.sortOrder,
-        },
-      };
-    } else {
-      orderBy = {
-        [sortOptions?.sortBy || 'createdAt']: sortOptions?.sortOrder || 'desc',
-      };
-    }
-
     const paginatedData = await paginate(
       this.prismaService.conferences,
       {
         where: whereCondition,
         include: include,
-        // orderBy: orderBy,
+        orderBy: orderBy,
       },
       {
         page: conferenceFilter?.page || 1,
