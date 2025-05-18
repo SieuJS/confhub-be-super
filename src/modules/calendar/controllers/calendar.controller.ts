@@ -84,4 +84,12 @@ export class CalendarController {
     const events = await this.calendarService.getConferenceCalendarByUserId(userId);
     return events;
   }
+
+  @Get('/conference-events')
+  @UseGuards(JWTGuardUser)
+  @ApiBearerAuth('access-token')
+  async getConferenceEvents(@Req() req) {
+    const userId = req.user.id;
+    return this.calendarService.getConferenceCalendarByUserId(userId);
+  }
 }
