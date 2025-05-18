@@ -124,4 +124,12 @@ export class CalendarService {
       }
     });
   }
+
+  async getConferenceCalendarByUserId(userId: string) {
+    return await this.prismaService.conferenceCalendars.findMany({
+      where: {
+        userId: userId,
+      },
+    });
+  }
 }
