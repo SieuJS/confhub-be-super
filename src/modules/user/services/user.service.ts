@@ -367,55 +367,51 @@ export class UserService {
       },
     });
 
-    const formatedBlacklistConferences = await Promise.all(
-      blacklist.map((conference): Partial<any> => {
-        const conferenceDate =
-          conference.belongsTo?.organizations?.[
-            conference.belongsTo?.organizations?.length - 1
-          ]?.conferenceDates?.length > 0
-            ? conference.belongsTo?.organizations?.[
-                conference.belongsTo?.organizations?.length - 1
-              ].conferenceDates?.map((date) => ({
-                fromDate: date.fromDate,
-                toDate: date.toDate,
-              }))
-            : [];
-        const location =
-          conference.belongsTo?.organizations?.[
-            conference.belongsTo?.organizations?.length - 1
-          ].locations?.length > 0
-            ? conference.belongsTo?.organizations?.[
-                conference.belongsTo?.organizations?.length - 1
-              ].locations?.map((location) => ({
-                address: location.address ?? undefined,
-                cityStateProvince: location.cityStateProvince ?? undefined,
-                country: location.country ?? undefined,
-                continent: location.continent ?? undefined,
-              }))
-            : [];
-        return {
-          id: conference.id,
-          conferenceId: conference.conferenceId,
-          title: conference.belongsTo?.title,
-          acronym: conference.belongsTo?.acronym,
-          creatorId: conference.belongsTo.creatorId,
-          adminId: conference.belongsTo.adminId ?? undefined,
-          createdAt: conference.createdAt,
-          updatedAt: conference.updatedAt,
-          status: conference.belongsTo.status,
-          dates: {
-            fromDate: conferenceDate?.[0]?.fromDate,
-            toDate: conferenceDate?.[0]?.toDate,
-          },
-          location: {
-            address: location?.[0]?.address ?? undefined,
-            cityStateProvince: location?.[0]?.cityStateProvince ?? undefined,
-            country: location?.[0]?.country ?? undefined,
-            continent: location?.[0]?.continent ?? undefined,
-          },
-        };
-      }),
-    );
+    const formatedBlacklistConferences = blacklist.map((conference) => {
+      // Get the latest organization
+      const latestOrg = conference.belongsTo?.organizations?.[
+        conference.belongsTo?.organizations?.length - 1
+      ];
+      
+      // Format conference dates
+      const conferenceDates = latestOrg?.conferenceDates?.map((date) => ({
+        fromDate: date.fromDate,
+        toDate: date.toDate,
+      })) || [];
+
+      // Format locations
+      const locations = latestOrg?.locations?.map((location) => ({
+        address: location.address ?? undefined,
+        cityStateProvince: location.cityStateProvince ?? undefined,
+        country: location.country ?? undefined,
+        continent: location.continent ?? undefined,
+      })) || [];
+
+      // Get the first location if available
+      const firstLocation = locations[0] || {};
+
+      return {
+        id: conference.id,
+        conferenceId: conference.conferenceId,
+        title: conference.belongsTo?.title,
+        acronym: conference.belongsTo?.acronym,
+        creatorId: conference.belongsTo?.creatorId,
+        adminId: conference.belongsTo?.adminId ?? undefined,
+        createdAt: conference.createdAt,
+        updatedAt: conference.updatedAt,
+        status: conference.belongsTo?.status,
+        dates: {
+          fromDate: conferenceDates[0]?.fromDate,
+          toDate: conferenceDates[0]?.toDate,
+        },
+        location: {
+          address: firstLocation.address,
+          cityStateProvince: firstLocation.cityStateProvince,
+          country: firstLocation.country,
+          continent: firstLocation.continent,
+        },
+      };
+    });
 
     return formatedBlacklistConferences;
   }
