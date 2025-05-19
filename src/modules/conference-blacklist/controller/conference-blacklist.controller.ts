@@ -84,21 +84,24 @@ export class ConferenceBlacklistController {
     if (!result) {
       throw new HttpException('Conference not found', 404);
     }
+    try {
+      const notifiConference =
+        await this.notificationService.createConferenceNotification({
+          userId,
+          conferenceId,
+          type: DEFAULT_TYPE.CONFERENCE_UNBLACKLISTED,
+          message: `You have removed the conference ${conferenceInfo?.title} from blacklist`,
+          isDeleted: false,
+          isRead: false,
+        });
 
-    const notifiConference =
-      await this.notificationService.createConferenceNotification({
+      await this.notificationService.sendNotificationToUser(
+        notifiConference,
         userId,
-        conferenceId,
-        type: DEFAULT_TYPE.CONFERENCE_UNBLACKLISTED,
-        message: `You have removed the conference ${conferenceInfo?.title} from blacklist`,
-        isDeleted: false,
-        isRead: false,
-      });
-
-    await this.notificationService.sendNotificationToUser(
-      notifiConference,
-      userId,
-    );
+      );
+    } catch (error) {
+      console.error(error);
+    }
     const blacklistConference =
       await this.userService.getAddedBlacklistConferences(userId);
     return result;
