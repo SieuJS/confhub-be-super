@@ -31,7 +31,7 @@ export class UserDTO {
     email : string;
 
     @MinLength(6)
-    @MaxLength(8)
+    @MaxLength(20)
     @ApiProperty({
         description : "The user's password",
         required : true

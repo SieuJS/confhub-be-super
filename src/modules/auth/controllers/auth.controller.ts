@@ -30,6 +30,7 @@ import { UserDTO } from 'src/modules/user/models/user.dto';
 import { AdminService } from 'src/modules/user/services/admin.service';
 import { AdminDto } from 'src/modules/user/models/admin/admin.dto';
 import { GoogleOAuthGuard } from '../guards/google-auth.guard';
+import { UserPropertyTransformPipe } from 'src/modules/user/pipes/user-property-transform.pipe';
 
 interface GoogleUser {
   email: string;
@@ -132,9 +133,9 @@ export class AuthController {
   @ApiBody({
     type: UserInput,
   })
-  @UsePipes(new SignUpPipe())
+  @UsePipes(UserPropertyTransformPipe)
   @Transactional()
-  async signup(@Body() input: UserInput) {
+  async signup(@Body(UserPropertyTransformPipe) input: UserInput) {
     const user = (await this.userService.getUserByEmail(
       input.email,
     )) as UserDTO | null;

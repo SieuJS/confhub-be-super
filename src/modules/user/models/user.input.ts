@@ -17,6 +17,7 @@ export class UserSigninInput {
         required : true
     })
     @MinLength(6)
+    @MaxLength(20)
     password : string;
     
 }
