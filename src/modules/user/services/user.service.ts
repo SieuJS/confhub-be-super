@@ -249,26 +249,23 @@ export class UserService {
 
     const formatedFollowedConferences = followed.map((conference) => {
       // Get the latest organization
-      const latestOrg =
-        conference.belongsTo?.organizations?.[
-          conference.belongsTo?.organizations?.length - 1
-        ];
-
+      const latestOrg = conference.belongsTo?.organizations?.[
+        conference.belongsTo?.organizations?.length - 1
+      ];
+      
       // Format conference dates
-      const conferenceDates =
-        latestOrg?.conferenceDates?.map((date) => ({
-          fromDate: date.fromDate,
-          toDate: date.toDate,
-        })) || [];
+      const conferenceDates = latestOrg?.conferenceDates?.map((date) => ({
+        fromDate: date.fromDate,
+        toDate: date.toDate,
+      })) || [];
 
       // Format locations
-      const locations =
-        latestOrg?.locations?.map((location) => ({
-          address: location.address ?? undefined,
-          cityStateProvince: location.cityStateProvince ?? undefined,
-          country: location.country ?? undefined,
-          continent: location.continent ?? undefined,
-        })) || [];
+      const locations = latestOrg?.locations?.map((location) => ({
+        address: location.address ?? undefined,
+        cityStateProvince: location.cityStateProvince ?? undefined,
+        country: location.country ?? undefined,
+        continent: location.continent ?? undefined,
+      })) || [];
 
       // Get the first location if available
       const firstLocation = locations[0] || {};
