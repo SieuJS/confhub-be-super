@@ -87,34 +87,31 @@ class DateInfo {
 export class ConferenceSaveDto {
   @ApiProperty({
     description: 'Conference acronym',
-    example:
-      'AAAI - National Conference of the American Association for Artificial Intelligence',
+    example: 'SERA',
   })
   @IsString()
   @IsOptional()
   acronym?: string;
 
-  @ApiProperty({ type: TitleInfo, description: 'Conference title information' })
-  @ValidateNested()
-  @Type(() => TitleInfo)
-  title: TitleInfo;
+  @ApiProperty({ type: String, description: 'Conference title information' })
+  title: string;
 
   @ApiProperty({
     description: 'Conference dates',
-    example: 'January 20 - 27, 2026',
+    example: 'May 29-May 31, 2025',
   })
   @IsString()
   @IsOptional()
   conferenceDates?: string;
 
-  @ApiProperty({ description: 'Conference year', example: '2026' })
+  @ApiProperty({ description: 'Conference year', example: '2025' })
   @IsString()
   @IsOptional()
   year?: string;
 
   @ApiProperty({
     description: 'Conference venue/location',
-    example: 'Singapore EXPO',
+    example: 'Las Vegas',
   })
   @IsString()
   @IsOptional()
@@ -122,7 +119,7 @@ export class ConferenceSaveDto {
 
   @ApiProperty({
     description: 'City, state, or province of the conference',
-    example: 'Singapore',
+    example: 'Las Vegas',
   })
   @IsString()
   @IsOptional()
@@ -130,7 +127,7 @@ export class ConferenceSaveDto {
 
   @ApiProperty({
     description: 'Country of the conference',
-    example: 'Singapore',
+    example: 'USA',
   })
   @IsString()
   @IsOptional()
@@ -189,7 +186,7 @@ export class ConferenceSaveDto {
 
   @ApiProperty({
     description: 'Conference topics',
-    example: 'Artificial Intelligence',
+    example: 'Software Engineering, Management, Applications',
   })
   @IsString()
   @IsOptional()
@@ -197,7 +194,7 @@ export class ConferenceSaveDto {
 
   @ApiProperty({
     description: 'Conference publisher',
-    example: 'Association for the Advancement of Artificial Intelligence',
+    example: 'IJNDC, IJSI, IJBDIA, SCI',
   })
   @IsString()
   @IsOptional()
@@ -205,8 +202,7 @@ export class ConferenceSaveDto {
 
   @ApiProperty({
     description: 'Additional conference information',
-    example:
-      'conferenceDates: January 20 - 27, 2026\nyear: 2026\nlocation: Singapore EXPO',
+    example: 'conferenceTitle: ACIS Conference on Software Engineering Research, Management and Applications\nconferenceAcronym: SERA',
   })
   @IsString()
   @IsOptional()
@@ -214,8 +210,7 @@ export class ConferenceSaveDto {
 
   @ApiProperty({
     description: 'Conference summary',
-    example:
-      'The AAAI Conference on Artificial Intelligence is a leading international conference dedicated to advancing the field of AI.',
+    example: 'The 23rd IEEE/ACIS International Conference on Software Engineering, Management and Applications (SERA 2025) will be held in Las Vegas, USA...',
   })
   @IsString()
   @IsOptional()
@@ -223,10 +218,21 @@ export class ConferenceSaveDto {
 
   @ApiProperty({
     description: 'Call for papers details in markdown format',
-    example:
-      '# Call for Papers\n\nThe AAAI Conference on Artificial Intelligence (AAAI) is a premier venue...',
+    example: '# Call for Papers\n\nThe 23rd IEEE/ACIS International Conference on Software Engineering Research, Management and Applications (SERA 2025)...',
   })
   @IsString()
   @IsOptional()
   callForPapers?: string;
+
+  @ApiProperty({
+    description: 'Important links with descriptive names',
+    example: { 
+      'Official Website': 'https://acisinternational.org/conferences/sera-2025/',
+      'Call for papers link': 'http://acisinternational.org/wp-content/uploads/2025/03/SERA_2025_CFP-9.pdf',
+      'Important dates link': 'None'
+    },
+  })
+  @IsObject()
+  @IsOptional()
+  determineLinks?: Record<string, string>;
 }
