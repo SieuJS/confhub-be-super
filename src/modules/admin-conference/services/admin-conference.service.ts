@@ -29,6 +29,7 @@ import { TransactionHost } from '@nestjs-cls/transactional';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { ConferencePostRequestStatus } from '../models/conference-request-post.dto';
 import { ConferenceSaveDto } from '../models/conference-save.dto';
+import { PrismaClient } from '@prisma/client';
 
 const paginate: PaginatorTypes.PaginateFunction = paginator({ perPage: 10 });
 @Injectable()
@@ -136,7 +137,11 @@ export class AdminConferenceService {
       organizations: {
         include: {
           locations: true,
-          topics: true,
+          topics: {
+            include: {
+              inTopic: true,
+            },
+          },
           conferenceDates: true,
         },
         orderBy: {
@@ -200,7 +205,7 @@ export class AdminConferenceService {
             country: loc.country,
             continent: loc.continent,
           })),
-          topics: org.topics.map((topic: any) => topic.topic),
+          topics: org.topics.map((topic) => topic.inTopic.name),
           dates: org.conferenceDates.map((date: any) => ({
             type: date.type,
             startDate: date.fromDate,
@@ -359,6 +364,9 @@ export class AdminConferenceService {
       status: status,
       createdAt: conferenceInDB.createdAt,
       updatedAt: lastTimeCrawl || conferenceInDB.updatedAt,
+      link: conferenceOrg?.link || '',
+      impLink: conferenceOrg?.impLink || '',
+      cfpLink: conferenceOrg?.cfpLink || '',
     };
   }
 
