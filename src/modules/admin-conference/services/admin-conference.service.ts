@@ -1,5 +1,5 @@
 /* eslint-disable*/
-import { HttpException, Injectable, BadRequestException } from '@nestjs/common';
+import { HttpException, Injectable, BadRequestException, HttpStatus } from '@nestjs/common';
 import { paginator, PaginatorTypes } from '@nodeteam/nestjs-prisma-pagination';
 import { Conferences, Prisma } from 'generated/prisma_client';
 import { PrismaService } from 'src/modules/common';
@@ -30,6 +30,8 @@ import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-pr
 import { ConferencePostRequestStatus } from '../models/conference-request-post.dto';
 import { ConferenceSaveDto } from '../models/conference-save.dto';
 import { PrismaClient } from 'generated/prisma_client';
+import { ConferenceHistoryDto } from '../models/admin-conference.dto';
+import { ConferenceHistoryResponseDto } from '../models/conference-history-response.dto';
 
 const paginate: PaginatorTypes.PaginateFunction = paginator({ perPage: 10 });
 @Injectable()
@@ -145,7 +147,7 @@ export class AdminConferenceService {
           conferenceDates: true,
         },
         orderBy: {
-          year: 'desc'
+          updatedAt: 'desc'
         }
       },
     };
@@ -210,7 +212,9 @@ export class AdminConferenceService {
             type: date.type,
             startDate: date.fromDate,
             endDate: date.toDate,
+            name: date.name,
           })),
+          updatedAt: org.updatedAt,
         })),
       }),
     );
@@ -901,6 +905,245 @@ export class AdminConferenceService {
     } catch (error) {
       throw new BadRequestException(
         `Failed to import conferences: ${error.message}`,
+      );
+    }
+  }
+
+  async updateConferenceHistory(updateHistoryDto: ConferenceHistoryDto) {
+    try {
+      // Find the conference history by ID
+      const existingHistory = await this.prismaService.conferenceOrganizations.findUnique({
+        where: { id: updateHistoryDto.conferenceId },
+        include: {
+          locations: true,
+          topics: {
+            include: {
+              inTopic: true
+            }
+          },
+          conferenceDates: true,
+        },
+      });
+
+      if (!existingHistory) {
+        throw new HttpException('Conference history not found', HttpStatus.NOT_FOUND);
+      }
+
+      // Update the conference organization
+      const updatedHistory = await this.prismaService.conferenceOrganizations.update({
+        where: { id: updateHistoryDto.conferenceId },
+        data: {
+          year: updateHistoryDto.year,
+          accessType: updateHistoryDto.accessType,
+          isAvailable: updateHistoryDto.isAvailable,
+          publisher: updateHistoryDto.publisher,
+          summerize: updateHistoryDto.summerize,
+          callForPaper: updateHistoryDto.callForPaper,
+          link: updateHistoryDto.link,
+          cfpLink: updateHistoryDto.cfpLink,
+          impLink: updateHistoryDto.impLink,
+        },
+      });
+
+      // Delete existing locations, topics, and dates
+      await this.prismaService.locations.deleteMany({
+        where: { organizeId: updateHistoryDto.conferenceId },
+      });
+      await this.prismaService.conferenceTopics.deleteMany({
+        where: { organizeId: updateHistoryDto.conferenceId },
+      });
+      await this.prismaService.conferenceDates.deleteMany({
+        where: { organizedId: updateHistoryDto.conferenceId },
+      });
+
+      // Create new locations
+      const locations = await Promise.all(
+        updateHistoryDto.locations.map((location) =>
+          this.prismaService.locations.create({
+            data: {
+              organizeId: updateHistoryDto.conferenceId,
+              address: location.address,
+              cityStateProvince: location.cityStateProvince,
+              country: location.country,
+              continent: location.continent,
+              isAvailable: true,
+            },
+          }),
+        ),
+      );
+
+      // Create new topics
+      const topics = await Promise.all(
+        updateHistoryDto.topics.map(async (topic) => {
+          let topicInDB = await this.prismaService.topics.findFirst({
+            where: { name: topic },
+          });
+          if (!topicInDB) {
+            topicInDB = await this.prismaService.topics.create({
+              data: {
+                name: topic,
+              },
+            });
+          }
+          return this.prismaService.conferenceTopics.create({
+            data: {
+              organizeId: updateHistoryDto.conferenceId,
+              topicId: topicInDB.id,
+            },
+          });
+        }),
+      );
+
+      // Create new dates
+      const dates = await Promise.all(
+        updateHistoryDto.dates.map((date) =>
+          this.prismaService.conferenceDates.create({
+            data: {
+              organizedId: updateHistoryDto.conferenceId,
+              type: date.type,
+              fromDate: date.startDate,
+              toDate: date.endDate,
+              name: date.name,
+              isAvailable: true,
+            },
+          }),
+        ),
+      );
+
+      // Get the updated conference with all relations
+      const updatedConference = await this.prismaService.conferences.findUnique({
+        where: { id: existingHistory.conferenceId },
+        include: {
+          organizations: {
+            include: {
+              locations: true,
+              topics: {
+                include: {
+                  inTopic: true
+                }
+              },
+              conferenceDates: true,
+            },
+            orderBy: {
+              updatedAt: 'desc',
+            },
+          },
+        },
+      });
+
+      if (!updatedConference) {
+        throw new HttpException('Conference not found after update', HttpStatus.NOT_FOUND);
+      }
+
+      return updatedConference;
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      throw new HttpException(
+        'Failed to update conference history',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  async getOrganizationHistoryById(id: string): Promise<ConferenceHistoryResponseDto> {
+    try {
+      const organization = await this.prismaService.conferenceOrganizations.findUnique({
+        where: { id },
+        include: {
+          locations: true,
+          topics: {
+            include: {
+              inTopic: true
+            }
+          },
+          conferenceDates: true,
+        },
+      });
+
+      if (!organization) {
+        throw new HttpException('Organization history not found', HttpStatus.NOT_FOUND);
+      }
+
+      return {
+        id: organization.id,
+        year: organization.year || new Date().getFullYear(),
+        accessType: organization.accessType,
+        isAvailable: organization.isAvailable,
+        publisher: organization.publisher || '',
+        summerize: organization.summerize || '',
+        callForPaper: organization.callForPaper || '',
+        link: organization.link || '',
+        cfpLink: organization.cfpLink || '',
+        impLink: organization.impLink || '',
+        locations: organization.locations.map(loc => ({
+          address: loc.address || '',
+          cityStateProvince: loc.cityStateProvince || '',
+          country: loc.country || '',
+          continent: loc.continent || '',
+        })),
+        topics: organization.topics.map(topic => topic.inTopic.name),
+        dates: organization.conferenceDates.map(date => ({
+          type: date.type,
+          startDate: date.fromDate || new Date(),
+          endDate: date.toDate || new Date(),
+          name: date.name || '',
+        })),
+        updatedAt: organization.updatedAt,
+      };
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      throw new HttpException(
+        'Failed to get organization history',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  async deleteConferenceHistory(id: string) {
+    try {
+      // First check if the organization exists
+      const organization = await this.prismaService.conferenceOrganizations.findUnique({
+        where: { id },
+      });
+
+      if (!organization) {
+        throw new HttpException('Organization history not found', HttpStatus.NOT_FOUND);
+      }
+
+      // Delete related data first
+      await this.prismaService.$transaction([
+        // Delete locations
+        this.prismaService.locations.deleteMany({
+          where: { organizeId: id },
+        }),
+        // Delete topics
+        this.prismaService.conferenceTopics.deleteMany({
+          where: { organizeId: id },
+        }),
+        // Delete dates
+        this.prismaService.conferenceDates.deleteMany({
+          where: { organizedId: id },
+        }),
+        // Finally delete the organization
+        this.prismaService.conferenceOrganizations.delete({
+          where: { id },
+        }),
+      ]);
+
+      return {
+        message: 'Conference organization history deleted successfully',
+      };
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      throw new HttpException(
+        'Failed to delete conference organization history',
+        HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
   }

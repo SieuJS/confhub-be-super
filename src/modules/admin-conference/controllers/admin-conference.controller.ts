@@ -16,13 +16,17 @@ import {
   UseGuards,
   HttpStatus,
   HttpCode,
+  Put,
+  Delete,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 import { AdminConferenceService } from '../services/admin-conference.service';
 import {
   AdminConferenceDTO,
   AdminConferenceParams,
+  ConferenceHistoryDto,
 } from '../models/admin-conference.dto';
+import { ConferenceHistoryResponseDto } from '../models/conference-history-response.dto';
 import { AdminConferenceParamsPipe } from '../pipes/admin-conference-params.pipe';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FileSizeValidationPipe } from '../pipes/validation-file.pipe';
@@ -387,5 +391,54 @@ export class AdminConferenceController {
       }
     });
     return ranks.map(r => r.name);
+  }
+
+  @Put('update-history')
+  @ApiOperation({ summary: 'Update conference history' })
+  @ApiResponse({
+    status: 200,
+    description: 'Conference history updated successfully',
+  })
+  async updateConferenceHistory(@Body() data: ConferenceHistoryDto) {
+    return this.adminConferenceService.updateConferenceHistory(data);
+  }
+
+  @Get('history/:id')
+  @ApiOperation({ summary: 'Get conference history by ID' })
+  @ApiParam({ name: 'id', description: 'Organization history ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'Conference history details',
+    type: ConferenceHistoryResponseDto,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Organization history not found',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal server error',
+  })
+  async getConferenceHistoryById(@Param('id') id: string): Promise<ConferenceHistoryResponseDto> {
+    return this.adminConferenceService.getOrganizationHistoryById(id);
+  }
+
+  @Delete('history/:id')
+  @ApiOperation({ summary: 'Delete conference organization history' })
+  @ApiParam({ name: 'id', description: 'Organization history ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'Conference organization history deleted successfully',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Organization history not found',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal server error',
+  })
+  async deleteConferenceHistory(@Param('id') id: string) {
+    return this.adminConferenceService.deleteConferenceHistory(id);
   }
 }

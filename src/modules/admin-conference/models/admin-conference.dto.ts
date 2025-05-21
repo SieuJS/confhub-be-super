@@ -23,6 +23,9 @@ export class ConferenceDateDTO {
 
   @ApiProperty()
   endDate: Date;
+
+  @ApiProperty()
+  name: string;
 }
 
 export class ConferenceOrganizationDTO {
@@ -131,3 +134,46 @@ export const AdminConferenceDefaultParams = {
   researchFields: [],
   ranks: [],
 };
+
+export class ConferenceHistoryDto {
+  @ApiProperty()
+  id: string;
+  @ApiProperty()
+  conferenceId: string;
+
+  @ApiProperty()
+  year: number;
+
+  @ApiProperty()
+  accessType: string;
+
+  @ApiProperty()
+  isAvailable: boolean;
+
+  @ApiProperty()
+  publisher: string;
+
+  @ApiProperty()
+  summerize: string;
+
+  @ApiProperty()
+  callForPaper: string;
+
+  @ApiProperty()
+  link: string;
+
+  @ApiProperty()
+  cfpLink: string;
+
+  @ApiProperty()
+  impLink: string;
+
+  @ApiProperty({ type: [ConferenceLocationDTO] })
+  locations: ConferenceLocationDTO[];
+
+  @ApiProperty({ type: [String] })
+  topics: string[];
+
+  @ApiProperty({ type: [ConferenceDateDTO] })
+  dates: ConferenceDateDTO[];
+}

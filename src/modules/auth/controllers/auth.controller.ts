@@ -232,6 +232,12 @@ export class AuthController {
     @Req() req: Request & { user: GoogleUser },
     @Res() res: Response,
   ) {
+    // Check if the request contains error parameters (user cancelled or denied access)
+    if (req.query.error) {
+      const redirectUrl = req.session?.redirectUrl || '/en/dashboard';
+      return res.redirect(`${redirectUrl}?error=true`);
+    }
+
     const user = req.user;
     if (!user) {
       throw new HttpException('User not found', 404);
