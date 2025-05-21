@@ -286,6 +286,7 @@ export class AdminConferenceController {
     status: HttpStatus.UNAUTHORIZED,
     description: 'Unauthorized',
   })
+  @ApiBody({ type: [ConferenceSaveDto] })
   async importConferences(@Body() conferencesData: ConferenceSaveDto[]) {
     const data = await this.adminConferenceService.importConferences(conferencesData);
     return {
