@@ -929,86 +929,105 @@ export class AdminConferenceService {
         throw new HttpException('Conference history not found', HttpStatus.NOT_FOUND);
       }
 
-      // Update the conference organization
+      // Create update data object with only the fields that are provided
+      const updateData: any = {};
+
+      // Only update basic info if provided
+      if (updateHistoryDto.year !== undefined) updateData.year = updateHistoryDto.year;
+      if (updateHistoryDto.accessType !== undefined) updateData.accessType = updateHistoryDto.accessType;
+      if (updateHistoryDto.isAvailable !== undefined) updateData.isAvailable = updateHistoryDto.isAvailable;
+      if (updateHistoryDto.publisher !== undefined) updateData.publisher = updateHistoryDto.publisher;
+      if (updateHistoryDto.summerize !== undefined) updateData.summerize = updateHistoryDto.summerize;
+      if (updateHistoryDto.callForPaper !== undefined) updateData.callForPaper = updateHistoryDto.callForPaper;
+
+      // Only update links if provided
+      if (updateHistoryDto.link !== undefined) updateData.link = updateHistoryDto.link;
+      if (updateHistoryDto.cfpLink !== undefined) updateData.cfpLink = updateHistoryDto.cfpLink;
+      if (updateHistoryDto.impLink !== undefined) updateData.impLink = updateHistoryDto.impLink;
+
+      // Update the conference organization with only the provided fields
       const updatedHistory = await this.prismaService.conferenceOrganizations.update({
         where: { id: updateHistoryDto.conferenceId },
-        data: {
-          year: updateHistoryDto.year,
-          accessType: updateHistoryDto.accessType,
-          isAvailable: updateHistoryDto.isAvailable,
-          publisher: updateHistoryDto.publisher,
-          summerize: updateHistoryDto.summerize,
-          callForPaper: updateHistoryDto.callForPaper,
-          link: updateHistoryDto.link,
-          cfpLink: updateHistoryDto.cfpLink,
-          impLink: updateHistoryDto.impLink,
-        },
+        data: updateData,
       });
 
-      // Delete existing locations, topics, and dates
-      await this.prismaService.locations.deleteMany({
-        where: { organizeId: updateHistoryDto.conferenceId },
-      });
-      await this.prismaService.conferenceTopics.deleteMany({
-        where: { organizeId: updateHistoryDto.conferenceId },
-      });
-      await this.prismaService.conferenceDates.deleteMany({
-        where: { organizedId: updateHistoryDto.conferenceId },
-      });
+      // Only update locations if provided
+      if (updateHistoryDto.locations && updateHistoryDto.locations.length > 0) {
+        // Delete existing locations
+        await this.prismaService.locations.deleteMany({
+          where: { organizeId: updateHistoryDto.conferenceId },
+        });
 
-      // Create new locations
-      const locations = await Promise.all(
-        updateHistoryDto.locations.map((location) =>
-          this.prismaService.locations.create({
-            data: {
-              organizeId: updateHistoryDto.conferenceId,
-              address: location.address,
-              cityStateProvince: location.cityStateProvince,
-              country: location.country,
-              continent: location.continent,
-              isAvailable: true,
-            },
-          }),
-        ),
-      );
-
-      // Create new topics
-      const topics = await Promise.all(
-        updateHistoryDto.topics.map(async (topic) => {
-          let topicInDB = await this.prismaService.topics.findFirst({
-            where: { name: topic },
-          });
-          if (!topicInDB) {
-            topicInDB = await this.prismaService.topics.create({
+        // Create new locations
+        await Promise.all(
+          updateHistoryDto.locations.map((location) =>
+            this.prismaService.locations.create({
               data: {
-                name: topic,
+                organizeId: updateHistoryDto.conferenceId,
+                address: location.address || '',
+                cityStateProvince: location.cityStateProvince || '',
+                country: location.country || '',
+                continent: location.continent || '',
+                isAvailable: true,
+              },
+            }),
+          ),
+        );
+      }
+
+      // Only update topics if provided
+      if (updateHistoryDto.topics && updateHistoryDto.topics.length > 0) {
+        // Delete existing topics
+        await this.prismaService.conferenceTopics.deleteMany({
+          where: { organizeId: updateHistoryDto.conferenceId },
+        });
+
+        // Create new topics
+        await Promise.all(
+          updateHistoryDto.topics.map(async (topic) => {
+            let topicInDB = await this.prismaService.topics.findFirst({
+              where: { name: topic },
+            });
+            if (!topicInDB) {
+              topicInDB = await this.prismaService.topics.create({
+                data: {
+                  name: topic,
+                },
+              });
+            }
+            return this.prismaService.conferenceTopics.create({
+              data: {
+                organizeId: updateHistoryDto.conferenceId,
+                topicId: topicInDB.id,
               },
             });
-          }
-          return this.prismaService.conferenceTopics.create({
-            data: {
-              organizeId: updateHistoryDto.conferenceId,
-              topicId: topicInDB.id,
-            },
-          });
-        }),
-      );
-
-      // Create new dates
-      const dates = await Promise.all(
-        updateHistoryDto.dates.map((date) =>
-          this.prismaService.conferenceDates.create({
-            data: {
-              organizedId: updateHistoryDto.conferenceId,
-              type: date.type,
-              fromDate: date.startDate,
-              toDate: date.endDate,
-              name: date.name,
-              isAvailable: true,
-            },
           }),
-        ),
-      );
+        );
+      }
+
+      // Only update dates if provided
+      if (updateHistoryDto.dates && updateHistoryDto.dates.length > 0) {
+        // Delete existing dates
+        await this.prismaService.conferenceDates.deleteMany({
+          where: { organizedId: updateHistoryDto.conferenceId },
+        });
+
+        // Create new dates
+        await Promise.all(
+          updateHistoryDto.dates.map((date) =>
+            this.prismaService.conferenceDates.create({
+              data: {
+                organizedId: updateHistoryDto.conferenceId,
+                type: date.type || '',
+                fromDate: date.startDate || new Date(),
+                toDate: date.endDate || new Date(),
+                name: date.name || '',
+                isAvailable: true,
+              },
+            }),
+          ),
+        );
+      }
 
       // Get the updated conference with all relations
       const updatedConference = await this.prismaService.conferences.findUnique({
@@ -1100,6 +1119,7 @@ export class AdminConferenceService {
         'Failed to get organization history',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
+      console.log(error)
     }
   }
 
