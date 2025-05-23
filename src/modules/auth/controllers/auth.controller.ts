@@ -15,7 +15,6 @@ import { ApiBearerAuth, ApiBody, ApiHeader, ApiTags } from '@nestjs/swagger';
 import { LoginInput } from '../models/login.input';
 import { JWTGuardAdmin, JWTGuardUser } from '../guards/jwt.guard';
 import { UserInput } from 'src/modules/user/models/user.input';
-import { SignUpPipe } from 'src/modules/user/pipes/signup.pipe';
 import { Transactional } from '@nestjs-cls/transactional';
 import { UserService } from 'src/modules/user/services/user.service';
 import { NotificationService } from 'src/modules/notify/services/notification.service';
@@ -227,24 +226,22 @@ export class AuthController {
   }
 
   @Get('google/callback')
+  @UseGuards(GoogleOAuthGuard)
   async googleLoginCallback(
     @Req() req: Request & { user: GoogleUser },
     @Res() res: Response,
   ) {
     // Check if the request contains error parameters (user cancelled or denied access)
+    const redirectUrl = req.session?.redirectUrl || '/en/dashboard';
+
     if (req.query.error) {
-      const redirectUrl = req.session?.redirectUrl || '/en/dashboard';
       return res.redirect(`${redirectUrl}?error=true`);
     }
 
     const user = req.user;
     if (!user) {
-      throw new HttpException('User not found', 404);
+      return res.redirect(`${redirectUrl}?error=true`);
     }
-
-    // Get redirectUrl from session or use default
-    const redirectUrl = req.session?.redirectUrl || '/en/dashboard';
-
     let existUser = (await this.userService.getUserByEmail(
       user.email,
     )) as UserDTO | null;
