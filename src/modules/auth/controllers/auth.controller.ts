@@ -227,7 +227,6 @@ export class AuthController {
   }
 
   @Get('google/callback')
-  @UseGuards(GoogleOAuthGuard)
   async googleLoginCallback(
     @Req() req: Request & { user: GoogleUser },
     @Res() res: Response,

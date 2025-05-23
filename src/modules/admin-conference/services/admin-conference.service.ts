@@ -344,6 +344,13 @@ export class AdminConferenceService {
       );
     const status = conferenceOrg ? 'CRAWLED' : 'NOT CRAWLED';
     const lastTimeCrawl = conferenceOrg ? conferenceOrg.updatedAt : undefined;
+
+    // Update conference status using transaction
+    await this.txHost.tx.conferences.update({
+      where: { id: conferenceInDB.id },
+      data: { status: status }
+    });
+
     return {
       id: conferenceInDB?.id,
       title: conferenceInDB.title,
@@ -912,7 +919,7 @@ export class AdminConferenceService {
   async updateConferenceHistory(updateHistoryDto: ConferenceHistoryDto) {
     try {
       // Find the conference history by ID
-      const existingHistory = await this.prismaService.conferenceOrganizations.findUnique({
+      const existingHistory = await this.txHost.tx.conferenceOrganizations.findUnique({
         where: { id: updateHistoryDto.conferenceId },
         include: {
           locations: true,
@@ -961,7 +968,7 @@ export class AdminConferenceService {
         // Create new locations
         await Promise.all(
           updateHistoryDto.locations.map((location) =>
-            this.prismaService.locations.create({
+            this.txHost.tx.locations.create({
               data: {
                 organizeId: updateHistoryDto.conferenceId,
                 address: location.address || '',
@@ -978,7 +985,7 @@ export class AdminConferenceService {
       // Only update topics if provided
       if (updateHistoryDto.topics && updateHistoryDto.topics.length > 0) {
         // Delete existing topics
-        await this.prismaService.conferenceTopics.deleteMany({
+        await this.txHost.tx.conferenceTopics.deleteMany({
           where: { organizeId: updateHistoryDto.conferenceId },
         });
 
@@ -1008,7 +1015,7 @@ export class AdminConferenceService {
       // Only update dates if provided
       if (updateHistoryDto.dates && updateHistoryDto.dates.length > 0) {
         // Delete existing dates
-        await this.prismaService.conferenceDates.deleteMany({
+        await this.txHost.tx.conferenceDates.deleteMany({
           where: { organizedId: updateHistoryDto.conferenceId },
         });
 
@@ -1030,7 +1037,7 @@ export class AdminConferenceService {
       }
 
       // Get the updated conference with all relations
-      const updatedConference = await this.prismaService.conferences.findUnique({
+      const updatedConference = await this.txHost.tx.conferences.findUnique({
         where: { id: existingHistory.conferenceId },
         include: {
           organizations: {
