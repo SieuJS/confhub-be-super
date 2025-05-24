@@ -2,14 +2,15 @@ import { TransactionHost } from '@nestjs-cls/transactional';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/modules/common';
-import {  Prisma } from 'generated/prisma_client';
+import { Prisma } from 'generated/prisma_client';
 
 @Injectable()
 export class NativeConferenceService {
   private readonly prismaService: PrismaService;
 
-  constructor(prismaService: PrismaService ,
-    private readonly txHost: TransactionHost<TransactionalAdapterPrisma>
+  constructor(
+    prismaService: PrismaService,
+    private readonly txHost: TransactionHost<TransactionalAdapterPrisma>,
   ) {
     this.prismaService = prismaService;
   }
@@ -42,20 +43,24 @@ export class NativeConferenceService {
     });
   }
 
-  async createConference (input : Omit<Prisma.ConferencesCreateInput, 'createdByUser'> & {adminId : string}) {
+  async createConference(
+    input: Omit<Prisma.ConferencesCreateInput, 'createdByUser'> & {
+      adminId: string;
+    },
+  ) {
     const { adminId, ...rest } = input;
     const conference = await this.txHost.tx.conferences.create({
-      data : {
+      data: {
         ...rest,
         createdByAdmin: {
-          connect: { id: adminId }
-        }
+          connect: { id: adminId },
+        },
       },
-      include : {
-        ranks : true,
-        organizations : true
-      }
-    })
+      include: {
+        ranks: true,
+        organizations: true,
+      },
+    });
     return conference;
   }
 }

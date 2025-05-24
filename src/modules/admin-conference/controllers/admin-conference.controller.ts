@@ -63,7 +63,9 @@ export class AdminConferenceController {
     });
     return this.adminConferenceService.getConferenceInstances({
       where,
-      orderBy: {},
+      orderBy: {
+        updatedAt: 'desc'
+      },
       include: {},
       page: page,
       perPage: perPage,
