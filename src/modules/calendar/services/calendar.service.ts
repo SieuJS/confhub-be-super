@@ -8,7 +8,7 @@ import { ConferenceService } from 'src/modules/conference/services/conference.se
 export class CalendarService {
   constructor(
     private readonly prismaService: PrismaService,
-    private readonly conferenceService : ConferenceService
+    private readonly conferenceService: ConferenceService,
   ) {}
 
   async getCalendarEventsByUserId(
@@ -40,7 +40,10 @@ export class CalendarService {
             const toDate = new Date(date.toDate);
 
             if (isNaN(fromDate.getTime()) || isNaN(toDate.getTime())) {
-              console.error(`[ERROR] Invalid date format for conference ${conf.id}, date:`, date);
+              console.error(
+                `[ERROR] Invalid date format for conference ${conf.id}, date:`,
+                date,
+              );
               return;
             }
 
@@ -50,31 +53,37 @@ export class CalendarService {
 
             if (diffDays > 0) {
               for (let i = 0; i <= diffDays; i++) {
-            const currentDate = new Date(fromDate);
-            currentDate.setDate(fromDate.getDate() + i);
-            console.log(`[14] Adding event for date: ${currentDate.toLocaleDateString()}`);
-            calendarEvents.push({
-              day: currentDate.getDate(),
-              month: currentDate.getMonth() + 1,
-              year: currentDate.getFullYear(),
-              type: date.type,
-              conference: conf.title,
-              conferenceId: conf.id,
-            });
+                const currentDate = new Date(fromDate);
+                currentDate.setDate(fromDate.getDate() + i);
+                console.log(
+                  `[14] Adding event for date: ${currentDate.toLocaleDateString()}`,
+                );
+                calendarEvents.push({
+                  day: currentDate.getDate(),
+                  month: currentDate.getMonth() + 1,
+                  year: currentDate.getFullYear(),
+                  type: date.type,
+                  conference: conf.title,
+                  conferenceId: conf.id,
+                });
               }
             } else {
-              console.log(`[14] Adding single-day event for date: ${fromDate.toLocaleDateString()}`);
+              console.log(
+                `[14] Adding single-day event for date: ${fromDate.toLocaleDateString()}`,
+              );
               calendarEvents.push({
-            day: fromDate.getDate(),
-            month: fromDate.getMonth() + 1,
-            year: fromDate.getFullYear(),
-            type: date.type,
-            conference: conf.title,
-            conferenceId: conf.id,
+                day: fromDate.getDate(),
+                month: fromDate.getMonth() + 1,
+                year: fromDate.getFullYear(),
+                type: date.type,
+                conference: conf.title,
+                conferenceId: conf.id,
               });
             }
           } else {
-            console.warn(`[WARN] Skipping date for conference ${conf.id} due to missing fromDate or toDate`);
+            console.warn(
+              `[WARN] Skipping date for conference ${conf.id} due to missing fromDate or toDate`,
+            );
           }
         });
       }
@@ -88,14 +97,14 @@ export class CalendarService {
         userId: userId,
         conferenceId: conferenceId,
       },
-      include : {
-        belongsTo : {
-          select : {
-            title : true,
-            acronym : true,
-          }
-        }
-      }
+      include: {
+        belongsTo: {
+          select: {
+            title: true,
+            acronym: true,
+          },
+        },
+      },
     });
   }
 
@@ -105,7 +114,6 @@ export class CalendarService {
         userId: userId,
         conferenceId: conferenceId,
       },
-
     });
     if (!event) {
       return;
@@ -114,38 +122,86 @@ export class CalendarService {
       where: {
         id: event.id,
       },
-      include : {
-        belongsTo : {
-          select : {
-            title : true,
-            acronym : true,
-          }
-        }
-      }
-    });
-  }
-
-  async getConferenceCalendarByUserId(userId: string) {
-    return await this.prismaService.conferenceCalendars.findMany({
-      where: {
-        userId: userId,
-      },
       include: {
         belongsTo: {
-          include: {
-            organizations: {
-              include: {
-                conferenceDates: {
-                  where: {
-                    name: 'Conference Date',
-                  },
-                },
-                locations: true,
-              },
-            },
+          select: {
+            title: true,
+            acronym: true,
           },
         },
       },
     });
+  }
+
+  async getConferenceCalendarByUserId(userId: string) {
+    const calendarConferences =
+      await this.prismaService.conferenceCalendars.findMany({
+        where: {
+          userId: userId,
+        },
+        include: {
+          belongsTo: {
+            include: {
+              organizations: {
+                include: {
+                  conferenceDates: {
+                    where: {
+                      name: 'Conference Date',
+                    },
+                  },
+                  locations: true,
+                },
+              },
+            },
+          },
+        },
+      });
+    const formatedFollowedConferences = calendarConferences.map(
+      (conference) => {
+        // Get the latest organization
+        const latestOrg =
+          conference.belongsTo?.organizations?.[
+            conference.belongsTo?.organizations?.length - 1
+          ];
+
+        // Format conference dates
+        const conferenceDates =
+          latestOrg?.conferenceDates?.map((date) => ({
+            fromDate: date.fromDate,
+            toDate: date.toDate,
+          })) || [];
+
+        // Format locations
+        const locations =
+          latestOrg?.locations?.map((location) => ({
+            address: location.address ?? undefined,
+            cityStateProvince: location.cityStateProvince ?? undefined,
+            country: location.country ?? undefined,
+            continent: location.continent ?? undefined,
+          })) || [];
+
+        // Get the first location if available
+        const firstLocation = locations[0] || {};
+
+        return {
+          id: conference.conferenceId,
+          title: conference.belongsTo?.title,
+          acronym: conference.belongsTo?.acronym,
+          creatorId: conference.belongsTo?.creatorId,
+          adminId: conference.belongsTo?.adminId ?? undefined,
+          followedAt: conference.createdAt,
+          updatedAt: conference.updatedAt,
+          status: conference.belongsTo?.status,
+          dates: conferenceDates,
+          location: {
+            address: firstLocation.address,
+            cityStateProvince: firstLocation.cityStateProvince,
+            country: firstLocation.country,
+            continent: firstLocation.continent,
+          },
+        };
+      },
+    );
+    return formatedFollowedConferences;
   }
 }
