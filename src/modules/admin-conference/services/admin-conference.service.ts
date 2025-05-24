@@ -701,198 +701,114 @@ export class AdminConferenceService {
 
   async saveConference(conferenceData: ConferenceSaveDto): Promise<any> {
     try {
-      // Validate required fields
-      if (!conferenceData.title) {
-        throw new BadRequestException('Conference title is required');
-      }
-
-      // Check if conference with same acronym already exists
-      let conference;
-      const acronym = conferenceData.acronym;
-      
-      if (acronym) {
-        conference = await this.txHost.tx.conferences.findFirst({
-          where: { 
-            OR: [
-              { acronym: acronym },
-              { title: conferenceData.title }
-            ]
-          }
-        });
-      }
-
-      // Create base conference data object
-      const conferenceDataToSave = {
-        status: 'SAVED',
-      };
-
-      // Create or update the conference
-
-      const savedConference = await this.txHost.tx.conferences.update({
-        where: { id: conference.id },
-        data: conferenceDataToSave
+      // Create or update conference
+      const conference = await this.txHost.tx.conferences.upsert({
+        where: {
+          title_acronym: {
+            title: conferenceData.title,
+            acronym: conferenceData.acronym || '',
+          },
+        },
+        create: {
+          title: conferenceData.title,
+          acronym: conferenceData.acronym || '',
+          status: 'SAVED',
+        },
+        update: {
+          acronym: conferenceData.acronym || '',
+          status: 'SAVED',
+        },
       });
 
-      // Create a conference organization
-      const year = conferenceData.year ? parseInt(conferenceData.year) : new Date().getFullYear();
-      
-      // Extract links from determineLinks if available
-      const determineLinks = conferenceData.determineLinks || {};
-      const link = determineLinks['Official Website'] || '';
-      const cfpLink = determineLinks['Call for papers link'] || '';
-      const impLink = determineLinks['Important dates link'] || '';
-
-      // Create the conference organization with all available data
-      const organizeData = await this.conferenceOrganizationService.importOrganize({
-        conferenceId: savedConference.id,
-        year: year,
-        accessType: conferenceData.type || 'Offline',
-        isAvailable: true,
-        publisher: conferenceData.publisher || '',
-        summerize: conferenceData.summary || '',
-        callForPaper: conferenceData.callForPapers || '',
-        link: link,
-        cfpLink: cfpLink,
-        impLink: impLink,
-      });
-
-      if (!organizeData) {
-        throw new Error('Failed to create conference organization data');
-      }
-
-      // Create location if any location data is provided
-      if (conferenceData.location || conferenceData.cityStateProvince || conferenceData.country || conferenceData.continent) {
-        await this.conferenceOrganizationService.importPlace({
-          organizeId: organizeData.id,
-          address: conferenceData.location || '',
-          cityStateProvince: conferenceData.cityStateProvince || '',
-          country: conferenceData.country || '',
-          continent: conferenceData.continent || '',
-        });
-      }
-
-      // Process all dates
-      const allDates: any[] = [];
-
-      // Process conference dates
-      if (conferenceData.conferenceDates) {
-        const conferenceDateInput = converStringToDate(
-          conferenceData.conferenceDates,
-          'conferenceDates',
-          organizeData.id
-        );
-        if (conferenceDateInput) {
-          allDates.push(conferenceDateInput);
-        }
-      }
-
-      // Process submission dates
-      if (conferenceData.submissionDate?.length) {
-        const submissionDateInput = convertObjectToDate(
-          conferenceData.submissionDate,
-          'submissionDate',
-          organizeData.id
-        );
-        allDates.push(...submissionDateInput);
-      }
-
-      // Process camera ready dates
-      if (conferenceData.cameraReadyDate?.length) {
-        const cameraReadyDateInput = convertObjectToDate(
-          conferenceData.cameraReadyDate,
-          'cameraReadyDate',
-          organizeData.id
-        );
-        allDates.push(...cameraReadyDateInput);
-      }
-
-      // Process registration dates
-      if (conferenceData.registrationDate?.length) {
-        const registrationDateInput = convertObjectToDate(
-          conferenceData.registrationDate,
-          'registrationDate',
-          organizeData.id
-        );
-        allDates.push(...registrationDateInput);
-      }
-
-      // Process notification dates
-      if (conferenceData.notificationDate?.length) {
-        const notificationDateInput = convertObjectToDate(
-          conferenceData.notificationDate,
-          'notificationDate',
-          organizeData.id
-        );
-        allDates.push(...notificationDateInput);
-      }
-
-      // Process other dates
-      if (conferenceData.otherDate?.length) {
-        const otherDateInput = convertObjectToDate(
-          conferenceData.otherDate,
-          'otherDate',
-          organizeData.id
-        );
-        allDates.push(...otherDateInput);
-      }
-
-      // Save all dates
-      for (const date of allDates) {
-        if (date) {
-          await this.conferenceOrganizationService.importDate(date);
-        }
-      }
-
-      // Process topics if available
-      if (conferenceData.topics) {
-        const topics = conferenceData.topics.split(',').map(topic => topic.trim()).filter(Boolean);
-        if (topics.length > 0) {
-          const topicPromises = topics.map(topic => 
-            this.conferenceOrganizationService.importTopic({
-              organized: organizeData.id,
-              topic: topic,
-            })
-          );
-          await Promise.all(topicPromises);
-        }
-      }
-
-      // Return the complete conference data with organization details
-      return {
-        id: savedConference.id,
-        title: savedConference.title,
-        acronym: savedConference.acronym,
-        status: savedConference.status,
-        organization: {
-          id: organizeData.id,
-          year: year,
+      // Create or update organization
+      const organization = await this.txHost.tx.conferenceOrganizations.create({
+        data: {
+          conferenceId: conference.id,
+          year: conferenceData.year ? parseInt(conferenceData.year) : null,
           accessType: conferenceData.type || 'Offline',
-          publisher: conferenceData.publisher,
-          summerize: conferenceData.summary,
-          callForPaper: conferenceData.callForPapers,
-          link: link,
-          cfpLink: cfpLink,
-          impLink: impLink,
-          location: {
+          isAvailable: true,
+          publisher: conferenceData.publisher || '',
+          summerize: conferenceData.summary || '',
+          callForPaper: conferenceData.callForPapers || '',
+          link: conferenceData.mainLink || '',
+          cfpLink: conferenceData.cfpLink || '',
+          impLink: conferenceData.impLink || '',
+        },
+      });
+
+      // Create location
+      if (conferenceData.location || conferenceData.cityStateProvince || conferenceData.country || conferenceData.continent) {
+        await this.txHost.tx.locations.create({
+          data: {
+            organizeId: organization.id,
             address: conferenceData.location || '',
             cityStateProvince: conferenceData.cityStateProvince || '',
             country: conferenceData.country || '',
             continent: conferenceData.continent || '',
+            isAvailable: true,
           },
-          dates: {
-            conferenceDates: conferenceData.conferenceDates,
-            submissionDates: conferenceData.submissionDate,
-            notificationDates: conferenceData.notificationDate,
-            cameraReadyDates: conferenceData.cameraReadyDate,
-            registrationDates: conferenceData.registrationDate,
-            otherDates: conferenceData.otherDate,
-          },
-          topics: conferenceData.topics ? conferenceData.topics.split(',').map(topic => topic.trim()).filter(Boolean) : [],
+        });
+      }
+
+      // Create topics
+      if (conferenceData.topics) {
+        const topics = conferenceData.topics.split(',').map(topic => topic.trim());
+        for (const topic of topics) {
+          let topicInDB = await this.txHost.tx.topics.findFirst({
+            where: { name: topic },
+          });
+          if (!topicInDB) {
+            topicInDB = await this.txHost.tx.topics.create({
+              data: { name: topic },
+            });
+          }
+          await this.txHost.tx.conferenceTopics.create({
+            data: {
+              organizeId: organization.id,
+              topicId: topicInDB.id,
+            },
+          });
+        }
+      }
+
+      // Create dates
+      const createDate = async (dates: Record<string, string>, type: string) => {
+        for (const [name, value] of Object.entries(dates)) {
+          await this.txHost.tx.conferenceDates.create({
+            data: {
+              organizedId: organization.id,
+              type,
+              name,
+              fromDate: new Date(value),
+              toDate: new Date(value),
+              isAvailable: true,
+            },
+          });
         }
       };
+
+      if (conferenceData.submissionDate) {
+        await createDate(conferenceData.submissionDate, 'submissionDate');
+      }
+      if (conferenceData.notificationDate) {
+        await createDate(conferenceData.notificationDate, 'notificationDate');
+      }
+      if (conferenceData.cameraReadyDate) {
+        await createDate(conferenceData.cameraReadyDate, 'cameraReadyDate');
+      }
+      if (conferenceData.registrationDate) {
+        await createDate(conferenceData.registrationDate, 'registrationDate');
+      }
+      if (conferenceData.otherDate) {
+        await createDate(conferenceData.otherDate, 'otherDate');
+      }
+
+      return conference;
     } catch (error) {
-      throw new BadRequestException(
-        `Failed to save conference: ${error.message}`,
+      console.error('Error saving conference:', error);
+      throw new HttpException(
+        'Failed to save conference',
+        HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
   }

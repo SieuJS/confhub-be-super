@@ -26,92 +26,95 @@ enum Continent {
   ANTARCTICA = 'Antarctica',
 }
 
-class TitleInfo {
+class DateInfo {
+  @ApiProperty({
+    description: 'Date name',
+    example: 'Submission Deadline',
+  })
+  @IsString()
+  @IsOptional()
+  name?: string;
+
+  @ApiProperty({
+    description: 'Date value',
+    example: '2025-10-01',
+  })
+  @IsString()
+  @IsOptional()
+  value?: string;
+}
+
+export class ConferenceSaveDto {
   @ApiProperty({
     description: 'Conference title',
-    example:
-      'National Conference of the American Association for Artificial Intelligence',
+    example: 'North American Association for Computational Linguistics',
   })
   @IsString()
   title: string;
 
-  @ApiProperty({ description: 'Conference acronym', example: 'AAAI' })
-  @IsString()
-  acronym: string;
-
   @ApiProperty({
-    description: 'Main conference website link',
-    example: 'https://aaai.org/conference/aaai/',
+    description: 'Conference acronym',
+    example: 'NAACL',
   })
   @IsString()
   @IsOptional()
-  link?: string;
+  acronym?: string;
 
-  @ApiProperty({ description: 'Call for papers link', example: '' })
+  @ApiProperty({
+    description: 'Main conference website link',
+    example: 'https://2025.naacl.org/',
+  })
+  @IsString()
+  @IsOptional()
+  mainLink?: string;
+
+  @ApiProperty({
+    description: 'Call for papers link',
+    example: 'https://2025.naacl.org/calls/papers/',
+  })
   @IsString()
   @IsOptional()
   cfpLink?: string;
 
-  @ApiProperty({ description: 'Important dates link', example: '' })
+  @ApiProperty({
+    description: 'Important dates link',
+    example: '',
+  })
   @IsString()
   @IsOptional()
   impLink?: string;
 
   @ApiProperty({
     description: 'Important links with descriptive names',
-    example: { 'Official Website': 'https://aaai.org/conference/aaai/' },
+    example: {
+      'Call for papers link': 'https://2025.naacl.org/calls/papers/',
+      'Important dates link': 'None',
+      'Official Website': 'https://2025.naacl.org/',
+    },
   })
   @IsObject()
   @IsOptional()
   determineLinks?: Record<string, string>;
-}
-
-class DateInfo {
-  @ApiProperty({
-    description: 'Submission deadline date',
-    example: '2025-10-01',
-  })
-  @IsDateString()
-  @IsOptional()
-  date?: string;
-
-  @ApiProperty({
-    description: 'Additional information about the date',
-    example: 'Abstract submission',
-  })
-  @IsString()
-  @IsOptional()
-  info?: string;
-}
-
-export class ConferenceSaveDto {
-  @ApiProperty({
-    description: 'Conference acronym',
-    example: 'SERA',
-  })
-  @IsString()
-  @IsOptional()
-  acronym?: string;
-
-  @ApiProperty({ type: String, description: 'Conference title information' })
-  title: string;
 
   @ApiProperty({
     description: 'Conference dates',
-    example: 'May 29-May 31, 2025',
+    example: 'April 29 – May 4, 2025',
   })
   @IsString()
   @IsOptional()
   conferenceDates?: string;
 
-  @ApiProperty({ description: 'Conference year', example: '2025' })
+  @ApiProperty({
+    description: 'Conference year',
+    example: '2025',
+  })
   @IsString()
   @IsOptional()
   year?: string;
 
   @ApiProperty({
-    description: 'Conference venue/location',
-    example: 'Las Vegas',
+    description: 'Conference location',
+    example: 'Albuquerque, New Mexico',
   })
   @IsString()
   @IsOptional()
@@ -119,7 +122,7 @@ export class ConferenceSaveDto {
 
   @ApiProperty({
     description: 'City, state, or province of the conference',
-    example: 'Las Vegas',
+    example: 'Albuquerque, New Mexico',
   })
   @IsString()
   @IsOptional()
@@ -127,7 +130,7 @@ export class ConferenceSaveDto {
 
   @ApiProperty({
     description: 'Country of the conference',
-    example: 'USA',
+    example: 'United States',
   })
   @IsString()
   @IsOptional()
@@ -149,44 +152,55 @@ export class ConferenceSaveDto {
   @IsOptional()
   type?: ConferenceType;
 
-  @ApiProperty({ type: [DateInfo], description: 'Submission deadline dates' })
-  @ValidateNested({ each: true })
-  @Type(() => DateInfo)
-  @IsArray()
+  @ApiProperty({
+    description: 'Submission dates',
+    example: {
+      'Submission Deadline (via ACL Rolling Review)': 'October 15, 2024',
+    },
+  })
+  @IsObject()
   @IsOptional()
-  submissionDate?: DateInfo[];
+  submissionDate?: Record<string, string>;
 
-  @ApiProperty({ type: [DateInfo], description: 'Notification dates' })
-  @ValidateNested({ each: true })
-  @Type(() => DateInfo)
-  @IsArray()
+  @ApiProperty({
+    description: 'Notification dates',
+    example: {},
+  })
+  @IsObject()
   @IsOptional()
-  notificationDate?: DateInfo[];
+  notificationDate?: Record<string, string>;
 
-  @ApiProperty({ type: [DateInfo], description: 'Camera-ready deadline dates' })
-  @ValidateNested({ each: true })
-  @Type(() => DateInfo)
-  @IsArray()
+  @ApiProperty({
+    description: 'Camera-ready dates',
+    example: {},
+  })
+  @IsObject()
   @IsOptional()
-  cameraReadyDate?: DateInfo[];
+  cameraReadyDate?: Record<string, string>;
 
-  @ApiProperty({ type: [DateInfo], description: 'Registration deadline dates' })
-  @ValidateNested({ each: true })
-  @Type(() => DateInfo)
-  @IsArray()
+  @ApiProperty({
+    description: 'Registration dates',
+    example: {},
+  })
+  @IsObject()
   @IsOptional()
-  registrationDate?: DateInfo[];
+  registrationDate?: Record<string, string>;
 
-  @ApiProperty({ type: [DateInfo], description: 'Other important dates' })
-  @ValidateNested({ each: true })
-  @Type(() => DateInfo)
-  @IsArray()
+  @ApiProperty({
+    description: 'Other important dates',
+    example: {
+      'Welcome Reception': 'April 29, 2025',
+      'Main Conference': 'April 30 – May 2, 2025',
+      'Tutorials and Workshops': 'May 3 – 4, 2025',
+    },
+  })
+  @IsObject()
   @IsOptional()
-  otherDate?: DateInfo[];
+  otherDate?: Record<string, string>;
 
   @ApiProperty({
     description: 'Conference topics',
-    example: 'Software Engineering, Management, Applications',
+    example: 'Computational Linguistics, Natural Language Processing',
   })
   @IsString()
   @IsOptional()
@@ -194,7 +208,7 @@ export class ConferenceSaveDto {
 
   @ApiProperty({
     description: 'Conference publisher',
-    example: 'IJNDC, IJSI, IJBDIA, SCI',
+    example: 'No publisher',
   })
   @IsString()
   @IsOptional()
@@ -202,7 +216,7 @@ export class ConferenceSaveDto {
 
   @ApiProperty({
     description: 'Additional conference information',
-    example: 'conferenceTitle: ACIS Conference on Software Engineering Research, Management and Applications\nconferenceAcronym: SERA',
+    example: 'Conference Title: NAACL 2025...',
   })
   @IsString()
   @IsOptional()
@@ -210,7 +224,7 @@ export class ConferenceSaveDto {
 
   @ApiProperty({
     description: 'Conference summary',
-    example: 'The 23rd IEEE/ACIS International Conference on Software Engineering, Management and Applications (SERA 2025) will be held in Las Vegas, USA...',
+    example: 'NAACL 2025, the 2025 Annual Conference...',
   })
   @IsString()
   @IsOptional()
@@ -218,21 +232,25 @@ export class ConferenceSaveDto {
 
   @ApiProperty({
     description: 'Call for papers details in markdown format',
-    example: '# Call for Papers\n\nThe 23rd IEEE/ACIS International Conference on Software Engineering Research, Management and Applications (SERA 2025)...',
+    example: '# Call for Papers: NAACL 2025...',
   })
   @IsString()
   @IsOptional()
   callForPapers?: string;
 
   @ApiProperty({
-    description: 'Important links with descriptive names',
-    example: { 
-      'Official Website': 'https://acisinternational.org/conferences/sera-2025/',
-      'Call for papers link': 'http://acisinternational.org/wp-content/uploads/2025/03/SERA_2025_CFP-9.pdf',
-      'Important dates link': 'None'
-    },
+    description: 'Request ID',
+    example: 'req-1748083667535-unkby',
   })
-  @IsObject()
+  @IsString()
   @IsOptional()
-  determineLinks?: Record<string, string>;
+  requestId?: string;
+
+  @ApiProperty({
+    description: 'Original request ID',
+    example: 'req-1748083090378-i01nk',
+  })
+  @IsString()
+  @IsOptional()
+  originalRequestId?: string;
 }
