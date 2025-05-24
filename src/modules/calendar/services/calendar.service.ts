@@ -130,6 +130,22 @@ export class CalendarService {
       where: {
         userId: userId,
       },
+      include: {
+        belongsTo: {
+          include: {
+            organizations: {
+              include: {
+                conferenceDates: {
+                  where: {
+                    name: 'Conference Date',
+                  },
+                },
+                locations: true,
+              },
+            },
+          },
+        },
+      },
     });
   }
 }
