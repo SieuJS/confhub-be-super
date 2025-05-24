@@ -130,9 +130,6 @@ export class NotificationController {
         case 'notificationWhenAddTocalendar':
           typeSetting = DEFAULT_TYPE.CONFERENCE_CALENDAR_ADDED;
           break;
-        case 'receiveNotifications':
-          typeSetting = DEFAULT_TYPE.ON_NOTIFICATION;
-          break;
         case 'upComingEvent':
           typeSetting = DEFAULT_TYPE.UP_COMING_CONFERENCE;
           break;

@@ -159,8 +159,8 @@ export class AuthController {
     );
     await this.emailService.sendEmailVerification(
       newUser.email,
-      verifyCode.verificationCode,
       newUser.firstName,
+      verifyCode.verificationCode,
     );
 
     const loginPayLoad = this.authService.loginUser(newUser);
