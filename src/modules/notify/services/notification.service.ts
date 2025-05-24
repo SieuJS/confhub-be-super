@@ -17,11 +17,11 @@ export class NotificationService {
     private emailService: EmailService,
     private messageService: MessageService,
   ) {
-    const init = async () => {
-      await this.initNotification();
-      await this.resetAllUserNotificationSetting();
-    };
-    init();
+    // const init = async () => {
+    //   await this.initNotification();
+    //   await this.resetAllUserNotificationSetting();
+    // };
+    // init();
   }
 
   async getNotificationByUserId(userId: string) {
@@ -140,7 +140,7 @@ export class NotificationService {
   }
 
   async getNotificationSettingsByUserId(userId: string) {
-    const setting = await this.prismaService.notificationSettings.findMany({
+    const setting = await this.txHost.tx.notificationSettings.findMany({
       where: {
         userId,
       },

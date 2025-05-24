@@ -68,6 +68,7 @@ export class NotificationController {
   @Get('/user/setting')
   @UseGuards(JWTGuardUser)
   @ApiBearerAuth('access-token')
+  @Transactional<TransactionalAdapterPrisma>({ timeout: 30000 })
   async getNotificationSetting(@Req() req) {
     const userId = req.user.id;
     const settings =
