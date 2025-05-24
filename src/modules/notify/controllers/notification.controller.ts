@@ -117,7 +117,7 @@ export class NotificationController {
   @ApiBearerAuth('access-token')
   @Transactional<TransactionalAdapterPrisma>({
     timeout: 30000,
-    isolationLevel: 'read committed',
+    isolationLevel: 'serializable',
   })
   async updateNotificationSetting(
     @Req() req,
