@@ -36,6 +36,7 @@ import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-pr
 import { JWTGuardAdmin } from 'src/modules/auth/guards/jwt.guard';
 import { ConferencePostRequestDTO, CreateConferencePostRequestDTO, UpdateConferencePostRequestDTO } from '../models/conference-request-post.dto';
 import { ConferenceSaveDto } from '../models/conference-save.dto';
+import { TransformDatePipe } from '../pipes/transform-date.pipe';
 
 @ApiTags('admin-conference')
 @Controller('admin/conferences')
@@ -401,7 +402,12 @@ export class AdminConferenceController {
     status: 200,
     description: 'Conference history updated successfully',
   })
-  async updateConferenceHistory(@Body() data: ConferenceHistoryDto) {
+  @Transactional<TransactionalAdapterPrisma>({
+    isolationLevel: 'Serializable',
+    timeout: 300000,
+  })
+  async updateConferenceHistory(@Body(new TransformDatePipe()) data: ConferenceHistoryDto) {
+    console.log(data)
     return this.adminConferenceService.updateConferenceHistory(data);
   }
 
@@ -421,6 +427,10 @@ export class AdminConferenceController {
     status: 500,
     description: 'Internal server error',
   })
+  @Transactional<TransactionalAdapterPrisma>({
+    isolationLevel: 'ReadCommitted',
+    timeout: 300000,
+  })
   async getConferenceHistoryById(@Param('id') id: string): Promise<ConferenceHistoryResponseDto> {
     return this.adminConferenceService.getOrganizationHistoryById(id);
   }
@@ -439,6 +449,10 @@ export class AdminConferenceController {
   @ApiResponse({
     status: 500,
     description: 'Internal server error',
+  })
+  @Transactional<TransactionalAdapterPrisma>({
+    isolationLevel: 'Serializable',
+    timeout: 300000,
   })
   async deleteConferenceHistory(@Param('id') id: string) {
     return this.adminConferenceService.deleteConferenceHistory(id);

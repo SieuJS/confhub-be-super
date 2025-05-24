@@ -919,8 +919,9 @@ export class AdminConferenceService {
   async updateConferenceHistory(updateHistoryDto: ConferenceHistoryDto) {
     try {
       // Find the conference history by ID
+      console.log('service', updateHistoryDto.id)
       const existingHistory = await this.txHost.tx.conferenceOrganizations.findUnique({
-        where: { id: updateHistoryDto.conferenceId },
+        where: { id: updateHistoryDto.id },
         include: {
           locations: true,
           topics: {
@@ -953,16 +954,16 @@ export class AdminConferenceService {
       if (updateHistoryDto.impLink !== undefined) updateData.impLink = updateHistoryDto.impLink;
 
       // Update the conference organization with only the provided fields
-      const updatedHistory = await this.prismaService.conferenceOrganizations.update({
-        where: { id: updateHistoryDto.conferenceId },
+      const updatedHistory = await this.txHost.tx.conferenceOrganizations.update({
+        where: { id: updateHistoryDto.id },
         data: updateData,
       });
 
       // Only update locations if provided
       if (updateHistoryDto.locations && updateHistoryDto.locations.length > 0) {
         // Delete existing locations
-        await this.prismaService.locations.deleteMany({
-          where: { organizeId: updateHistoryDto.conferenceId },
+        await this.txHost.tx.locations.deleteMany({
+          where: { organizeId: updateHistoryDto.id },
         });
 
         // Create new locations
@@ -970,7 +971,7 @@ export class AdminConferenceService {
           updateHistoryDto.locations.map((location) =>
             this.txHost.tx.locations.create({
               data: {
-                organizeId: updateHistoryDto.conferenceId,
+                organizeId: updateHistoryDto.id,
                 address: location.address || '',
                 cityStateProvince: location.cityStateProvince || '',
                 country: location.country || '',
@@ -986,25 +987,25 @@ export class AdminConferenceService {
       if (updateHistoryDto.topics && updateHistoryDto.topics.length > 0) {
         // Delete existing topics
         await this.txHost.tx.conferenceTopics.deleteMany({
-          where: { organizeId: updateHistoryDto.conferenceId },
+          where: { organizeId: updateHistoryDto.id },
         });
 
         // Create new topics
         await Promise.all(
           updateHistoryDto.topics.map(async (topic) => {
-            let topicInDB = await this.prismaService.topics.findFirst({
+            let topicInDB = await this.txHost.tx.topics.findFirst({
               where: { name: topic },
             });
             if (!topicInDB) {
-              topicInDB = await this.prismaService.topics.create({
+              topicInDB = await this.txHost.tx.topics.create({
                 data: {
                   name: topic,
                 },
               });
             }
-            return this.prismaService.conferenceTopics.create({
+            return this.txHost.tx.conferenceTopics.create({
               data: {
-                organizeId: updateHistoryDto.conferenceId,
+                organizeId: updateHistoryDto.id,
                 topicId: topicInDB.id,
               },
             });
@@ -1016,15 +1017,15 @@ export class AdminConferenceService {
       if (updateHistoryDto.dates && updateHistoryDto.dates.length > 0) {
         // Delete existing dates
         await this.txHost.tx.conferenceDates.deleteMany({
-          where: { organizedId: updateHistoryDto.conferenceId },
+          where: { organizedId: updateHistoryDto.id },
         });
 
         // Create new dates
         await Promise.all(
           updateHistoryDto.dates.map((date) =>
-            this.prismaService.conferenceDates.create({
+            this.txHost.tx.conferenceDates.create({
               data: {
-                organizedId: updateHistoryDto.conferenceId,
+                organizedId: updateHistoryDto.id,
                 type: date.type || '',
                 fromDate: date.startDate || new Date(),
                 toDate: date.endDate || new Date(),
@@ -1063,6 +1064,7 @@ export class AdminConferenceService {
 
       return updatedConference;
     } catch (error) {
+      console.log(error)
       if (error instanceof HttpException) {
         throw error;
       }
@@ -1075,7 +1077,7 @@ export class AdminConferenceService {
 
   async getOrganizationHistoryById(id: string): Promise<ConferenceHistoryResponseDto> {
     try {
-      const organization = await this.prismaService.conferenceOrganizations.findUnique({
+      const organization = await this.txHost.tx.conferenceOrganizations.findUnique({
         where: { id },
         include: {
           locations: true,
@@ -1133,7 +1135,7 @@ export class AdminConferenceService {
   async deleteConferenceHistory(id: string) {
     try {
       // First check if the organization exists
-      const organization = await this.prismaService.conferenceOrganizations.findUnique({
+      const organization = await this.txHost.tx.conferenceOrganizations.findUnique({
         where: { id },
       });
 
@@ -1142,24 +1144,22 @@ export class AdminConferenceService {
       }
 
       // Delete related data first
-      await this.prismaService.$transaction([
         // Delete locations
-        this.prismaService.locations.deleteMany({
+        this.txHost.tx.locations.deleteMany({
           where: { organizeId: id },
         }),
         // Delete topics
-        this.prismaService.conferenceTopics.deleteMany({
+        this.txHost.tx.conferenceTopics.deleteMany({
           where: { organizeId: id },
         }),
         // Delete dates
-        this.prismaService.conferenceDates.deleteMany({
+        this.txHost.tx.conferenceDates.deleteMany({
           where: { organizedId: id },
         }),
         // Finally delete the organization
-        this.prismaService.conferenceOrganizations.delete({
-          where: { id },
-        }),
-      ]);
+      this.txHost.tx.conferenceOrganizations.delete({
+        where: { id },
+      });
 
       return {
         message: 'Conference organization history deleted successfully',
