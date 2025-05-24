@@ -404,7 +404,6 @@ export class AdminConferenceController {
   })
   @Transactional<TransactionalAdapterPrisma>({
     isolationLevel: 'Serializable',
-    timeout: 300000,
   })
   async updateConferenceHistory(@Body(new TransformDatePipe()) data: ConferenceHistoryDto) {
     console.log(data)
@@ -427,10 +426,6 @@ export class AdminConferenceController {
     status: 500,
     description: 'Internal server error',
   })
-  @Transactional<TransactionalAdapterPrisma>({
-    isolationLevel: 'ReadCommitted',
-    timeout: 300000,
-  })
   async getConferenceHistoryById(@Param('id') id: string): Promise<ConferenceHistoryResponseDto> {
     return this.adminConferenceService.getOrganizationHistoryById(id);
   }
@@ -452,7 +447,6 @@ export class AdminConferenceController {
   })
   @Transactional<TransactionalAdapterPrisma>({
     isolationLevel: 'Serializable',
-    timeout: 300000,
   })
   async deleteConferenceHistory(@Param('id') id: string) {
     return this.adminConferenceService.deleteConferenceHistory(id);
