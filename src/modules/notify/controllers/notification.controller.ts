@@ -149,6 +149,12 @@ export class NotificationController {
         case 'notificationWhenUpdateProfile':
           typeSetting = DEFAULT_TYPE.PROFILE_UPDATED;
           break;
+        case 'receiveNotifications':
+          typeSetting = DEFAULT_TYPE.ON_NOTIFICATION;
+          break;
+        case 'autoAddFollowToCalendar':
+          // This is a frontend-only setting, no need to update in backend
+          continue;
         default:
           continue; // Skip if the key doesn't match any known setting
       }
