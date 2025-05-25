@@ -228,4 +228,13 @@ export class NotificationController {
   async getAllType() {
     return this.notificationService.getAllNotificationTypes();
   }
+
+  @Put('/clean-duplicates')
+  @Transactional<TransactionalAdapterPrisma>()
+  async cleanDuplicateSettings() {
+    await this.notificationService.removeDuplicateSettings();
+    return {
+      message: 'Duplicate settings cleaned successfully',
+    };
+  }
 }

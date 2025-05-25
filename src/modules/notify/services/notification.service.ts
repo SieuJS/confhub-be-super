@@ -67,6 +67,58 @@ export class NotificationService {
         console.log('Notification type created:', type);
       }
     }
+    // Remove duplicate settings after initialization
+    await this.removeDuplicateSettings();
+  }
+
+  async removeDuplicateSettings() {
+    // Get all notification settings
+    const allSettings = await this.txHost.tx.notificationSettings.findMany({
+      include: {
+        belongToNotify: true,
+      },
+    });
+
+    // Group settings by userId and notificationId
+    const groupedSettings = allSettings.reduce(
+      (acc, setting) => {
+        const key = `${setting.userId}-${setting.notificationId}`;
+        if (!acc[key]) {
+          acc[key] = [];
+        }
+        acc[key].push(setting);
+        return acc;
+      },
+      {} as Record<string, typeof allSettings>,
+    );
+
+    // For each group, keep only the most recent setting and delete others
+    for (const [key, settings] of Object.entries(groupedSettings)) {
+      if (settings.length > 1) {
+        // Sort by updatedAt in descending order
+        const sortedSettings = settings.sort(
+          (a, b) => b.updatedAt.getTime() - a.updatedAt.getTime(),
+        );
+
+        // Keep the most recent one, delete others
+        const [keepSetting, ...duplicates] = sortedSettings;
+
+        // Delete duplicate settings
+        await Promise.all(
+          duplicates.map((duplicate) =>
+            this.txHost.tx.notificationSettings.delete({
+              where: {
+                id: duplicate.id,
+              },
+            }),
+          ),
+        );
+
+        console.log(
+          `Removed ${duplicates.length} duplicate settings for ${key}`,
+        );
+      }
+    }
   }
 
   async createConferenceNotification(input: NotificationInput) {
@@ -400,13 +452,15 @@ export class NotificationService {
   }
 
   async checkAndCreateNotificationSettings(userId: string) {
-    const notificationTypes = await this.txHost.tx.notificationsTypes.findMany();
+    const notificationTypes =
+      await this.txHost.tx.notificationsTypes.findMany();
     const userSettings = await this.txHost.tx.notificationSettings.findMany({
       where: { userId },
     });
 
     const missingTypes = notificationTypes.filter(
-      (type) => !userSettings.some((setting) => setting.notificationId === type.id)
+      (type) =>
+        !userSettings.some((setting) => setting.notificationId === type.id),
     );
 
     if (missingTypes.length > 0) {
@@ -418,8 +472,8 @@ export class NotificationService {
               notificationId: type.id,
               isEnabled: true,
             },
-          })
-        )
+          }),
+        ),
       );
     }
 
