@@ -272,32 +272,36 @@ export class NotificationService {
     type: string;
     enable: boolean;
   }) {
-    const notificationType = await this.txHost.tx.notificationsTypes.findFirst({
+    const notificationTypes = await this.txHost.tx.notificationsTypes.findMany({
       where: {
         name: type,
       },
     });
-    if (!notificationType) {
+    if (notificationTypes.length === 0) {
       console.log('Notification type not found', type);
       throw new HttpException('Notification type not found', 400);
     }
-    const setting = await this.txHost.tx.notificationSettings.findFirst({
-      where: {
-        userId,
-        notificationId: notificationType.id,
-      },
-    });
-    if (!setting) {
-      throw new HttpException('Notification setting not found', 400);
-    }
-    return await this.txHost.tx.notificationSettings.update({
-      where: {
-        id: setting.id,
-      },
-      data: {
-        isEnabled: enable,
-      },
-    });
+    await Promise.all(
+      notificationTypes.map(async (notificationType) => {
+        const setting = await this.txHost.tx.notificationSettings.findFirst({
+          where: {
+            userId,
+            notificationId: notificationType.id,
+          },
+        });
+        if (!setting) {
+          throw new HttpException('Notification setting not found', 400);
+        }
+        return this.txHost.tx.notificationSettings.update({
+          where: {
+            id: setting.id,
+          },
+          data: {
+            isEnabled: enable,
+          },
+        });
+      }),
+    );
   }
 
   async turnOffAllNotification(userId: string) {
