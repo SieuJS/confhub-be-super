@@ -237,11 +237,6 @@ export class NotificationService {
       console.log('Notification type not found', type);
       throw new HttpException('Notification type not found', 400);
     }
-    if (type === DEFAULT_TYPE.ON_NOTIFICATION) {
-      console.log('Turn off all notification');
-      await this.turnOffAllNotification(userId);
-      return;
-    }
     const setting = await this.txHost.tx.notificationSettings.findFirst({
       where: {
         userId,

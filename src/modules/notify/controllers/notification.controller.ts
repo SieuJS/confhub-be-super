@@ -117,7 +117,7 @@ export class NotificationController {
   @ApiBearerAuth('access-token')
   @Transactional<TransactionalAdapterPrisma>({
     timeout: 30000,
-    isolationLevel: 'serializable',
+    isolationLevel: 'read committed',
   })
   async updateNotificationSetting(
     @Req() req,
@@ -152,6 +152,7 @@ export class NotificationController {
         default:
           continue; // Skip if the key doesn't match any known setting
       }
+      console.log('value', value);
       if (value !== undefined) {
         await this.notificationService.updateNotificationSetting({
           userId,
