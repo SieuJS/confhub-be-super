@@ -12,7 +12,9 @@ import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-pr
 @Controller('/notification')
 @ApiTags('notification')
 export class NotificationController {
-  constructor(private readonly notificationService: NotificationService) {}
+  constructor(private readonly notificationService: NotificationService) {
+    this.notificationService.initNotification();
+  }
 
   @Get('/user')
   @UseGuards(JWTGuardUser)
@@ -74,6 +76,10 @@ export class NotificationController {
   })
   async getNotificationSetting(@Req() req) {
     const userId = req.user.id;
+    
+    // Check and create settings if they don't exist
+    await this.notificationService.checkAndCreateNotificationSettings(userId);
+    
     const settings =
       await this.notificationService.getNotificationSettingsByUserId(userId);
 
@@ -87,24 +93,23 @@ export class NotificationController {
         case DEFAULT_TYPE.CONFERENCE_FOLLOWED:
           defaultSetting.notificationWhenFollow = setting.isEnabled;
           break;
-
         case DEFAULT_TYPE.CONFERENCE_CALENDAR_ADDED:
           defaultSetting.notificationWhenAddTocalendar = setting.isEnabled;
           break;
-
         case DEFAULT_TYPE.ON_NOTIFICATION:
           defaultSetting.receiveNotifications = setting.isEnabled;
           break;
-
         case DEFAULT_TYPE.UP_COMING_CONFERENCE:
           defaultSetting.upComingEvent = setting.isEnabled;
           break;
-
         case DEFAULT_TYPE.SEND_THROUGH_EMAIL:
           defaultSetting.notificationThroughEmail = setting.isEnabled;
           break;
         case DEFAULT_TYPE.CONFERENCE_UPDATED:
           defaultSetting.notificationWhenConferencesChanges = setting.isEnabled;
+          break;
+        case DEFAULT_TYPE.PROFILE_UPDATED:
+          defaultSetting.notificationWhenUpdateProfile = setting.isEnabled;
           break;
       }
     });
@@ -115,11 +120,21 @@ export class NotificationController {
   @Put('/user/setting')
   @UseGuards(JWTGuardUser)
   @ApiBearerAuth('access-token')
+  @Transactional<TransactionalAdapterPrisma>({
+    timeout: 30000,
+    isolationLevel: 'read committed',
+  })
   async updateNotificationSetting(
     @Req() req,
     @Body('settings') settings: NotificationSettingResponseDTO,
   ) {
     const userId = req.user.id;
+    
+    // Check and create settings if they don't exist
+    await this.notificationService.checkAndCreateNotificationSettings(userId);
+    
+    const updates: Promise<any>[] = [];
+    
     for (const key in settings) {
       const value = settings[key as keyof NotificationSettingResponseDTO];
       let typeSetting;
@@ -155,13 +170,18 @@ export class NotificationController {
           continue; // Skip if the key doesn't match any known setting
       }
       if (value !== undefined) {
-        await this.notificationService.updateNotificationSetting({
-          userId,
-          type: typeSetting,
-          enable: value,
-        });
+        updates.push(
+          this.notificationService.updateNotificationSetting({
+            userId,
+            type: typeSetting,
+            enable: value,
+          })
+        );
       }
     }
+
+    // Wait for all updates to complete
+    await Promise.all(updates);
     
     // Get the updated settings
     const updatedSettings = await this.notificationService.getNotificationSettingsByUserId(userId);
@@ -198,7 +218,7 @@ export class NotificationController {
 
     return {
       message: 'Update notification setting successfully',
-      settings: defaultSetting
+      settings: defaultSetting,
     };
   }
 

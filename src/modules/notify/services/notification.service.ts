@@ -16,13 +16,7 @@ export class NotificationService {
     private txHost: TransactionHost<TransactionalAdapterPrisma<PrismaClient>>,
     private emailService: EmailService,
     private messageService: MessageService,
-  ) {
-    // const init = async () => {
-    //   await this.initNotification();
-    //   await this.resetAllUserNotificationSetting();
-    // };
-    // init();
-  }
+  ) {}
 
   async getNotificationByUserId(userId: string) {
     return await this.prismaService.notifications.findMany({
@@ -403,5 +397,32 @@ export class NotificationService {
       content,
     );
     return emailService;
+  }
+
+  async checkAndCreateNotificationSettings(userId: string) {
+    const notificationTypes = await this.txHost.tx.notificationsTypes.findMany();
+    const userSettings = await this.txHost.tx.notificationSettings.findMany({
+      where: { userId },
+    });
+
+    const missingTypes = notificationTypes.filter(
+      (type) => !userSettings.some((setting) => setting.notificationId === type.id)
+    );
+
+    if (missingTypes.length > 0) {
+      await Promise.all(
+        missingTypes.map((type) =>
+          this.txHost.tx.notificationSettings.create({
+            data: {
+              userId,
+              notificationId: type.id,
+              isEnabled: true,
+            },
+          })
+        )
+      );
+    }
+
+    return true;
   }
 }
