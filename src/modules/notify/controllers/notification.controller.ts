@@ -115,7 +115,6 @@ export class NotificationController {
   @Put('/user/setting')
   @UseGuards(JWTGuardUser)
   @ApiBearerAuth('access-token')
-  @Transactional()
   async updateNotificationSetting(
     @Req() req,
     @Body('settings') settings: NotificationSettingResponseDTO,
@@ -163,8 +162,43 @@ export class NotificationController {
         });
       }
     }
+    
+    // Get the updated settings
+    const updatedSettings = await this.notificationService.getNotificationSettingsByUserId(userId);
+    const defaultSetting = new NotificationSettingResponseDTO();
+
+    updatedSettings.forEach((setting) => {
+      switch (setting.type) {
+        case DEFAULT_TYPE.CONFERENCE_BLACKLISTED:
+          defaultSetting.notificationWhenAddToBlacklist = setting.isEnabled;
+          break;
+        case DEFAULT_TYPE.CONFERENCE_FOLLOWED:
+          defaultSetting.notificationWhenFollow = setting.isEnabled;
+          break;
+        case DEFAULT_TYPE.CONFERENCE_CALENDAR_ADDED:
+          defaultSetting.notificationWhenAddTocalendar = setting.isEnabled;
+          break;
+        case DEFAULT_TYPE.ON_NOTIFICATION:
+          defaultSetting.receiveNotifications = setting.isEnabled;
+          break;
+        case DEFAULT_TYPE.UP_COMING_CONFERENCE:
+          defaultSetting.upComingEvent = setting.isEnabled;
+          break;
+        case DEFAULT_TYPE.SEND_THROUGH_EMAIL:
+          defaultSetting.notificationThroughEmail = setting.isEnabled;
+          break;
+        case DEFAULT_TYPE.CONFERENCE_UPDATED:
+          defaultSetting.notificationWhenConferencesChanges = setting.isEnabled;
+          break;
+        case DEFAULT_TYPE.PROFILE_UPDATED:
+          defaultSetting.notificationWhenUpdateProfile = setting.isEnabled;
+          break;
+      }
+    });
+
     return {
       message: 'Update notification setting successfully',
+      settings: defaultSetting
     };
   }
 
