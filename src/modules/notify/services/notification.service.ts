@@ -166,7 +166,7 @@ export class NotificationService {
     const notificationTypes =
       await this.txHost.tx.notificationsTypes.findMany();
     for (const type of notificationTypes) {
-      await this.prismaService.notificationSettings.upsert({
+      await this.txHost.tx.notificationSettings.upsert({
         where: {
           userId_notificationId: {
             userId,

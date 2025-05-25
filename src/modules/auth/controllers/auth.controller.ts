@@ -133,7 +133,10 @@ export class AuthController {
     type: UserInput,
   })
   @UsePipes(UserPropertyTransformPipe)
-  @Transactional()
+  @Transactional<TransactionalAdapterPrisma>({
+    timeout: 30000,
+    isolationLevel: 'read committed',
+  })
   async signup(@Body(UserPropertyTransformPipe) input: UserInput) {
     const user = (await this.userService.getUserByEmail(
       input.email,
