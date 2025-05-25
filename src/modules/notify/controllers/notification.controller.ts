@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Put, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Put,
+  UseGuards,
+  HttpException,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { NotificationService } from '../services/notification.service';
 import { JWTGuardUser } from 'src/modules/auth/guards/jwt.guard';
@@ -76,10 +83,10 @@ export class NotificationController {
   })
   async getNotificationSetting(@Req() req) {
     const userId = req.user.id;
-    
+
     // Check and create settings if they don't exist
     await this.notificationService.checkAndCreateNotificationSettings(userId);
-    
+
     const settings =
       await this.notificationService.getNotificationSettingsByUserId(userId);
 
@@ -120,71 +127,66 @@ export class NotificationController {
   @Put('/user/setting')
   @UseGuards(JWTGuardUser)
   @ApiBearerAuth('access-token')
-  @Transactional<TransactionalAdapterPrisma>({
-    timeout: 30000,
-    isolationLevel: 'read committed',
-  })
+  @Transactional<TransactionalAdapterPrisma>()
   async updateNotificationSetting(
     @Req() req,
-    @Body('settings') settings: NotificationSettingResponseDTO,
+    @Body('settings') settings: Partial<NotificationSettingResponseDTO>,
   ) {
     const userId = req.user.id;
-    
+
     // Check and create settings if they don't exist
     await this.notificationService.checkAndCreateNotificationSettings(userId);
-    
-    const updates: Promise<any>[] = [];
-    
-    for (const key in settings) {
-      const value = settings[key as keyof NotificationSettingResponseDTO];
-      let typeSetting;
-      switch (key) {
-        case 'notificationWhenAddToBlacklist':
-          typeSetting = DEFAULT_TYPE.CONFERENCE_BLACKLISTED;
-          break;
-        case 'notificationWhenFollow':
-          typeSetting = DEFAULT_TYPE.CONFERENCE_FOLLOWED;
-          break;
-        case 'notificationWhenAddTocalendar':
-          typeSetting = DEFAULT_TYPE.CONFERENCE_CALENDAR_ADDED;
-          break;
-        case 'upComingEvent':
-          typeSetting = DEFAULT_TYPE.UP_COMING_CONFERENCE;
-          break;
-        case 'notificationThroughEmail':
-          typeSetting = DEFAULT_TYPE.SEND_THROUGH_EMAIL;
-          break;
-        case 'notificationWhenConferencesChanges':
-          typeSetting = DEFAULT_TYPE.CONFERENCE_UPDATED;
-          break;
-        case 'notificationWhenUpdateProfile':
-          typeSetting = DEFAULT_TYPE.PROFILE_UPDATED;
-          break;
-        case 'receiveNotifications':
-          typeSetting = DEFAULT_TYPE.ON_NOTIFICATION;
-          break;
-        case 'autoAddFollowToCalendar':
-          // This is a frontend-only setting, no need to update in backend
-          continue;
-        default:
-          continue; // Skip if the key doesn't match any known setting
-      }
-      if (value !== undefined) {
-        updates.push(
-          this.notificationService.updateNotificationSetting({
-            userId,
-            type: typeSetting,
-            enable: value,
-          })
-        );
-      }
+
+    // Get the first (and only) key-value pair from the settings object
+    const [key, value] = Object.entries(settings)[0];
+    let typeSetting;
+
+    switch (key) {
+      case 'notificationWhenAddToBlacklist':
+        typeSetting = DEFAULT_TYPE.CONFERENCE_BLACKLISTED;
+        break;
+      case 'notificationWhenFollow':
+        typeSetting = DEFAULT_TYPE.CONFERENCE_FOLLOWED;
+        break;
+      case 'notificationWhenAddTocalendar':
+        typeSetting = DEFAULT_TYPE.CONFERENCE_CALENDAR_ADDED;
+        break;
+      case 'upComingEvent':
+        typeSetting = DEFAULT_TYPE.UP_COMING_CONFERENCE;
+        break;
+      case 'notificationThroughEmail':
+        typeSetting = DEFAULT_TYPE.SEND_THROUGH_EMAIL;
+        break;
+      case 'notificationWhenConferencesChanges':
+        typeSetting = DEFAULT_TYPE.CONFERENCE_UPDATED;
+        break;
+      case 'notificationWhenUpdateProfile':
+        typeSetting = DEFAULT_TYPE.PROFILE_UPDATED;
+        break;
+      case 'receiveNotifications':
+        typeSetting = DEFAULT_TYPE.ON_NOTIFICATION;
+        break;
+      case 'autoAddFollowToCalendar':
+        // This is a frontend-only setting, no need to update in backend
+        return {
+          message: 'Update notification setting successfully',
+          settings: settings,
+        };
+      default:
+        throw new HttpException('Invalid notification setting type', 400);
     }
 
-    // Wait for all updates to complete
-    await Promise.all(updates);
-    
+    if (value !== undefined) {
+      await this.notificationService.updateNotificationSetting({
+        userId,
+        type: typeSetting,
+        enable: value,
+      });
+    }
+
     // Get the updated settings
-    const updatedSettings = await this.notificationService.getNotificationSettingsByUserId(userId);
+    const updatedSettings =
+      await this.notificationService.getNotificationSettingsByUserId(userId);
     const defaultSetting = new NotificationSettingResponseDTO();
 
     updatedSettings.forEach((setting) => {
