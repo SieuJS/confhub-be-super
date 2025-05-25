@@ -115,10 +115,7 @@ export class NotificationController {
   @Put('/user/setting')
   @UseGuards(JWTGuardUser)
   @ApiBearerAuth('access-token')
-  @Transactional<TransactionalAdapterPrisma>({
-    timeout: 30000,
-    isolationLevel: 'read committed',
-  })
+  @Transactional()
   async updateNotificationSetting(
     @Req() req,
     @Body('settings') settings: NotificationSettingResponseDTO,
@@ -158,7 +155,6 @@ export class NotificationController {
         default:
           continue; // Skip if the key doesn't match any known setting
       }
-      console.log('value', value);
       if (value !== undefined) {
         await this.notificationService.updateNotificationSetting({
           userId,
