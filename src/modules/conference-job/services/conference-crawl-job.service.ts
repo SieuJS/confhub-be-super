@@ -110,11 +110,18 @@ export class ConferenceCrawlJobService {
               },
             ],
             {
-              params: { dataSource: 'client' },
+              params: {
+                dataSource: 'client',
+                models: {
+                  determineLinks: 'tuned',
+                  extractInfo: 'non-tuned',
+                  extractCfp: 'tuned',
+                },
               headers: {
                 'Content-Type': 'application/json',
               },
             },
+          },
           )
           .pipe(
             catchError((error) => {
