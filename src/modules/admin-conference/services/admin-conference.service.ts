@@ -769,39 +769,61 @@ export class AdminConferenceService {
             },
           });
         }
-      }
-
+      }            
+      const {
+            submissionDate,
+            cameraReadyDate,
+            conferenceDates,
+            registrationDate,
+            notificationDate,
+            otherDate,
+        } = conferenceData;
+      
       // Create dates
-      const createDate = async (dates: Record<string, string>, type: string) => {
-        for (const [name, value] of Object.entries(dates)) {
-          await this.txHost.tx.conferenceDates.create({
-            data: {
-              organizedId: organization.id,
-              type,
-              name,
-              fromDate: new Date(value),
-              toDate: new Date(value),
-              isAvailable: true,
-            },
-          });
-        }
-      };
+      const conferenceDateInput = converStringToDate(
+                conferenceDates,
+                "conferenceDates",
+                organization.id
+            );
 
-      if (conferenceData.submissionDate) {
-        await createDate(conferenceData.submissionDate, 'submissionDate');
-      }
-      if (conferenceData.notificationDate) {
-        await createDate(conferenceData.notificationDate, 'notificationDate');
-      }
-      if (conferenceData.cameraReadyDate) {
-        await createDate(conferenceData.cameraReadyDate, 'cameraReadyDate');
-      }
-      if (conferenceData.registrationDate) {
-        await createDate(conferenceData.registrationDate, 'registrationDate');
-      }
-      if (conferenceData.otherDate) {
-        await createDate(conferenceData.otherDate, 'otherDate');
-      }
+            const submissionDateInput = convertObjectToDate(
+                submissionDate,
+                "submissionDate",
+                organization.id
+            );
+            const cameraReadyDateInput = convertObjectToDate(
+                cameraReadyDate,
+                "cameraReadyDate",
+                organization.id
+            );
+            const registrationDateInput = convertObjectToDate(
+                registrationDate,
+                "registrationDate",
+                organization.id
+            );
+            const notificationDateInput = convertObjectToDate(
+                notificationDate,
+                "notificationDate",
+                organization.id
+            );
+            const otherDateInput = convertObjectToDate(
+                otherDate,
+                "otherDate",
+                organization.id
+            );
+
+            const dateInput = [
+                conferenceDateInput,
+                ...submissionDateInput,
+                ...cameraReadyDateInput,
+                ...registrationDateInput,
+                ...notificationDateInput,
+                ...otherDateInput,
+            ];
+
+            for (const date of dateInput) {
+                await this.conferenceOrganizationService.importDate(date);
+            }
 
       return conference;
     } catch (error) {

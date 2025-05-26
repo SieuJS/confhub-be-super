@@ -52,10 +52,19 @@ export function parseDateRange(dateRange: string): [Date | null, Date | null] {
 }
 
 export const converStringToDate = (
-  date: string,
+  date: string | undefined,
   type: string,
   organizedId
 ): ConferenceDateInput => {
+  if (!date) {
+    return {
+      fromDate: null,
+      toDate: null,
+      type,
+      name: "Conference Date",
+      organizedId,
+    };
+  }
   const [fromDate, toDate] = parseDateRange(date);
   return  ({
           fromDate,
@@ -67,12 +76,15 @@ export const converStringToDate = (
 };
 
 export const convertObjectToDate = (
-  date: object,
+  date: object | undefined,
   type: string,
   organizedId
 ): ConferenceDateInput[] => {
   const result: ConferenceDateInput[] = [];
 
+  if (!date) {
+    return result;
+  }
   for (const key of Object.getOwnPropertyNames(date)) {
       if (!date[key]) continue;
       const [fromDate, toDate] = parseDateRange(date[key]);
