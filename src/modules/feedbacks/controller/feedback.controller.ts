@@ -5,7 +5,6 @@ import {
   HttpException,
   Param,
   Post,
-  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -16,13 +15,7 @@ import { FeedbackService } from '../services/feedback.service';
 import { ConferenceService } from 'src/modules/conference/services/conference.service';
 import { NotificationService } from 'src/modules/notify/services/notification.service';
 import { JWTGuardUser } from 'src/modules/auth/guards/jwt.guard';
-import {
-  ApiBearerAuth,
-  ApiBody,
-  ApiParam,
-  ApiResponse,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
 import { DEFAULT_TYPE } from 'src/modules/notify/constants/default-type';
 
 @ApiTags('/feedback')
@@ -49,16 +42,16 @@ export class FeedbackController {
     }
     const result = this.feedbackService.createFeedback(input, userId);
     const conferenceId = conference.id;
-    const notifiConference =
-      await this.notificationService.createConferenceNotification({
-        userId,
-        conferenceId,
-        type: DEFAULT_TYPE.CONFERENCE_FOLLOWED,
-        message: `You have feedback about the conference ${conference.title}`,
-        isDeleted: false,
-        isRead: false,
-      });
     try {
+      const notifiConference =
+        await this.notificationService.createConferenceNotification({
+          userId,
+          conferenceId,
+          type: DEFAULT_TYPE.CONFERENCE_FOLLOWED,
+          message: `You have feedback about the conference ${conference.title}`,
+          isDeleted: false,
+          isRead: false,
+        });
       await this.notificationService.sendNotificationToUser(
         notifiConference,
         userId,
