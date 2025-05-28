@@ -8,6 +8,9 @@ export class ConferenceCrawlJobInputDTO extends PickType(ConferenceCrawlJobDTO, 
     'status',
     'progress',
     'message',
+    'mainLink',
+    'cfpLink',
+    'impLink'
 ]) {
     
 }

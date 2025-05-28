@@ -18,7 +18,6 @@ import { AdminConferenceModule } from '../admin-conference/admin-conference.modu
     SocketGatewayModule,
     CommonModule,
     SourceRankModule,
-    ConferenceJobModule,
     NotifyModule,
     ConferenceOrganizationModule,
     UserModule,

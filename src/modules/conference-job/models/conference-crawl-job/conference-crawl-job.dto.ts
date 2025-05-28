@@ -57,5 +57,22 @@ export class ConferenceCrawlJobDTO {
         example : "2021-01-01T00:00:00.000Z"
     })
     updatedAt: Date
-    
+
+    @ApiProperty({
+        description : "Main link of the conference",
+        example : "https://example.com"
+    })
+    mainLink?: string;
+
+    @ApiProperty({
+        description : "Call for papers link",
+        example : "https://example.com/cfp"
+    })
+    cfpLink?: string;
+
+    @ApiProperty({
+        description : "Important dates link",
+        example : "https://example.com/dates"
+    })
+    impLink?: string;
 }

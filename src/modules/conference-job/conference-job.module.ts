@@ -9,13 +9,22 @@ import { HttpModule } from '@nestjs/axios';
 import { ConferenceOrganizationModule } from '../conference-organization';
 import { ConferenceImportListener } from './queues/conference-import.listener';
 import { SocketGatewayModule } from '../socket-gateway/socket-gateway.module';
+import { ConferenceService } from '../conference/services/conference.service';
+import { ConferencesModule } from '../conference/conference.module';
+import { NotifyModule } from '../notify/notify.module';
+import { SourceRankModule } from '../source-rank';
 
 @Module({
     imports: [CommonModule, 
         BullModule.registerQueue({
             name : CONFERENCE_QUEUE_NAME.CRAWL
         }),
-        HttpModule, ConferenceOrganizationModule, SocketGatewayModule
+        ConferencesModule,
+        NotifyModule,
+        ConferenceOrganizationModule,
+        SourceRankModule,
+        HttpModule,
+        SocketGatewayModule,
     ],
     providers: [
         ConferenceCrawlJobService , ConferenceImportProcessor
