@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { JournalService } from './service/journal/journal.service';
-import { CommonModule } from '../common';
+import { JournalService } from './services/journal/journal.service';
 import { JournalController } from './controllers/journal.controller';
-import { SourceRankModule } from '../source-rank';
+import { CommonModule } from '../common';
 
 @Module({
-  imports: [CommonModule, SourceRankModule],
-  providers: [JournalService],
+  imports: [CommonModule],
   controllers: [JournalController],
+  providers: [JournalService],
+  exports: [JournalService]
 })
 export class JournalModule {}

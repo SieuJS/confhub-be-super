@@ -71,8 +71,9 @@ model Topics {
   createdAt          DateTime               @default(now())
   updatedAt          DateTime               @updatedAt
   inConferenceTopics ConferenceTopics[]
-  inJournalTopics    JournalTopics[]
   inInterested       TopicUserInteresteds[]
+
+  JournalTopics JournalTopics[]
 }
 
 model Conferences {
@@ -125,7 +126,6 @@ model Ranks {
   value           Int
   sourceId        String
   conferenceRanks ConferenceRanks[]
-  journalRanks    JournalRanks[]
   belongsToSource Sources           @relation(fields: [sourceId], references: [id])
 }
 
@@ -134,81 +134,6 @@ model Sources {
   name  String  @unique
   link  String?
   ranks Ranks[]
-}
-
-model JournalTopics {
-  id              String   @id @default(uuid())
-  journalId       String
-  topicId         String
-  inJournals      Journals @relation(fields: [journalId], references: [id])
-  belongsToTopics Topics   @relation(fields: [topicId], references: [id])
-}
-
-model JournalRanks {
-  id                String           @id @default(uuid())
-  year              String
-  quartile          String
-  journalId         String
-  cateId String
-  rankId            String
-  category          JournalCategories @relation(fields: [cateId], references: [id])
-  belongsTo         Journals         @relation(fields: [journalId], references: [id])
-  byRank            Ranks            @relation(fields: [rankId], references: [id])
-}
-
-model JournalCategories {
-  id       String   @id @default(uuid())
-  category  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  ranks   JournalRanks[]
-}
-
-model Journals {
-  id              String             @id @default(uuid())
-  title           String
-  issn            String
-  hIndex          String
-  publisher       String
-  country         String
-  scimagoLink     String
-  sjr             String
-  bioxbio         String?
-  image           String?
-  imageContext    String?
-  scope           String
-  emailSubmission String
-  creatorId       String?
-  adminId         String?
-  totalDocs       String?
-  totalDocs3Years String?
-  totalRefs       String?
-  totalCites3Years String?
-  citableDocs3Years String?
-  citesPerDoc2Years String?
-  refsPerDoc      String?
-  percentFemale   String?
-  overton         String?
-  sdg             String?
-  region          String?
-  coverage        String?
-  categories      String?
-  areas           String?
-  subjectAreaFieldOfResearch String?
-  subjectAreaTopics String[]
-  homepage        String?
-  howToPublish    String?
-  mail            String?
-  createdAt       DateTime           @default(now())
-  updatedAt       DateTime           @updatedAt
-  crawlJobs       JournalCrawlJobs[]
-  journalFollows  JournalFollows[]
-  journalLikes    JournalLikes[]
-  journalRanks    JournalRanks[]
-  topics          JournalTopics[]
-  notifications   Notifications[]
-  createdByUser   Users?             @relation(fields: [creatorId], references: [id])
-  createdByAdmin  Admins?            @relation(fields: [adminId], references: [id])
 }
 
 model ConferenceFollows {
@@ -259,26 +184,6 @@ model ConferenceCalendars {
   @@unique([conferenceId, userId])
 }
 
-model JournalLikes {
-  id        String   @id @default(uuid())
-  journalId String
-  userId    String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  belongsTo Journals @relation(fields: [journalId], references: [id])
-  byUser    Users    @relation(fields: [userId], references: [id])
-}
-
-model JournalFollows {
-  id        String   @id @default(uuid())
-  journalId String
-  userId    String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  belongsTo Journals @relation(fields: [journalId], references: [id])
-  byUser    Users    @relation(fields: [userId], references: [id])
-}
-
 model Users {
   id                   String                 @id @default(uuid())
   email                String                 @unique
@@ -297,9 +202,6 @@ model Users {
   followConference     ConferenceFollows[]
   likes                ConferenceLikes[]
   createdConferences   Conferences[]
-  journalFollows       JournalFollows[]
-  journalLikes         JournalLikes[]
-  createdJournals      Journals[]
   notificationSettings NotificationSettings[]
   notifications        Notifications[]
   interestedTopics     TopicUserInteresteds[]
@@ -316,7 +218,6 @@ model Admins {
   createdAt          DateTime      @default(now())
   updatedAt          DateTime      @updatedAt
   createdConferences Conferences[]
-  createdJournals    Journals[]
 
   ConferencePostRequests ConferencePostRequests[]
 }
@@ -342,23 +243,11 @@ model ConferenceBlacklists {
   byUser       Users       @relation(fields: [userId], references: [id])
 }
 
-model JournalCrawlJobs {
-  id        String   @id @default(uuid())
-  journalId String
-  status    String
-  progress  Int
-  message   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  belongsTo Journals @relation(fields: [journalId], references: [id])
-}
-
 model Notifications {
   id             String             @id @default(uuid())
   notificationId String
   userId         String
   conferenceId   String?
-  journalId      String?
   message        String
   isImportant    Boolean            @default(false)
   isDeleted      Boolean            @default(false)
@@ -368,7 +257,6 @@ model Notifications {
   belongToNotify NotificationsTypes @relation(fields: [notificationId], references: [id])
   byUser         Users              @relation(fields: [userId], references: [id])
   inConference   Conferences?       @relation(fields: [conferenceId], references: [id])
-  inJournal      Journals?          @relation(fields: [journalId], references: [id])
 }
 
 model NotificationsTypes {
@@ -448,3 +336,87 @@ model ConferencePostRequests {
   byUser Users @relation(fields: [userId], references: [id])
   byAdmin Admins? @relation(fields: [adminId], references: [id])
 }
+
+model Journals {
+  id String @id @default(uuid())
+  title String
+  type String
+  issn String
+  publisher String
+  country String
+  region String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  quartiles JournalQuartiles[]
+
+  JournalTopics JournalTopics[]
+
+  JournalDetails JournalDetails[]
+
+  JournalAreas JournalAreas[]
+
+  JournalAuthorInformations JournalAuthorInformations[]
+
+  JournalStatistics JournalStatistics[]
+}
+
+model JournalQuartiles {
+  id String @id @default(uuid())
+  year String
+  quartile String
+  journalId String
+  belongsTo Journals @relation(fields: [journalId], references: [id])
+}
+
+model JournalTopics {
+  id String @id @default(uuid())
+  topicId String
+  journalId String
+  belongsTo Journals @relation(fields: [journalId], references: [id])
+  inTopic Topics @relation(fields: [topicId], references: [id])
+}
+
+model JournalDetails {
+  id String @id @default(uuid())
+  journalId String
+  image String
+  imageContent String
+  sjr String
+  coverage String
+  scope String
+  belongsTo Journals @relation(fields: [journalId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model JournalAreas {
+  id String @id @default(uuid())
+  name String
+  journalId String
+  belongsTo Journals @relation(fields: [journalId], references: [id])
+}
+
+model JournalAuthorInformations {
+  id String @id @default(uuid())
+  homePage String
+  instruction String
+  mail String
+  journalId String
+  thumbnail String
+  belongsTo Journals @relation(fields: [journalId], references: [id])
+}
+
+model JournalStatistics {
+  id String @id @default(uuid()) 
+  journalId String
+  totalDocs Int
+  totalReferences Int
+  totalCities Int
+  citableDocs Int
+  percentFemail Float
+  year Int
+  belongsTo Journals @relation(fields: [journalId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+

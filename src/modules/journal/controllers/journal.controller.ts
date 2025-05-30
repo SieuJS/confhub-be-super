@@ -1,126 +1,40 @@
-import { Controller, Get, Query, UseGuards, ParseIntPipe, DefaultValuePipe } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
-import { JournalService } from '../service/journal/journal.service';
-import {
-  SortField,
-  SortOrder,
-} from '../models/journal-request/get-journal-params';
-import { JournalPaginationDTO } from '../models/journal/journal-pagination.dto';
+import { Controller, Post, Body, Get, Query } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
+import { JournalService } from '../services/journal/journal.service';
+import { JournalImportDto } from '../models/journal-import.dto';
+import { JournalListQueryDto } from '../models/journal-list-query.dto';
+import { JournalImportResponseDto } from '../models/journal-import-response.dto';
+import { JournalListResponseDto } from '../models/journal-list-response.dto';
 
-@ApiTags('journal')
-@Controller('journal')
+@ApiTags('Journals')
+@Controller('journals')
 export class JournalController {
   constructor(private readonly journalService: JournalService) {}
 
-  @Get()
-  @ApiOperation({
-    summary: 'Get list of journals with filtering, pagination and sorting',
+  @Post('import')
+  @ApiOperation({ summary: 'Import journals data' })
+  @ApiBody({ type: [JournalImportDto] })
+  @ApiResponse({ 
+    status: 200, 
+    description: 'Journals imported successfully',
+    type: JournalImportResponseDto 
   })
-  @ApiResponse({
-    status: 200,
-    description: 'List of journals',
-    type: JournalPaginationDTO,
-  })
-  @ApiQuery({
-    name: 'search',
-    required: false,
-    description: 'Search in title, publisher and country',
-  })
-  @ApiQuery({
-    name: 'publisher',
-    required: false,
-    description: 'Filter by publisher',
-  })
-  @ApiQuery({
-    name: 'country',
-    required: false,
-    description: 'Filter by country',
-  })
-  @ApiQuery({
-    name: 'region',
-    required: false,
-    description: 'Filter by region',
-  })
-  @ApiQuery({ name: 'type', required: false, description: 'Filter by type' })
-  @ApiQuery({
-    name: 'categories',
-    required: false,
-    description: 'Filter by categories',
-    type: [String],
-  })
-  @ApiQuery({
-    name: 'fields',
-    required: false,
-    description: 'Filter by fields',
-    type: [String],
-  })
-  @ApiQuery({
-    name: 'page',
-    required: false,
-    description: 'Page number',
-    type: Number,
-    default: 1,
-  })
-  @ApiQuery({
-    name: 'perPage',
-    required: false,
-    description: 'Items per page',
-    type: Number,
-    default: 10,
-  })
-  @ApiQuery({
-    name: 'sortBy',
-    required: false,
-    description: 'Sort field',
-    enum: SortField,
-    default: SortField.CREATED_AT,
-  })
-  @ApiQuery({
-    name: 'sortOrder',
-    required: false,
-    description: 'Sort order',
-    enum: SortOrder,
-    default: SortOrder.DESC,
-  })
-  async getJournals(
-    @Query('search') search?: string,
-    @Query('publisher') publisher?: string,
-    @Query('country') country?: string,
-    @Query('region') region?: string,
-    @Query('type') type?: string,
-    @Query('categories') categories?: string[],
-    @Query('fields') fields?: string[],
-    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
-    @Query('perPage', new DefaultValuePipe(10), ParseIntPipe) perPage: number = 10,
-    @Query('sortBy', new DefaultValuePipe(SortField.CREATED_AT)) sortBy: SortField = SortField.CREATED_AT,
-    @Query('sortOrder', new DefaultValuePipe(SortOrder.DESC)) sortOrder: SortOrder = SortOrder.DESC,
-  ): Promise<JournalPaginationDTO> {
-    return this.journalService.getJournals(
-      {
-        search,
-        publisher,
-        country,
-        region,
-        type,
-        categories,
-        fields,
-        page,
-        perPage,
-      },
-      {
-        sortBy,
-        sortOrder,
-      },
-    );
+  async importJournals(
+    @Body() journals: JournalImportDto[]
+  ): Promise<JournalImportResponseDto> {
+    return this.journalService.importJournals(journals);
   }
 
-  @Get(':id')
-  @ApiOperation({ summary: 'Get journal by ID' })
-  @ApiResponse({
-    status: 200,
-    description: 'Journal details',
+  @Get()
+  @ApiOperation({ summary: 'Get list of journals with filters and pagination' })
+  @ApiResponse({ 
+    status: 200, 
+    description: 'List of journals retrieved successfully',
+    type: JournalListResponseDto 
   })
-  async getJournalById(@Query('id') id: string) {
-    return this.journalService.getJournalById(id);
+  async getJournals(
+    @Query() query: JournalListQueryDto
+  ): Promise<JournalListResponseDto> {
+    return this.journalService.getJournals(query);
   }
-}
+} 

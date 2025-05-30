@@ -21,8 +21,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { CalendarModule } from './modules/calendar/calendar.module';
 import { FollowConferenceModule } from './modules/follow-conference/follow-conference.module';
 import { ConferenceBlacklistModule } from './modules/conference-blacklist/conference-blacklist.module';
-import { JournalModule } from './modules/journal/journal.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { JournalModule } from './modules/journal/journal.module';
 
 @Module({
   imports: [
@@ -79,8 +79,8 @@ import { ScheduleModule } from '@nestjs/schedule';
     CalendarModule,
     FollowConferenceModule,
     ConferenceBlacklistModule,
-    JournalModule,
     ScheduleModule.forRoot(),
+    JournalModule,
   ],
   controllers: [AppController],
   providers: [AppService],
