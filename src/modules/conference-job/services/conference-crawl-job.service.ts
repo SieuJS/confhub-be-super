@@ -27,14 +27,18 @@ export class ConferenceCrawlJobService {
     @InjectQueue(CONFERENCE_QUEUE_NAME.CRAWL)
     private conferenceCrawlQueue: Queue,
     private httpService: HttpService,
-    private schedulerRegistry: SchedulerRegistry
+    private schedulerRegistry: SchedulerRegistry,
   ) {}
 
   async getListConferenceCrawlJob() {
     return this.prismaService.conferenceCrawlJobs.findMany();
   }
 
-  async getUpdateStatus(page: number = 1, perPage: number = 10, status?: string) {
+  async getUpdateStatus(
+    page: number = 1,
+    perPage: number = 10,
+    status?: string,
+  ) {
     const where = status ? { status } : {};
     const skip = (page - 1) * perPage;
 
@@ -43,9 +47,9 @@ export class ConferenceCrawlJobService {
         where,
         skip,
         take: perPage,
-        orderBy: { createdAt: 'desc' }
+        orderBy: { createdAt: 'desc' },
       }),
-      this.prismaService.conferenceCrawlJobs.count({ where })
+      this.prismaService.conferenceCrawlJobs.count({ where }),
     ]);
 
     return {
@@ -54,8 +58,8 @@ export class ConferenceCrawlJobService {
         total,
         page,
         perPage,
-        totalPages: Math.ceil(total / perPage)
-      }
+        totalPages: Math.ceil(total / perPage),
+      },
     };
   }
 
@@ -63,17 +67,17 @@ export class ConferenceCrawlJobService {
     const [total, completed, failed, pending, running] = await Promise.all([
       this.prismaService.conferenceCrawlJobs.count(),
       this.prismaService.conferenceCrawlJobs.count({
-        where: { status: ConferenceAttribute.JOB_STATUS_COMPLETED }
+        where: { status: ConferenceAttribute.JOB_STATUS_COMPLETED },
       }),
       this.prismaService.conferenceCrawlJobs.count({
-        where: { status: ConferenceAttribute.JOB_STATUS_FAILED }
+        where: { status: ConferenceAttribute.JOB_STATUS_FAILED },
       }),
       this.prismaService.conferenceCrawlJobs.count({
-        where: { status: ConferenceAttribute.JOB_STATUS_PENDING }
+        where: { status: ConferenceAttribute.JOB_STATUS_PENDING },
       }),
       this.prismaService.conferenceCrawlJobs.count({
-        where: { status: ConferenceAttribute.JOB_STATUS_RUNNING }
-      })
+        where: { status: ConferenceAttribute.JOB_STATUS_RUNNING },
+      }),
     ]);
 
     return {
@@ -82,7 +86,7 @@ export class ConferenceCrawlJobService {
       failed,
       pending,
       running,
-      successRate: total > 0 ? (completed / total) * 100 : 0
+      successRate: total > 0 ? (completed / total) * 100 : 0,
     };
   }
 
@@ -109,11 +113,11 @@ export class ConferenceCrawlJobService {
     return {
       message: 'Cron update scheduled successfully',
       schedule,
-      batchSize
+      batchSize,
     };
   }
 
-  async cancelCronUpdate() {
+  cancelCronUpdate() {
     if (this.cronJob) {
       this.cronJob.stop();
       this.schedulerRegistry.deleteCronJob('conference-update');
@@ -121,16 +125,16 @@ export class ConferenceCrawlJobService {
     }
 
     return {
-      message: 'Cron update cancelled successfully'
+      message: 'Cron update cancelled successfully',
     };
   }
 
-  async getCronStatus() {
+  getCronStatus() {
     return {
       isActive: !!this.cronJob,
       schedule: this.cronJob?.cronTime.source || null,
       lastRun: this.cronJob?.lastDate() || null,
-      nextRun: this.cronJob?.nextDate() || null
+      nextRun: this.cronJob?.nextDate() || null,
     };
   }
 
@@ -140,9 +144,9 @@ export class ConferenceCrawlJobService {
       include: {
         organizations: {
           take: 1,
-          orderBy: { updatedAt: 'desc' }
-        }
-      }
+          orderBy: { updatedAt: 'desc' },
+        },
+      },
     });
 
     // Process conferences in batches
@@ -150,17 +154,17 @@ export class ConferenceCrawlJobService {
     for (let i = 0; i < conferences.length; i += batchSize) {
       const batch = conferences.slice(i, i + batchSize);
       const batchInputs = batch
-        .filter(conference => conference.organizations.length > 0)
-        .map(conference => ({
+        .filter((conference) => conference.organizations.length > 0)
+        .map((conference) => ({
           conferenceId: conference.id,
           conferenceTitle: conference.title,
           conferenceAcronym: conference.acronym,
-          mainLink: conference.organizations[0].link || "",
-          cfpLink: conference.organizations[0].cfpLink || "",
-          impLink: conference.organizations[0].impLink || "",
+          mainLink: conference.organizations[0].link || '',
+          cfpLink: conference.organizations[0].cfpLink || '',
+          impLink: conference.organizations[0].impLink || '',
           status: ConferenceAttribute.JOB_STATUS_PENDING,
           progress: 0,
-          message: ConferenceMessageJob.PENDING
+          message: ConferenceMessageJob.PENDING,
         }));
 
       if (batchInputs.length > 0) {
@@ -176,10 +180,10 @@ export class ConferenceCrawlJobService {
     }
 
     return {
-      message: "Batch update jobs scheduled successfully",
+      message: 'Batch update jobs scheduled successfully',
       totalBatches: batches.length,
       totalConferences: results.flat().length,
-      results
+      results,
     };
   }
 
@@ -198,35 +202,36 @@ export class ConferenceCrawlJobService {
     });
 
     // Determine job type based on input
-    const jobType = input.mainLink || input.cfpLink || input.impLink 
-        ? CONFERENCE_CRAWL_JOB_NAME.UPDATE 
+    const jobType =
+      input.mainLink || input.cfpLink || input.impLink
+        ? CONFERENCE_CRAWL_JOB_NAME.UPDATE
         : CONFERENCE_CRAWL_JOB_NAME.CRAWL;
 
     await this.conferenceCrawlQueue.add(jobType, {
-        id: jobInstance.id,
-        conferenceId: jobInstance.conferenceId,
-        conferenceAcronym: input.conferenceAcronym,
-        conferenceTitle: input.conferenceTitle,
-        mainLink: input.mainLink,
-        cfpLink: input.cfpLink,
-        impLink: input.impLink,
-        progress: 0,
-        status: ConferenceAttribute.JOB_STATUS_PENDING,
+      id: jobInstance.id,
+      conferenceId: jobInstance.conferenceId,
+      conferenceAcronym: input.conferenceAcronym,
+      conferenceTitle: input.conferenceTitle,
+      mainLink: input.mainLink,
+      cfpLink: input.cfpLink,
+      impLink: input.impLink,
+      progress: 0,
+      status: ConferenceAttribute.JOB_STATUS_PENDING,
     });
 
     return {
-        id: jobInstance.id,
-        conferenceId: jobInstance.conferenceId,
-        conferenceTitle: input.conferenceTitle,
-        conferenceAcronym: input.conferenceAcronym,
-        mainLink: input.mainLink,
-        cfpLink: input.cfpLink,
-        impLink: input.impLink,
-        status: jobInstance.status as ConferenceAttribute,
-        createdAt: jobInstance.createdAt,
-        updatedAt: jobInstance.updatedAt,
-        progress: jobInstance.progress,
-        message: jobInstance.message as ConferenceMessageJob,
+      id: jobInstance.id,
+      conferenceId: jobInstance.conferenceId,
+      conferenceTitle: input.conferenceTitle,
+      conferenceAcronym: input.conferenceAcronym,
+      mainLink: input.mainLink,
+      cfpLink: input.cfpLink,
+      impLink: input.impLink,
+      status: jobInstance.status as ConferenceAttribute,
+      createdAt: jobInstance.createdAt,
+      updatedAt: jobInstance.updatedAt,
+      progress: jobInstance.progress,
+      message: jobInstance.message as ConferenceMessageJob,
     };
   }
 
@@ -282,11 +287,11 @@ export class ConferenceCrawlJobService {
                   extractInfo: 'non-tuned',
                   extractCfp: 'non-tuned',
                 },
-              headers: {
-                'Content-Type': 'application/json',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
               },
             },
-          },
           )
           .pipe(
             catchError((error) => {
@@ -305,23 +310,19 @@ export class ConferenceCrawlJobService {
     const { data }: { data: ConferenceCrawlNewResponseDto } =
       await firstValueFrom(
         this.httpService
-          .post(
-            CRAWL_URL + '/crawl-conferences',
-            inputs,
-            {
-              params: {
-                dataSource: 'client',
-                models: {
-                  determineLinks: 'non-tuned',
-                  extractInfo: 'non-tuned',
-                  extractCfp: 'non-tuned',
-                },
+          .post(CRAWL_URL + '/crawl-conferences', inputs, {
+            params: {
+              dataSource: 'client',
+              models: {
+                determineLinks: 'non-tuned',
+                extractInfo: 'non-tuned',
+                extractCfp: 'non-tuned',
+              },
               headers: {
                 'Content-Type': 'application/json',
               },
             },
-          }
-          )
+          })
           .pipe(
             catchError((error) => {
               throw error;
@@ -347,7 +348,7 @@ export class ConferenceCrawlJobService {
             message: ConferenceMessageJob.PENDING,
           },
         });
-      })
+      }),
     );
 
     await this.conferenceCrawlQueue.add(CONFERENCE_CRAWL_JOB_NAME.UPDATE, {

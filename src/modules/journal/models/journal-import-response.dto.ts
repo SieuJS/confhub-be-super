@@ -26,4 +26,4 @@ export class JournalImportResponseDto {
 
   @ApiProperty()
   totalFailed: number;
-} 
+}

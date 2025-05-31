@@ -347,6 +347,7 @@ model Journals {
   region String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  @@unique([title, issn, publisher])
   quartiles JournalQuartiles[]
 
   JournalTopics JournalTopics[]
@@ -358,12 +359,14 @@ model Journals {
   JournalAuthorInformations JournalAuthorInformations[]
 
   JournalStatistics JournalStatistics[]
+  JournalBioxBio JournalBioxBio[]
 }
 
 model JournalQuartiles {
   id String @id @default(uuid())
   year String
   quartile String
+  category String?
   journalId String
   belongsTo Journals @relation(fields: [journalId], references: [id])
 }
@@ -379,11 +382,14 @@ model JournalTopics {
 model JournalDetails {
   id String @id @default(uuid())
   journalId String
-  image String
-  imageContent String
-  sjr String
-  coverage String
-  scope String
+  image String?
+  imageContent String?
+  sjr Float?
+  hIndex Int?
+  sdg Float?
+  overton Float?
+  coverage String?
+  scope String?
   belongsTo Journals @relation(fields: [journalId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -398,25 +404,29 @@ model JournalAreas {
 
 model JournalAuthorInformations {
   id String @id @default(uuid())
-  homePage String
-  instruction String
-  mail String
+  homePage String?
+  instruction String?
+  mail String?
   journalId String
-  thumbnail String
+  thumbnail String?
   belongsTo Journals @relation(fields: [journalId], references: [id])
 }
 
 model JournalStatistics {
   id String @id @default(uuid()) 
   journalId String
-  totalDocs Int
-  totalReferences Int
-  totalCities Int
-  citableDocs Int
-  percentFemail Float
-  year Int
+  category String?
+  statistic String?
   belongsTo Journals @relation(fields: [journalId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model JournalBioxBio {
+  id String @id @default(uuid())
+  journalId String
+  year Int?
+  impactFactor Float?
+  belongsTo Journals @relation(fields: [journalId], references: [id])
 }
 

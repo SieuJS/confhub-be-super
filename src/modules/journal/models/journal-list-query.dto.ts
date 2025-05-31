@@ -4,7 +4,7 @@ import { Type } from 'class-transformer';
 
 export enum SortOrder {
   ASC = 'asc',
-  DESC = 'desc'
+  DESC = 'desc',
 }
 
 export class JournalListQueryDto {
@@ -59,4 +59,4 @@ export class JournalListQueryDto {
   @IsOptional()
   @IsString()
   sortBy?: string = 'createdAt';
-} 
+}

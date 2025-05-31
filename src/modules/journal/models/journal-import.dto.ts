@@ -10,13 +10,21 @@ export class SubjectAreaAndCategory {
 
 export class Information {
   @ApiProperty({ description: 'Journal homepage URL' })
-  Homepage: string;
+  Homepage: string | undefined;
 
   @ApiProperty({ description: 'How to publish in this journal' })
-  'How to publish in this journal': string;
+  'How to publish in this journal': string | undefined;
 
   @ApiProperty({ description: 'Contact email' })
-  Mail: string;
+  Mail: string | undefined;
+}
+
+export class BioxBio {
+  @ApiProperty({ description: 'Year' })
+  Year: number;
+
+  @ApiProperty({ description: 'Impact factor' })
+  Impact_factor: number;
 }
 
 export class SupplementaryTableEntry {
@@ -35,13 +43,13 @@ export class JournalImportDto {
   scimagoLink: string;
 
   @ApiProperty({ description: 'Bioxbio link', required: false, nullable: true })
-  bioxbio: string | null;
+  bioxbio: BioxBio[] | undefined;
 
   @ApiProperty({ description: 'Journal image URL' })
-  Image: string;
+  Image: string | undefined;
 
   @ApiProperty({ description: 'Image context URL' })
-  Image_Context: string;
+  Image_Context: string | undefined;
 
   @ApiProperty({ description: 'Journal rank' })
   Rank: string;
@@ -59,7 +67,7 @@ export class JournalImportDto {
   Issn: string;
 
   @ApiProperty({ description: 'SJR score' })
-  SJR: string;
+  SJR: number;
 
   @ApiProperty({ description: 'SJR Best Quartile' })
   'SJR Best Quartile': string;
@@ -92,10 +100,10 @@ export class JournalImportDto {
   '%Female': string;
 
   @ApiProperty({ description: 'Overton score' })
-  Overton: string;
+  Overton: number;
 
   @ApiProperty({ description: 'SDG score' })
-  SDG: string;
+  SDG: number;
 
   @ApiProperty({ description: 'Country' })
   Country: string;
@@ -118,19 +126,25 @@ export class JournalImportDto {
   @ApiProperty({ description: 'Journal title (duplicate)' })
   title: string;
 
-  @ApiProperty({ description: 'Subject area and category', type: SubjectAreaAndCategory })
+  @ApiProperty({
+    description: 'Subject area and category',
+    type: SubjectAreaAndCategory,
+  })
   'Subject Area and Category': SubjectAreaAndCategory;
 
   @ApiProperty({ description: 'ISSN number (duplicate)' })
   ISSN: string;
 
   @ApiProperty({ description: 'Journal information', type: Information })
-  Information: Information;
+  Information: Information | undefined;
 
   @ApiProperty({ description: 'Journal scope' })
-  Scope: string;
+  Scope: string | undefined;
 
-  @ApiProperty({ description: 'Supplementary table entries', type: [SupplementaryTableEntry] })
+  @ApiProperty({
+    description: 'Supplementary table entries',
+    type: [SupplementaryTableEntry],
+  })
   SupplementaryTable: SupplementaryTableEntry[];
 
   @ApiProperty({ description: 'Thumbnail HTML' })

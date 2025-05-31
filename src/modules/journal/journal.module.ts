@@ -7,6 +7,6 @@ import { CommonModule } from '../common';
   imports: [CommonModule],
   controllers: [JournalController],
   providers: [JournalService],
-  exports: [JournalService]
+  exports: [JournalService],
 })
 export class JournalModule {}
