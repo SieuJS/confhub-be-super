@@ -35,7 +35,7 @@ export class UserController {
   @Post('/signout')
   async signout(@Req() req: Request) {
     if (req.logout) {
-      await new Promise<void>((resolve) => req.logout!(() => resolve()));
+      await new Promise<void>((resolve) => req.logout(() => resolve()));
     }
   }
 
@@ -55,7 +55,7 @@ export class UserController {
       userInfo.id,
     );
     console.log('interestedTopics', interestedTopics);
-    
+
     return {
       id: userInfo.id,
       email: userInfo.email,
@@ -91,21 +91,21 @@ export class UserController {
   ) {
     const user = req.user as { id: string };
     const userId = user.id;
-    
+
     // Extract interested topics from the DTO
     const { interestedTopics, ...userData } = updateUserDto;
-    
-    const updatedUser = await this.userService.updateUser(
-      userId,
-      userData,
-    );
-    
+
+    const updatedUser = await this.userService.updateUser(userId, userData);
+
     // Update interested topics if provided
     let userTopics = await this.userService.getUserInterestedTopics(userId);
     if (interestedTopics) {
-      userTopics = await this.userService.updateUserInterestedTopics(userId, interestedTopics);
+      userTopics = await this.userService.updateUserInterestedTopics(
+        userId,
+        interestedTopics,
+      );
     }
-    
+
     return {
       id: updatedUser.id,
       email: updatedUser.email,

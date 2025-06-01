@@ -43,7 +43,7 @@ export class UserPropertyTransformPipe
             throw new BadRequestException('Invalid date format for dob');
           }
         }
-      } catch (error) {
+      } catch {
         throw new BadRequestException('Invalid date format for dob');
       }
     }
