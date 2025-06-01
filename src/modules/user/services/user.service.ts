@@ -1,10 +1,13 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, Injectable, HttpStatus } from '@nestjs/common';
 import { UserInput } from '../models/user.input';
 import { PrismaService } from '../../common';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { TransactionHost } from '@nestjs-cls/transactional';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaClient } from 'generated/prisma_client';
+import { UserDTO } from '../models/user.dto';
+import { UpdateUserDto } from '../models/update-user.dto';
+
 @Injectable()
 export class UserService {
   constructor(
@@ -17,20 +20,44 @@ export class UserService {
     return await this.txHost.tx.users.findMany();
   }
 
-  async getUserByEmail(email: string | undefined) {
-    return await this.txHost.tx.users.findFirst({
-      where: {
-        email,
-      },
+  async getUserByEmail(email: string | undefined): Promise<UserDTO | null> {
+    const user = await this.prismaService.users.findUnique({
+      where: { email },
     });
+
+    if (!user) {
+      return null;
+    }
+
+    const verification = await this.prismaService.userVerification.findFirst({
+      where: { userId: user.id },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    return {
+      ...user,
+      isVerified: verification?.isVerified ?? false,
+    } as UserDTO;
   }
 
-  async getUserById(id: string) {
-    return await this.txHost.tx.users.findUnique({
-      where: {
-        id,
-      },
+  async getUserById(id: string): Promise<UserDTO> {
+    const user = await this.prismaService.users.findUnique({
+      where: { id },
     });
+
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    const verification = await this.prismaService.userVerification.findFirst({
+      where: { userId: user.id },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    return {
+      ...user,
+      isVerified: verification?.isVerified ?? false,
+    } as UserDTO;
   }
 
   async getUserVerificationStatus(userId: string) {
@@ -58,23 +85,38 @@ export class UserService {
     return topics.map((topic) => topic.inTopic.name);
   }
 
-  async createUser(input: UserInput) {
-    return await this.txHost.tx.users.create({
-      data: {
-        ...input,
-      },
+  async createUser(input: UserInput): Promise<UserDTO> {
+    const user = await this.prismaService.users.create({
+      data: input,
     });
+
+    return {
+      ...user,
+      isVerified: false,
+    } as UserDTO;
   }
 
-  async updateUser(userId: string, data: Partial<UserInput>) {
-    return await this.txHost.tx.users.update({
-      where: {
-        id: userId,
-      },
-      data: {
-        ...data,
-      },
+  async updateUser(id: string, input: UpdateUserDto): Promise<UserDTO> {
+    const { interestedTopics, ...updateData } = input;
+
+    const user = await this.prismaService.users.update({
+      where: { id },
+      data: updateData,
     });
+
+    if (interestedTopics) {
+      await this.updateUserInterestedTopics(id, interestedTopics);
+    }
+
+    const verification = await this.prismaService.userVerification.findFirst({
+      where: { userId: user.id },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    return {
+      ...user,
+      isVerified: verification?.isVerified ?? false,
+    } as UserDTO;
   }
 
   async updateUserInterestedTopics(userId: string, topicNames: string[]) {
@@ -249,23 +291,26 @@ export class UserService {
 
     const formatedFollowedConferences = followed.map((conference) => {
       // Get the latest organization
-      const latestOrg = conference.belongsTo?.organizations?.[
-        conference.belongsTo?.organizations?.length - 1
-      ];
-      
+      const latestOrg =
+        conference.belongsTo?.organizations?.[
+          conference.belongsTo?.organizations?.length - 1
+        ];
+
       // Format conference dates
-      const conferenceDates = latestOrg?.conferenceDates?.map((date) => ({
-        fromDate: date.fromDate,
-        toDate: date.toDate,
-      })) || [];
+      const conferenceDates =
+        latestOrg?.conferenceDates?.map((date) => ({
+          fromDate: date.fromDate,
+          toDate: date.toDate,
+        })) || [];
 
       // Format locations
-      const locations = latestOrg?.locations?.map((location) => ({
-        address: location.address ?? undefined,
-        cityStateProvince: location.cityStateProvince ?? undefined,
-        country: location.country ?? undefined,
-        continent: location.continent ?? undefined,
-      })) || [];
+      const locations =
+        latestOrg?.locations?.map((location) => ({
+          address: location.address ?? undefined,
+          cityStateProvince: location.cityStateProvince ?? undefined,
+          country: location.country ?? undefined,
+          continent: location.continent ?? undefined,
+        })) || [];
 
       // Get the first location if available
       const firstLocation = locations[0] || {};
@@ -369,23 +414,26 @@ export class UserService {
 
     const formatedBlacklistConferences = blacklist.map((conference) => {
       // Get the latest organization
-      const latestOrg = conference.belongsTo?.organizations?.[
-        conference.belongsTo?.organizations?.length - 1
-      ];
-      
+      const latestOrg =
+        conference.belongsTo?.organizations?.[
+          conference.belongsTo?.organizations?.length - 1
+        ];
+
       // Format conference dates
-      const conferenceDates = latestOrg?.conferenceDates?.map((date) => ({
-        fromDate: date.fromDate,
-        toDate: date.toDate,
-      })) || [];
+      const conferenceDates =
+        latestOrg?.conferenceDates?.map((date) => ({
+          fromDate: date.fromDate,
+          toDate: date.toDate,
+        })) || [];
 
       // Format locations
-      const locations = latestOrg?.locations?.map((location) => ({
-        address: location.address ?? undefined,
-        cityStateProvince: location.cityStateProvince ?? undefined,
-        country: location.country ?? undefined,
-        continent: location.continent ?? undefined,
-      })) || [];
+      const locations =
+        latestOrg?.locations?.map((location) => ({
+          address: location.address ?? undefined,
+          cityStateProvince: location.cityStateProvince ?? undefined,
+          country: location.country ?? undefined,
+          continent: location.continent ?? undefined,
+        })) || [];
 
       // Get the first location if available
       const firstLocation = locations[0] || {};

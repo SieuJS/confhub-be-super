@@ -11,6 +11,7 @@ import { AdminService } from 'src/modules/user/services/admin.service';
 import { AdminDto } from 'src/modules/user/models/admin/admin.dto';
 import { PayloadToken } from '../models/payload-token';
 import axios from 'axios';
+import { PrismaService } from 'src/modules/common';
 
 @Injectable()
 export class AuthService {
@@ -18,10 +19,11 @@ export class AuthService {
     private usersService: UserService,
     private admin: AdminService,
     private jwtService: JwtService,
+    private prismaService: PrismaService,
   ) {}
 
   async validateUser(email: string, password: string): Promise<any> {
-    const user = (await this.usersService.getUserByEmail(email)) as UserDTO;
+    const user = await this.usersService.getUserByEmail(email);
     if (!user) {
       throw Error('No email match');
     }
@@ -34,7 +36,16 @@ export class AuthService {
     if (!isPasswordValid) {
       throw Error('Wrong password');
     }
-    return user;
+
+    const verification = await this.prismaService.userVerification.findFirst({
+      where: { userId: user.id },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    return {
+      ...user,
+      isVerified: verification?.isVerified ?? false,
+    } as UserDTO;
   }
 
   async validateAdmin(email: string, password: string): Promise<any> {
@@ -103,14 +114,23 @@ export class AuthService {
     if (payload.role !== 'user') {
       throw new HttpException('Unauthorized', 401);
     }
-    const user = (await this.usersService.getUserById(payload.id)) as UserDTO;
+    const user = await this.usersService.getUserById(payload.id);
     if (!user) {
       throw new HttpException('Wrong token', 401);
     }
     if (user.email !== payload.email) {
       throw new HttpException('Wrong token', 401);
     }
-    return true;
+
+    const verification = await this.prismaService.userVerification.findFirst({
+      where: { userId: user.id },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    return {
+      ...user,
+      isVerified: verification?.isVerified ?? false,
+    } as UserDTO;
   }
 
   async validateGoogleToken(token: string) {

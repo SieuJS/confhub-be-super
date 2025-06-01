@@ -194,6 +194,7 @@ model Users {
   avatar               String?
   aboutMe              String?
   background           String?
+  isBanned            Boolean?                @default(false)
   createdAt            DateTime               @default(now())
   updatedAt            DateTime               @updatedAt
   blacklists           ConferenceBlacklists[]
@@ -219,6 +220,7 @@ model Admins {
   email              String        @unique
   password           String
   fullName           String
+  isActive          Boolean       @default(true)
   createdAt          DateTime      @default(now())
   updatedAt          DateTime      @updatedAt
   createdConferences Conferences[]

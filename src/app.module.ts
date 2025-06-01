@@ -23,6 +23,7 @@ import { FollowConferenceModule } from './modules/follow-conference/follow-confe
 import { ConferenceBlacklistModule } from './modules/conference-blacklist/conference-blacklist.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { JournalModule } from './modules/journal/journal.module';
+import { AdminUserModule } from './modules/admin-user/admin-user.module';
 
 @Module({
   imports: [
@@ -81,6 +82,7 @@ import { JournalModule } from './modules/journal/journal.module';
     ConferenceBlacklistModule,
     ScheduleModule.forRoot(),
     JournalModule,
+    AdminUserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

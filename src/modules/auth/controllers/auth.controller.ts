@@ -30,6 +30,7 @@ import { AdminService } from 'src/modules/user/services/admin.service';
 import { AdminDto } from 'src/modules/user/models/admin/admin.dto';
 import { GoogleOAuthGuard } from '../guards/google-auth.guard';
 import { UserPropertyTransformPipe } from 'src/modules/user/pipes/user-property-transform.pipe';
+import { PrismaService } from 'src/modules/common';
 
 interface GoogleUser {
   email: string;
@@ -53,7 +54,25 @@ export class AuthController {
     private readonly notificationService: NotificationService,
     private readonly userVerifyService: UserVerifyService,
     private readonly emailService: EmailService,
+    private readonly prismaService: PrismaService,
   ) {}
+
+  private async getUserWithVerification(userId: string): Promise<UserDTO> {
+    const user = await this.userService.getUserById(userId);
+    if (!user) {
+      throw new HttpException('User not found', 404);
+    }
+
+    const verification = await this.prismaService.userVerification.findFirst({
+      where: { userId: user.id },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    return {
+      ...user,
+      isVerified: verification?.isVerified ?? false,
+    } as unknown as UserDTO;
+  }
 
   @Post('/login')
   @ApiBody({
@@ -61,11 +80,7 @@ export class AuthController {
   })
   @UseGuards(LocalAuthGuard)
   async login(@Req() req: RequestWithUser) {
-    const user = (await this.userService.getUserById(req.user.id)) as UserDTO;
-    if (!user) {
-      throw new HttpException('User not found', 404);
-    }
-
+    const user = await this.getUserWithVerification(req.user.id);
     return this.authService.loginUser(user);
   }
 
@@ -116,16 +131,7 @@ export class AuthController {
   })
   @UseGuards(JWTGuardUser)
   async getMeUser(@Req() req: RequestWithUser) {
-    const user = (await this.userService.getUserById(req.user.id)) as UserDTO;
-    const verificationStatus = await (
-      this.userVerifyService.getUserVerificationStatus as (
-        id: string,
-      ) => Promise<{ isVerified: boolean } | null>
-    )(user.id);
-    return {
-      ...user,
-      isVerified: verificationStatus?.isVerified ?? false,
-    };
+    return this.getUserWithVerification(req.user.id);
   }
 
   @Post('/signup')
@@ -140,7 +146,7 @@ export class AuthController {
   async signup(@Body(UserPropertyTransformPipe) input: UserInput) {
     const user = (await this.userService.getUserByEmail(
       input.email,
-    )) as UserDTO | null;
+    )) as unknown as UserDTO | null;
     if (user) {
       throw new HttpException('User already exists', 400);
     }
@@ -151,7 +157,7 @@ export class AuthController {
     const newUser = (await this.userService.createUser({
       ...input,
       password: hashedPassword,
-    })) as UserDTO;
+    })) as unknown as UserDTO;
 
     await this.notificationService.setDefaultNotificationSettingForUser(
       newUser.id,
@@ -166,7 +172,8 @@ export class AuthController {
       verifyCode.verificationCode,
     );
 
-    const loginPayLoad = this.authService.loginUser(newUser);
+    const userWithVerification = await this.getUserWithVerification(newUser.id);
+    const loginPayLoad = this.authService.loginUser(userWithVerification);
 
     return {
       message: 'User created',
@@ -174,6 +181,7 @@ export class AuthController {
       ...loginPayLoad,
     };
   }
+
   @UseGuards(JWTGuardUser)
   @ApiBearerAuth('access-token')
   @Get('re-send-verify')
@@ -181,10 +189,7 @@ export class AuthController {
     const userId = req.user.id;
     const verificationCode =
       await this.userVerifyService.createVerifyCode(userId);
-    const user = (await this.userService.getUserById(userId)) as UserDTO;
-    if (!user) {
-      throw new HttpException('User not found', 404);
-    }
+    const user = await this.getUserWithVerification(userId);
     await this.emailService.sendEmailVerification(
       user.email,
       verificationCode.verificationCode,
@@ -245,11 +250,9 @@ export class AuthController {
     if (!user) {
       return res.redirect(`${redirectUrl}?error=true`);
     }
-    let existUser = (await this.userService.getUserByEmail(
-      user.email,
-    )) as UserDTO | null;
+    let existUser = await this.userService.getUserByEmail(user.email);
     if (!existUser) {
-      existUser = (await this.userService.createUser({
+      existUser = await this.userService.createUser({
         email: user.email,
         firstName: user.firstName || '',
         lastName: user.lastName,
@@ -258,7 +261,7 @@ export class AuthController {
         dob: user.dob ? new Date(user.dob) : new Date('2000-01-01'),
         aboutMe: '',
         background: '',
-      })) as UserDTO;
+      });
     }
     const verificationStatus = await (
       this.userVerifyService.getUserVerificationStatus as (
@@ -290,11 +293,9 @@ export class AuthController {
     if (!user || !user.email) {
       throw new HttpException('Invalid token', 401);
     }
-    let existUser = (await this.userService.getUserByEmail(
-      user.email,
-    )) as UserDTO | null;
+    let existUser = await this.userService.getUserByEmail(user.email);
     if (!existUser) {
-      existUser = (await this.userService.createUser({
+      existUser = await this.userService.createUser({
         email: user.email,
         firstName: user.firstName || '',
         lastName: user.lastName,
@@ -303,7 +304,7 @@ export class AuthController {
         dob: user.dob ? new Date(user.dob) : new Date('2000-01-01'),
         aboutMe: '',
         background: '',
-      })) as UserDTO;
+      });
     }
     const verificationStatus = await (
       this.userVerifyService.getUserVerificationStatus as (
@@ -334,7 +335,9 @@ export class AuthController {
     },
   })
   async forgotPassword(@Body('email') email: string) {
-    const user = (await this.userService.getUserByEmail(email)) as UserDTO;
+    const user = (await this.userService.getUserByEmail(
+      email,
+    )) as unknown as UserDTO;
     if (!user) {
       // Don't reveal that the user doesn't exist for security
       return {
@@ -385,7 +388,9 @@ export class AuthController {
     @Body('code') code: string,
     @Body('newPassword') newPassword: string,
   ) {
-    const user = (await this.userService.getUserByEmail(email)) as UserDTO;
+    const user = (await this.userService.getUserByEmail(
+      email,
+    )) as unknown as UserDTO;
     if (!user) {
       throw new HttpException('Invalid request', 400);
     }
@@ -427,11 +432,7 @@ export class AuthController {
     @Body('newPassword') newPassword: string,
     @Req() req: RequestWithUser,
   ) {
-    const user = (await this.userService.getUserById(req.user.id)) as UserDTO;
-    if (!user) {
-      throw new HttpException('User not found', 404);
-    }
-
+    const user = await this.getUserWithVerification(req.user.id);
     const hashedOldPassword = crypto
       .createHash('sha256')
       .update(oldPassword)
@@ -446,7 +447,9 @@ export class AuthController {
       .update(newPassword)
       .digest('hex');
 
-    await this.userService.updateUser(user.id, { password: hashedNewPassword });
+    await this.userService.updateUser(user.id, {
+      password: hashedNewPassword,
+    });
 
     return { message: 'Password changed successfully' };
   }
