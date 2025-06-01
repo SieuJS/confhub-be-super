@@ -208,6 +208,10 @@ model Users {
   verification         UserVerification[]
 
   ConferencePostRequests ConferencePostRequests[]
+
+  JournalFollows JournalFollows[]
+
+  JournalNotifications JournalNotifications[]
 }
 
 model Admins {
@@ -360,6 +364,8 @@ model Journals {
 
   JournalStatistics JournalStatistics[]
   JournalBioxBio JournalBioxBio[]
+  JournalFollows JournalFollows[]
+  JournalNotifications JournalNotifications[]
 }
 
 model JournalQuartiles {
@@ -428,5 +434,25 @@ model JournalBioxBio {
   year Int?
   impactFactor Float?
   belongsTo Journals @relation(fields: [journalId], references: [id])
+}
+
+model JournalFollows {
+  id String @id @default(uuid())
+  journalId String
+  userId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  belongsTo Journals @relation(fields: [journalId], references: [id])
+  byUser Users @relation(fields: [userId], references: [id])
+}
+
+model JournalNotifications {
+  id String @id @default(uuid())
+  journalId String
+  userId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  belongsTo Journals @relation(fields: [journalId], references: [id])
+  byUser Users @relation(fields: [userId], references: [id])
 }
 

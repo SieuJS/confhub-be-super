@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { HttpException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/modules/common';
@@ -7,8 +8,21 @@ import { NotificationResponseDTO } from '../models/notification-reponse.dto';
 import { DEFAULT_TYPE } from '../constants/default-type';
 import { MessageService } from 'src/modules/socket-gateway/services/message.service';
 import { NotificationInput } from '../models/notification.input';
-import { PrismaClient } from 'generated/prisma_client';
+import {
+  PrismaClient,
+  JournalNotifications,
+  Prisma,
+} from 'generated/prisma_client';
 import { EmailService } from 'src/modules/email-verify/services/email.service';
+
+interface JournalNotificationRecord {
+  id: string;
+  journalId: string;
+  userId: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 @Injectable()
 export class NotificationService {
   constructor(
@@ -19,15 +33,52 @@ export class NotificationService {
   ) {}
 
   async getNotificationByUserId(userId: string) {
-    return await this.prismaService.notifications.findMany({
-      where: {
-        userId,
-      },
-      include: {
-        belongToNotify: true,
-      },
-    });
+    const [conferenceNotifications, journalNotifications] = await Promise.all([
+      this.prismaService.notifications.findMany({
+        where: {
+          userId,
+        },
+        include: {
+          belongToNotify: true,
+        },
+      }),
+      this.prismaService.$queryRaw<JournalNotificationRecord[]>(
+        Prisma.sql`SELECT * FROM "JournalNotifications" WHERE "userId" = ${userId}`,
+      ),
+    ]);
+
+    return {
+      conferenceNotifications: conferenceNotifications.map((notification) =>
+        this.transformNotification({
+          ...notification,
+          type: notification.belongToNotify.name,
+          typeId: notification.notificationId,
+        }),
+      ),
+      journalNotifications: journalNotifications.map((notification) =>
+        this.transformJournalNotification(notification),
+      ),
+    };
   }
+
+  transformJournalNotification = (
+    notification: JournalNotificationRecord,
+  ): NotificationResponseDTO => {
+    if (!notification) {
+      throw new Error('Invalid notification object');
+    }
+
+    return {
+      id: notification.id,
+      message: 'Journal notification', // You can customize this based on your needs
+      seenAt: null, // Add isRead field to JournalNotifications if needed
+      type: 'JOURNAL',
+      deletedAt: null, // Add isDeleted field to JournalNotifications if needed
+      journalId: notification.journalId,
+      createdAt: notification.createdAt,
+      isImportant: true,
+    };
+  };
 
   async resetAllUserNotificationSetting() {
     const users = await this.prismaService.users.findMany();
@@ -69,6 +120,7 @@ export class NotificationService {
     }
     // Remove duplicate settings after initialization
     await this.removeDuplicateSettings();
+    await this.resetAllUserNotificationSetting();
   }
 
   async removeDuplicateSettings() {
@@ -207,42 +259,68 @@ export class NotificationService {
     userId: string,
   ) {
     const { type } = notifyInput;
-    const notificationType = await this.txHost.tx.notificationsTypes.findFirst({
-      where: {
-        name: type,
-      },
-    });
-    if (!notificationType) {
-      throw new HttpException('Notification type not found', 400);
-    }
-    const inSetting = await this.txHost.tx.notificationSettings.findFirst({
-      where: {
+
+    if (type === 'JOURNAL') {
+      // Handle journal notification
+      await this.messageService.sendMessageToUser({
         userId,
-        notificationId: notificationType.id,
-        isEnabled: true,
-      },
-    });
-    if (!inSetting) {
-      throw new HttpException('User turn off the notification', 400);
+        payload: notifyInput,
+        channel: 'journal-notification',
+      });
+    } else {
+      // Handle conference notification
+      const notificationType =
+        await this.txHost.tx.notificationsTypes.findFirst({
+          where: {
+            name: type,
+          },
+        });
+      if (!notificationType) {
+        throw new HttpException('Notification type not found', 400);
+      }
+      const inSetting = await this.txHost.tx.notificationSettings.findFirst({
+        where: {
+          userId,
+          notificationId: notificationType.id,
+          isEnabled: true,
+        },
+      });
+      if (!inSetting) {
+        throw new HttpException('User turn off the notification', 400);
+      }
+      await this.messageService.sendMessageToUser({
+        userId,
+        payload: notifyInput,
+        channel: 'notification',
+      });
     }
-    this.messageService.sendMessageToUser({
-      userId,
-      payload: notifyInput,
-      channel: 'notification',
-    });
   }
 
   async markAllAsRead(userId: string) {
-    return await this.prismaService.notifications.updateMany({
-      where: {
-        userId,
-        isRead: false,
-        isDeleted: false,
-      },
-      data: {
-        isRead: true,
-      },
-    });
+    const [conferenceResult, journalResult] = await Promise.all([
+      this.prismaService.notifications.updateMany({
+        where: {
+          userId,
+          isRead: false,
+          isDeleted: false,
+        },
+        data: {
+          isRead: true,
+        },
+      }),
+      this.prismaService.$executeRaw(
+        Prisma.sql`
+          UPDATE "JournalNotifications"
+          SET "isRead" = true
+          WHERE "userId" = ${userId}
+        `,
+      ),
+    ]);
+
+    return {
+      conferenceNotificationsUpdated: conferenceResult.count,
+      journalNotificationsUpdated: journalResult,
+    };
   }
 
   async updateNotification(noty: NotificationResponseDTO & { userId: string }) {
@@ -480,5 +558,23 @@ export class NotificationService {
     }
 
     return true;
+  }
+
+  async createJournalNotification(journalId: string, userId: string) {
+    const notifications = await this.txHost.tx.$queryRaw<
+      JournalNotificationRecord[]
+    >(
+      Prisma.sql`
+        INSERT INTO "JournalNotifications" ("id", "journalId", "userId", "createdAt", "updatedAt")
+        VALUES (uuid_generate_v4(), ${journalId}, ${userId}, NOW(), NOW())
+        RETURNING *
+      `,
+    );
+
+    if (!notifications || notifications.length === 0) {
+      throw new Error('Failed to create journal notification');
+    }
+
+    return this.transformJournalNotification(notifications[0]);
   }
 }

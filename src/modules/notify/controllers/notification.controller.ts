@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
   Body,
   Controller,
@@ -27,22 +29,9 @@ export class NotificationController {
   @UseGuards(JWTGuardUser)
   async getNotificationByUserId(@Req() req) {
     const userId = req.user.id;
-    const notifications =
+    const { conferenceNotifications, journalNotifications } =
       await this.notificationService.getNotificationByUserId(userId);
-    return notifications.map((notification) =>
-      this.notificationService.transformNotification({
-        id: notification.id,
-        message: notification.message,
-        isRead: notification.isRead,
-        userId: userId,
-        type: notification.belongToNotify.name || '',
-        typeId: notification.belongToNotify.id,
-        isDeleted: notification.isDeleted,
-        conferenceId: notification.conferenceId || '',
-        createdAt: notification.createdAt,
-        updatedAt: notification.updatedAt,
-      }),
-    );
+    return [...conferenceNotifications, ...journalNotifications];
   }
 
   @Put('mark-all-as-read')
@@ -63,7 +52,7 @@ export class NotificationController {
     @Body('notifications') notifications: NotificationResponseDTO[],
   ) {
     const userId = req.user.id;
-    const t = Promise.all(
+    await Promise.all(
       notifications.map(
         async (notify) =>
           await this.notificationService.updateNotification({

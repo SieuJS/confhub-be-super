@@ -420,4 +420,106 @@ export class JournalService {
       },
     };
   }
+
+  async getJournalById(id: string): Promise<JournalListItemDto> {
+    const journal = (await this.prisma.journals.findUnique({
+      where: { id },
+      include: {
+        JournalDetails: true,
+        JournalAuthorInformations: true,
+        JournalAreas: true,
+        JournalTopics: {
+          include: {
+            inTopic: true,
+          },
+        },
+        quartiles: true,
+        JournalBioxBio: true,
+        JournalStatistics: true,
+      },
+    })) as
+      | (Journals & {
+          JournalDetails: JournalDetails[];
+          JournalAuthorInformations: JournalAuthorInformations[];
+          JournalAreas: JournalAreas[];
+          JournalTopics: (JournalTopics & { inTopic: Topics })[];
+          quartiles: JournalQuartiles[];
+          JournalBioxBio: JournalBioxBio[];
+          JournalStatistics: { category: string; statistic: string }[];
+        })
+      | null;
+
+    if (!journal) {
+      throw new Error('Journal not found');
+    }
+
+    const details = journal.JournalDetails?.[0];
+    const authorInfo = journal.JournalAuthorInformations?.[0];
+    const area = journal.JournalAreas?.[0];
+    const bioxbio = journal.JournalBioxBio?.map((bio) => ({
+      Year: bio.year?.toString() || '',
+      Impact_factor: bio.impactFactor?.toString() || '',
+    }));
+
+    // Find statistics by category
+    const findStatistic = (category: string) => {
+      const stat = journal.JournalStatistics?.find(
+        (s) => s.category === category,
+      );
+      return stat?.statistic || '';
+    };
+
+    return {
+      id: journal.id,
+      scimagoLink: '',
+      bioxbio: bioxbio || null,
+      Image: details?.image || '',
+      Image_Context: details?.imageContent || '',
+      Rank: '',
+      Sourceid: '',
+      Title: journal.title,
+      Type: journal.type,
+      Issn: journal.issn,
+      SJR: details?.sjr || 0,
+      'SJR Best Quartile': '',
+      'H index': findStatistic('H index'),
+      'Total Docs. (2023)': findStatistic('Total Docs (2023)'),
+      'Total Docs. (3years)': findStatistic('Total Docs (3years)'),
+      'Total Refs.': findStatistic('Total Refs'),
+      'Total Cites (3years)': findStatistic('Total Cites (3years)'),
+      'Citable Docs. (3years)': findStatistic('Citable Docs (3years)'),
+      'Cites / Doc. (2years)': findStatistic('Cites per Doc (2years)'),
+      'Ref. / Doc.': findStatistic('Refs per Doc'),
+      '%Female': findStatistic('Female Percentage'),
+      Overton: details?.overton || 0,
+      SDG: details?.sdg || 0,
+      Country: journal.country,
+      Region: journal.region,
+      Publisher: journal.publisher,
+      Coverage: details?.coverage || '',
+      Categories: '',
+      Areas: area?.name || '',
+      title: journal.title,
+      'Subject Area and Category': {
+        'Field of Research': '',
+        Topics: journal.JournalTopics.map((jt) => jt.inTopic.name),
+      },
+      ISSN: journal.issn,
+      Information: {
+        Homepage: authorInfo?.homePage || '',
+        'How to publish in this journal': authorInfo?.instruction || '',
+        Mail: authorInfo?.mail || '',
+      },
+      Scope: details?.scope || undefined,
+      'Additional Info': undefined,
+      SupplementaryTable: journal.quartiles.map((q) => ({
+        Category: q.category || '',
+        Year: q.year || '',
+        Quartile: q.quartile || '',
+      })),
+      Thumbnail: authorInfo?.thumbnail || '',
+      createdAt: journal.createdAt,
+      updatedAt: journal.updatedAt,
+    };
+  }
 }

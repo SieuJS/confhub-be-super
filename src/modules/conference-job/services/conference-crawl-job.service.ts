@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../common';
 import {
@@ -15,7 +16,7 @@ import { catchError, firstValueFrom } from 'rxjs';
 import { ConferenceCrawlNewRequestDto } from '../models/crawl-request/conference-crawl-new-request.dto';
 import { ConferenceCrawlNewResponseDto } from '../models/crawl-response/conference-crawl-new-reponse.dto';
 import { ConferenceCrawlUpdateRequestDto } from '../models/crawl-request/conference-crawl-update-request.dto';
-import { Cron, SchedulerRegistry } from '@nestjs/schedule';
+import { SchedulerRegistry } from '@nestjs/schedule';
 import { CronJob } from 'cron';
 
 @Injectable()
@@ -90,9 +91,9 @@ export class ConferenceCrawlJobService {
     };
   }
 
-  async scheduleCronUpdate(schedule: string, batchSize: number = 10) {
+  scheduleCronUpdate(schedule: string, batchSize: number = 10) {
     // Cancel existing cron job if any
-    await this.cancelCronUpdate();
+    this.cancelCronUpdate();
 
     // Create new cron job
     const job = new CronJob(schedule, async () => {

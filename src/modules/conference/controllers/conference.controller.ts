@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
@@ -33,15 +34,14 @@ import {
 } from '../../source-rank';
 import { RankInputDTO } from '../../source-rank/models/rank-input.dto';
 import { ConferenceImportResponseDTO } from '../models/conference-response/conference-import-response.dto';
-import { ConferenceCrawlInputDTO } from '../models/conference-crawl/conference-crawl';
-import { ConferenceCrawlJobService } from '../../conference-job';
 import { ConferenceOrganizationSerivce } from '../../conference-organization';
 import { ConferenceDTO } from '../models/conference/conference.dto';
-import { ConferenceAttribute } from '../../../constants/conference-attribute';
 import { PaginationService } from '../../common/services/pagination.service';
-import { GetConferencesParams } from '../models/conference-request/get-conference-params';
+import {
+  GetConferencesParams,
+  GetConferencesSortParams,
+} from '../models/conference-request/get-conference-params';
 import { AdminService } from '../../user/services/admin.service';
-import { ConferenceRankService } from '../services/conference-rank.service';
 import { UserService } from '../../user/services/user.service';
 import { ConferenceFollowInput } from '../models/conference-follow/conference-follow.input';
 import { ConferenceDetailDTO } from '../models/conference/conference-detail.dto';
@@ -87,15 +87,7 @@ export class ConferenceController {
   async getConferences(
     @Query() params: GetConferencesParams,
     @Query('topics') topics: string | string[],
-    @Query('sortBy')
-    sortBy:
-      | 'createdAt'
-      | 'updatedAt'
-      | 'title'
-      | 'acronym'
-      | 'rank'
-      | 'source' = 'createdAt',
-    @Query('sortOrder') sortOrder: 'asc' | 'desc' = 'desc',
+    @Query() sortParams: GetConferencesSortParams,
   ): Promise<ConferencePaginationDTO> {
     if (topics instanceof Array) {
       params.topics = topics;
@@ -117,9 +109,11 @@ export class ConferenceController {
     if (params.perPage) {
       params.perPage = parseInt(params.perPage as any);
     }
-    console.log('params', params);
 
-    const conferences = await this.conferenceService.getConferences(params);
+    const conferences = await this.conferenceService.getConferences(
+      params,
+      sortParams,
+    );
 
     return conferences;
   }
@@ -141,7 +135,6 @@ export class ConferenceController {
   async importConferences(
     @Body() conferenceImport: ConferenceImportDTO,
   ): Promise<any> {
-    let isExists = true;
     const user = await this.adminService.getAdmin();
     if (!user) {
       return new HttpException('User not found', 404);
@@ -156,7 +149,6 @@ export class ConferenceController {
     conferenceImport.year = year;
 
     if (!conferenceInstance) {
-      isExists = false;
       conferenceInstance =
         await this.conferenceService.createConference(conferenceImport);
     }
@@ -181,7 +173,7 @@ export class ConferenceController {
       const fieldOfResearch =
         await this.fieldOfResearch.getFieldOfResearchByCode(code);
       if (fieldOfResearch) {
-        const t = await this.conferenceService.createOrFindRank(
+        await this.conferenceService.createOrFindRank(
           conferenceInstance.id,
           rankInstance,
           fieldOfResearch.id,

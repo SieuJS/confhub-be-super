@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/require-await */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { PrismaService } from '../../common';
@@ -19,7 +22,10 @@ import { ConferenceFeedBackDTO } from '../models/conference-feedback/conference-
 import { ConferenceFeedBackInputDTO } from '../models/conference-feedback/conference-feedback.input';
 import { PaginatorTypes, paginator } from '@nodeteam/nestjs-prisma-pagination';
 import { ConferencePaginationDTO } from '../models/conference/conference-pagination.dto';
-import { GetConferencesParams } from '../models/conference-request/get-conference-params';
+import {
+  GetConferencesParams,
+  GetConferencesSortParams,
+} from '../models/conference-request/get-conference-params';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { TransactionHost } from '@nestjs-cls/transactional';
 import { ConferenceDetailDTO } from '../models/conference/conference-detail.dto';
@@ -42,20 +48,11 @@ export class ConferenceService {
 
   async getConferences(
     conferenceFilter?: GetConferencesParams,
-    sortOptions?: {
-      sortBy:
-        | 'createdAt'
-        | 'updatedAt'
-        | 'title'
-        | 'acronym'
-        | 'rank'
-        | 'source';
-      sortOrder: 'asc' | 'desc';
-    },
+    sortOptions?: GetConferencesSortParams,
   ): Promise<ConferencePaginationDTO> {
     let orderBy: Prisma.ConferencesOrderByWithRelationInput = {};
     console.log(sortOptions?.sortBy);
-    const include = 
+    const include =
       conferenceFilter?.mode === 'detail'
         ? {
             ranks: {
@@ -67,17 +64,17 @@ export class ConferenceService {
                 },
                 inFieldOfResearch: true,
               },
-              ...(sortOptions?.sortBy === 'rank' 
-                ? { 
+              ...(sortOptions?.sortBy === 'rank'
+                ? {
                     orderBy: {
-                      byRank: { 
+                      byRank: {
                         name: sortOptions?.sortOrder || 'desc',
                       },
                     },
-                  } 
+                  }
                 : {}),
               ...(sortOptions?.sortBy === 'source'
-                ? { 
+                ? {
                     orderBy: {
                       byRank: {
                         belongsToSource: {
@@ -85,7 +82,7 @@ export class ConferenceService {
                         },
                       },
                     },
-                  } 
+                  }
                 : {}),
             },
             organizations: {
@@ -118,17 +115,17 @@ export class ConferenceService {
                   },
                 },
               },
-              ...(sortOptions?.sortBy === 'rank' 
-                ? { 
+              ...(sortOptions?.sortBy === 'rank'
+                ? {
                     orderBy: {
-                      byRank: { 
+                      byRank: {
                         name: sortOptions?.sortOrder || 'desc',
                       },
                     },
-                  } 
+                  }
                 : {}),
               ...(sortOptions?.sortBy === 'source'
-                ? { 
+                ? {
                     orderBy: {
                       byRank: {
                         belongsToSource: {
@@ -136,7 +133,7 @@ export class ConferenceService {
                         },
                       },
                     },
-                  } 
+                  }
                 : {}),
             },
           };
@@ -862,7 +859,7 @@ export class ConferenceService {
   }
 
   async importConferences(conference: ConferenceImportDTO) {
-    const conferenceInstance = await this.findOrCreateConference(conference);
+    await this.findOrCreateConference(conference);
   }
 
   async createConferenceRank(

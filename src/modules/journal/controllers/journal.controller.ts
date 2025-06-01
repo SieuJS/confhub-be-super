@@ -1,10 +1,25 @@
-import { Controller, Post, Body, Get, Query, UsePipes } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Query,
+  UsePipes,
+  Param,
+} from '@nestjs/common';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBody,
+  ApiParam,
+} from '@nestjs/swagger';
 import { JournalService } from '../services/journal/journal.service';
 import { JournalImportDto } from '../models/journal-import.dto';
 import { JournalListQueryDto } from '../models/journal-list-query.dto';
 import { JournalImportResponseDto } from '../models/journal-import-response.dto';
 import { JournalListResponseDto } from '../models/journal-list-response.dto';
+import { JournalListItemDto } from '../models/journal-list-response.dto';
 import { JournalTransformPipe } from '../pipes/journal-transform.pipe';
 
 @ApiTags('Journals')
@@ -38,5 +53,21 @@ export class JournalController {
     @Query() query: JournalListQueryDto,
   ): Promise<JournalListResponseDto> {
     return this.journalService.getJournals(query);
+  }
+
+  @Get(':id')
+  @ApiOperation({ summary: 'Get journal by ID' })
+  @ApiParam({ name: 'id', description: 'Journal ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'Journal retrieved successfully',
+    type: JournalListItemDto,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Journal not found',
+  })
+  async getJournalById(@Param('id') id: string): Promise<JournalListItemDto> {
+    return this.journalService.getJournalById(id);
   }
 }
