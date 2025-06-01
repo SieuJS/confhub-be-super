@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/modules/common';
 import { JournalImportDto } from '../../models/journal-import.dto';
@@ -27,6 +24,10 @@ import type {
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { TransactionHost } from '@nestjs-cls/transactional';
 import { PrismaClient } from 'generated/prisma_client';
+import {
+  JournalCsvImportResponseDto,
+  JournalCsvImportResult,
+} from '../../models/journal-csv-import-response.dto';
 
 @Injectable()
 export class JournalService {
@@ -46,7 +47,7 @@ export class JournalService {
 
     for (const journal of journals) {
       try {
-        // Check if journal exists
+        // Check if journal crawled
         const existingJournal = await this.prisma.journals.findFirst({
           where: {
             AND: [
@@ -520,6 +521,74 @@ export class JournalService {
       Thumbnail: authorInfo?.thumbnail || '',
       createdAt: journal.createdAt,
       updatedAt: journal.updatedAt,
+    };
+  }
+
+  async checkAndImportJournalsFromCsv(
+    journals: JournalImportDto[],
+  ): Promise<JournalCsvImportResponseDto> {
+    const results: JournalCsvImportResult[] = [];
+    let totalCrawled = 0;
+    let totalNotCrawled = 0;
+
+    for (const journal of journals) {
+      try {
+        // Check if journal has been crawled by looking for quartiles and scope
+        const existingJournal = await this.prisma.journals.findFirst({
+          where: {
+            AND: [
+              { title: journal.Title },
+              { issn: journal.Issn },
+              { publisher: journal.Publisher },
+            ],
+          },
+          include: {
+            JournalDetails: true,
+            quartiles: true,
+          },
+        });
+
+        if (
+          existingJournal &&
+          (existingJournal.JournalDetails[0]?.scope ||
+            existingJournal.quartiles.length > 0)
+        ) {
+          results.push({
+            title: journal.Title,
+            issn: journal.Issn,
+            crawled: true,
+            message: 'Journal has been crawled',
+            lastUpdated: existingJournal.updatedAt,
+          });
+          totalCrawled++;
+        } else {
+          results.push({
+            title: journal.Title,
+            issn: journal.Issn,
+            crawled: false,
+            message: 'Journal has not been crawled',
+            lastUpdated: null,
+          });
+          totalNotCrawled++;
+        }
+      } catch (error) {
+        results.push({
+          title: journal.Title,
+          issn: journal.Issn,
+          crawled: false,
+          lastUpdated: null,
+          message:
+            'Error checking journal: ' +
+            (error instanceof Error ? error.message : 'Unknown error'),
+        });
+      }
+    }
+
+    return {
+      results,
+      totalProcessed: journals.length,
+      totalExists: totalCrawled,
+      totalNew: totalNotCrawled,
     };
   }
 }

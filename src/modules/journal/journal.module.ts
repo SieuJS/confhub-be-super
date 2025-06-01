@@ -6,11 +6,17 @@ import { JournalFollowController } from './controllers/journal-follow.controller
 import { JournalFollowService } from './services/journal-follow/journal-follow.service';
 import { NotifyModule } from '../notify/notify.module';
 import { AuthModule } from '../auth/auth.module';
+import { JournalCsvController } from './controllers/journal-csv.controller';
+import { JournalCsvService } from './services/journal-csv/journal-csv.service';
 
 @Module({
   imports: [CommonModule, NotifyModule, AuthModule],
-  controllers: [JournalController, JournalFollowController],
-  providers: [JournalService, JournalFollowService],
-  exports: [JournalService, JournalFollowService],
+  controllers: [
+    JournalController,
+    JournalFollowController,
+    JournalCsvController,
+  ],
+  providers: [JournalService, JournalFollowService, JournalCsvService],
+  exports: [JournalService, JournalFollowService, JournalCsvService],
 })
 export class JournalModule {}
