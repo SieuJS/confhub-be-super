@@ -604,6 +604,89 @@ export class AdminConferenceService {
     };
   }
 
+  async removeConference(conferenceId: string) {
+    // Delete all related records first
+    await this.prismaService.$transaction(async (tx) => {
+      // First get all organization IDs for this conference
+      const organizations = await tx.conferenceOrganizations.findMany({
+        where: { conferenceId },
+        select: { id: true }
+      });
+      
+      const organizationIds = organizations.map(org => org.id);
+
+      // Delete locations for all organizations
+      await tx.locations.deleteMany({
+        where: { organizeId: { in: organizationIds } }
+      });
+
+      // Delete conference topics for all organizations
+      await tx.conferenceTopics.deleteMany({
+        where: { organizeId: { in: organizationIds } }
+      });
+
+      // Delete conference dates for all organizations
+      await tx.conferenceDates.deleteMany({
+        where: { organizedId: { in: organizationIds } }
+      });
+
+      // Delete conference organizations
+      await tx.conferenceOrganizations.deleteMany({
+        where: { conferenceId }
+      });
+
+      // Delete conference blacklists
+      await tx.conferenceBlacklists.deleteMany({
+        where: { conferenceId }
+      });
+
+      // Delete conference calendars
+      await tx.conferenceCalendars.deleteMany({
+        where: { conferenceId }
+      });
+
+      // Delete conference crawl jobs
+      await tx.conferenceCrawlJobs.deleteMany({
+        where: { conferenceId }
+      });
+
+      // Delete conference feedbacks
+      await tx.conferenceFeedbacks.deleteMany({
+        where: { conferenceId }
+      });
+
+      // Delete conference follows
+      await tx.conferenceFollows.deleteMany({
+        where: { conferenceId }
+      });
+
+      // Delete conference likes
+      await tx.conferenceLikes.deleteMany({
+        where: { conferenceId }
+      });
+
+      // Delete conference notifications
+      await tx.notifications.deleteMany({
+        where: { conferenceId }
+      });
+
+      // Delete conference post requests
+      await tx.conferencePostRequests.deleteMany({
+        where: { conferenceId }
+      });
+
+      // Delete conference ranks
+      await tx.conferenceRanks.deleteMany({
+        where: { conferenceId }
+      });
+
+      // Finally delete the conference
+      await tx.conferences.delete({
+        where: { id: conferenceId }
+      });
+    });
+  }
+
   async updateConferenceRequestStatus(
     requestId: string,
     adminId: string,
@@ -623,11 +706,16 @@ export class AdminConferenceService {
       },
     });
 
-    // If approved, update conference status
+    // If status is REJECTED, remove the conference
+    if (data.status === 'REJECTED') {
+      await this.removeConference(request.conferenceId);
+    } else {
+      // Otherwise update conference status
       await this.prismaService.conferences.update({
         where: { id: request.conferenceId },
         data: { status: data.status },
       });
+    }
 
     return {
       id: request.id,
