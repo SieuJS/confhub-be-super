@@ -51,6 +51,18 @@ export class AddConferenceBody extends ConferenceRequestBody  {
     })
     link: string;
 
+    @ApiProperty({
+        description : "link to the cfp",
+        type : String
+    })
+    cfpLink: string;
+
+    @ApiProperty({
+        description : "link to the imp",
+        type : String
+    })
+    impLink: string;
+    
     @ApiProperty({description : "User id "})
     userId: string;
 

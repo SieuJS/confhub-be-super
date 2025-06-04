@@ -10,13 +10,13 @@ import {
   IsArray,
 } from 'class-validator';
 
-enum ConferenceType {
+export enum ConferenceType {
   OFFLINE = 'Offline',
   ONLINE = 'Online',
   HYBRID = 'Hybrid',
 }
 
-enum Continent {
+export enum Continent {
   ASIA = 'Asia',
   EUROPE = 'Europe',
   NORTH_AMERICA = 'North America',

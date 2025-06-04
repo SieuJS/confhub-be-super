@@ -217,4 +217,43 @@ export class EmailService {
       }
     }
   }
+
+  async sendUpdatedConferenceEmail(
+    toEmail: string,
+    firstName: string,
+    content: string,
+  ) {
+    const sendSmtpEmail = new brevo.SendSmtpEmail();
+    const { senderEmail, senderName } = await this.getSender();
+    const apiInstance = this.brevoClient;
+    const setting = await this.isExistsSetting();
+    if (!setting) {
+      this.logger.error('Brevo setting not found');
+      return;
+    }
+    apiInstance.setApiKey(
+      brevo.TransactionalEmailsApiApiKeys.apiKey,
+      setting.apiKey,
+    );
+    sendSmtpEmail.subject = `Updated Conference`;
+    sendSmtpEmail.htmlContent = `
+        <html>
+            <body>
+                <h1>Hello ${firstName}!</h1>
+                ${content}
+            </body>
+        </html>
+    `;
+    sendSmtpEmail.sender = { name: senderName, email: senderEmail };
+    sendSmtpEmail.to = [{ email: toEmail, name: firstName }];
+    try {
+      const data = await apiInstance.sendTransacEmail(sendSmtpEmail);
+    } catch (error: any) {
+      console.error('Error sending updated conference email via Brevo:');
+      if (error.response) {
+        console.error('Status:', error.response.status);
+        console.error('Body:', error.response.body || error.response.text);
+      }
+    }
+  }
 }

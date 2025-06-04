@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Patch,
   Post,
@@ -117,5 +118,14 @@ export class UserController {
       background: updatedUser.background,
       interestedTopics: userTopics,
     };
+  }
+
+  @Delete('/delete')
+  @UseGuards(JWTGuardUser)
+  @ApiBearerAuth('access-token')
+  @ApiOperation({ summary: 'Delete user account and all associated data' })
+  async deleteUser(@Req() req: Request) {
+    const user = req.user as { id: string };
+    return await this.userService.deleteUser(user.id);
   }
 }

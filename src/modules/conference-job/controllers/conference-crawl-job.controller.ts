@@ -14,6 +14,10 @@ import { ConferenceOrganizationSerivce } from '../../conference-organization/ser
 import { ConferenceCrawlJobInputDTO } from '../models/conference-crawl-job/conference-crawl-job-input.dto';
 import { ConferenceCrawlJobDTO } from '../models/conference-crawl-job/conference-crawl-job.dto';
 import { ConferenceAttribute } from '../../../constants/conference-attribute';
+import { AdminConferenceService } from 'src/modules/admin-conference/services/admin-conference.service';
+import { NotificationService } from 'src/modules/notify/services/notification.service';
+import { EmailService } from 'src/modules/email-verify/services/email.service';
+import { FollowConferenceService } from 'src/modules/follow-conference/services/follow-conference.service';
 
 @ApiTags('conference-crawl-job')
 @Controller('conference-crawl-job')
@@ -22,6 +26,10 @@ export class ConferenceCrawlJobController {
     private readonly conferenceCrawlJobService: ConferenceCrawlJobService,
     private readonly conferenceService: ConferenceService,
     private readonly conferenceOrganizationService: ConferenceOrganizationSerivce,
+    private readonly adminConferenceService: AdminConferenceService,
+    private readonly notificationService: NotificationService,
+    private readonly emailService: EmailService,
+    private readonly followService :  FollowConferenceService
   ) {}
 
   @Get()
@@ -108,21 +116,6 @@ export class ConferenceCrawlJobController {
     if (!organization) {
       throw new HttpException('Organization not found', 404);
     }
-
-    // Create and execute update job
-    // const jobInstance =
-    //   await this.conferenceCrawlJobService.createConferenceCrawlJob({
-    //     conferenceId: conference.id,
-    //     conferenceTitle: conference.title,
-    //     conferenceAcronym: conference.acronym,
-    //     mainLink: organization.link || '',
-    //     cfpLink: organization.cfpLink || '',
-    //     impLink: organization.impLink || '',
-    //     status: ConferenceAttribute.JOB_STATUS_PENDING,
-    //     progress: 0,
-    //     message: 'Pending',
-    //   });
-
     // Wait for job completion
     const result =
       await this.conferenceCrawlJobService.fetchUpdateConferenceCrawlData({
@@ -132,7 +125,13 @@ export class ConferenceCrawlJobController {
         cfpLink: organization.cfpLink || '',
         impLink: organization.impLink || '',
       });
-
+    const data = result.data;
+    await this.adminConferenceService.importConferences(data as any);
+    await this.notificationService.sendUpdateConferenceNotification(conference.id);
+    
+    // Notify followers about the conference update
+    await this.followService.notifyFollowersAboutConferenceUpdate(conference.id);
+    
     return {
       success: true,
       data: result,
@@ -199,4 +198,5 @@ export class ConferenceCrawlJobController {
       results,
     };
   }
+
 }

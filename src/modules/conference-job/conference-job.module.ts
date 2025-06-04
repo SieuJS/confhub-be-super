@@ -13,6 +13,9 @@ import { ConferenceService } from '../conference/services/conference.service';
 import { ConferencesModule } from '../conference/conference.module';
 import { NotifyModule } from '../notify/notify.module';
 import { SourceRankModule } from '../source-rank';
+import { AdminConferenceModule } from '../admin-conference/admin-conference.module';
+import { EmailVerifyModule } from '../email-verify/email-verify.module';
+import { FollowConferenceModule } from '../follow-conference/follow-conference.module';
 
 @Module({
     imports: [CommonModule, 
@@ -25,6 +28,9 @@ import { SourceRankModule } from '../source-rank';
         SourceRankModule,
         HttpModule,
         SocketGatewayModule,
+        AdminConferenceModule,
+        EmailVerifyModule,
+        FollowConferenceModule
     ],
     providers: [
         ConferenceCrawlJobService , ConferenceImportProcessor

@@ -18,6 +18,9 @@ import { ConferenceCrawlNewResponseDto } from '../models/crawl-response/conferen
 import { ConferenceCrawlUpdateRequestDto } from '../models/crawl-request/conference-crawl-update-request.dto';
 import { SchedulerRegistry } from '@nestjs/schedule';
 import { CronJob } from 'cron';
+import { AdminConferenceService } from 'src/modules/admin-conference/services/admin-conference.service';
+import { ConferenceSaveDto } from 'src/modules/admin-conference/models/conference-save.dto';
+import { ConferenceType, Continent } from 'src/modules/admin-conference/models/conference-save.dto';
 
 @Injectable()
 export class ConferenceCrawlJobService {
@@ -29,6 +32,7 @@ export class ConferenceCrawlJobService {
     private conferenceCrawlQueue: Queue,
     private httpService: HttpService,
     private schedulerRegistry: SchedulerRegistry,
+    private adminConferenceService: AdminConferenceService,
   ) {}
 
   async getListConferenceCrawlJob() {
@@ -304,6 +308,67 @@ export class ConferenceCrawlJobService {
     return data;
   }
 
+  async importConferenceCrawlData(
+    crawlData: ConferenceCrawlNewResponseDto,
+    jobId: string,
+  ): Promise<void> {
+    try {
+      // Update job status to running
+      await this.updateConferenceCrawlJob(jobId, {
+        status: ConferenceAttribute.JOB_STATUS_RUNNING,
+        progress: 20,
+        message: ConferenceMessageJob.RUNNING,
+      });
+
+      // Process each conference in the data array
+      for (const conference of crawlData.data) {
+        // Transform crawl data to ConferenceSaveDto format
+        const conferenceData: ConferenceSaveDto = {
+          title: conference.name,
+          acronym: conference.acronym,
+          year: conference.year,
+          type: conference.type as ConferenceType,
+          publisher: conference.publisher,
+          summary: conference.summary,
+          callForPapers: conference.callForPapers,
+          mainLink: conference.link,
+          cfpLink: conference.cfpLink,
+          impLink: conference.impLink,
+          location: conference.location,
+          cityStateProvince: conference.cityStateProvince,
+          country: conference.country,
+          continent: conference.continent as Continent,
+          topics: conference.topics,
+          submissionDate: conference.submissionDate as Record<string, string>,
+          cameraReadyDate: conference.cameraReadyDate as Record<string, string>,
+          conferenceDates: conference.conferenceDates,
+          registrationDate: conference.registrationDate as Record<string, string>,
+          notificationDate: conference.notificationDate as Record<string, string>,
+          otherDate: conference.otherDate as Record<string, string>,
+        };
+
+        // Import the conference data
+        await this.adminConferenceService.saveConference(conferenceData);
+      }
+
+      // Update job status to completed
+      await this.updateConferenceCrawlJob(jobId, {
+        status: ConferenceAttribute.JOB_STATUS_COMPLETED,
+        progress: 100,
+        message: ConferenceMessageJob.COMPLETED,
+      });
+    } catch (error) {
+      // Update job status to failed
+      await this.updateConferenceCrawlJob(jobId, {
+        status: ConferenceAttribute.JOB_STATUS_FAILED,
+        progress: 0,
+        message: ConferenceMessageJob.FAILED,
+      });
+
+      throw new Error(`Failed to import conference crawl data: ${error.message}`);
+    }
+  }
+
   async fetchBatchUpdateConferenceCrawlData(
     inputs: ConferenceCrawlUpdateRequestDto[],
   ): Promise<ConferenceCrawlNewResponseDto> {
@@ -330,7 +395,6 @@ export class ConferenceCrawlJobService {
             }),
           ),
       );
-    console.log('batch data', data);
     return data;
   }
 

@@ -463,4 +463,88 @@ export class UserService {
 
     return formatedBlacklistConferences;
   }
+
+  async deleteUser(userId: string) {
+    try {
+      // Start a transaction to ensure all deletions are atomic
+      return await this.prismaService.$transaction(async (prisma) => {
+        // 1. Delete user's conference follows
+        await prisma.conferenceFollows.deleteMany({
+          where: { userId }
+        });
+
+        // 2. Delete user's conference likes
+        await prisma.conferenceLikes.deleteMany({
+          where: { userId }
+        });
+
+        // 3. Delete user's conference feedbacks
+        await prisma.conferenceFeedbacks.deleteMany({
+          where: { creatorId: userId }
+        });
+
+        // 4. Delete user's conference calendars
+        await prisma.conferenceCalendars.deleteMany({
+          where: { userId }
+        });
+
+        // 5. Delete user's conference blacklists
+        await prisma.conferenceBlacklists.deleteMany({
+          where: { userId }
+        });
+
+        // 6. Delete user's notifications
+        await prisma.notifications.deleteMany({
+          where: { userId }
+        });
+
+        // 7. Delete user's notification settings
+        await prisma.notificationSettings.deleteMany({
+          where: { userId }
+        });
+
+        // 8. Delete user's interested topics
+        await prisma.topicUserInteresteds.deleteMany({
+          where: { userId }
+        });
+
+        // 9. Delete user's verification records
+        await prisma.userVerification.deleteMany({
+          where: { userId }
+        });
+
+        // 10. Delete user's conference post requests
+        await prisma.conferencePostRequests.deleteMany({
+          where: { userId }
+        });
+
+        // 11. Delete user's journal follows
+        await prisma.journalFollows.deleteMany({
+          where: { userId }
+        });
+
+        // 12. Delete user's journal notifications
+        await prisma.journalNotifications.deleteMany({
+          where: { userId }
+        });
+
+        // 13. Finally, delete the user
+        const deletedUser = await prisma.users.delete({
+          where: { id: userId }
+        });
+
+        return {
+          success: true,
+          message: 'User and all associated data deleted successfully',
+          deletedUser
+        };
+      });
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      throw new HttpException(
+        'Failed to delete user and associated data',
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
+  }
 }
