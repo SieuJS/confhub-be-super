@@ -75,4 +75,24 @@ export class ConferenceCrawlJobDTO {
         example : "https://example.com/dates"
     })
     impLink?: string;
+
+    @ApiProperty({
+        description : "Job ID for queue processing",
+        example : "123e4567-e89b-12d3-a456-426614174000"
+    })
+    jobId?: string;
+
+    @ApiProperty({
+        description : "Type of conference crawl job",
+        example : "Conference"
+    })
+    type: string;
+}
+
+export class ConferenceCrawlJobQueueDTO {
+    @ApiProperty({
+        description : "Array of jobs to process",
+        type: [ConferenceCrawlJobDTO]
+    })
+    jobs: ConferenceCrawlJobDTO[];
 }

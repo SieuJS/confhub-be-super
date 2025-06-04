@@ -1,79 +1,81 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { Processor, WorkerHost } from '@nestjs/bullmq';
-import { LoggerService } from '../../common';
-import { Job } from 'bullmq';
 import { Injectable } from '@nestjs/common';
-import { CONFERENCE_QUEUE_NAME } from '../../../constants/queue-name';
-import { CONFERENCE_CRAWL_JOB_NAME } from '../../../constants/job-name';
-import { ConferenceCrawlJobService } from '../services';
-import { ConferenceOrganizationSerivce } from '../../conference-organization';
-import { converStringToDate, convertObjectToDate } from '../utils/date-parse';
+import { Process, Processor } from '@nestjs/bull';
+import { Job } from 'bull';
+import { ConferenceCrawlJobDTO, ConferenceCrawlJobQueueDTO } from '../models/conference-crawl-job/conference-crawl-job.dto';
+import { ConferenceCrawlJobType, ConferenceCrawlJobStatus } from '../models/conference-crawl-job/conference-crawl-job.enum';
+import { CONFERENCE_QUEUE_NAME } from '../constants/conference-queue-name';
+import { ConferenceCrawlJobService } from '../services/conference-crawl-job.service';
+import { ConferenceOrganizationService } from '../services/conference-organization.service';
 import { MessageService } from '../../socket-gateway/services/message.service';
-import { ConferenceCrawlJobDTO } from '../models/conference-crawl-job/conference-crawl-job.dto';
-import { ConferenceAttribute } from '../../../constants/conference-attribute';
+import { LoggerService } from '../../logger/services/logger.service';
+import { converStringToDate, convertObjectToDate } from '../utils/date-parse';
+import { WorkerHost } from '@nestjs/bullmq';
+import { CONFERENCE_CRAWL_JOB_NAME } from '../../../constants/job-name';
 @Injectable()
 @Processor(CONFERENCE_QUEUE_NAME.CRAWL)
 export class ConferenceImportProcessor extends WorkerHost {
   constructor(
-    private loggerService: LoggerService,
-    private conferenceCrawlJobService: ConferenceCrawlJobService,
-    private conferenceOrganizationService: ConferenceOrganizationSerivce,
-    private messageService: MessageService,
+    private readonly conferenceCrawlJobService: ConferenceCrawlJobService,
+    private readonly conferenceOrganizationService: ConferenceOrganizationService,
+    private readonly messageService: MessageService,
+    private readonly loggerService: LoggerService,
   ) {
     super();
   }
 
-  async process(job: Job<ConferenceCrawlJobDTO, any, string>, token: string) {
-    switch (job.name) {
-      case CONFERENCE_CRAWL_JOB_NAME.CRAWL:
-        this.handleCrawlConferenceJob(job);
+  @Process('conference-crawl')
+  async process(job: Job<ConferenceCrawlJobDTO | ConferenceCrawlJobQueueDTO>) {
+    const queueData = job.data as ConferenceCrawlJobQueueDTO;
+    const jobData = queueData.jobs?.[0] || job.data as ConferenceCrawlJobDTO;
+
+    switch (jobData.type) {
+      case ConferenceCrawlJobType.CRAWL:
+        await this.handleCrawlConferenceJob(job);
         break;
-      case CONFERENCE_CRAWL_JOB_NAME.UPDATE:
-        this.handleUpdateConferenceJob(job);
+      case ConferenceCrawlJobType.UPDATE:
+        await this.handleUpdateConferenceJob(job);
         break;
-      case CONFERENCE_CRAWL_JOB_NAME.NOTIFY:
-        this.loggerService.info(`Notifying conference import`);
+      case ConferenceCrawlJobType.NOTIFY:
+        await this.handleNotifyConferenceJob(job);
         break;
       default:
-        this.loggerService.error(`Unknown job name ${job.name}`);
-        break;
+        throw new Error(`Unknown job type: ${jobData.type}`);
     }
-    return job.data;
   }
 
-  async handleCrawlConferenceJob(job: Job<ConferenceCrawlJobDTO, any, string>) {
-    job.data.progress = 20;
-    job.data.message = 'Crawling conference data';
-    const channel = 'cfp-crawl-' + job.data.id;
+  async handleCrawlConferenceJob(job: Job<ConferenceCrawlJobDTO | ConferenceCrawlJobQueueDTO>) {
+    const queueData = job.data as ConferenceCrawlJobQueueDTO;
+    const jobData = queueData.jobs?.[0] || job.data as ConferenceCrawlJobDTO;
+    
+    const channel = 'cfp-crawl-' + jobData.id;
     try {
       await this.messageService.sendMessage(channel, {
         progress: 20,
         message: 'Crawling conference data',
-        status: 'processing',
+        status: ConferenceCrawlJobStatus.RUNNING,
       });
       await job.updateProgress(20);
 
       const crawlDataResponse =
         await this.conferenceCrawlJobService.fetchConferenceCrawlData({
-          Title: job.data.conferenceTitle,
-          Acronym: job.data.conferenceAcronym,
+          Title: jobData.conferenceTitle,
+          Acronym: jobData.conferenceAcronym,
         });
       console.log('response', crawlDataResponse);
       if (crawlDataResponse.data.length === 0) {
         this.loggerService.error(
-          `No data found for ${job.data.conferenceTitle}`,
+          `No data found for ${jobData.conferenceTitle}`,
         );
-        throw new Error(`No data found for ${job.data.conferenceTitle}`);
+        throw new Error(`No data found for ${jobData.conferenceTitle}`);
       }
 
-      job.data.progress = 40;
-      job.data.message = 'Crawl data success, importing data';
       this.messageService.sendMessage(channel, {
         progress: 40,
         message: 'Crawl data success, importing data',
-        status: 'processing',
+        status: ConferenceCrawlJobStatus.RUNNING,
       });
       await job.updateProgress(40);
 
@@ -88,36 +90,27 @@ export class ConferenceImportProcessor extends WorkerHost {
           cfpLink: crawlData.cfpLink,
           summerize: crawlData.summary,
           callForPaper: crawlData.callForPapers,
-          conferenceId: job.data.conferenceId,
+          conferenceId: jobData.conferenceId,
           isAvailable: true,
           publisher: crawlData.publisher,
         });
       if (!organizeData) {
         this.messageService.sendMessage(channel, {
           progress: 100,
-          message: 'No link found for ' + job.data.conferenceTitle,
-          status: 'failed',
+          message: 'No link found for ' + jobData.conferenceTitle,
+          status: ConferenceCrawlJobStatus.FAILED,
         });
         await job.updateProgress(100);
-        await this.conferenceCrawlJobService.updateConferenceCrawlJob(
-          job.data.id,
-          {
-            status: ConferenceAttribute.JOB_STATUS_FAILED,
-            progress: 100,
-            message: 'No link found for ' + job.data.conferenceTitle,
-          },
-        );
         this.loggerService.error(
-          `No link found for ${job.data.conferenceTitle}`,
+          `No link found for ${jobData.conferenceTitle}`,
         );
-        throw new Error(`No link found for ${job.data.conferenceTitle}`);
+        throw new Error(`No link found for ${jobData.conferenceTitle}`);
       }
-      job.data.progress = 60;
-      job.data.message = 'Imported conference data, importing location data';
+
       this.messageService.sendMessage(channel, {
         progress: 60,
         message: 'Imported conference data, importing location data',
-        status: 'processing',
+        status: ConferenceCrawlJobStatus.RUNNING,
       });
       await job.updateProgress(60);
 
@@ -194,73 +187,50 @@ export class ConferenceImportProcessor extends WorkerHost {
         }),
       );
 
-      const t = Promise.all(createdTopics);
+      await Promise.all(createdTopics);
 
-      job.data.progress = 100;
-      job.data.message = 'Imported conference data';
       this.messageService.sendMessage(channel, {
         progress: 100,
         message: 'Imported conference data',
-        status: 'completed',
+        status: ConferenceCrawlJobStatus.COMPLETED,
       });
       await job.updateProgress(100);
 
-      await this.conferenceCrawlJobService.updateConferenceCrawlJob(
-        job.data.id,
-        {
-          status: ConferenceAttribute.JOB_STATUS_COMPLETED,
-          progress: 100,
-          message: 'Imported conference data',
-        },
-      );
-
       this.loggerService.info(
-        `Imported conference data ${job.data.conferenceTitle}`,
+        `Imported conference data ${jobData.conferenceTitle}`,
       );
-    } catch (e) {
+    } catch (error) {
       this.loggerService.error(
-        `Error while importing conference data ${job.data.conferenceTitle}`,
-      );
-      await this.conferenceCrawlJobService.updateConferenceCrawlJob(
-        job.data.id,
-        {
-          status: ConferenceAttribute.JOB_STATUS_FAILED,
-          progress: 100,
-          message:
-            'Error while importing conference data ' + job.data.conferenceTitle,
-        },
+        `Error while importing conference data ${jobData.conferenceTitle}`,
       );
       await job.updateProgress(100);
       this.messageService.sendMessage(channel, {
         progress: 100,
         message:
-          'Error while importing conference data ' + job.data.conferenceTitle,
-        status: 'failed',
+          'Error while importing conference data ' + jobData.conferenceTitle,
+        status: ConferenceCrawlJobStatus.FAILED,
       });
-      this.loggerService.error(e);
+      this.loggerService.error(error);
     }
   }
 
-  async handleUpdateConferenceJob(job: Job<ConferenceCrawlJobDTO>) {
-    const jobs = Array.isArray(job.data) ? job.data : [job.data];
+  async handleUpdateConferenceJob(job: Job<ConferenceCrawlJobDTO | ConferenceCrawlJobQueueDTO>) {
+    const queueData = job.data as ConferenceCrawlJobQueueDTO;
+    const jobs = queueData.jobs || [job.data as ConferenceCrawlJobDTO];
 
     for (const jobData of jobs) {
       try {
-        // Update job progress and message
-        await this.conferenceCrawlJobService.updateConferenceCrawlJob(
-          jobData.id,
-          {
-            status: ConferenceAttribute.JOB_STATUS_RUNNING,
-            progress: 0,
-            message: 'Fetching updated conference data...',
-          },
-        );
+        const jobId = jobData.jobId || jobData.id;
+        if (!jobId) {
+          console.error('Job ID is missing in job data:', jobData);
+          continue;
+        }
 
         // Send message to channel
         await this.messageService.sendMessage(
-          `conference-crawl-job-${jobData.id}`,
+          `conference-crawl-job-${jobId}`,
           {
-            status: 'RUNNING',
+            status: ConferenceCrawlJobStatus.RUNNING,
             progress: 0,
             message: 'Fetching updated conference data...',
           },
@@ -271,9 +241,9 @@ export class ConferenceImportProcessor extends WorkerHost {
           await this.conferenceCrawlJobService.fetchUpdateConferenceCrawlData({
             Title: jobData.conferenceTitle,
             Acronym: jobData.conferenceAcronym,
-            mainLink: jobData.mainLink,
-            cfpLink: jobData.cfpLink,
-            impLink: jobData.impLink,
+            mainLink: jobData.mainLink || '',
+            cfpLink: jobData.cfpLink || '',
+            impLink: jobData.impLink || '',
           });
 
         console.log('Crawl data response:', response);
@@ -335,19 +305,9 @@ export class ConferenceImportProcessor extends WorkerHost {
 
         // Send success message
         await this.messageService.sendMessage(
-          `conference-crawl-job-${jobData.id}`,
+          `conference-crawl-job-${jobId}`,
           {
-            status: 'COMPLETED',
-            progress: 100,
-            message: 'Conference update completed successfully',
-          },
-        );
-
-        // Update job status
-        await this.conferenceCrawlJobService.updateConferenceCrawlJob(
-          jobData.id,
-          {
-            status: ConferenceAttribute.JOB_STATUS_COMPLETED,
+            status: ConferenceCrawlJobStatus.COMPLETED,
             progress: 100,
             message: 'Conference update completed successfully',
           },
@@ -358,26 +318,26 @@ export class ConferenceImportProcessor extends WorkerHost {
           error,
         );
 
+        const jobId = jobData.jobId || jobData.id;
+        if (!jobId) {
+          console.error('Job ID is missing in job data:', jobData);
+          continue;
+        }
+
         // Send error message
         await this.messageService.sendMessage(
-          `conference-crawl-job-${jobData.id}`,
+          `conference-crawl-job-${jobId}`,
           {
-            status: 'FAILED',
-            progress: 0,
-            message: `Error: ${error.message}`,
-          },
-        );
-
-        // Update job status
-        await this.conferenceCrawlJobService.updateConferenceCrawlJob(
-          jobData.id,
-          {
-            status: ConferenceAttribute.JOB_STATUS_FAILED,
+            status: ConferenceCrawlJobStatus.FAILED,
             progress: 0,
             message: `Error: ${error.message}`,
           },
         );
       }
     }
+  }
+
+  async handleNotifyConferenceJob(job: Job<ConferenceCrawlJobDTO | ConferenceCrawlJobQueueDTO>) {
+    this.loggerService.info(`Notifying conference import`);
   }
 }
