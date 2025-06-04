@@ -32,6 +32,7 @@ services:
       - .env.product
     networks:
       - prisma-network
+    restart: unless-stopped
   confhub_redis:
     container_name: confhub_redis
     image: redis:alpine
