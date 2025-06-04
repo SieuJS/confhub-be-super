@@ -134,7 +134,6 @@ export class AdminConferenceController {
 
   @Post('/import-evaluate')
   @Transactional<TransactionalAdapterPrisma>({
-    isolationLevel: 'Serializable',
     timeout: 300000,
   })
   @UseInterceptors(FileInterceptor('file'))
@@ -445,10 +444,30 @@ export class AdminConferenceController {
     status: 500,
     description: 'Internal server error',
   })
-  @Transactional<TransactionalAdapterPrisma>({
-    isolationLevel: 'Serializable',
-  })
+  @Transactional<TransactionalAdapterPrisma>()
   async deleteConferenceHistory(@Param('id') id: string) {
     return this.adminConferenceService.deleteConferenceHistory(id);
+  }
+
+  @Get('conference/:conferenceId/history')
+  @ApiOperation({ summary: 'Get all history entries for a conference' })
+  @ApiParam({ name: 'conferenceId', description: 'Conference ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'List of conference history entries',
+    type: [ConferenceHistoryResponseDto],
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Conference not found',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal server error',
+  })
+  async getConferenceHistoryByConferenceId(
+    @Param('conferenceId') conferenceId: string,
+  ): Promise<ConferenceHistoryResponseDto[]> {
+    return this.adminConferenceService.getConferenceHistoryByConferenceId(conferenceId);
   }
 }

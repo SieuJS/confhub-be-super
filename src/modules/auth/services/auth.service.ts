@@ -107,6 +107,19 @@ export class AuthService {
     return true;
   }
 
+  async isUserBanned(payload: PayloadToken) {
+    const user = await this.prismaService.users.findUnique({
+      where: { email: payload.email },
+    });
+    if (!user) {
+      throw new HttpException('Wrong token', 401);
+    }
+    if (user.email !== payload.email) {
+      throw new HttpException('Wrong token', 401);
+    }
+    return user?.isBanned ?? false;
+  }
+
   async validateJwtUser(payload: PayloadToken) {
     if (!payload) {
       throw new HttpException('Invalid token', 401);

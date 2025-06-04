@@ -36,6 +36,10 @@ export class JwtUserStrategy extends PassportStrategy(Strategy, 'jwt-user') {
       }
       throw new HttpException('Authentication failed', 403);
     }
+    const isBanned = await this.authService.isUserBanned(payload);
+    if (isBanned) {
+      throw new HttpException('User is banned', 403);
+    }
 
     return payload;
   }

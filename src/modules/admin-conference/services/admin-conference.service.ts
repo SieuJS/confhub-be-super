@@ -1081,21 +1081,16 @@ export class AdminConferenceService {
         throw new HttpException('Organization history not found', HttpStatus.NOT_FOUND);
       }
 
-      // Delete related data first
-        // Delete locations
-        this.txHost.tx.locations.deleteMany({
+        await this.txHost.tx.locations.deleteMany({
           where: { organizeId: id },
-        }),
-        // Delete topics
-        this.txHost.tx.conferenceTopics.deleteMany({
+        });
+        await  this.txHost.tx.conferenceTopics.deleteMany({
           where: { organizeId: id },
-        }),
-        // Delete dates
-        this.txHost.tx.conferenceDates.deleteMany({
+        });
+        await  this.txHost.tx.conferenceDates.deleteMany({
           where: { organizedId: id },
-        }),
-        // Finally delete the organization
-      this.txHost.tx.conferenceOrganizations.delete({
+        });
+      await this.txHost.tx.conferenceOrganizations.delete({
         where: { id },
       });
 
@@ -1111,5 +1106,54 @@ export class AdminConferenceService {
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
+  }
+
+  async getConferenceHistoryByConferenceId(conferenceId: string): Promise<ConferenceHistoryResponseDto[]> {
+    const organizations = await this.prismaService.conferenceOrganizations.findMany({
+      where: {
+        conferenceId: conferenceId
+      },
+      include: {
+        locations: true,
+        topics: {
+          include: {
+            inTopic: true
+          }
+        },
+        conferenceDates: true
+      },
+      orderBy: {
+        updatedAt: 'desc'
+      }
+    });
+
+    return organizations.map(org => ({
+      id: org.id,
+      year: org.year || 0,
+      accessType: org.accessType,
+      isAvailable: org.isAvailable,
+      publisher: org.publisher,
+      summerize: org.summerize,
+      callForPaper: org.callForPaper,
+      link: org.link,
+      cfpLink: org.cfpLink,
+      impLink: org.impLink,
+      locations: org.locations.map(loc => ({
+        address: loc.address || '',
+        cityStateProvince: loc.cityStateProvince || '',
+        country: loc.country || '',
+        continent: loc.continent || ''
+      })),
+      topics: org.topics.map(topic => topic.inTopic.name),
+      dates: org.conferenceDates
+        .filter(date => date.fromDate && date.toDate)
+        .map(date => ({
+          type: date.type,
+          startDate: date.fromDate!,
+          endDate: date.toDate!,
+          name: date.name
+        })),
+      updatedAt: org.updatedAt
+    }));
   }
 }
