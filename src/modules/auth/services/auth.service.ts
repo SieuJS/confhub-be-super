@@ -41,6 +41,14 @@ export class AuthService {
       where: { userId: user.id },
       orderBy: { createdAt: 'desc' },
     });
+    const isBanned = await this.isUserBanned({
+      id: user.id,
+      email: user.email,
+      role: 'user',
+    });
+    if (isBanned) {
+      throw new HttpException('User is banned', 403);
+    }
 
     return {
       ...user,
