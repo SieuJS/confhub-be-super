@@ -94,17 +94,67 @@ export class FollowConferenceService {
                 width: 100%;
                 border-collapse: collapse;
                 margin-top: 15px;
+                background-color: #fff;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+                border-radius: 8px;
+                overflow: hidden;
               }
 
               th, td {
                 text-align: left;
-                padding: 12px;
-                border-bottom: 1px solid #ddd;
+                padding: 16px;
+                border-bottom: 1px solid #e0e0e0;
               }
 
               th {
-                background-color: #f2f2f2;
+                background-color: #f8f9fa;
                 font-weight: 600;
+                color: #2c3e50;
+                text-transform: uppercase;
+                font-size: 14px;
+                letter-spacing: 0.5px;
+              }
+
+              td {
+                color: #4a5568;
+                font-size: 15px;
+                line-height: 1.5;
+              }
+
+              tr:last-child td {
+                border-bottom: none;
+              }
+
+              tr:hover td {
+                background-color: #f8f9fa;
+              }
+
+              /* Column widths */
+              th:nth-child(1), td:nth-child(1) {
+                width: 40%;
+              }
+
+              th:nth-child(2), td:nth-child(2),
+              th:nth-child(3), td:nth-child(3) {
+                width: 30%;
+              }
+
+              /* Center align date columns */
+              th:nth-child(2), td:nth-child(2),
+              th:nth-child(3), td:nth-child(3) {
+                text-align: center;
+              }
+
+              /* Add subtle border to the right of each cell except the last one */
+              th:not(:last-child), td:not(:last-child) {
+                border-right: 1px solid #e0e0e0;
+              }
+
+              /* Style for TBD dates */
+              td:empty::after {
+                content: 'TBD';
+                color: #a0aec0;
+                font-style: italic;
               }
 
               .location {
