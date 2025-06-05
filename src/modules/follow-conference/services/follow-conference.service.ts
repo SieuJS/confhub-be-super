@@ -52,193 +52,70 @@ export class FollowConferenceService {
 
       // Send email to each follower
       for (const follower of followers) {
-        const htmlContent = `
-          <!DOCTYPE html>
-          <html lang="en">
-          <head>
-            <meta charset="UTF-8" />
-            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-            <title>Conference Update</title>
-            <style>
-              body {
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                background-color: #f4f6f8;
-                margin: 0;
-                padding: 20px;
-              }
+        const emailHtml = `
+          <div style="max-width: 600px; margin: 0 auto; padding: 20px; font-family: Arial, sans-serif; background-color: #f4f4f4;">
+            <div style="background-color: #ffffff; padding: 20px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+              <h1 style="color: #2c3e50; margin-bottom: 20px; font-size: 24px;">Conference Update</h1>
+              
+              <p style="color: #4a5568; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
+                Dear ${follower.byUser.firstName} ${follower.byUser.lastName},
+              </p>
+              
+              <p style="color: #4a5568; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
+                The conference "${conference.title}" has been updated. Here are the changes:
+              </p>
 
-              .container {
-                max-width: 600px;
-                margin: auto;
-                background: #fff;
-                border-radius: 8px;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-                padding: 30px;
-              }
-
-              h1 {
-                font-size: 24px;
-                color: #333;
-                margin-bottom: 20px;
-              }
-
-              .section-title {
-                margin-top: 30px;
-                font-size: 18px;
-                color: #2c3e50;
-                border-bottom: 2px solid #e0e0e0;
-                padding-bottom: 5px;
-              }
-
-              table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-top: 15px;
-                background-color: #fff;
-                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-                border-radius: 8px;
-                overflow: hidden;
-              }
-
-              th, td {
-                text-align: left;
-                padding: 16px;
-                border-bottom: 1px solid #e0e0e0;
-              }
-
-              th {
-                background-color: #f8f9fa;
-                font-weight: 600;
-                color: #2c3e50;
-                text-transform: uppercase;
-                font-size: 14px;
-                letter-spacing: 0.5px;
-              }
-
-              td {
-                color: #4a5568;
-                font-size: 15px;
-                line-height: 1.5;
-              }
-
-              tr:last-child td {
-                border-bottom: none;
-              }
-
-              tr:hover td {
-                background-color: #f8f9fa;
-              }
-
-              /* Column widths */
-              th:nth-child(1), td:nth-child(1) {
-                width: 40%;
-              }
-
-              th:nth-child(2), td:nth-child(2),
-              th:nth-child(3), td:nth-child(3) {
-                width: 30%;
-              }
-
-              /* Center align date columns */
-              th:nth-child(2), td:nth-child(2),
-              th:nth-child(3), td:nth-child(3) {
-                text-align: center;
-              }
-
-              /* Add subtle border to the right of each cell except the last one */
-              th:not(:last-child), td:not(:last-child) {
-                border-right: 1px solid #e0e0e0;
-              }
-
-              /* Style for TBD dates */
-              td:empty::after {
-                content: 'TBD';
-                color: #a0aec0;
-                font-style: italic;
-              }
-
-              .location {
-                margin-top: 20px;
-                font-size: 16px;
-                line-height: 1.5;
-              }
-
-              .button {
-                display: inline-block;
-                margin-top: 25px;
-                padding: 12px 24px;
-                background-color: #0077cc;
-                color: white;
-                text-decoration: none;
-                border-radius: 4px;
-                font-weight: 500;
-                transition: background-color 0.2s ease;
-              }
-
-              .button:hover {
-                background-color: #005fa3;
-              }
-
-              .info-section {
-                margin-top: 20px;
-                padding: 15px;
-                background-color: #f8f9fa;
-                border-radius: 6px;
-              }
-
-              .info-section p {
-                margin: 8px 0;
-                line-height: 1.5;
-              }
-            </style>
-          </head>
-          <body>
-            <div class="container">
-              <h1>Hello ${follower.byUser.firstName}!</h1>
-              <p><strong>Conference Update:</strong> ${conference.title}</p>
-
-              <div class="section-title">Dates</div>
-              <table>
-                <tr>
-                  <th>Event</th>
-                  <th>From</th>
-                  <th>To</th>
+              <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #ffffff;">
+                <tr style="background-color: #f8f9fa;">
+                  <th style="padding: 12px; text-align: left; border: 1px solid #ddd; font-weight: bold; color: #2c3e50;">Event</th>
+                  <th style="padding: 12px; text-align: center; border: 1px solid #ddd; font-weight: bold; color: #2c3e50;">Start Date</th>
+                  <th style="padding: 12px; text-align: center; border: 1px solid #ddd; font-weight: bold; color: #2c3e50;">End Date</th>
                 </tr>
-                ${conferenceDates
-                  .map(
-                    (date) => `
-                  <tr>
-                    <td>${date.name || 'Main Event'}</td>
-                    <td>${date.fromDate ? new Date(date.fromDate).toLocaleDateString() : 'TBD'}</td>
-                    <td>${date.toDate ? new Date(date.toDate).toLocaleDateString() : 'TBD'}</td>
-                  </tr>
-                `,
-                  )
-                  .join('')}
+                <tr>
+                  <td style="padding: 12px; border: 1px solid #ddd; color: #4a5568;">Conference</td>
+                  <td style="padding: 12px; border: 1px solid #ddd; text-align: center; color: #4a5568;">${conferenceDates[0]?.fromDate ? new Date(conferenceDates[0].fromDate).toLocaleDateString() : 'TBD'}</td>
+                  <td style="padding: 12px; border: 1px solid #ddd; text-align: center; color: #4a5568;">${conferenceDates[0]?.toDate ? new Date(conferenceDates[0].toDate).toLocaleDateString() : 'TBD'}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; border: 1px solid #ddd; color: #4a5568;">Abstract Submission</td>
+                  <td style="padding: 12px; border: 1px solid #ddd; text-align: center; color: #4a5568;">${conferenceDates[1]?.fromDate ? new Date(conferenceDates[1].fromDate).toLocaleDateString() : 'TBD'}</td>
+                  <td style="padding: 12px; border: 1px solid #ddd; text-align: center; color: #4a5568;">${conferenceDates[1]?.toDate ? new Date(conferenceDates[1].toDate).toLocaleDateString() : 'TBD'}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; border: 1px solid #ddd; color: #4a5568;">Paper Submission</td>
+                  <td style="padding: 12px; border: 1px solid #ddd; text-align: center; color: #4a5568;">${conferenceDates[2]?.fromDate ? new Date(conferenceDates[2].fromDate).toLocaleDateString() : 'TBD'}</td>
+                  <td style="padding: 12px; border: 1px solid #ddd; text-align: center; color: #4a5568;">${conferenceDates[2]?.toDate ? new Date(conferenceDates[2].toDate).toLocaleDateString() : 'TBD'}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; border: 1px solid #ddd; color: #4a5568;">Review Period</td>
+                  <td style="padding: 12px; border: 1px solid #ddd; text-align: center; color: #4a5568;">${conferenceDates[3]?.fromDate ? new Date(conferenceDates[3].fromDate).toLocaleDateString() : 'TBD'}</td>
+                  <td style="padding: 12px; border: 1px solid #ddd; text-align: center; color: #4a5568;">${conferenceDates[3]?.toDate ? new Date(conferenceDates[3].toDate).toLocaleDateString() : 'TBD'}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; border: 1px solid #ddd; color: #4a5568;">Final Paper Submission</td>
+                  <td style="padding: 12px; border: 1px solid #ddd; text-align: center; color: #4a5568;">${conferenceDates[4]?.fromDate ? new Date(conferenceDates[4].fromDate).toLocaleDateString() : 'TBD'}</td>
+                  <td style="padding: 12px; border: 1px solid #ddd; text-align: center; color: #4a5568;">${conferenceDates[4]?.toDate ? new Date(conferenceDates[4].toDate).toLocaleDateString() : 'TBD'}</td>
+                </tr>
               </table>
 
-              <div class="location">
-                <strong>Location:</strong><br />
-                ${locations.map(loc => 
-                  `${loc.address || ''} ${loc.cityStateProvince || ''} ${loc.country || ''}`
-                ).join(', ')}
-              </div>
+              <p style="color: #4a5568; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
+                For more details, please visit the conference page.
+              </p>
 
-              <div class="info-section">
-                <p><strong>Website:</strong> <a href="${latestOrg.link}" target="_blank">${latestOrg.link}</a></p>
-                <p><strong>Description:</strong> ${latestOrg.summerize || 'No description available'}</p>
+              <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
+                <p style="color: #718096; font-size: 14px; margin: 0;">
+                  Best regards,<br>
+                  ConfHub Team
+                </p>
               </div>
-
-              <a href="${latestOrg.link}" class="button" target="_blank">View More Details</a>
             </div>
-          </body>
-          </html>
+          </div>
         `;
 
         await this.emailService.sendUpdatedConferenceEmail(
           follower.byUser.email,
           follower.byUser.firstName,
-          htmlContent,
+          emailHtml,
         );
       }
 
