@@ -31,6 +31,8 @@ import { AdminDto } from 'src/modules/user/models/admin/admin.dto';
 import { GoogleOAuthGuard } from '../guards/google-auth.guard';
 import { UserPropertyTransformPipe } from 'src/modules/user/pipes/user-property-transform.pipe';
 import { PrismaService } from 'src/modules/common';
+import { PasswordService } from '../services/password.service';
+import { PasswordValidationPipe } from '../pipes/password-validation.pipe';
 
 interface GoogleUser {
   email: string;
@@ -55,6 +57,7 @@ export class AuthController {
     private readonly userVerifyService: UserVerifyService,
     private readonly emailService: EmailService,
     private readonly prismaService: PrismaService,
+    private readonly passwordService: PasswordService,
   ) {}
 
   private async getUserWithVerification(userId: string): Promise<UserDTO> {
@@ -150,10 +153,7 @@ export class AuthController {
     if (user) {
       throw new HttpException('User already exists', 400);
     }
-    const hashedPassword = crypto
-      .createHash('sha256')
-      .update(input.password)
-      .digest('hex');
+    const hashedPassword = this.passwordService.hashPassword(input.password);
     const newUser = (await this.userService.createUser({
       ...input,
       password: hashedPassword,
@@ -386,7 +386,7 @@ export class AuthController {
   async resetPassword(
     @Body('email') email: string,
     @Body('code') code: string,
-    @Body('newPassword') newPassword: string,
+    @Body('newPassword', PasswordValidationPipe) newPassword: string,
   ) {
     const user = (await this.userService.getUserByEmail(
       email,
@@ -400,10 +400,7 @@ export class AuthController {
         user.id,
         code,
       )) as { id: string };
-      const hashedPassword = crypto
-        .createHash('sha256')
-        .update(newPassword)
-        .digest('hex');
+      const hashedPassword = this.passwordService.hashPassword(newPassword);
 
       await this.userService.updateUser(user.id, { password: hashedPassword });
       await this.userVerifyService.disableVerifyCode(verifyCode.id);
@@ -429,23 +426,16 @@ export class AuthController {
   })
   async changePassword(
     @Body('oldPassword') oldPassword: string,
-    @Body('newPassword') newPassword: string,
+    @Body('newPassword', PasswordValidationPipe) newPassword: string,
     @Req() req: RequestWithUser,
   ) {
     const user = await this.getUserWithVerification(req.user.id);
-    const hashedOldPassword = crypto
-      .createHash('sha256')
-      .update(oldPassword)
-      .digest('hex');
-
-    if (hashedOldPassword !== user.password) {
+    
+    if (!this.passwordService.comparePasswords(oldPassword, user.password)) {
       throw new HttpException('Current password is incorrect', 400);
     }
 
-    const hashedNewPassword = crypto
-      .createHash('sha256')
-      .update(newPassword)
-      .digest('hex');
+    const hashedNewPassword = this.passwordService.hashPassword(newPassword);
 
     await this.userService.updateUser(user.id, {
       password: hashedNewPassword,

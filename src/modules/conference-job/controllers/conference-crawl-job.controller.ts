@@ -13,7 +13,6 @@ import { ConferenceService } from '../../conference/services/conference.service'
 import { ConferenceOrganizationSerivce } from '../../conference-organization/services/conference-organization.service';
 import { ConferenceCrawlJobInputDTO } from '../models/conference-crawl-job/conference-crawl-job-input.dto';
 import { ConferenceCrawlJobDTO } from '../models/conference-crawl-job/conference-crawl-job.dto';
-import { ConferenceAttribute } from '../../../constants/conference-attribute';
 import { AdminConferenceService } from 'src/modules/admin-conference/services/admin-conference.service';
 import { NotificationService } from 'src/modules/notify/services/notification.service';
 import { EmailService } from 'src/modules/email-verify/services/email.service';
@@ -29,7 +28,7 @@ export class ConferenceCrawlJobController {
     private readonly adminConferenceService: AdminConferenceService,
     private readonly notificationService: NotificationService,
     private readonly emailService: EmailService,
-    private readonly followService :  FollowConferenceService
+    private readonly followService: FollowConferenceService,
   ) {}
 
   @Get()
@@ -127,11 +126,19 @@ export class ConferenceCrawlJobController {
       });
     const data = result.data;
     await this.adminConferenceService.importConferences(data as any);
-    await this.notificationService.sendUpdateConferenceNotification(conference.id);
-    
+    await this.notificationService.sendUpdateConferenceNotification(
+      conference.id,
+    );
+
     // Notify followers about the conference update
-    await this.followService.notifyFollowersAboutConferenceUpdate(conference.id);
-    
+    try {
+      await this.followService.notifyFollowersAboutConferenceUpdate(
+        conference.id,
+      );
+    } catch (error: unknown) {
+      console.error('Error notifying followers:', error);
+    }
+
     return {
       success: true,
       data: result,
@@ -198,5 +205,4 @@ export class ConferenceCrawlJobController {
       results,
     };
   }
-
 }

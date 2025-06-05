@@ -18,6 +18,8 @@ import {
   RequestMethod,
 } from '@nestjs/common';
 import { RedirectUrlMiddleware } from './middlewares/redirect-url.middleware';
+import { GoogleOAuthGuard } from './guards/google-auth.guard';
+import { PasswordService } from './services/password.service';
 
 @Module({
   imports: [
@@ -41,8 +43,10 @@ import { RedirectUrlMiddleware } from './middlewares/redirect-url.middleware';
     JwtAdminStrategy,
     JwtUserStrategy,
     GoogleStrategy,
+    GoogleOAuthGuard,
+    PasswordService,
   ],
-  exports: [AuthService],
+  exports: [AuthService, PasswordService],
 })
 export class AuthModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
