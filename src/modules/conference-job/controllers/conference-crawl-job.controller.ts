@@ -25,9 +25,8 @@ import { AdminConferenceService } from 'src/modules/admin-conference/services/ad
 import { NotificationService } from 'src/modules/notify/services/notification.service';
 import { EmailService } from 'src/modules/email-verify/services/email.service';
 import { FollowConferenceService } from 'src/modules/follow-conference/services/follow-conference.service';
-import { ConferenceCrawlUpdateRequestDto } from '../models/crawl-request/conference-crawl-update-request.dto';
 import { Request } from 'express';
-import { JWTGuardAdmin, JWTGuardUser } from 'src/modules/auth/guards/jwt.guard';
+import { JWTGuardUser } from 'src/modules/auth/guards/jwt.guard';
 import { UserService } from 'src/modules/user/services/user.service';
 
 interface RequestWithUser extends Request {

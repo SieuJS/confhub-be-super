@@ -137,7 +137,6 @@ export class ConferenceService {
                 : {}),
             },
           };
-    console.log(JSON.stringify(include));
     // Only use standard orderBy for non-rank/source fields
     if (sortOptions?.sortBy !== 'rank' && sortOptions?.sortBy !== 'source') {
       orderBy = {
@@ -617,8 +616,8 @@ export class ConferenceService {
             ),
             topics: [],
             dates: {
-              fromDate: new Date(),
-              toDate: new Date(),
+              fromDate: null,
+              toDate: null,
               name: '',
               type: 'conferenceDates',
             },
@@ -656,8 +655,8 @@ export class ConferenceService {
             researchFields: [],
             topics: [],
             dates: {
-              fromDate: new Date(),
-              toDate: new Date(),
+              fromDate: null,
+              toDate: null,
               name: '',
               type: 'conferenceDates',
             },
@@ -673,49 +672,15 @@ export class ConferenceService {
           await this.conferenceOraganizationService.getDatesByOrganizedId(
             organization.id,
           );
-        if (dates.length === 0) {
-          return {
-            id: conference.id,
-            title: conference.title,
-            acronym: conference.acronym,
-            location: {
-              cityStateProvince: locations[0].cityStateProvince ?? '',
-              country: locations[0].country ?? '',
-              address: locations[0].address ?? '',
-              continent: locations[0].continent ?? '',
-            },
-            rank: conference.ranks[0]?.byRank?.name,
-            source: conference.ranks[0]?.byRank?.belongsToSource.name,
-            year: conference.ranks[0]?.year,
-            researchFields: conference.ranks.map(
-              (rank) => rank.inFieldOfResearch.name,
-            ),
-            topics,
-            dates: {
-              fromDate: new Date(),
-              toDate: new Date(),
-              name: '',
-              type: 'conferenceDates',
-            },
-            link: organization.link,
-            createdAt: conference.createdAt,
-            updatedAt: conference.updatedAt,
-            creatorId: conference.creatorId,
-            adminId: conference.adminId,
-            accessType: organization.accessType,
-            status: conference.status,
-          };
-        }
-
-        const conferenceDTO: ConferenceDTO = {
+        return {
           id: conference.id,
           title: conference.title,
           acronym: conference.acronym,
           location: {
-            cityStateProvince: locations[0].cityStateProvince || '',
-            country: locations[0].country || '',
-            address: locations[0].address || '',
-            continent: locations[0].continent || '',
+            cityStateProvince: locations[0].cityStateProvince ?? '',
+            country: locations[0].country ?? '',
+            address: locations[0].address ?? '',
+            continent: locations[0].continent ?? '',
           },
           rank: conference.ranks[0]?.byRank?.name,
           source: conference.ranks[0]?.byRank?.belongsToSource.name,
@@ -723,21 +688,21 @@ export class ConferenceService {
           researchFields: conference.ranks.map(
             (rank) => rank.inFieldOfResearch.name,
           ),
-          topics: topics.map((topic) => topic.inTopic.name),
-          dates: dates
-            .filter((date) => {
-              return date.type === 'conferenceDates';
-            })
-            .map((date) => {
-              return {
-                fromDate: date.fromDate,
-                toDate: date.toDate,
-                name: date.name,
-                type: date.type,
-                createdAt: date.createdAt,
-                updatedAt: date.updatedAt,
-              };
-            })[0],
+          topics,
+          dates:
+            dates.length > 0
+              ? {
+                  fromDate: dates[0].fromDate,
+                  toDate: dates[0].toDate,
+                  name: dates[0].name,
+                  type: dates[0].type,
+                }
+              : {
+                  fromDate: null,
+                  toDate: null,
+                  name: '',
+                  type: 'conferenceDates',
+                },
           link: organization.link,
           createdAt: conference.createdAt,
           updatedAt: conference.updatedAt,
@@ -746,7 +711,6 @@ export class ConferenceService {
           accessType: organization.accessType,
           status: conference.status,
         };
-        return conferenceDTO;
       }),
     );
     return {
@@ -1472,8 +1436,8 @@ export class ConferenceService {
         dates: organization?.conferenceDates.find(
           (date) => date.type === 'conferenceDates',
         ) ?? {
-          fromDate: new Date(),
-          toDate: new Date(),
+          fromDate: null,
+          toDate: null,
           type: 'conferenceDates',
           name: '',
           createdAt: new Date(),
