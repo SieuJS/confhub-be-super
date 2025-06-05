@@ -41,6 +41,9 @@ export class NotificationService {
         include: {
           belongToNotify: true,
         },
+        orderBy: {
+          createdAt: 'desc',
+        },
       }),
       this.prismaService.$queryRaw<JournalNotificationRecord[]>(
         Prisma.sql`SELECT * FROM "JournalNotifications" WHERE "userId" = ${userId}`,

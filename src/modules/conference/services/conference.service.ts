@@ -638,36 +638,6 @@ export class ConferenceService {
           await this.conferenceOraganizationService.getLocationsByOrganizedId(
             organization.id,
           );
-        if (locations.length === 0) {
-          return {
-            id: conference.id,
-            title: conference.title,
-            acronym: conference.acronym,
-            location: {
-              cityStateProvince: '',
-              country: '',
-              address: '',
-              continent: '',
-            },
-            rank: '',
-            source: '',
-            year: 0,
-            researchFields: [],
-            topics: [],
-            dates: {
-              fromDate: null,
-              toDate: null,
-              name: '',
-              type: 'conferenceDates',
-            },
-            link: '',
-            createdAt: conference.createdAt,
-            updatedAt: conference.updatedAt,
-            creatorId: conference.creatorId,
-            accessType: '',
-            status: conference.status,
-          };
-        }
         const dates =
           await this.conferenceOraganizationService.getDatesByOrganizedId(
             organization.id,
@@ -676,19 +646,19 @@ export class ConferenceService {
           id: conference.id,
           title: conference.title,
           acronym: conference.acronym,
-          location: {
+          location: locations.length > 0 ? {
             cityStateProvince: locations[0].cityStateProvince ?? '',
             country: locations[0].country ?? '',
             address: locations[0].address ?? '',
             continent: locations[0].continent ?? '',
-          },
+          } : null,
           rank: conference.ranks[0]?.byRank?.name,
           source: conference.ranks[0]?.byRank?.belongsToSource.name,
           year: conference.ranks[0]?.year,
           researchFields: conference.ranks.map(
             (rank) => rank.inFieldOfResearch.name,
           ),
-          topics,
+          topics: topics.map((topic) => topic.inTopic.name),
           dates:
             dates.length > 0
               ? {
