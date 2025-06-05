@@ -57,12 +57,31 @@ export class FollowConferenceService {
                     ${
                       conferenceDates.length > 0
                         ? `
-                        <li><strong>Dates:</strong> ${conferenceDates
-                          .map(
-                            (date) =>
-                              `${date.fromDate ? new Date(date.fromDate).toLocaleDateString() : 'TBD'} - ${date.toDate ? new Date(date.toDate).toLocaleDateString() : 'TBD'}`,
-                          )
-                          .join(', ')}</li>
+                        <li>
+                          <strong>Dates:</strong>
+                          <table style="border-collapse: collapse; margin-top: 5px;">
+                            <thead>
+                              <tr>
+                                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Event</th>
+                                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">From</th>
+                                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">To</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              ${conferenceDates
+                                .map(
+                                  (date) => `
+                                <tr>
+                                  <td style="border: 1px solid #ddd; padding: 8px;">${date.name || 'Main Event'}</td>
+                                  <td style="border: 1px solid #ddd; padding: 8px;">${date.fromDate ? new Date(date.fromDate).toLocaleDateString() : 'TBD'}</td>
+                                  <td style="border: 1px solid #ddd; padding: 8px;">${date.toDate ? new Date(date.toDate).toLocaleDateString() : 'TBD'}</td>
+                                </tr>
+                              `,
+                                )
+                                .join('')}
+                            </tbody>
+                          </table>
+                        </li>
                     `
                         : ''
                     }

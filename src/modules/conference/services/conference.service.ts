@@ -661,12 +661,7 @@ export class ConferenceService {
           topics: topics.map((topic) => topic.inTopic.name),
           dates:
             dates.length > 0
-              ? {
-                  fromDate: dates[0].fromDate,
-                  toDate: dates[0].toDate,
-                  name: dates[0].name,
-                  type: dates[0].type,
-                }
+              ? dates.filter((date) => date.type === 'conferenceDates')[0]
               : {
                   fromDate: null,
                   toDate: null,
