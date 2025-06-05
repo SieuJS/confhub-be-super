@@ -249,11 +249,7 @@ export class ConferenceCrawlJobService {
         this.httpService
           .post(
             CRAWL_URL + '/crawl-conferences',
-            [
-              {
-                ...input,
-              },
-            ],
+            input,
             {
               params: { dataSource: 'client' },
               headers: {
@@ -279,22 +275,11 @@ export class ConferenceCrawlJobService {
         this.httpService
           .post(
             CRAWL_URL + '/crawl-conferences',
-            [
-              {
-                ...input,
-              },
-            ],
+            input,
             {
-              params: {
-                dataSource: 'client',
-                models: {
-                  determineLinks: 'non-tuned',
-                  extractInfo: 'non-tuned',
-                  extractCfp: 'non-tuned',
-                },
-                headers: {
-                  'Content-Type': 'application/json',
-                },
+              params: { dataSource: 'client' },
+              headers: {
+                'Content-Type': 'application/json',
               },
             },
           )
@@ -304,7 +289,6 @@ export class ConferenceCrawlJobService {
             }),
           ),
       );
-    console.log('data', data);
     return data;
   }
 
@@ -377,16 +361,9 @@ export class ConferenceCrawlJobService {
       await firstValueFrom(
         this.httpService
           .post(CRAWL_URL + '/crawl-conferences', inputs, {
-            params: {
-              dataSource: 'client',
-              models: {
-                determineLinks: 'non-tuned',
-                extractInfo: 'non-tuned',
-                extractCfp: 'non-tuned',
-              },
-              headers: {
-                'Content-Type': 'application/json',
-              },
+            params: { dataSource: 'client' },
+            headers: {
+              'Content-Type': 'application/json',
             },
           })
           .pipe(

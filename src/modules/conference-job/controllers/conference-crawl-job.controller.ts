@@ -6,9 +6,17 @@ import {
   Query,
   Param,
   HttpException,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
 import { ConferenceCrawlJobService } from '../services';
-import { ApiTags, ApiQuery, ApiParam, ApiBody } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiQuery,
+  ApiParam,
+  ApiBody,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { ConferenceService } from '../../conference/services/conference.service';
 import { ConferenceOrganizationSerivce } from '../../conference-organization/services/conference-organization.service';
 import { ConferenceCrawlJobInputDTO } from '../models/conference-crawl-job/conference-crawl-job-input.dto';
@@ -17,6 +25,19 @@ import { AdminConferenceService } from 'src/modules/admin-conference/services/ad
 import { NotificationService } from 'src/modules/notify/services/notification.service';
 import { EmailService } from 'src/modules/email-verify/services/email.service';
 import { FollowConferenceService } from 'src/modules/follow-conference/services/follow-conference.service';
+import { ConferenceCrawlUpdateRequestDto } from '../models/crawl-request/conference-crawl-update-request.dto';
+import { Request } from 'express';
+import { JWTGuardAdmin, JWTGuardUser } from 'src/modules/auth/guards/jwt.guard';
+
+interface RequestWithUser extends Request {
+  user: {
+    id: string;
+    email: string;
+    firstName?: string;
+    lastName?: string;
+    role?: string;
+  };
+}
 
 @ApiTags('conference-crawl-job')
 @Controller('conference-crawl-job')
@@ -70,7 +91,7 @@ export class ConferenceCrawlJobController {
       },
     },
   })
-  async scheduleCronUpdate(
+  scheduleCronUpdate(
     @Body('schedule') schedule: string,
     @Body('batchSize') batchSize: number = 10,
   ) {
@@ -81,26 +102,43 @@ export class ConferenceCrawlJobController {
   }
 
   @Post('cancel-cron')
-  async cancelCronUpdate() {
+  cancelCronUpdate() {
     return this.conferenceCrawlJobService.cancelCronUpdate();
   }
 
   @Get('cron-status')
-  async getCronStatus() {
+  getCronStatus() {
     return this.conferenceCrawlJobService.getCronStatus();
   }
 
   @Get('start')
-  async startCrawl() {
+  async startCrawl(@Req() req: RequestWithUser) {
+    const description =
+      req.user.role === 'admin'
+        ? 'admin'
+        : `${req.user.firstName} ${req.user.lastName} (${req.user.email})`;
+
     return this.conferenceCrawlJobService.fetchConferenceCrawlData({
-      Title: 'AAAI Conference on Human Computation and Crowdsourcing',
-      Acronym: 'HCOMP',
+      items: [
+        {
+          Title: 'AAAI Conference on Human Computation and Crowdsourcing',
+          Acronym: 'HCOMP',
+        },
+      ],
+      models: {
+        determineLinks: 'non-tuned',
+        extractInfo: 'non-tuned',
+        extractCfp: 'non-tuned',
+      },
+      description,
     });
   }
 
   @Post('update/:id')
   @ApiParam({ name: 'id', description: 'Conference ID' })
-  async updateConference(@Param('id') id: string) {
+  @ApiBearerAuth('access-token')
+  @UseGuards(JWTGuardUser)
+  async updateConference(@Param('id') id: string, @Req() req: RequestWithUser) {
     // Get conference details
     const conference = await this.conferenceService.getConferenceById(id);
     if (!conference) {
@@ -115,15 +153,31 @@ export class ConferenceCrawlJobController {
     if (!organization) {
       throw new HttpException('Organization not found', 404);
     }
-    // Wait for job completion
+
+    const description =
+      req.user.role === 'admin'
+        ? 'admin'
+        : `${req.user.firstName} ${req.user.lastName} (${req.user.email})`;
+
     const result =
       await this.conferenceCrawlJobService.fetchUpdateConferenceCrawlData({
-        Title: conference.title,
-        Acronym: conference.acronym,
-        mainLink: organization.link || '',
-        cfpLink: organization.cfpLink || '',
-        impLink: organization.impLink || '',
+        items: [
+          {
+            Title: conference.title,
+            Acronym: conference.acronym,
+            mainLink: organization.link || '',
+            cfpLink: organization.cfpLink || '',
+            impLink: organization.impLink || '',
+          },
+        ],
+        models: {
+          determineLinks: 'non-tuned',
+          extractInfo: 'non-tuned',
+          extractCfp: 'non-tuned',
+        },
+        description,
       });
+
     const data = result.data;
     await this.adminConferenceService.importConferences(data as any);
     await this.notificationService.sendUpdateConferenceNotification(
@@ -147,10 +201,18 @@ export class ConferenceCrawlJobController {
 
   @Post('schedule-update')
   @ApiQuery({ name: 'batchSize', required: false, type: Number })
-  async scheduleUpdate(@Query('batchSize') batchSize: number = 10) {
+  async scheduleUpdate(
+    @Query('batchSize') batchSize: number = 10,
+    @Req() req: RequestWithUser,
+  ) {
     // Get all conferences
     const paginatedConferences = await this.conferenceService.getConferences();
     const conferences = paginatedConferences.payload;
+
+    const description =
+      req.user.role === 'admin'
+        ? 'admin'
+        : `${req.user.firstName} ${req.user.lastName} (${req.user.email})`;
 
     // Process conferences in batches
     const batches: ConferenceCrawlJobInputDTO[][] = [];
@@ -175,6 +237,7 @@ export class ConferenceCrawlJobController {
             status: 'PENDING',
             progress: 0,
             message: 'Pending',
+            description,
           } as ConferenceCrawlJobInputDTO;
         }),
       );

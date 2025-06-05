@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
@@ -57,8 +58,18 @@ export class ConferenceImportProcessor extends WorkerHost {
 
       const crawlDataResponse =
         await this.conferenceCrawlJobService.fetchConferenceCrawlData({
-          Title: job.data.conferenceTitle,
-          Acronym: job.data.conferenceAcronym,
+          items: [
+            {
+              Title: job.data.conferenceTitle,
+              Acronym: job.data.conferenceAcronym,
+            },
+          ],
+          models: {
+            determineLinks: 'tuned',
+            extractInfo: 'non-tuned',
+            extractCfp: 'non-tuned',
+          },
+          description: 'Crawl conference data',
         });
       console.log('response', crawlDataResponse);
       if (crawlDataResponse.data.length === 0) {
@@ -269,11 +280,21 @@ export class ConferenceImportProcessor extends WorkerHost {
         // Fetch updated conference crawl data
         const response =
           await this.conferenceCrawlJobService.fetchUpdateConferenceCrawlData({
-            Title: jobData.conferenceTitle,
-            Acronym: jobData.conferenceAcronym,
-            mainLink: jobData.mainLink,
-            cfpLink: jobData.cfpLink,
-            impLink: jobData.impLink,
+            items: [
+              {
+                Title: jobData.conferenceTitle,
+                Acronym: jobData.conferenceAcronym,
+                mainLink: jobData.mainLink,
+                cfpLink: jobData.cfpLink,
+                impLink: jobData.impLink,
+              },
+            ],
+            models: {
+              determineLinks: 'non-tuned',
+              extractInfo: 'non-tuned',
+              extractCfp: 'non-tuned',
+            },
+            description: 'Update conference data',
           });
 
         console.log('Crawl data response:', response);

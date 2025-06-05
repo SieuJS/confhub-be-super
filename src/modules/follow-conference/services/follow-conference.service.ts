@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/modules/common';
 import { EmailService } from 'src/modules/email-verify/services/email.service';
