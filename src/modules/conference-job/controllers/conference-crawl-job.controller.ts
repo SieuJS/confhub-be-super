@@ -28,6 +28,7 @@ import { FollowConferenceService } from 'src/modules/follow-conference/services/
 import { ConferenceCrawlUpdateRequestDto } from '../models/crawl-request/conference-crawl-update-request.dto';
 import { Request } from 'express';
 import { JWTGuardAdmin, JWTGuardUser } from 'src/modules/auth/guards/jwt.guard';
+import { UserService } from 'src/modules/user/services/user.service';
 
 interface RequestWithUser extends Request {
   user: {
@@ -50,6 +51,7 @@ export class ConferenceCrawlJobController {
     private readonly notificationService: NotificationService,
     private readonly emailService: EmailService,
     private readonly followService: FollowConferenceService,
+    private readonly userService: UserService,
   ) {}
 
   @Get()
@@ -154,10 +156,15 @@ export class ConferenceCrawlJobController {
       throw new HttpException('Organization not found', 404);
     }
 
+    const user = await this.userService.getUserById(req.user.id);
+    if (!user) {
+      throw new HttpException('User not found', 404);
+    }
+    console.log(`${user.firstName} ${user.lastName} (${user.email})`);
     const description =
       req.user.role === 'admin'
         ? 'admin'
-        : `${req.user.firstName} ${req.user.lastName} (${req.user.email})`;
+        : `${user.firstName} ${user.lastName} (${user.email})`;
 
     const result =
       await this.conferenceCrawlJobService.fetchUpdateConferenceCrawlData({
