@@ -21,6 +21,7 @@ export class FollowConferenceService {
         },
         include: {
           belongsTo: true,
+          byUser: true,
         },
       });
 
@@ -49,68 +50,146 @@ export class FollowConferenceService {
       const conferenceDates = latestOrg?.conferenceDates || [];
       const locations = latestOrg?.locations || [];
 
-      // Prepare email content
-      const emailContent = `
-                <h2>Conference Update: ${conference.title}</h2>
-                <p>The conference you are following has been updated with new information:</p>
-                <ul>
-                    ${
-                      conferenceDates.length > 0
-                        ? `
-                        <li>
-                          <strong>Dates:</strong>
-                          <table style="border-collapse: collapse; margin-top: 5px;">
-                            <thead>
-                              <tr>
-                                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Event</th>
-                                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">From</th>
-                                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">To</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              ${conferenceDates
-                                .map(
-                                  (date) => `
-                                <tr>
-                                  <td style="border: 1px solid #ddd; padding: 8px;">${date.name || 'Main Event'}</td>
-                                  <td style="border: 1px solid #ddd; padding: 8px;">${date.fromDate ? new Date(date.fromDate).toLocaleDateString() : 'TBD'}</td>
-                                  <td style="border: 1px solid #ddd; padding: 8px;">${date.toDate ? new Date(date.toDate).toLocaleDateString() : 'TBD'}</td>
-                                </tr>
-                              `,
-                                )
-                                .join('')}
-                            </tbody>
-                          </table>
-                        </li>
-                    `
-                        : ''
-                    }
-                    ${
-                      locations.length > 0
-                        ? `
-                        <li><strong>Location:</strong> ${locations
-                          .map(
-                            (loc) =>
-                              `${loc.address || ''} ${loc.cityStateProvince || ''} ${loc.country || ''}`,
-                          )
-                          .join(', ')}</li>
-                    `
-                        : ''
-                    }
-                </ul>
-                <p>Visit our platform to see all the updates and more details about this conference.</p>
-            `;
-
       // Send email to each follower
       for (const follower of followers) {
-        const user = await this.userService.getUserById(follower.userId);
-        if (user && user.email) {
-          await this.emailService.sendUpdatedConferenceEmail(
-            user.email,
-            user.firstName || 'User',
-            emailContent,
-          );
-        }
+        const htmlContent = `
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <title>Conference Update</title>
+            <style>
+              body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background-color: #f4f6f8;
+                margin: 0;
+                padding: 20px;
+              }
+
+              .container {
+                max-width: 600px;
+                margin: auto;
+                background: #fff;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+                padding: 30px;
+              }
+
+              h1 {
+                font-size: 24px;
+                color: #333;
+                margin-bottom: 20px;
+              }
+
+              .section-title {
+                margin-top: 30px;
+                font-size: 18px;
+                color: #2c3e50;
+                border-bottom: 2px solid #e0e0e0;
+                padding-bottom: 5px;
+              }
+
+              table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 15px;
+              }
+
+              th, td {
+                text-align: left;
+                padding: 12px;
+                border-bottom: 1px solid #ddd;
+              }
+
+              th {
+                background-color: #f2f2f2;
+                font-weight: 600;
+              }
+
+              .location {
+                margin-top: 20px;
+                font-size: 16px;
+                line-height: 1.5;
+              }
+
+              .button {
+                display: inline-block;
+                margin-top: 25px;
+                padding: 12px 24px;
+                background-color: #0077cc;
+                color: white;
+                text-decoration: none;
+                border-radius: 4px;
+                font-weight: 500;
+                transition: background-color 0.2s ease;
+              }
+
+              .button:hover {
+                background-color: #005fa3;
+              }
+
+              .info-section {
+                margin-top: 20px;
+                padding: 15px;
+                background-color: #f8f9fa;
+                border-radius: 6px;
+              }
+
+              .info-section p {
+                margin: 8px 0;
+                line-height: 1.5;
+              }
+            </style>
+          </head>
+          <body>
+            <div class="container">
+              <h1>Hello ${follower.byUser.firstName}!</h1>
+              <p><strong>Conference Update:</strong> ${conference.title}</p>
+
+              <div class="section-title">Dates</div>
+              <table>
+                <tr>
+                  <th>Event</th>
+                  <th>From</th>
+                  <th>To</th>
+                </tr>
+                ${conferenceDates
+                  .map(
+                    (date) => `
+                  <tr>
+                    <td>${date.name || 'Main Event'}</td>
+                    <td>${date.fromDate ? new Date(date.fromDate).toLocaleDateString() : 'TBD'}</td>
+                    <td>${date.toDate ? new Date(date.toDate).toLocaleDateString() : 'TBD'}</td>
+                  </tr>
+                `,
+                  )
+                  .join('')}
+              </table>
+
+              <div class="location">
+                <strong>Location:</strong><br />
+                ${locations.map(loc => 
+                  `${loc.address || ''} ${loc.cityStateProvince || ''} ${loc.country || ''}`
+                ).join(', ')}
+              </div>
+
+              <div class="info-section">
+                <p><strong>Website:</strong> <a href="${latestOrg.link}" target="_blank">${latestOrg.link}</a></p>
+                <p><strong>Description:</strong> ${latestOrg.summerize || 'No description available'}</p>
+              </div>
+
+              <a href="${latestOrg.link}" class="button" target="_blank">View More Details</a>
+            </div>
+          </body>
+          </html>
+        `;
+
+        await this.emailService.sendUpdatedConferenceEmail(
+          follower.byUser.email,
+          follower.byUser.firstName,
+          htmlContent,
+        );
       }
 
       return {
