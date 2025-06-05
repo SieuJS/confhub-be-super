@@ -143,7 +143,7 @@ export class ConferenceOrganizationSerivce {
           },
         },
         orderBy: {
-          updatedAt: 'asc',
+          updatedAt: 'desc',
         },
       });
     if (!organizedDb) {
