@@ -1064,7 +1064,15 @@ export class ConferenceService {
             name: date.name,
           })),
         }))
-        .sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime()),
+        .sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime()).map((org , index) => {
+          if(index === 0) {
+            return org
+          }
+          return {
+            locations : org.locations,
+            conferenceDates : org.conferenceDates,
+          }
+        }),
       feedbacks: conference.feedbacks.map((feedback) => ({
         id: feedback.id,
         creatorId: feedback.creatorId,
