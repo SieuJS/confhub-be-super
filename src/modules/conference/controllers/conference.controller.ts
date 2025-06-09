@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
+
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
@@ -348,5 +348,41 @@ export class ConferenceController {
       throw new HttpException('Conference not found1', 404);
     }
     return conferenceDetail;
+  }
+
+  @Get('check-exists')
+  @ApiQuery({ name: 'title', required: false, type: String })
+  @ApiQuery({ name: 'acronym', required: false, type: String })
+  @ApiResponse({
+    status: 200,
+    description: 'Check if conference title or acronym exists',
+    schema: {
+      type: 'object',
+      properties: {
+        exists: { type: 'boolean' },
+        message: { type: 'string' },
+      },
+    },
+  })
+  async checkConferenceExists(
+    @Query('title') title?: string,
+    @Query('acronym') acronym?: string,
+  ) {
+    if (!title && !acronym) {
+      throw new HttpException('Title or acronym must be provided', 400);
+    }
+
+    const conference =
+      await this.conferenceService.getConferenceByAcronymAndTitle(
+        title || '',
+        acronym || '',
+      );
+
+    return {
+      exists: !!conference,
+      message: conference
+        ? 'Conference already exists'
+        : 'Conference does not exist',
+    };
   }
 }
