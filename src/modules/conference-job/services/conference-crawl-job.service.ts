@@ -446,4 +446,19 @@ export class ConferenceCrawlJobService {
       data,
     });
   }
+
+  async getConferenceToCrawl(take: number = 10) {
+    return this.prismaService.conferences.findMany({
+      where: {
+        organizations: {
+          some: {
+            link: {
+              not: '',
+            },
+          },
+        },
+      },
+      take,
+    });
+  }
 }

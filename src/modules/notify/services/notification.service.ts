@@ -581,4 +581,25 @@ export class NotificationService {
 
     return this.transformJournalNotification(notifications[0]);
   }
+
+  async isDisabledNotificationType(
+    userId: string,
+    type: string,
+  ): Promise<boolean> {
+    const notificationType = await this.txHost.tx.notificationsTypes.findFirst({
+      where: {
+        name: type,
+      },
+    });
+    if (!notificationType) {
+      throw new HttpException('Notification type not found', 400);
+    }
+    const setting = await this.txHost.tx.notificationSettings.findFirst({
+      where: {
+        userId,
+        notificationId: notificationType.id,
+      },
+    });
+    return setting ? !setting.isEnabled : true;
+  }
 }

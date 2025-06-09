@@ -27,7 +27,7 @@ import {
 } from 'src/modules/conference-job/utils/date-parse';
 import { TransactionHost } from '@nestjs-cls/transactional';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
-import { ConferencePostRequestStatus } from '../models/conference-request-post.dto';
+import { ConferencePostRequestDTO, ConferencePostRequestStatus } from '../models/conference-request-post.dto';
 import { ConferenceSaveDto } from '../models/conference-save.dto';
 import { PrismaClient } from 'generated/prisma_client';
 import { ConferenceHistoryDto } from '../models/admin-conference.dto';
@@ -381,7 +381,7 @@ export class AdminConferenceService {
     };
   }
 
-  async importEvaluateConference(
+  async importEvaluateConference (
     conference: ConferenceEvaluationRow | undefined,
   ) {
     if (!conference) {
@@ -474,11 +474,6 @@ export class AdminConferenceService {
       }
       return true;
     } catch (error) {
-      console.log('error', error);
-      // throw new HttpException({
-      //   message: 'error when importing conference',
-      //   error: error,
-      // }, 400);
       this.txHost.tx.errorConferenceLogger.create({
         data: {
           conferenceId: conferenceInDB.id,
@@ -560,13 +555,13 @@ export class AdminConferenceService {
     userId: string,
     adminId: string | null,
     data: { conferenceId: string; message: string },
-  ) {
+  ) : Promise<ConferencePostRequestDTO> {
     const request = await this.prismaService.conferencePostRequests.create({
       data: {
         userId,
         adminId,
         conferenceId: data.conferenceId,
-        status: 'PENDING',
+        status: ConferencePostRequestStatus.PENDING,
         message: data.message,
       },
       include: {
@@ -707,7 +702,7 @@ export class AdminConferenceService {
     });
 
     // If status is REJECTED, remove the conference
-    if (data.status === 'REJECTED') {
+    if (data.status.toLocaleUpperCase().trim() === 'REJECTED') {
       await this.removeConference(request.conferenceId);
     } else {
       // Otherwise update conference status

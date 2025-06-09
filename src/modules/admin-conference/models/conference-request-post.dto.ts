@@ -28,7 +28,7 @@ export class ConferencePostRequestDTO {
 
   @ApiProperty({ description: 'Request status', enum: ConferencePostRequestStatus })
   @IsEnum(ConferencePostRequestStatus)
-  status: ConferencePostRequestStatus;
+  status: ConferencePostRequestStatus | string;
 
   @ApiProperty({ description: 'Request message' })
   @IsString()
@@ -60,7 +60,7 @@ export class ConferencePostRequestDTO {
     id: string;
     email: string;
     fullName: string;
-  };
+  } | null;
 }
 
 export class CreateConferencePostRequestDTO {

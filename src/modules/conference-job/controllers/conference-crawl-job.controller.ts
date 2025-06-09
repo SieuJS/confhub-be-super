@@ -131,12 +131,8 @@ export class ConferenceCrawlJobController {
     try {
       // Get all conferences
       console.log('[Start Cron Immediate] Fetching conferences...');
-      const paginatedConferences =
-        await this.conferenceService.getConferences();
-      const conferences = paginatedConferences.payload;
-      console.log(
-        `[Start Cron Immediate] Found ${conferences.length} conferences`,
-      );
+      const conferences =
+        await this.conferenceCrawlJobService.getConferenceToCrawl();
 
       const description =
         req.user.role === 'admin'
@@ -158,10 +154,10 @@ export class ConferenceCrawlJobController {
               await this.conferenceOrganizationService.getFirstOrganizationsByConferenceId(
                 conference.id,
               );
-            // if (!organization) {
-            //   console.log(`[Start Cron Immediate] No organization found for conference: ${conference.title}`);
-            //   return null;
-            // }
+            if (!organization) {
+              console.log(`[Start Cron Immediate] No organization found for conference: ${conference.title}`);
+              return null;
+            }
             return {
               conferenceId: conference.id,
               conferenceTitle: conference.title,

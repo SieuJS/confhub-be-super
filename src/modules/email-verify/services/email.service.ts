@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import * as brevo from '@getbrevo/brevo';
 import { Service } from 'src/modules/tokens';
 import { Config, LoggerService, PrismaService } from 'src/modules/common';
+import { ConferencePostRequestDTO } from 'src/modules/admin-conference/models/conference-request-post.dto';
 @Injectable()
 export class EmailService {
   private brevoClient: brevo.TransactionalEmailsApi;
@@ -254,6 +255,65 @@ export class EmailService {
         console.error('Status:', error.response.status);
         console.error('Body:', error.response.body || error.response.text);
       }
+    }
+  }
+
+  async sendConferenceRequestEmail(
+    conferencePostRequest: ConferencePostRequestDTO,
+  ) {
+    const sendSmtpEmail = new brevo.SendSmtpEmail();
+    const { senderEmail, senderName } = await this.getSender();
+    const apiInstance = this.brevoClient;
+    const setting = await this.isExistsSetting();
+    if (!setting) {
+      this.logger.error('Brevo setting not found');
+      return;
+    }
+    apiInstance.setApiKey(
+      brevo.TransactionalEmailsApiApiKeys.apiKey,
+      setting.apiKey,
+    );
+
+    sendSmtpEmail.subject = `Conference Request - ${conferencePostRequest.conference.title}`;
+    sendSmtpEmail.htmlContent = `
+       <h2>Conference Request Status Update</h2>
+    <p>
+        <strong>User:</strong> ${conferencePostRequest.user.firstName} ${conferencePostRequest.user.lastName} (${conferencePostRequest.user.email})
+    </p>
+    <p>
+        <strong>Conference:</strong> ${conferencePostRequest.conference.title} (${conferencePostRequest.conference.acronym})
+    </p>
+    <p>
+        <strong>Status:</strong> <span style="color: #007bff;">${conferencePostRequest.status}</span>
+    </p>
+    <p>
+        <strong>Updated By:</strong> ${conferencePostRequest.admin?.fullName ?? 'System'} (${conferencePostRequest.admin?.email ?? '-'})
+    </p>
+    <p>
+        <strong>Description:</strong> ${conferencePostRequest.message}
+    </p>
+    <hr/>
+    <small>This is an automated notification from ConfHub. Please do not reply to this email.</small>
+    `;
+
+    sendSmtpEmail.sender = { name: senderName, email: senderEmail };
+    sendSmtpEmail.to = [
+      {
+        email: conferencePostRequest.user.email,
+        name: `${conferencePostRequest.user.firstName} ${conferencePostRequest.user.lastName}`,
+      },
+    ];
+
+    try {
+      const data = await apiInstance.sendTransacEmail(sendSmtpEmail);
+      return data;
+    } catch (error: any) {
+      console.error('Error sending conference request email via Brevo:');
+      if (error.response) {
+        console.error('Status:', error.response.status);
+        console.error('Body:', error.response.body || error.response.text);
+      }
+      throw new Error('Failed to send conference request email.');
     }
   }
 }
