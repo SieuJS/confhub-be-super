@@ -255,4 +255,35 @@ export class ConferenceOrganizationSerivce {
       },
     });
   }
+
+  async findByLink(link: string): Promise<OrganizedDTO | null> {
+    const result = await this.prismaService.conferenceOrganizations.findFirst({
+      where: {
+        isAvailable: true,
+        link: link,
+      },
+      include: {
+        topics: {
+          include: {
+            inTopic: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!result) {
+      return null;
+    }
+
+    return {
+      ...result,
+      topics: result.topics.map((topic) => topic.inTopic.name),
+      locations: [],
+      conferenceDates: [],
+    };
+  }
 }

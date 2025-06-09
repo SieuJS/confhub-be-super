@@ -50,6 +50,7 @@ import { AddConferenceBody } from '../models/conference-request/add-conference-b
 import { JWTGuardUser } from 'src/modules/auth/guards/jwt.guard';
 import { Transactional } from '@nestjs-cls/transactional';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
+import axios from 'axios';
 
 @ApiTags('/conference')
 @Controller('conference')
@@ -333,24 +334,7 @@ export class ConferenceController {
     );
     return conferences;
   }
-
-  @Get(':id')
-  async getConferenceDetail(
-    @Param('id') id: string,
-  ): Promise<ConferenceDetailDTO | HttpException> {
-    const conference = await this.conferenceService.getConferenceById(id);
-    if (!conference) {
-      throw new HttpException('Conference not found1', 404);
-    }
-    const conferenceDetail =
-      await this.conferenceService.getConferenceByIdWithDetail(id);
-    if (!conferenceDetail) {
-      throw new HttpException('Conference not found1', 404);
-    }
-    return conferenceDetail;
-  }
-
-  @Get('check-exists')
+    @Get('check-exists')
   @ApiQuery({ name: 'title', required: false, type: String })
   @ApiQuery({ name: 'acronym', required: false, type: String })
   @ApiResponse({
@@ -385,4 +369,81 @@ export class ConferenceController {
         : 'Conference does not exist',
     };
   }
+
+  @Get('check-link')
+  @ApiQuery({ name: 'link', required: true, type: String })
+  @ApiResponse({
+    status: 200,
+    description: 'Check if conference link is valid and not in database',
+    schema: {
+      type: 'object',
+      properties: {
+        isValid: { type: 'boolean' },
+        existsInDb: { type: 'boolean' },
+        isAccessible: { type: 'boolean' },
+        message: { type: 'string' },
+      },
+    },
+  })
+  async checkConferenceLink(@Query('link') link: string) {
+    if (!link) {
+      throw new HttpException('Link must be provided', 400);
+    }
+
+    try {
+      // Check if URL is valid
+      new URL(link);
+    } catch {
+      return {
+        isValid: false,
+        existsInDb: false,
+        isAccessible: false,
+        message: 'Invalid URL format',
+      };
+    }
+
+    // Check if link exists in database
+    const existingConference = await this.conferenceOrganizationService.findByLink(link);
+
+    // Check if link is accessible
+    let isAccessible = false;
+    try {
+      await axios.head(link, {
+        timeout: 5000, // 5 second timeout
+        validateStatus: (status) => status < 400, // Consider any status < 400 as success
+      });
+      isAccessible = true;
+    } catch {
+      isAccessible = false;
+    }
+
+    return {
+      isValid: true,
+      existsInDb: !!existingConference,
+      isAccessible,
+      message: existingConference
+        ? 'Link already exists in database'
+        : isAccessible
+          ? 'Link is valid, accessible and not in database'
+          : 'Link is valid but not accessible',
+    };
+  }
+
+  @Get(':id')
+  async getConferenceDetail(
+    @Param('id') id: string,
+  ): Promise<ConferenceDetailDTO | HttpException> {
+    const conference = await this.conferenceService.getConferenceById(id);
+    if (!conference) {
+      throw new HttpException('Conference not found1', 404);
+    }
+    const conferenceDetail =
+      await this.conferenceService.getConferenceByIdWithDetail(id);
+    if (!conferenceDetail) {
+      throw new HttpException('Conference not found1', 404);
+    }
+    return conferenceDetail;
+  }
+
+
 }
