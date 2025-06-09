@@ -26,7 +26,7 @@ import { NotificationService } from 'src/modules/notify/services/notification.se
 import { EmailService } from 'src/modules/email-verify/services/email.service';
 import { FollowConferenceService } from 'src/modules/follow-conference/services/follow-conference.service';
 import { Request } from 'express';
-import { JWTGuardUser } from 'src/modules/auth/guards/jwt.guard';
+import { JWTGuardAdmin, JWTGuardUser } from 'src/modules/auth/guards/jwt.guard';
 import { UserService } from 'src/modules/user/services/user.service';
 
 interface RequestWithUser extends Request {
@@ -105,6 +105,124 @@ export class ConferenceCrawlJobController {
   @Post('cancel-cron')
   cancelCronUpdate() {
     return this.conferenceCrawlJobService.cancelCronUpdate();
+  }
+
+  @Post('start-cron-immediate')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        batchSize: {
+          type: 'number',
+          description: 'Number of conferences to update per batch',
+        },
+      },
+    },
+  })
+  @ApiBearerAuth('access-token')
+  @UseGuards(JWTGuardAdmin)
+  async startCronImmediate(
+    @Body('batchSize') batchSize: number = 10,
+    @Req() req: RequestWithUser,
+  ) {
+    console.log('[Start Cron Immediate] Starting immediate cron job execution');
+    console.log(`[Start Cron Immediate] Batch size: ${batchSize}`);
+
+    try {
+      // Get all conferences
+      console.log('[Start Cron Immediate] Fetching conferences...');
+      const paginatedConferences =
+        await this.conferenceService.getConferences();
+      const conferences = paginatedConferences.payload;
+      console.log(
+        `[Start Cron Immediate] Found ${conferences.length} conferences`,
+      );
+
+      const description =
+        req.user.role === 'admin'
+          ? 'admin'
+          : `${req.user.firstName} ${req.user.lastName} (${req.user.email})`;
+      console.log(`[Start Cron Immediate] Executing as: ${description}`);
+
+      // Process conferences in batches
+      const batches: ConferenceCrawlJobInputDTO[][] = [];
+      for (let i = 0; i < conferences.length; i += batchSize) {
+        const batch = conferences.slice(i, i + batchSize);
+        console.log(
+          `[Start Cron Immediate] Processing batch ${i / batchSize + 1} with ${batch.length} conferences`,
+        );
+
+        const batchInputs = await Promise.all(
+          batch.map(async (conference) => {
+            const organization =
+              await this.conferenceOrganizationService.getFirstOrganizationsByConferenceId(
+                conference.id,
+              );
+            // if (!organization) {
+            //   console.log(`[Start Cron Immediate] No organization found for conference: ${conference.title}`);
+            //   return null;
+            // }
+            return {
+              conferenceId: conference.id,
+              conferenceTitle: conference.title,
+              conferenceAcronym: conference.acronym,
+              mainLink: organization?.link || '',
+              cfpLink: organization?.cfpLink || '',
+              impLink: organization?.impLink || '',
+              status: 'PENDING',
+              progress: 0,
+              message: 'Pending',
+              description,
+            } as ConferenceCrawlJobInputDTO;
+          }),
+        );
+
+        // Filter out null values (conferences without organizations)
+        const validBatchInputs = batchInputs.filter(
+          (input): input is ConferenceCrawlJobInputDTO => input !== null,
+        );
+        if (validBatchInputs.length > 0) {
+          batches.push(validBatchInputs);
+        }
+      }
+
+      console.log(
+        `[Start Cron Immediate] Created ${batches.length} valid batches`,
+      );
+
+      // Create and execute jobs for each batch
+      const results: ConferenceCrawlJobDTO[][] = [];
+      for (let i = 0; i < batches.length; i++) {
+        console.log(
+          `[Start Cron Immediate] Executing batch ${i + 1}/${batches.length}`,
+        );
+        const batch = batches[i];
+        const batchResult =
+          await this.conferenceCrawlJobService.createBatchUpdateConferenceCrawlJob(
+            batch,
+          );
+        results.push(batchResult);
+        console.log(
+          `[Start Cron Immediate] Completed batch ${i + 1}/${batches.length}`,
+        );
+      }
+
+      console.log('[Start Cron Immediate] All batches processed successfully');
+
+      return {
+        success: true,
+        message: 'Immediate cron job execution completed',
+        totalBatches: batches.length,
+        totalConferences: results.flat().length,
+        results,
+      };
+    } catch (error) {
+      console.error('[Start Cron Immediate] Error executing cron job:', error);
+      throw new HttpException(
+        'Failed to execute immediate cron job: ' + (error as Error).message,
+        500,
+      );
+    }
   }
 
   @Get('cron-status')

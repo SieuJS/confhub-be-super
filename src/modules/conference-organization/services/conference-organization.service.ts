@@ -234,7 +234,15 @@ export class ConferenceOrganizationSerivce {
   }
 
   async getAllTopics() {
-    return this.prismaService.topics.findMany({});
+    return this.prismaService.topics.findMany({
+      distinct: ['name'],
+      select: {
+        name: true,
+      },
+      orderBy: {
+        updatedAt: 'desc',
+      },
+    });
   }
 
   async getAllTopicsByOrganizedId(organizedId: string) {

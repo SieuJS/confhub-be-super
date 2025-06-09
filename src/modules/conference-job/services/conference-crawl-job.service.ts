@@ -20,14 +20,17 @@ import { SchedulerRegistry } from '@nestjs/schedule';
 import { CronJob } from 'cron';
 import { AdminConferenceService } from 'src/modules/admin-conference/services/admin-conference.service';
 import { ConferenceSaveDto } from 'src/modules/admin-conference/models/conference-save.dto';
-import { ConferenceType, Continent } from 'src/modules/admin-conference/models/conference-save.dto';
+import {
+  ConferenceType,
+  Continent,
+} from 'src/modules/admin-conference/models/conference-save.dto';
 
 @Injectable()
 export class ConferenceCrawlJobService {
   private cronJob: CronJob | null = null;
 
   constructor(
-    private prismaService: PrismaService,
+    protected prismaService: PrismaService,
     @InjectQueue(CONFERENCE_QUEUE_NAME.CRAWL)
     private conferenceCrawlQueue: Queue,
     private httpService: HttpService,
@@ -247,16 +250,12 @@ export class ConferenceCrawlJobService {
     const { data }: { data: ConferenceCrawlNewResponseDto } =
       await firstValueFrom(
         this.httpService
-          .post(
-            CRAWL_URL + '/crawl-conferences',
-            input,
-            {
-              params: { dataSource: 'client' },
-              headers: {
-                'Content-Type': 'application/json',
-              },
+          .post(CRAWL_URL + '/crawl-conferences', input, {
+            params: { dataSource: 'client' },
+            headers: {
+              'Content-Type': 'application/json',
             },
-          )
+          })
           .pipe(
             catchError((error) => {
               throw error;
@@ -273,16 +272,12 @@ export class ConferenceCrawlJobService {
     const { data }: { data: ConferenceCrawlNewResponseDto } =
       await firstValueFrom(
         this.httpService
-          .post(
-            CRAWL_URL + '/crawl-conferences',
-            input,
-            {
-              params: { dataSource: 'client' },
-              headers: {
-                'Content-Type': 'application/json',
-              },
+          .post(CRAWL_URL + '/crawl-conferences', input, {
+            params: { dataSource: 'client' },
+            headers: {
+              'Content-Type': 'application/json',
             },
-          )
+          })
           .pipe(
             catchError((error) => {
               throw error;
@@ -298,10 +293,13 @@ export class ConferenceCrawlJobService {
   ): Promise<void> {
     try {
       // Update job status to running
-      await this.updateConferenceCrawlJob(jobId, {
-        status: ConferenceAttribute.JOB_STATUS_RUNNING,
-        progress: 20,
-        message: ConferenceMessageJob.RUNNING,
+      await this.prismaService.conferenceCrawlJobs.update({
+        where: { id: jobId },
+        data: {
+          status: ConferenceAttribute.JOB_STATUS_RUNNING,
+          progress: 20,
+          message: ConferenceMessageJob.RUNNING,
+        },
       });
 
       // Process each conference in the data array
@@ -315,7 +313,7 @@ export class ConferenceCrawlJobService {
           publisher: conference.publisher,
           summary: conference.summary,
           callForPapers: conference.callForPapers,
-          mainLink: conference.link,
+          mainLink: conference.mainLink,
           cfpLink: conference.cfpLink,
           impLink: conference.impLink,
           location: conference.location,
@@ -326,8 +324,14 @@ export class ConferenceCrawlJobService {
           submissionDate: conference.submissionDate as Record<string, string>,
           cameraReadyDate: conference.cameraReadyDate as Record<string, string>,
           conferenceDates: conference.conferenceDates,
-          registrationDate: conference.registrationDate as Record<string, string>,
-          notificationDate: conference.notificationDate as Record<string, string>,
+          registrationDate: conference.registrationDate as Record<
+            string,
+            string
+          >,
+          notificationDate: conference.notificationDate as Record<
+            string,
+            string
+          >,
           otherDate: conference.otherDate as Record<string, string>,
         };
 
@@ -336,20 +340,28 @@ export class ConferenceCrawlJobService {
       }
 
       // Update job status to completed
-      await this.updateConferenceCrawlJob(jobId, {
-        status: ConferenceAttribute.JOB_STATUS_COMPLETED,
-        progress: 100,
-        message: ConferenceMessageJob.COMPLETED,
+      await this.prismaService.conferenceCrawlJobs.update({
+        where: { id: jobId },
+        data: {
+          status: ConferenceAttribute.JOB_STATUS_COMPLETED,
+          progress: 100,
+          message: ConferenceMessageJob.COMPLETED,
+        },
       });
-    } catch (error) {
+    } catch (error: any) {
       // Update job status to failed
-      await this.updateConferenceCrawlJob(jobId, {
-        status: ConferenceAttribute.JOB_STATUS_FAILED,
-        progress: 0,
-        message: ConferenceMessageJob.FAILED,
+      await this.prismaService.conferenceCrawlJobs.update({
+        where: { id: jobId },
+        data: {
+          status: ConferenceAttribute.JOB_STATUS_FAILED,
+          progress: 0,
+          message: ConferenceMessageJob.FAILED,
+        },
       });
 
-      throw new Error(`Failed to import conference crawl data: ${error.message}`);
+      throw new Error(
+        `Failed to import conference crawl data: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      );
     }
   }
 

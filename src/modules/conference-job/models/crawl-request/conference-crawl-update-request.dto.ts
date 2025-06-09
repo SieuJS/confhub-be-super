@@ -31,7 +31,7 @@ export class ConferenceCrawlUpdateRequestDto {
     type: [ConferenceCrawlItem],
     description: 'List of conferences to update',
   })
-  items: ConferenceCrawlItem[];
+  items: Partial<ConferenceCrawlItem>[];
 
   @ApiProperty({
     type: ModelConfig,
