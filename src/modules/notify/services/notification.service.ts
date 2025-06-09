@@ -32,7 +32,7 @@ export class NotificationService {
     private messageService: MessageService,
   ) {}
 
-  async getNotificationByUserId(userId: string) {
+  async getNotificationByUserId(userId: string, take?: number) {
     const [conferenceNotifications, journalNotifications] = await Promise.all([
       this.prismaService.notifications.findMany({
         where: {
@@ -44,7 +44,7 @@ export class NotificationService {
         orderBy: {
           createdAt: 'desc',
         },
-        take: 21,
+        ...(take ? { take } : {}),
       }),
       this.prismaService.$queryRaw<JournalNotificationRecord[]>(
         Prisma.sql`SELECT * FROM "JournalNotifications" WHERE "userId" = ${userId}`,

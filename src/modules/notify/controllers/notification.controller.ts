@@ -8,7 +8,7 @@ import {
   UseGuards,
   HttpException,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { NotificationService } from '../services/notification.service';
 import { JWTGuardUser } from 'src/modules/auth/guards/jwt.guard';
 import { Req } from '@nestjs/common';
@@ -27,6 +27,11 @@ export class NotificationController {
 
   @Get('/user')
   @UseGuards(JWTGuardUser)
+  @ApiQuery({
+    name: 'take',
+    type: Number,
+    required: false,
+  })
   async getNotificationByUserId(@Req() req) {
     const userId = req.user.id;
     const { conferenceNotifications, journalNotifications } =
