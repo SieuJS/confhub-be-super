@@ -21,7 +21,6 @@ export class UpcomingEventsCronService {
     try {
       this.logger.log('Starting daily check for upcoming events...');
 
-      // Get events happening in the next 7 days
       const upcomingEvents = await this.txHost.tx.conferences.findMany({
         where: {
           organizations: {
@@ -56,6 +55,12 @@ export class UpcomingEventsCronService {
 
       // Send notifications for each upcoming event
       for (const event of upcomingEvents) {
+        if (!event.organizations || event.organizations.length === 0) {
+          this.logger.warn(
+            `Event ${event.id} has no associated organizations, skipping notification.`,
+          );
+          continue;
+        }
         try {
           const followers = await this.txHost.tx.conferenceFollows.findMany({
             where: {

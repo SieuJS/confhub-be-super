@@ -9,7 +9,6 @@ import { CONFERENCE_QUEUE_NAME } from '../../../constants/queue-name';
 import { CONFERENCE_CRAWL_JOB_NAME } from '../../../constants/job-name';
 import { ConferenceCrawlJobService } from '../services';
 import { ConferenceOrganizationSerivce } from '../../conference-organization';
-import { converStringToDate, convertObjectToDate } from '../utils/date-parse';
 import { MessageService } from '../../socket-gateway/services/message.service';
 import { ConferenceCrawlJobDTO } from '../models/conference-crawl-job/conference-crawl-job.dto';
 @Injectable()
@@ -47,12 +46,6 @@ export class ConferenceImportProcessor extends WorkerHost {
     const channel = 'cfp-crawl-' + job.data.id;
 
     try {
-      await this.messageService.sendMessage(channel, {
-        progress: 20,
-        message: 'Crawling conference data',
-        status: 'processing',
-      });
-      await job.updateProgress(20);
 
       this.loggerService.info(`Job data: ${JSON.stringify(job.data)}`);
       this.loggerService.info(
@@ -79,15 +72,6 @@ export class ConferenceImportProcessor extends WorkerHost {
         );
         throw new Error(`No data found for any of the conferences`);
       }
-
-      job.data.progress = 40;
-      job.data.message = 'Crawl data success, importing data';
-      this.messageService.sendMessage(channel, {
-        progress: 40,
-        message: 'Crawl data success, importing data',
-        status: 'processing',
-      });
-      await job.updateProgress(40);
 
       // Process each conference in the response
       for (let i = 0; i < crawlDataResponse.data.length; i++) {
@@ -152,7 +136,6 @@ export class ConferenceImportProcessor extends WorkerHost {
         message: 'Imported all conference data',
         status: 'completed',
       });
-      await job.updateProgress(100);
 
       this.loggerService.info(
         `Imported data for ${conferences.length} conferences`,
@@ -161,7 +144,6 @@ export class ConferenceImportProcessor extends WorkerHost {
       this.loggerService.error(
         `Error while importing conference data: ${e.message}`,
       );
-      await job.updateProgress(100);
       this.messageService.sendMessage(channel, {
         progress: 100,
         message: `Error while importing conference data: ${e.message}`,
@@ -215,7 +197,9 @@ export class ConferenceImportProcessor extends WorkerHost {
               },
               description: 'Crawl conference data',
             });
-
+          console.log(
+            `Crawl data response: ${JSON.stringify(crawlDataResponse)}`,
+          );
           if (
             !crawlDataResponse ||
             !crawlDataResponse.data ||
@@ -291,6 +275,10 @@ export class ConferenceImportProcessor extends WorkerHost {
                 description: 'Update conference data',
               },
             );
+          console.log(`Update request for conference - Title: ${jobData.conferenceTitle}, Acronym: ${jobData.conferenceAcronym}`);
+          console.log(
+            `Update crawl data response: ${JSON.stringify(response)}`,    
+          );
 
           if (!response || !response.data || response.data.length === 0) {
             throw new Error(

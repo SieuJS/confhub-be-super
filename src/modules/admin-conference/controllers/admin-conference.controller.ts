@@ -37,6 +37,9 @@ import { JWTGuardAdmin } from 'src/modules/auth/guards/jwt.guard';
 import { ConferencePostRequestDTO, CreateConferencePostRequestDTO, UpdateConferencePostRequestDTO } from '../models/conference-request-post.dto';
 import { ConferenceSaveDto } from '../models/conference-save.dto';
 import { TransformDatePipe } from '../pipes/transform-date.pipe';
+import { NotificationService } from 'src/modules/notify/services/notification.service';
+import { DEFAULT_TYPE } from 'src/modules/notify/constants/default-type';
+import { EmailService } from 'src/modules/email-verify/services/email.service';
 
 @ApiTags('admin-conference')
 @Controller('admin/conferences')
@@ -46,6 +49,8 @@ export class AdminConferenceController {
   constructor(
     private readonly adminConferenceService: AdminConferenceService,
     private readonly prismaService: PrismaService,
+    private readonly notificationService: NotificationService, // Inject NotificationService
+    private readonly emailService : EmailService
   ) {}
 
   @ApiTags('get')
@@ -229,11 +234,27 @@ export class AdminConferenceController {
     @Req() req: any,
     @Body() data: CreateConferencePostRequestDTO,
   ) {
-    return this.adminConferenceService.createConferenceRequest(
+    const request = await this.adminConferenceService.createConferenceRequest(
       req.user.id,
-      req.user.id, // adminId is the same as the authenticated admin's id
+      req.user.id,
       data,
     );
+    const isDisableEmail = await this.notificationService.isDisabledNotificationType(request.userId,  DEFAULT_TYPE.SEND_THROUGH_EMAIL);
+            await this.notificationService.createConferenceNotification({
+          userId: request.userId,
+          conferenceId: request.conferenceId,
+          message: `Your conference post request has been created successfully.`,
+          isDeleted: false,
+          isRead: false,
+          type: DEFAULT_TYPE.CONFERENCE_REQUEST_STATUS, // Ensure this type exists in your notification types
+        });
+    if (!isDisableEmail) {
+      try {
+        await this.emailService.sendConferenceRequestEmail(request)
+      } catch (err) {
+        console.error('Failed to send notification:', err);
+      }
+    }
   }
 
   @Patch('requests/:id/status')
@@ -251,11 +272,36 @@ export class AdminConferenceController {
     @Req() req: any,
     @Body() data: UpdateConferencePostRequestDTO,
   ) {
-    return this.adminConferenceService.updateConferenceRequestStatus(
+    const result = await this.adminConferenceService.updateConferenceRequestStatus(
       id,
       req.user.id, // adminId is the same as the authenticated admin's id
       data,
     );
+
+    // Send notification to the user who created the request
+    const isDisableEmail = await this.notificationService.isDisabledNotificationType(result.userId, DEFAULT_TYPE.SEND_THROUGH_EMAIL);
+    if (!isDisableEmail) {
+      try {
+        await this.emailService.sendConferenceRequestEmail(result);
+      } catch (err) {
+        console.error('Failed to send email notification:', err);
+      }
+    }
+    try {
+      await this.notificationService.createConferenceNotification({
+        userId: result.userId,
+        conferenceId: result.conferenceId,
+        message: `Your conference request has been ${result.status.toLowerCase()}.`,
+        isDeleted: false,
+        isRead: false,
+        type: 'CONFERENCE_REQUEST_STATUS', // Make sure this type exists in your notification types
+      });
+    } catch (err) {
+      // Optionally log or handle notification errors, but don't block the main response
+      console.error('Failed to send notification:', err);
+    }
+
+    return result;
   }
 
   @Post('save')

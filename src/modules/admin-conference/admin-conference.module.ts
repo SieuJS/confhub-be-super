@@ -7,6 +7,8 @@ import { NativeConferenceService } from './services/native-conference.service';
 import { SourceRankModule } from '../source-rank';
 import { ConferencesModule } from '../conference/conference.module';
 import { ConferenceOrganizationModule } from '../conference-organization';
+import { EmailVerifyModule } from '../email-verify/email-verify.module';
+import { NotifyModule } from '../notify/notify.module';
 
 @Module({
   imports: [
@@ -15,6 +17,8 @@ import { ConferenceOrganizationModule } from '../conference-organization';
     SourceRankModule,
     ConferencesModule,
     ConferenceOrganizationModule,
+    EmailVerifyModule,
+    NotifyModule
   ],
   controllers: [AdminConferenceController],
   providers: [AdminConferenceService, NativeConferenceService],
