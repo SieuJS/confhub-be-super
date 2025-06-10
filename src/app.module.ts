@@ -24,6 +24,7 @@ import { ConferenceBlacklistModule } from './modules/conference-blacklist/confer
 import { ScheduleModule } from '@nestjs/schedule';
 import { JournalModule } from './modules/journal/journal.module';
 import { AdminUserModule } from './modules/admin-user/admin-user.module';
+import { ConferenceRequestModule } from './modules/conference-request/conference-request.module';
 
 @Module({
   imports: [
@@ -83,6 +84,7 @@ import { AdminUserModule } from './modules/admin-user/admin-user.module';
     ScheduleModule.forRoot(),
     JournalModule,
     AdminUserModule,
+    ConferenceRequestModule,
   ],
   controllers: [AppController],
   providers: [AppService],

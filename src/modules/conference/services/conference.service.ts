@@ -31,6 +31,7 @@ import { TransactionHost } from '@nestjs-cls/transactional';
 import { ConferenceDetailDTO } from '../models/conference/conference-detail.dto';
 import { ConferenceBlacklistByDTO } from '../models/conference-blacklist/conference-added-blacklist-by.dto';
 import { Prisma, Topics } from 'generated/prisma_client';
+import { ConferencePostRequestStatus } from 'src/modules/admin-conference/models/conference-request-post.dto';
 
 const paginate: PaginatorTypes.PaginateFunction = paginator({ perPage: 10 });
 @Injectable()
@@ -720,6 +721,9 @@ export class ConferenceService {
     return await this.prismaService.conferences.findUnique({
       where: {
         id,
+        status : {
+          not : ConferencePostRequestStatus.REJECTED
+        }
       },
     });
   }
@@ -1207,6 +1211,7 @@ export class ConferenceService {
             conferenceDates: true,
           },
         },
+        ConferencePostRequests  : true
       },
     });
 
@@ -1292,6 +1297,9 @@ export class ConferenceService {
                 lastName: follow.byUser.lastName,
               },
             })) || [],
+          message : conference.ConferencePostRequests?.length > 0
+            ? conference.ConferencePostRequests[0].message
+            : '',
         };
       }),
     );

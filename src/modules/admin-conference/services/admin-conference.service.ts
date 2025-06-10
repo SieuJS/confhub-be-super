@@ -700,18 +700,11 @@ export class AdminConferenceService {
         byAdmin: true,
       },
     });
-
-    // If status is REJECTED, remove the conference
-    if (data.status.toLocaleUpperCase().trim() === 'REJECTED') {
-      await this.removeConference(request.conferenceId);
-    } else {
       // Otherwise update conference status
       await this.prismaService.conferences.update({
         where: { id: request.conferenceId },
         data: { status: data.status },
       });
-    }
-
     return {
       id: request.id,
       conferenceId: request.conferenceId,

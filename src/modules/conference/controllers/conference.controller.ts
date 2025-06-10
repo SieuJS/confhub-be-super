@@ -304,6 +304,15 @@ export class ConferenceController {
         });
       }),
     );
+  const topics = conferenceImport.topics || [];
+
+  await Promise.all(topics.map(async (topic) => {
+    await this.conferenceOrganizationService.importTopic({
+      organized: organization.id,
+      topic: topic,
+    });
+  }
+  ));
 
     // Create conference post request
     const postRequest =
