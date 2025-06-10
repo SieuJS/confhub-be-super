@@ -71,4 +71,12 @@ export class AddConferenceBody extends ConferenceRequestBody  {
         example : "This is a conference about AI and ML",
     })
     description: string;
+
+    @ApiProperty({
+        description : "Call for paper",
+        example : "This is a call for paper for the conference",
+        required: false,
+        type: String
+    })
+    callForPaper?: string;
 }
