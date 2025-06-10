@@ -52,7 +52,6 @@ export class ConferenceService {
     sortOptions?: GetConferencesSortParams,
   ): Promise<ConferencePaginationDTO> {
     let orderBy: Prisma.ConferencesOrderByWithRelationInput = {};
-    console.log(sortOptions?.sortBy);
     const include =
       conferenceFilter?.mode === 'detail'
         ? {

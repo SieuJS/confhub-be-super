@@ -123,6 +123,7 @@ export class ConferenceCrawlJobController {
   @UseGuards(JWTGuardAdmin)
   async startCronImmediate(
     @Body('batchSize') batchSize: number = 10,
+    @Body('take') take: number = 10,
     @Req() req: RequestWithUser,
   ) {
     console.log('[Start Cron Immediate] Starting immediate cron job execution');
@@ -132,7 +133,7 @@ export class ConferenceCrawlJobController {
       // Get all conferences
       console.log('[Start Cron Immediate] Fetching conferences...');
       const conferences =
-        await this.conferenceCrawlJobService.getConferenceToCrawl();
+        await this.conferenceCrawlJobService.getConferenceToCrawl(take);
 
       const description =
         req.user.role === 'admin'
