@@ -441,8 +441,9 @@ export class ConferenceController {
   @Get(':id')
   async getConferenceDetail(
     @Param('id') id: string,
+    @Query('force') force: boolean = false,
   ): Promise<ConferenceDetailDTO | HttpException> {
-    const conference = await this.conferenceService.getConferenceById(id);
+    const conference = await this.conferenceService.getConferenceById(id , force);
     if (!conference) {
       throw new HttpException('Conference not found1', 404);
     }

@@ -717,13 +717,13 @@ export class ConferenceService {
     return conferences;
   }
 
-  async getConferenceById(id: string) {
+  async getConferenceById(id: string, force = false) {
     return await this.prismaService.conferences.findUnique({
       where: {
         id,
-        status : {
+        ...(!force ?{status : {
           not : ConferencePostRequestStatus.REJECTED
-        }
+        }} : {}),
       },
     });
   }
@@ -976,6 +976,7 @@ export class ConferenceService {
 
   async getConferenceByIdWithDetail(
     conferenceId: string,
+    force = false,
   ): Promise<ConferenceDetailDTO | undefined> {
     const conference = await this.prismaService.conferences.findUnique({
       where: {
