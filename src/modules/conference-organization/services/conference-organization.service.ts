@@ -257,21 +257,27 @@ export class ConferenceOrganizationSerivce {
   }
 
   async findByLink(link: string): Promise<OrganizedDTO | null> {
+    const normalizedLink = link.endsWith('/') ? link.slice(0, -1) : link;
+    console.log('Normalized Link:', normalizedLink);
     const result = await this.prismaService.conferenceOrganizations.findFirst({
       where: {
-        isAvailable: true,
-        link: link,
+      OR: [
+        { link: {
+          contains: normalizedLink, mode: 'insensitive'
+        }},
+        { link: normalizedLink + '/' },
+      ],
       },
       include: {
-        topics: {
-          include: {
-            inTopic: {
-              select: {
-                name: true,
-              },
-            },
+      topics: {
+        include: {
+        inTopic: {
+          select: {
+          name: true,
           },
         },
+        },
+      },
       },
     });
 

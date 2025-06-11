@@ -387,7 +387,6 @@ export class ConferenceController {
     schema: {
       type: 'object',
       properties: {
-        isValid: { type: 'boolean' },
         existsInDb: { type: 'boolean' },
         isAccessible: { type: 'boolean' },
         message: { type: 'string' },
@@ -404,7 +403,6 @@ export class ConferenceController {
       new URL(link);
     } catch {
       return {
-        isValid: false,
         existsInDb: false,
         isAccessible: false,
         message: 'Invalid URL format',
@@ -429,6 +427,7 @@ export class ConferenceController {
 
     // Find any conference with a matching normalized link (ignoring query params and trailing slashes)
     const existingConference = await this.conferenceOrganizationService.findByLink(normalizedLink);
+    console.log('Existing conference:', existingConference);
 
     // Check if link is accessible
     let isAccessible = false;
