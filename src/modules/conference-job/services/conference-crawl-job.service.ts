@@ -251,7 +251,7 @@ export class ConferenceCrawlJobService {
       await firstValueFrom(
         this.httpService
           .post(CRAWL_URL + '/crawl-conferences', input, {
-            params: { dataSource: 'client' },
+            params: { dataSource: 'client', mode: 'sync' },
             headers: {
               'Content-Type': 'application/json',
             },
@@ -376,7 +376,7 @@ export class ConferenceCrawlJobService {
       await firstValueFrom(
         this.httpService
           .post(CRAWL_URL + '/crawl-conferences', inputs, {
-            params: { dataSource: 'client' },
+            params: { dataSource: 'client', mode: 'sync' },
             headers: {
               'Content-Type': 'application/json',
             },
