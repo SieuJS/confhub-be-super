@@ -8,6 +8,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpException,
   Param,
@@ -468,6 +469,4 @@ export class ConferenceController {
     }
     return conferenceDetail;
   }
-
-
 }

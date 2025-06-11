@@ -33,8 +33,8 @@ export class NotificationService {
   ) {}
 
   async getNotificationByUserId(userId: string, take?: number) {
-    const [conferenceNotifications, journalNotifications] = await Promise.all([
-      this.prismaService.notifications.findMany({
+    const [conferenceNotifications] = await Promise.all([
+      await this.prismaService.notifications.findMany({
         where: {
           userId,
         },
@@ -46,11 +46,7 @@ export class NotificationService {
         },
         ...(take ? { take } : {}),
       }),
-      this.prismaService.$queryRaw<JournalNotificationRecord[]>(
-        Prisma.sql`SELECT * FROM "JournalNotifications" WHERE "userId" = ${userId}`,
-      ),
     ]);
-
     return {
       conferenceNotifications: conferenceNotifications.map((notification) =>
         this.transformNotification({
@@ -58,31 +54,9 @@ export class NotificationService {
           type: notification.belongToNotify.name,
           typeId: notification.notificationId,
         }),
-      ),
-      journalNotifications: journalNotifications.map((notification) =>
-        this.transformJournalNotification(notification),
-      ),
+      )
     };
   }
-
-  transformJournalNotification = (
-    notification: JournalNotificationRecord,
-  ): NotificationResponseDTO => {
-    if (!notification) {
-      throw new Error('Invalid notification object');
-    }
-
-    return {
-      id: notification.id,
-      message: 'Journal notification', // You can customize this based on your needs
-      seenAt: null, // Add isRead field to JournalNotifications if needed
-      type: 'JOURNAL',
-      deletedAt: null, // Add isDeleted field to JournalNotifications if needed
-      journalId: notification.journalId,
-      createdAt: notification.createdAt,
-      isImportant: true,
-    };
-  };
 
   async resetAllUserNotificationSetting() {
     const users = await this.prismaService.users.findMany();
@@ -100,9 +74,10 @@ export class NotificationService {
       seenAt: notification.isRead ? notification.updatedAt : null,
       type: notification.type || '',
       deletedAt: notification.isDeleted ? notification.updatedAt : null,
+      isDeleted: notification.isDeleted,
       conferenceId: notification.conferenceId || '',
       createdAt: notification.createdAt,
-      isImportant: !notification.isImportant,
+      isImportant: notification.isImportant,
     };
   }
   async initNotification() {
@@ -328,15 +303,14 @@ export class NotificationService {
   }
 
   async updateNotification(noty: NotificationResponseDTO & { userId: string }) {
-    const { id, seenAt, deletedAt, isImportant } = noty;
-    console.log('Updating notification:', noty);
+    const { id, seenAt, deletedAt, isImportant, isDeleted } = noty;
     return await this.prismaService.notifications.update({
       where: {
         id,
       },
       data: {
         isRead: !!seenAt,
-        isDeleted: !!deletedAt,
+        isDeleted: !!deletedAt || isDeleted,
         isImportant: isImportant,
         updatedAt: new Date(),
       },
@@ -564,24 +538,6 @@ export class NotificationService {
     }
 
     return true;
-  }
-
-  async createJournalNotification(journalId: string, userId: string) {
-    const notifications = await this.txHost.tx.$queryRaw<
-      JournalNotificationRecord[]
-    >(
-      Prisma.sql`
-        INSERT INTO "JournalNotifications" ("id", "journalId", "userId", "createdAt", "updatedAt")
-        VALUES (uuid_generate_v4(), ${journalId}, ${userId}, NOW(), NOW())
-        RETURNING *
-      `,
-    );
-
-    if (!notifications || notifications.length === 0) {
-      throw new Error('Failed to create journal notification');
-    }
-
-    return this.transformJournalNotification(notifications[0]);
   }
 
   async isDisabledNotificationType(

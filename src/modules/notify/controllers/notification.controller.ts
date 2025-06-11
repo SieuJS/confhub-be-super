@@ -34,9 +34,9 @@ export class NotificationController {
   })
   async getNotificationByUserId(@Req() req) {
     const userId = req.user.id;
-    const { conferenceNotifications, journalNotifications } =
+    const { conferenceNotifications} =
       await this.notificationService.getNotificationByUserId(userId);
-    return [...conferenceNotifications, ...journalNotifications];
+    return conferenceNotifications;
   }
 
   @Put('mark-all-as-read')
@@ -56,6 +56,7 @@ export class NotificationController {
     @Req() req,
     @Body('notifications') notifications: NotificationResponseDTO[],
   ) {
+    console.log('Update notifications:', notifications);
     const userId = req.user.id;
     return await Promise.all(
       notifications.map(

@@ -518,4 +518,31 @@ export class AdminConferenceController {
   ): Promise<ConferenceHistoryResponseDto[]> {
     return this.adminConferenceService.getConferenceHistoryByConferenceId(conferenceId);
   }
+
+  @Delete('remove/:id')
+  @ApiOperation({ summary: 'Delete a conference by ID' })
+  @ApiParam({ name: 'id', description: 'Conference ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'Conference deleted successfully',
+  })
+  async deleteConference(@Param('id') id: string) {
+    const conference = await this.prismaService.conferences.findUnique({
+      where: { id },
+    });
+
+    if (!conference) {
+      throw new HttpException(
+        {
+          message: 'Conference not found',
+        },
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    await this.adminConferenceService.removeConference(id);
+    return {
+      message: 'Conference deleted successfully',
+    };
+  }
 }
