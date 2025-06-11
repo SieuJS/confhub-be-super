@@ -269,21 +269,24 @@ export class ConferenceCrawlJobService {
     input: ConferenceCrawlUpdateRequestDto,
   ): Promise<ConferenceCrawlNewResponseDto> {
     const CRAWL_URL = process.env.CRAWLER_URL;
+    console.log('Fetching update conference crawl data:', input);
     const { data }: { data: ConferenceCrawlNewResponseDto } =
       await firstValueFrom(
         this.httpService
           .post(CRAWL_URL + '/crawl-conferences', input, {
-            params: { dataSource: 'client' },
+            params: { dataSource: 'client', mode : 'sync' },
             headers: {
               'Content-Type': 'application/json',
             },
           })
           .pipe(
             catchError((error) => {
+              console.error('Error fetching update conference crawl data:', error);
               throw error;
             }),
           ),
       );
+    console.log('Fetched update conference crawl data:', data);
     return data;
   }
 
