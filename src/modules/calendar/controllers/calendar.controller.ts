@@ -42,6 +42,7 @@ export class CalendarController {
           conferenceId,
           type: DEFAULT_TYPE.CONFERENCE_CALENDAR_ADDED,
           isDeleted: false,
+          isImportant: false,
           message: `You have added the conference ${t.belongsTo.title} to your calendar`,
           isRead: false,
         });
@@ -70,6 +71,7 @@ export class CalendarController {
           conferenceId,
           type: DEFAULT_TYPE.CONFERENCE_CALENDAR_REMOVED,
           isDeleted: false,
+          isImportant: false,
           message: `You have removed the conference  ${t?.belongsTo.title} from your calendar`,
           isRead: false,
         });

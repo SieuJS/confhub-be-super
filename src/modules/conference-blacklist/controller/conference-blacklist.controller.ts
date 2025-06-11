@@ -50,6 +50,7 @@ export class ConferenceBlacklistController {
           conferenceId,
           type: DEFAULT_TYPE.CONFERENCE_BLACKLISTED,
           message: `You have added the conference ${result.belongsTo.title} to blacklist`,
+          isImportant: true,
           isDeleted: false,
           isRead: false,
         });
@@ -91,6 +92,7 @@ export class ConferenceBlacklistController {
           conferenceId,
           type: DEFAULT_TYPE.CONFERENCE_UNBLACKLISTED,
           message: `You have removed the conference ${conferenceInfo?.title} from blacklist`,
+          isImportant: false,
           isDeleted: false,
           isRead: false,
         });

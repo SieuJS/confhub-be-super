@@ -26,6 +26,7 @@ export class NotificationResponseDTO {
     description: 'Notification deleted date',
     example: null,
   })
+
   deletedAt: Date | null;
   @ApiProperty({
     description: 'Notification seen date',

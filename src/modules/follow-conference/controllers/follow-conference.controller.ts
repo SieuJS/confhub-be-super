@@ -51,6 +51,7 @@ export class FollowConferenceController {
           type: DEFAULT_TYPE.CONFERENCE_FOLLOWED,
           message: `You have followed the conference ${result.belongsTo.title}`,
           isDeleted: false,
+          isImportant: false,
           isRead: false,
         });
       await this.notificationService.sendNotificationToUser(
@@ -88,6 +89,7 @@ export class FollowConferenceController {
           type: DEFAULT_TYPE.CONFERENCE_UNFOLLOWED,
           message: `You have unfollowed the conference ${result?.belongsTo.title}`,
           isDeleted: false,
+          isImportant: false,
           isRead: false,
         });
       await this.notificationService.sendNotificationToUser(

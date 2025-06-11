@@ -56,6 +56,7 @@ export class JournalFollowService {
       type: DEFAULT_TYPE.JOURNAL_FOLLOWED,
       isRead: false,
       isDeleted: false,
+      isImportant: false,
       conferenceId: journalId,
     });
   }

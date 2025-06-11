@@ -57,7 +57,7 @@ export class NotificationController {
     @Body('notifications') notifications: NotificationResponseDTO[],
   ) {
     const userId = req.user.id;
-    await Promise.all(
+    return await Promise.all(
       notifications.map(
         async (notify) =>
           await this.notificationService.updateNotification({

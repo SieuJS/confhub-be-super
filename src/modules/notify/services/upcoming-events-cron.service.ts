@@ -75,6 +75,7 @@ export class UpcomingEventsCronService {
                 userId: follower.userId,
                 message: `The event ${event.title} is coming soon`,
                 isDeleted: false,
+                isImportant: true,
                 isRead: false,
               });
             await this.notificationService.sendNotificationToUser(

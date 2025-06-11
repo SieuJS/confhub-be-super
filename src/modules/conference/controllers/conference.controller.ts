@@ -412,13 +412,29 @@ export class ConferenceController {
     }
 
     // Check if link exists in database
-    const existingConference = await this.conferenceOrganizationService.findByLink(link);
+    // Normalize the link to avoid trailing slashes and query params for comparison
+    const normalizeLink = (url: string) => {
+      try {
+      const parsed = new URL(url);
+      // Remove trailing slash
+      let pathname = parsed.pathname.replace(/\/+$/, '');
+      // Remove query and hash
+      return `${parsed.origin}${pathname}`;
+      } catch {
+      return url;
+      }
+    };
+
+    const normalizedLink = normalizeLink(link);
+
+    // Find any conference with a matching normalized link (ignoring query params and trailing slashes)
+    const existingConference = await this.conferenceOrganizationService.findByLink(normalizedLink);
 
     // Check if link is accessible
     let isAccessible = false;
     try {
       await axios.head(link, {
-        timeout: 5000, // 5 second timeout
+        timeout: 2000, // 5 second timeout
         validateStatus: (status) => status < 400, // Consider any status < 400 as success
       });
       isAccessible = true;
@@ -427,7 +443,6 @@ export class ConferenceController {
     }
 
     return {
-      isValid: true,
       existsInDb: !!existingConference,
       isAccessible,
       message: existingConference

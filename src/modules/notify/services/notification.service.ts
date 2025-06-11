@@ -102,7 +102,7 @@ export class NotificationService {
       deletedAt: notification.isDeleted ? notification.updatedAt : null,
       conferenceId: notification.conferenceId || '',
       createdAt: notification.createdAt,
-      isImportant: !notification.isDeleted,
+      isImportant: !notification.isImportant,
     };
   }
   async initNotification() {
@@ -328,7 +328,8 @@ export class NotificationService {
   }
 
   async updateNotification(noty: NotificationResponseDTO & { userId: string }) {
-    const { id, seenAt, deletedAt } = noty;
+    const { id, seenAt, deletedAt, isImportant } = noty;
+    console.log('Updating notification:', noty);
     return await this.prismaService.notifications.update({
       where: {
         id,
@@ -336,6 +337,7 @@ export class NotificationService {
       data: {
         isRead: !!seenAt,
         isDeleted: !!deletedAt,
+        isImportant: isImportant,
         updatedAt: new Date(),
       },
     });
@@ -360,7 +362,6 @@ export class NotificationService {
       },
     });
     if (notificationTypes.length === 0) {
-      console.log('Notification type not found', type);
       throw new HttpException('Notification type not found', 400);
     }
     await Promise.all(
@@ -494,6 +495,7 @@ export class NotificationService {
         message: `${conference.title} has been updated`,
         isDeleted: false,
         isRead: false,
+        isImportant: false,
         type: DEFAULT_TYPE.CONFERENCE_UPDATED,
       });
     }

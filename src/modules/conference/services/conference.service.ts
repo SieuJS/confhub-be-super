@@ -32,6 +32,7 @@ import { ConferenceDetailDTO } from '../models/conference/conference-detail.dto'
 import { ConferenceBlacklistByDTO } from '../models/conference-blacklist/conference-added-blacklist-by.dto';
 import { Prisma, Topics } from 'generated/prisma_client';
 import { ConferencePostRequestStatus } from 'src/modules/admin-conference/models/conference-request-post.dto';
+import { equal } from 'joi';
 
 const paginate: PaginatorTypes.PaginateFunction = paginator({ perPage: 10 });
 @Injectable()
@@ -841,7 +842,7 @@ export class ConferenceService {
     const conferences = await this.txHost.tx.conferences.findFirst({
       where: {
         title: {
-          contains: title.trim(),
+          equals: title.trim(),
           mode: 'insensitive',
         },
         acronym: {

@@ -50,6 +50,7 @@ export class FeedbackController {
           type: DEFAULT_TYPE.CONFERENCE_FOLLOWED,
           message: `You have feedback about the conference ${conference.title}`,
           isDeleted: false,
+          isImportant: false,
           isRead: false,
         });
       await this.notificationService.sendNotificationToUser(

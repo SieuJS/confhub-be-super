@@ -244,6 +244,7 @@ export class AdminConferenceController {
           userId: request.userId,
           conferenceId: request.conferenceId,
           message: `Your conference post request has been created successfully.`,
+          isImportant: true,
           isDeleted: false,
           isRead: false,
           type: DEFAULT_TYPE.CONFERENCE_REQUEST_STATUS, // Ensure this type exists in your notification types
@@ -293,6 +294,7 @@ export class AdminConferenceController {
         conferenceId: result.conferenceId,
         message: `Your conference request has been ${result.status.toLowerCase()}.`,
         isDeleted: false,
+        isImportant: true,
         isRead: false,
         type: 'CONFERENCE_REQUEST_STATUS', // Make sure this type exists in your notification types
       });
