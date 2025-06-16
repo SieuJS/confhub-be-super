@@ -254,6 +254,7 @@ model Notifications {
   notificationId String
   userId         String
   conferenceId   String?
+  journalId      String?
   message        String
   isImportant    Boolean            @default(false)
   isDeleted      Boolean            @default(false)
@@ -263,6 +264,7 @@ model Notifications {
   belongToNotify NotificationsTypes @relation(fields: [notificationId], references: [id])
   byUser         Users              @relation(fields: [userId], references: [id])
   inConference   Conferences?       @relation(fields: [conferenceId], references: [id])
+  inJournal      Journals?          @relation(fields: [journalId], references: [id])
 }
 
 model NotificationsTypes {
@@ -368,6 +370,7 @@ model Journals {
   JournalBioxBio JournalBioxBio[]
   JournalFollows JournalFollows[]
   JournalNotifications JournalNotifications[]
+  Notifications Notifications[]
 }
 
 model JournalQuartiles {
