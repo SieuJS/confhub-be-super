@@ -50,15 +50,21 @@ export class JournalFollowService {
     });
 
     // Send notification
-    await this.notificationService.createConferenceNotification({
+    const noti = await this.notificationService.createConferenceNotification({
       userId,
       message: `You are now following ${journal.title}`,
       type: DEFAULT_TYPE.JOURNAL_FOLLOWED,
       isRead: false,
       isDeleted: false,
       isImportant: false,
-      conferenceId: journalId,
+      journalId: journalId,
     });
+
+    try {
+    await this.notificationService.sendNotificationToUser(noti, userId);
+    } catch (error) {
+    }
+    return;
   }
 
   async unfollowJournal(
