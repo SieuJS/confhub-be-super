@@ -545,4 +545,17 @@ export class AdminConferenceController {
       message: 'Conference deleted successfully',
     };
   }
+
+  @Get('remove-empty-date')
+  @ApiOperation({ summary: 'Remove conferences with empty date' })
+  @ApiResponse({
+    status: 200,
+    description: 'Conferences with empty date removed successfully',
+  })
+  async removeConferencesWithEmptyDate() {
+    const conferences = await this.adminConferenceService.removeConferenceWithNoDate();
+    return {
+      message: 'Conferences with empty date removed successfully',
+    };
+  }
 }
