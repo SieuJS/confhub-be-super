@@ -1248,34 +1248,10 @@ export class AdminConferenceService {
     if (conferences.length === 0) {
       throw new HttpException('No conferences found with no dates', HttpStatus.NOT_FOUND);
     }
-
-    await this.prismaService.$transaction(async (tx) => {
-      for (const org of conferences) {
-        // Delete locations
-        await tx.locations.deleteMany({
-          where: { organizeId: org.id }
-        });
-
-        // Delete topics
-        await tx.conferenceTopics.deleteMany({
-          where: { organizeId: org.id }
-        });
-
-        // Delete dates
-        await tx.conferenceDates.deleteMany({
-          where: { organizedId: org.id }
-        });
-
-        // Delete organization
-        await tx.conferenceOrganizations.delete({
-          where: { id: org.id }
-        });
-      }
-
-      // Finally delete the conferences
-      await tx.conferences.deleteMany({
-        where: { id: { in: conferences.map(c => c.conferenceId) } }
-      });
-    });
+    const remove = await Promise.all(
+      conferences.map(async (conference) => {
+        return this.deleteConferenceHistory(conference.id);
+      }))
+    return remove;
   }
 }
