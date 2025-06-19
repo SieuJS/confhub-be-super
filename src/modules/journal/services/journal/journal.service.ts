@@ -111,6 +111,7 @@ export class JournalService {
             sjr: journal.SJR,
             coverage: journal.Coverage,
             scope: journal.Scope,
+            hIndex: parseInt( journal['H index']),
           },
         });
 
