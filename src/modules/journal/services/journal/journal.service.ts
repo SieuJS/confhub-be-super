@@ -272,6 +272,7 @@ export class JournalService {
       region,
       type,
       topic,
+      areas,
       sortBy = 'createdAt',
       sortOrder = 'desc',
     } = query;
@@ -292,6 +293,37 @@ export class JournalService {
       }),
       ...(region && {
         region: { contains: region, mode: 'insensitive' as const },
+      }),
+      ...(areas && {
+        JournalAreas: {
+          some: {
+            name: { contains: areas, mode: 'insensitive' as const },
+          },
+        },
+      }),
+      ...(query.issn && {
+        issn: { contains: query.issn, mode: 'insensitive' as const },
+      }),
+      ...(query.quartile && {
+        quartiles: {
+          some: {
+            quartile: { contains: query.quartile, mode: 'insensitive' as const },
+          },
+        },
+      }),
+      ...(query.category && {
+        JournalStatistics: {
+          some: {
+            category: { contains: query.category, mode: 'insensitive' as const },
+          },
+        },
+      }),
+      ...(query.hIndex && {
+        JournalDetails: {
+          some: {
+            hIndex: { equals:parseInt( query.hIndex as any) },
+          },
+        },
       }),
       ...(type && { type: { contains: type, mode: 'insensitive' as const } }),
       ...(topic && {
@@ -354,6 +386,7 @@ export class JournalService {
         );
         return stat?.statistic || '';
       };
+      console.log(details.hIndex)
 
       return {
         id: journal.id,
@@ -368,7 +401,7 @@ export class JournalService {
         Issn: journal.issn,
         SJR: details?.sjr || 0,
         'SJR Best Quartile': '',
-        'H index': findStatistic('H index'),
+        'H index':`${details.hIndex || ''}`,
         'Total Docs. (2023)': findStatistic('Total Docs (2023)'),
         'Total Docs. (3years)': findStatistic('Total Docs (3years)'),
         'Total Refs.': findStatistic('Total Refs'),

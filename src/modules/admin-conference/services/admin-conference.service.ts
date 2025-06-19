@@ -933,7 +933,6 @@ export class AdminConferenceService {
   async updateConferenceHistory(updateHistoryDto: ConferenceHistoryDto) {
     try {
       // Find the conference history by ID
-      console.log('service', updateHistoryDto.id)
       const existingHistory = await this.txHost.tx.conferenceOrganizations.findUnique({
         where: { id: updateHistoryDto.id },
         include: {
@@ -993,8 +992,7 @@ export class AdminConferenceService {
                 isAvailable: true,
               },
             }),
-          ),
-        );
+          ))
       }
 
       // Only update topics if provided
@@ -1047,8 +1045,7 @@ export class AdminConferenceService {
                 isAvailable: true,
               },
             }),
-          ),
-        );
+          ));
       }
 
       // Get the updated conference with all relations
@@ -1253,5 +1250,36 @@ export class AdminConferenceService {
         return this.deleteConferenceHistory(conference.id);
       }))
     return remove;
+  }
+
+  /**
+   * Remove all topics whose name does not contain any alphanumeric character (number or letter).
+   * Also removes related ConferenceTopics and JournalTopics.
+   */
+  async removeTrashTopics() {
+    // Find all topics with names that do NOT contain any alphanumeric character
+    const allTopics = await this.prismaService.topics.findMany();
+    const trashTopics = allTopics.filter(t => !/[a-zA-Z0-9]/.test(t.name));
+
+    if (!trashTopics.length) {
+      return { message: 'No trash topics found.' };
+    }
+
+    const trashTopicIds = trashTopics.map(t => t.id);
+
+    // Remove related ConferenceTopics and JournalTopics
+    await this.prismaService.conferenceTopics.deleteMany({
+      where: { topicId: { in: trashTopicIds } },
+    });
+    await this.prismaService.journalTopics.deleteMany({
+      where: { topicId: { in: trashTopicIds } },
+    });
+
+    // Remove the topics themselves
+    const deleted = await this.prismaService.topics.deleteMany({
+      where: { id: { in: trashTopicIds } },
+    });
+
+    return { message: `Removed ${deleted.count} trash topics.` };
   }
 }

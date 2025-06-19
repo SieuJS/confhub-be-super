@@ -15,6 +15,10 @@ export class JournalListQueryDto {
 
   @ApiProperty({ required: false })
   @IsOptional()
+  areas?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
   @IsString()
   publisher?: string;
 
@@ -36,7 +40,27 @@ export class JournalListQueryDto {
   @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
+  quartile?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  category?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional() 
+  @IsString()
+  issn?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
   topic?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  hIndex?: string;
 
   @ApiProperty({ required: false, default: 1 })
   @Type(() => Number)
