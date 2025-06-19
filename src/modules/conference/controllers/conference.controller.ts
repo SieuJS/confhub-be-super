@@ -8,7 +8,6 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
   HttpException,
   Param,
@@ -278,7 +277,7 @@ export class ConferenceController {
         link: conferenceImport.link,
         impLink: conferenceImport.impLink || '',
         cfpLink: conferenceImport.cfpLink || '',
-        summerize: conferenceImport.description,
+        summerize: conferenceImport.summarize,
         callForPaper: conferenceImport.callForPaper || '',
         conferenceId: conferenceInstance.id,
         isAvailable: true,
@@ -305,15 +304,16 @@ export class ConferenceController {
         });
       }),
     );
-  const topics = conferenceImport.topics || [];
+    const topics = conferenceImport.topics || [];
 
-  await Promise.all(topics.map(async (topic) => {
-    await this.conferenceOrganizationService.importTopic({
-      organized: organization.id,
-      topic: topic,
-    });
-  }
-  ));
+    await Promise.all(
+      topics.map(async (topic) => {
+        await this.conferenceOrganizationService.importTopic({
+          organized: organization.id,
+          topic: topic,
+        });
+      }),
+    );
 
     // Create conference post request
     const postRequest =
@@ -344,7 +344,7 @@ export class ConferenceController {
     );
     return conferences;
   }
-    @Get('check-exists')
+  @Get('check-exists')
   @ApiQuery({ name: 'title', required: false, type: String })
   @ApiQuery({ name: 'acronym', required: false, type: String })
   @ApiResponse({
@@ -414,20 +414,21 @@ export class ConferenceController {
     // Normalize the link to avoid trailing slashes and query params for comparison
     const normalizeLink = (url: string) => {
       try {
-      const parsed = new URL(url);
-      // Remove trailing slash
-      let pathname = parsed.pathname.replace(/\/+$/, '');
-      // Remove query and hash
-      return `${parsed.origin}${pathname}`;
+        const parsed = new URL(url);
+        // Remove trailing slash
+        let pathname = parsed.pathname.replace(/\/+$/, '');
+        // Remove query and hash
+        return `${parsed.origin}${pathname}`;
       } catch {
-      return url;
+        return url;
       }
     };
 
     const normalizedLink = normalizeLink(link);
 
     // Find any conference with a matching normalized link (ignoring query params and trailing slashes)
-    const existingConference = await this.conferenceOrganizationService.findByLink(normalizedLink);
+    const existingConference =
+      await this.conferenceOrganizationService.findByLink(normalizedLink);
     console.log('Existing conference:', existingConference);
 
     // Check if link is accessible
@@ -458,7 +459,10 @@ export class ConferenceController {
     @Param('id') id: string,
     @Query('force') force: boolean = false,
   ): Promise<ConferenceDetailDTO | HttpException> {
-    const conference = await this.conferenceService.getConferenceById(id , force);
+    const conference = await this.conferenceService.getConferenceById(
+      id,
+      force,
+    );
     if (!conference) {
       throw new HttpException('Conference not found1', 404);
     }
