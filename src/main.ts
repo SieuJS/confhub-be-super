@@ -6,11 +6,15 @@ import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
 import * as session from 'express-session';
 import * as passport from 'passport';
+import { NestExpressApplication } from '@nestjs/platform-express';
 const API_DEFAULT_PREFIX = '/api/v1/';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { cors: true });
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    cors: true,
+  });
   app.use(cookieParser());
+  app.useBodyParser('json', { limit: '10mb' });
 
   // Set up global validation pipe with transformation enabled
   app.useGlobalPipes(
@@ -59,4 +63,4 @@ async function bootstrap() {
 
   await app.listen(process.env.PORT ?? 3000);
 }
-bootstrap();
+void bootstrap();
