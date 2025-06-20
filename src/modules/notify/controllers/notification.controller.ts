@@ -7,6 +7,7 @@ import {
   Put,
   UseGuards,
   HttpException,
+  Delete,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { NotificationService } from '../services/notification.service';
@@ -34,7 +35,7 @@ export class NotificationController {
   })
   async getNotificationByUserId(@Req() req) {
     const userId = req.user.id;
-    const { conferenceNotifications} =
+    const { conferenceNotifications } =
       await this.notificationService.getNotificationByUserId(userId);
     return conferenceNotifications;
   }
@@ -127,7 +128,7 @@ export class NotificationController {
     @Req() req,
     @Body('settings') settings: Partial<NotificationSettingResponseDTO>,
   ) {
-    const userId = req.user.id;
+    const userId = req.user.id as string;
 
     // Check and create settings if they don't exist
     await this.notificationService.checkAndCreateNotificationSettings(userId);
@@ -230,6 +231,17 @@ export class NotificationController {
     await this.notificationService.removeDuplicateSettings();
     return {
       message: 'Duplicate settings cleaned successfully',
+    };
+  }
+
+  @Delete('/all-notifications')
+  @UseGuards(JWTGuardUser)
+  @ApiBearerAuth('access-token')
+  async deleteAllNotifications(@Req() req) {
+    const userId = req.user.id as string;
+    await this.notificationService.removeAllNotificationsOfUser(userId);
+    return {
+      message: 'All notifications deleted successfully',
     };
   }
 }

@@ -54,7 +54,7 @@ export class NotificationService {
           type: notification.belongToNotify.name,
           typeId: notification.notificationId,
         }),
-      )
+      ),
     };
   }
 
@@ -304,6 +304,13 @@ export class NotificationService {
 
   async updateNotification(noty: NotificationResponseDTO & { userId: string }) {
     const { id, seenAt, deletedAt, isImportant, isDeleted } = noty;
+    if (deletedAt) {
+      return await this.prismaService.notifications.delete({
+        where: {
+          id,
+        },
+      });
+    }
     return await this.prismaService.notifications.update({
       where: {
         id,
@@ -559,5 +566,23 @@ export class NotificationService {
       },
     });
     return setting ? !setting.isEnabled : true;
+  }
+
+  async removeAllNotificationsOfUser(userId: string) {
+    // Remove all notifications for the user
+    await this.prismaService.notifications.deleteMany({
+      where: {
+        userId,
+      },
+    });
+
+    // Optionally, you can also remove notification settings if needed
+    await this.prismaService.notifications.deleteMany({
+      where: {
+        userId,
+      },
+    });
+
+    return { message: 'All notifications removed successfully' };
   }
 }
