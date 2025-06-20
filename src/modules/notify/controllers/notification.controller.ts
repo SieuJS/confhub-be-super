@@ -33,6 +33,7 @@ export class NotificationController {
     type: Number,
     required: false,
   })
+  @ApiBearerAuth('access-token')
   async getNotificationByUserId(@Req() req) {
     const userId = req.user.id;
     const { conferenceNotifications } =
