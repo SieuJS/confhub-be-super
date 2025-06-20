@@ -89,8 +89,9 @@ export class JournalFollowController {
   @ApiBearerAuth('access-token')
   @ApiOperation({ summary: 'Get journals followed by user' })
   @ApiResponse({ status: 200, description: 'List of followed journals' })
-  async getFollowedJournalsByUser(@Body() params: JournalFollowByDto) {
-    return this.journalFollowService.getFollowedJournals(params.userId);
+  async getFollowedJournalsByUser(@Req() req) {
+    const userId = req.user.id;
+    return this.journalFollowService.getFollowedJournals(userId);
   }
 
   @Get('followers/:journalId')

@@ -264,6 +264,22 @@ export class NotificationService {
           isEnabled: true,
         },
       });
+      const turnOffAll = DEFAULT_TYPE.ON_NOTIFICATION;
+      const turnOffType = await this.txHost.tx.notificationsTypes.findFirst({
+        where: {
+          name: turnOffAll,
+        },
+      });
+      const isTurnOffAll = await this.txHost.tx.notificationSettings.findFirst({
+        where: {
+          userId,
+          notificationId: turnOffType?.id,
+          isEnabled: false,
+        },
+      });
+      if (isTurnOffAll) {
+        throw new HttpException('User turn off all notifications', 400);
+      }
       if (!inSetting) {
         throw new HttpException('User turn off the notification', 400);
       }

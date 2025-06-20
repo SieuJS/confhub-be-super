@@ -558,4 +558,17 @@ export class AdminConferenceController {
       message: 'Conferences with empty date removed successfully',
     };
   }
+
+  @Get('remove-trash-topics')
+  @ApiOperation({ summary: 'Remove conferences with empty source' })  
+  @ApiResponse({
+    status: 200,
+    description: 'Conferences with empty source removed successfully',
+  })
+  async removeConferencesWithEmptySource() {
+    const conferences = await this.adminConferenceService.removeTrashTopics();
+    return {
+      message: 'Conferences with empty source removed successfully',
+    };
+  }
 }

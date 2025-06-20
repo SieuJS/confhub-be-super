@@ -325,6 +325,7 @@ export class UserService {
         updatedAt: conference.updatedAt,
         status: conference.belongsTo?.status,
         dates: conferenceDates,
+        accessType : latestOrg?.accessType ?? undefined,
         location: {
           address: firstLocation.address,
           cityStateProvince: firstLocation.cityStateProvince,
@@ -445,6 +446,7 @@ export class UserService {
         acronym: conference.belongsTo?.acronym,
         creatorId: conference.belongsTo?.creatorId,
         adminId: conference.belongsTo?.adminId ?? undefined,
+        accessType: latestOrg?.accessType ?? undefined,
         createdAt: conference.createdAt,
         updatedAt: conference.updatedAt,
         status: conference.belongsTo?.status,
