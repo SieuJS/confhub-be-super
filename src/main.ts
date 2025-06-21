@@ -28,7 +28,6 @@ async function bootstrap() {
     .setTitle('Cats example')
     .setDescription('The cats API description')
     .setVersion('1.0')
-    .addTag('cats')
     .addBearerAuth(
       {
         // I was also testing it without prefix 'Bearer ' before the JWT
@@ -43,7 +42,11 @@ async function bootstrap() {
     )
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, documentFactory);
+  SwaggerModule.setup(
+    process.env.API_PREFIX_DOC || '/api',
+    app,
+    documentFactory,
+  );
   app.setGlobalPrefix(process.env.API_PREFIX ?? API_DEFAULT_PREFIX);
 
   const logInterceptor = app.select(CommonModule).get(LogInterceptor);
