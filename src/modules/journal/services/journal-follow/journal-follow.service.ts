@@ -61,8 +61,9 @@ export class JournalFollowService {
     });
 
     try {
-    await this.notificationService.sendNotificationToUser(noti, userId);
-    } catch (error) {
+      await this.notificationService.sendNotificationToUser(noti, userId);
+    } catch {
+      /* empty */
     }
     return;
   }

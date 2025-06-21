@@ -48,7 +48,7 @@ export class JournalListQueryDto {
   category?: string;
 
   @ApiProperty({ required: false })
-  @IsOptional() 
+  @IsOptional()
   @IsString()
   issn?: string;
 

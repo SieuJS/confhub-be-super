@@ -132,6 +132,8 @@ export class JournalImportDto {
   })
   'Subject Area and Category': SubjectAreaAndCategory;
 
+  [key: string]: any;
+
   @ApiProperty({ description: 'ISSN number (duplicate)' })
   ISSN: string;
 

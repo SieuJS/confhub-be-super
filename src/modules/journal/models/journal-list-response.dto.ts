@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { ApiProperty } from '@nestjs/swagger';
+import { Prisma } from 'generated/prisma_client';
 
 export class SubjectAreaAndCategoryDto {
   @ApiProperty({ description: 'Field of Research' })
@@ -6,6 +8,14 @@ export class SubjectAreaAndCategoryDto {
 
   @ApiProperty({ description: 'Topics', type: [String] })
   Topics: string[];
+}
+
+export class JournalStatisticsDto {
+  @ApiProperty({ description: 'category name' })
+  category: string | null;
+
+  @ApiProperty({ description: 'statistic' })
+  ctatistic: string | null;
 }
 
 export class InformationDto {
@@ -17,25 +27,33 @@ export class InformationDto {
 
   @ApiProperty({ description: 'Contact email' })
   Mail: string;
+
+  constructor(
+    dbInstance: Prisma.JournalAuthorInformationsGetPayload<Prisma.JournalAuthorInformationsDefaultArgs>,
+  ) {
+    this.Homepage = dbInstance.homePage || '';
+    this['How to publish in this journal'] = dbInstance.instruction || '';
+    this.Mail = dbInstance.mail || '';
+  }
 }
 
 export class BioxBioDto {
   @ApiProperty({ description: 'Year' })
-  Year: string;
+  Year: number | null;
 
   @ApiProperty({ description: 'Impact factor' })
-  Impact_factor: string;
+  Impact_factor: number | null;
 }
 
 export class SupplementaryTableEntryDto {
   @ApiProperty({ description: 'Category name' })
-  Category: string;
+  Category: string | null;
 
   @ApiProperty({ description: 'Year' })
-  Year: string;
+  Year: string | null;
 
   @ApiProperty({ description: 'Quartile (Q1-Q4)' })
-  Quartile: string;
+  Quartile: string | null;
 }
 
 export class JournalListItemDto {
@@ -43,14 +61,14 @@ export class JournalListItemDto {
   id: string;
 
   @ApiProperty({ description: 'Scimago journal link' })
-  scimagoLink: string;
+  scimagoLink: string | null;
 
   @ApiProperty({
     description: 'Bioxbio data',
     type: [BioxBioDto],
     nullable: true,
   })
-  bioxbio: BioxBioDto[] | null;
+  bioxbio: (BioxBioDto | null)[] | null;
 
   @ApiProperty({ description: 'Journal image URL' })
   Image: string;
@@ -76,36 +94,6 @@ export class JournalListItemDto {
   @ApiProperty({ description: 'SJR score' })
   SJR: number;
 
-  @ApiProperty({ description: 'SJR Best Quartile' })
-  'SJR Best Quartile': string;
-
-  @ApiProperty({ description: 'H-index' })
-  'H index': string;
-
-  @ApiProperty({ description: 'Total documents in 2023' })
-  'Total Docs. (2023)': string;
-
-  @ApiProperty({ description: 'Total documents in 3 years' })
-  'Total Docs. (3years)': string;
-
-  @ApiProperty({ description: 'Total references' })
-  'Total Refs.': string;
-
-  @ApiProperty({ description: 'Total citations in 3 years' })
-  'Total Cites (3years)': string;
-
-  @ApiProperty({ description: 'Citable documents in 3 years' })
-  'Citable Docs. (3years)': string;
-
-  @ApiProperty({ description: 'Cites per document in 2 years' })
-  'Cites / Doc. (2years)': string;
-
-  @ApiProperty({ description: 'References per document' })
-  'Ref. / Doc.': string;
-
-  @ApiProperty({ description: 'Percentage of female authors' })
-  '%Female': string;
-
   @ApiProperty({ description: 'Overton score' })
   Overton: number;
 
@@ -125,7 +113,7 @@ export class JournalListItemDto {
   Coverage: string;
 
   @ApiProperty({ description: 'Categories' })
-  Categories: string;
+  Categories: (string | null)[];
 
   @ApiProperty({ description: 'Areas' })
   Areas: string;
@@ -142,6 +130,9 @@ export class JournalListItemDto {
   @ApiProperty({ description: 'ISSN number (duplicate)' })
   ISSN: string;
 
+  @ApiProperty({ description: 'Journal image URL' })
+  hIndex: number;
+
   @ApiProperty({ description: 'Journal information', type: InformationDto })
   Information: InformationDto;
 
@@ -157,6 +148,12 @@ export class JournalListItemDto {
   })
   SupplementaryTable: SupplementaryTableEntryDto[];
 
+  @ApiProperty({
+    description: 'Journal statistics',
+    type: [JournalStatisticsDto],
+  })
+  Statistics: JournalStatisticsDto[];
+
   @ApiProperty({ description: 'Thumbnail HTML' })
   Thumbnail: string;
 
@@ -165,7 +162,63 @@ export class JournalListItemDto {
 
   @ApiProperty()
   updatedAt: Date;
+
+  constructor(dbInstance: Prisma.JournalsGetPayload<JournalListItemInclude>) {
+    this.id = dbInstance.id;
+    this.title = dbInstance.title;
+    this.Type = dbInstance.type;
+    this.Issn = dbInstance.issn;
+    this.Publisher = dbInstance.publisher;
+    this.Country = dbInstance.country;
+    this.Region = dbInstance.region;
+    this.updatedAt = dbInstance.updatedAt;
+    this.createdAt = dbInstance.createdAt;
+    this.hIndex = dbInstance.JournalDetails[0].hIndex || 0;
+    this.Statistics = dbInstance.JournalStatistics.map((stat) => ({
+      category: stat.category,
+      ctatistic: stat.statistic,
+    }));
+    this.Image = dbInstance.JournalDetails[0]?.image || '';
+    this.Image_Context = dbInstance.JournalDetails[0]?.imageContent || '';
+    this.scimagoLink = dbInstance.JournalDetails[0]?.scrimagoLink || null;
+
+    this.SJR = dbInstance.JournalDetails[0]?.sjr || 0;
+    this.Overton = dbInstance.JournalDetails[0]?.overton || 0;
+    this.SDG = dbInstance.JournalDetails[0]?.sdg || 0;
+    this.Coverage = dbInstance.JournalDetails[0]?.coverage || '';
+
+    this.Categories = dbInstance.quartiles.map((q) => q.category);
+
+    this.Scope = dbInstance.JournalDetails[0]?.scope || '';
+
+    this.Information = new InformationDto(
+      dbInstance.JournalAuthorInformations[0],
+    );
+
+    this.SupplementaryTable = dbInstance.quartiles.map((entry) => ({
+      Category: entry.category,
+      Year: entry.year,
+      Quartile: entry.quartile,
+    }));
+
+    this.bioxbio = dbInstance.JournalBioxBio.map((biox) => ({
+      Year: biox.year,
+      Impact_factor: biox.impactFactor,
+    }));
+    this.Thumbnail = dbInstance.JournalAuthorInformations[0]?.thumbnail || '';
+  }
 }
+
+export type JournalListItemInclude = {
+  include: {
+    JournalTopics: true;
+    JournalStatistics: true;
+    JournalDetails: true;
+    quartiles: true;
+    JournalAuthorInformations: true;
+    JournalBioxBio: true;
+  };
+};
 
 export class PaginationMetaDto {
   @ApiProperty()

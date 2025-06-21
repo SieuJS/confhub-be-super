@@ -395,6 +395,7 @@ model JournalDetails {
   journalId String
   image String?
   imageContent String?
+  scrimagoLink String?
   sjr Float?
   hIndex Int?
   sdg Float?

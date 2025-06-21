@@ -10,20 +10,9 @@ import {
   JournalListResponseDto,
   JournalListItemDto,
 } from '../../models/journal-list-response.dto';
-import type {
-  Prisma,
-  Journals,
-  JournalDetails,
-  JournalAuthorInformations,
-  JournalAreas,
-  JournalTopics,
-  Topics,
-  JournalQuartiles,
-  JournalBioxBio,
-} from 'generated/prisma_client';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { TransactionHost } from '@nestjs-cls/transactional';
-import { PrismaClient } from 'generated/prisma_client';
+import { Prisma, PrismaClient } from 'generated/prisma_client';
 import {
   JournalCsvImportResponseDto,
   JournalCsvImportResult,
@@ -111,7 +100,7 @@ export class JournalService {
             sjr: journal.SJR,
             coverage: journal.Coverage,
             scope: journal.Scope,
-            hIndex: parseInt( journal['H index']),
+            hIndex: parseInt(journal['H index']),
           },
         });
 
@@ -184,48 +173,25 @@ export class JournalService {
             });
           }
         }
+        const statisticsData: { statistic: string; category: string }[] = [];
+        const patern = [
+          'total',
+          'docs',
+          'refs',
+          'cites',
+          'citable',
+          'cites per doc',
+          'percentage',
+          'best',
+        ];
 
-        // Create journal statistics
-        const statisticsData = [
-          { category: 'SJR', statistic: String(journal.SJR) },
-          { category: 'Overton', statistic: String(journal.Overton) },
-          { category: 'SDG', statistic: String(journal.SDG) },
-          { category: 'H index', statistic: String(journal['H index']) },
-          {
-            category: 'Total Docs (2023)',
-            statistic: String(journal['Total Docs. (2023)']),
-          },
-          {
-            category: 'Total Docs (3years)',
-            statistic: String(journal['Total Docs. (3years)']),
-          },
-          { category: 'Total Refs', statistic: String(journal['Total Refs.']) },
-          {
-            category: 'Total Cites (3years)',
-            statistic: String(journal['Total Cites (3years)']),
-          },
-          {
-            category: 'Citable Docs (3years)',
-            statistic: String(journal['Citable Docs. (3years)']),
-          },
-          {
-            category: 'Cites per Doc (2years)',
-            statistic: String(journal['Cites / Doc. (2years)']),
-          },
-          {
-            category: 'Refs per Doc',
-            statistic: String(journal['Ref. / Doc.']),
-          },
-          {
-            category: 'Female Percentage',
-            statistic: String(journal['%Female']),
-          },
-        ].filter(
-          (stat) =>
-            stat.statistic !== 'undefined' &&
-            stat.statistic !== 'null' &&
-            stat.statistic !== '',
-        );
+        for (const key of Object.keys(journal)) {
+          if (patern.some((substr) => key.toLowerCase().includes(substr))) {
+            const category = key;
+            const statistic = journal[key] as string;
+            statisticsData.push({ category, statistic });
+          }
+        }
 
         for (const stat of statisticsData) {
           await this.prisma.journalStatistics.create({
@@ -308,21 +274,28 @@ export class JournalService {
       ...(query.quartile && {
         quartiles: {
           some: {
-            quartile: { contains: query.quartile, mode: 'insensitive' as const },
+            quartile: {
+              contains: query.quartile,
+              mode: 'insensitive' as const,
+            },
           },
         },
       }),
       ...(query.category && {
         JournalStatistics: {
           some: {
-            category: { contains: query.category, mode: 'insensitive' as const },
+            category: {
+              contains: query.category,
+              mode: 'insensitive' as const,
+            },
           },
         },
       }),
       ...(query.hIndex && {
         JournalDetails: {
           some: {
-            hIndex: { equals:parseInt( query.hIndex as any) },
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+            hIndex: { equals: parseInt(query.hIndex as any) },
           },
         },
       }),
@@ -357,107 +330,26 @@ export class JournalService {
           JournalBioxBio: true,
           JournalStatistics: true,
         },
-      }) as Promise<
-        (Journals & {
-          JournalDetails: JournalDetails[];
-          JournalAuthorInformations: JournalAuthorInformations[];
-          JournalAreas: JournalAreas[];
-          JournalTopics: (JournalTopics & { inTopic: Topics })[];
-          quartiles: JournalQuartiles[];
-          JournalBioxBio: JournalBioxBio[];
-          JournalStatistics: { category: string; statistic: string }[];
-        })[]
-      >,
+      }),
       this.txHost.tx.journals.count({ where }),
     ]);
 
-    const mappedJournals: JournalListItemDto[] = journals.map((journal) => {
-      const details = journal.JournalDetails?.[0];
-      const authorInfo = journal.JournalAuthorInformations?.[0];
-      const area = journal.JournalAreas?.[0];
-      const bioxbio = journal.JournalBioxBio?.map((bio) => ({
-        Year: bio.year?.toString() || '',
-        Impact_factor: bio.impactFactor?.toString() || '',
-      }));
-
-      // Find statistics by category
-      const findStatistic = (category: string) => {
-        const stat = journal.JournalStatistics?.find(
-          (s) => s.category === category,
-        );
-        return stat?.statistic || '';
-      };
-      console.log(details.hIndex)
-
-      return {
-        id: journal.id,
-        scimagoLink: '',
-        bioxbio: bioxbio || null,
-        Image: details?.image || '',
-        Image_Context: details?.imageContent || '',
-        Rank: '',
-        Sourceid: '',
-        Title: journal.title,
-        Type: journal.type,
-        Issn: journal.issn,
-        SJR: details?.sjr || 0,
-        'SJR Best Quartile': '',
-        'H index':`${details.hIndex || ''}`,
-        'Total Docs. (2023)': findStatistic('Total Docs (2023)'),
-        'Total Docs. (3years)': findStatistic('Total Docs (3years)'),
-        'Total Refs.': findStatistic('Total Refs'),
-        'Total Cites (3years)': findStatistic('Total Cites (3years)'),
-        'Citable Docs. (3years)': findStatistic('Citable Docs (3years)'),
-        'Cites / Doc. (2years)': findStatistic('Cites per Doc (2years)'),
-        'Ref. / Doc.': findStatistic('Refs per Doc'),
-        '%Female': findStatistic('Female Percentage'),
-        Overton: details?.overton || 0,
-        SDG: details?.sdg || 0,
-        Country: journal.country,
-        Region: journal.region,
-        Publisher: journal.publisher,
-        Coverage: details?.coverage || '',
-        Categories: '',
-        Areas: area?.name || '',
-        title: journal.title,
-        'Subject Area and Category': {
-          'Field of Research': '',
-          Topics: journal.JournalTopics.map((jt) => jt.inTopic.name),
-        },
-        ISSN: journal.issn,
-        Information: {
-          Homepage: authorInfo?.homePage || '',
-          'How to publish in this journal': authorInfo?.instruction || '',
-          Mail: authorInfo?.mail || '',
-        },
-        Scope: details?.scope || undefined,
-        'Additional Info': undefined,
-        SupplementaryTable: journal.quartiles.map((q) => ({
-          Category: q.category || '',
-          Year: q.year || '',
-          Quartile: q.quartile || '',
-        })),
-        Thumbnail: authorInfo?.thumbnail || '',
-        createdAt: journal.createdAt,
-        updatedAt: journal.updatedAt,
-      };
+    const mappedJournals = journals.map((dbInstance) => {
+      return new JournalListItemDto(dbInstance);
     });
-
-    const totalPages = Math.ceil(total / limit);
-
     return {
       data: mappedJournals,
       meta: {
         total,
         page,
         limit,
-        totalPages,
+        totalPages: Math.ceil(total / limit),
       },
     };
   }
 
   async getJournalById(id: string): Promise<JournalListItemDto> {
-    const journal = (await this.prisma.journals.findUnique({
+    const journal = await this.prisma.journals.findUnique({
       where: { id },
       include: {
         JournalDetails: true,
@@ -472,90 +364,13 @@ export class JournalService {
         JournalBioxBio: true,
         JournalStatistics: true,
       },
-    })) as
-      | (Journals & {
-          JournalDetails: JournalDetails[];
-          JournalAuthorInformations: JournalAuthorInformations[];
-          JournalAreas: JournalAreas[];
-          JournalTopics: (JournalTopics & { inTopic: Topics })[];
-          quartiles: JournalQuartiles[];
-          JournalBioxBio: JournalBioxBio[];
-          JournalStatistics: { category: string; statistic: string }[];
-        })
-      | null;
+    });
 
     if (!journal) {
       throw new Error('Journal not found');
     }
 
-    const details = journal.JournalDetails?.[0];
-    const authorInfo = journal.JournalAuthorInformations?.[0];
-    const area = journal.JournalAreas?.[0];
-    const bioxbio = journal.JournalBioxBio?.map((bio) => ({
-      Year: bio.year?.toString() || '',
-      Impact_factor: bio.impactFactor?.toString() || '',
-    }));
-
-    // Find statistics by category
-    const findStatistic = (category: string) => {
-      const stat = journal.JournalStatistics?.find(
-        (s) => s.category === category,
-      );
-      return stat?.statistic || '';
-    };
-
-    return {
-      id: journal.id,
-      scimagoLink: '',
-      bioxbio: bioxbio || null,
-      Image: details?.image || '',
-      Image_Context: details?.imageContent || '',
-      Rank: '',
-      Sourceid: '',
-      Title: journal.title,
-      Type: journal.type,
-      Issn: journal.issn,
-      SJR: details?.sjr || 0,
-      'SJR Best Quartile': '',
-      'H index': findStatistic('H index'),
-      'Total Docs. (2023)': findStatistic('Total Docs (2023)'),
-      'Total Docs. (3years)': findStatistic('Total Docs (3years)'),
-      'Total Refs.': findStatistic('Total Refs'),
-      'Total Cites (3years)': findStatistic('Total Cites (3years)'),
-      'Citable Docs. (3years)': findStatistic('Citable Docs (3years)'),
-      'Cites / Doc. (2years)': findStatistic('Cites per Doc (2years)'),
-      'Ref. / Doc.': findStatistic('Refs per Doc'),
-      '%Female': findStatistic('Female Percentage'),
-      Overton: details?.overton || 0,
-      SDG: details?.sdg || 0,
-      Country: journal.country,
-      Region: journal.region,
-      Publisher: journal.publisher,
-      Coverage: details?.coverage || '',
-      Categories: '',
-      Areas: area?.name || '',
-      title: journal.title,
-      'Subject Area and Category': {
-        'Field of Research': '',
-        Topics: journal.JournalTopics.map((jt) => jt.inTopic.name),
-      },
-      ISSN: journal.issn,
-      Information: {
-        Homepage: authorInfo?.homePage || '',
-        'How to publish in this journal': authorInfo?.instruction || '',
-        Mail: authorInfo?.mail || '',
-      },
-      Scope: details?.scope || undefined,
-      'Additional Info': undefined,
-      SupplementaryTable: journal.quartiles.map((q) => ({
-        Category: q.category || '',
-        Year: q.year || '',
-        Quartile: q.quartile || '',
-      })),
-      Thumbnail: authorInfo?.thumbnail || '',
-      createdAt: journal.createdAt,
-      updatedAt: journal.updatedAt,
-    };
+    return new JournalListItemDto(journal);
   }
 
   async checkAndImportJournalsFromCsv(
