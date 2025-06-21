@@ -30,9 +30,9 @@ export class InformationDto {
   constructor(
     dbInstance: Prisma.JournalAuthorInformationsGetPayload<Prisma.JournalAuthorInformationsDefaultArgs>,
   ) {
-    this.Homepage = dbInstance.homePage || '';
-    this['How to publish in this journal'] = dbInstance.instruction || '';
-    this.Mail = dbInstance.mail || '';
+    this.Homepage = dbInstance?.homePage || '';
+    this['How to publish in this journal'] = dbInstance?.instruction || '';
+    this.Mail = dbInstance?.mail || '';
   }
 }
 
