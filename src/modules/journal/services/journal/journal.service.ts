@@ -188,7 +188,7 @@ export class JournalService {
         for (const key of Object.keys(journal)) {
           if (patern.some((substr) => key.toLowerCase().includes(substr))) {
             const category = key;
-            const statistic = journal[key] as string;
+            const statistic = `${journal[key]}`;
             statisticsData.push({ category, statistic });
           }
         }

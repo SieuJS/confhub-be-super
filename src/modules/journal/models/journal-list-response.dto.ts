@@ -169,7 +169,7 @@ export class JournalListItemDto {
     this.Region = dbInstance.region;
     this.updatedAt = dbInstance.updatedAt;
     this.createdAt = dbInstance.createdAt;
-    this.hIndex = dbInstance.JournalDetails[0].hIndex || 0;
+    this.hIndex = dbInstance.JournalDetails[0]?.hIndex || 0;
     this.Statistics = dbInstance.JournalStatistics.map((stat) => ({
       category: stat.category,
       ctatistic: stat.statistic,
