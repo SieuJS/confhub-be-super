@@ -10,12 +10,12 @@ export class JournalTransformPipe implements PipeTransform {
         SJR: parseFloat,
         Overton: parseFloat,
         SDG: parseFloat,
-        'H index': parseInt,
-        'Total Docs. (2023)': parseInt,
-        'Total Docs. (3years)': parseInt,
-        'Total Refs.': parseInt,
-        'Total Cites (3years)': parseInt,
-        'Citable Docs. (3years)': parseInt,
+        'H index': parseFloat,
+        'Total Docs. (2023)': parseFloat,
+        'Total Docs. (3years)': parseFloat,
+        'Total Refs.': parseFloat,
+        'Total Cites (3years)': parseFloat,
+        'Citable Docs. (3years)': parseFloat,
         'Cites / Doc. (2years)': parseFloat,
         'Ref. / Doc.': parseFloat,
         '%Female': parseFloat,
@@ -25,7 +25,7 @@ export class JournalTransformPipe implements PipeTransform {
       Object.entries(numericFields).forEach(([field, transformFn]) => {
         if (journal[field] && typeof journal[field] === 'string') {
           // Remove commas from the string before parsing
-          const valueWithoutCommas = journal[field].replace(/,/g, '');
+          const valueWithoutCommas = journal[field].replace(/,/g, '.');
           const transformed = transformFn(valueWithoutCommas);
           if (!isNaN(transformed)) {
             journal[field] = transformed;
