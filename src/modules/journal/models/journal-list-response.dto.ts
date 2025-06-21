@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { ApiProperty } from '@nestjs/swagger';
 import { Prisma } from 'generated/prisma_client';
 
@@ -14,7 +15,7 @@ export class JournalStatisticsDto {
   category: string | null;
 
   @ApiProperty({ description: 'statistic' })
-  ctatistic: string | null;
+  statistic: string | null;
 }
 
 export class InformationDto {
@@ -172,7 +173,7 @@ export class JournalListItemDto {
     this.hIndex = dbInstance.JournalDetails[0]?.hIndex || 0;
     this.Statistics = dbInstance.JournalStatistics.map((stat) => ({
       category: stat.category,
-      ctatistic: stat.statistic,
+      statistic: stat.statistic,
     }));
     this.Image = dbInstance.JournalDetails[0]?.image || '';
     this.Image_Context = dbInstance.JournalDetails[0]?.imageContent || '';
@@ -204,6 +205,10 @@ export class JournalListItemDto {
       Impact_factor: biox.impactFactor,
     }));
     this.Thumbnail = dbInstance.JournalAuthorInformations[0]?.thumbnail || '';
+
+    this.Areas = dbInstance.JournalAreas.map((area) => area.name).join(', ');
+
+    this.Rank = dbInstance.JournalDetails[0]?.rank || '';
   }
 }
 
@@ -215,6 +220,7 @@ export type JournalListItemInclude = {
     quartiles: true;
     JournalAuthorInformations: true;
     JournalBioxBio: true;
+    JournalAreas: true;
   };
 };
 

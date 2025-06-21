@@ -398,6 +398,7 @@ model JournalDetails {
   scrimagoLink String?
   sjr Float?
   hIndex Int?
+  rank String?
   sdg Float?
   overton Float?
   coverage String?
