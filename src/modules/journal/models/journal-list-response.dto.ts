@@ -117,9 +117,6 @@ export class JournalListItemDto {
   @ApiProperty({ description: 'Areas' })
   Areas: string;
 
-  @ApiProperty({ description: 'Journal title (duplicate)' })
-  title: string;
-
   @ApiProperty({
     description: 'Subject area and category',
     type: SubjectAreaAndCategoryDto,
@@ -164,7 +161,7 @@ export class JournalListItemDto {
 
   constructor(dbInstance: Prisma.JournalsGetPayload<JournalListItemInclude>) {
     this.id = dbInstance.id;
-    this.title = dbInstance.title;
+    this.Title = dbInstance.title;
     this.Type = dbInstance.type;
     this.Issn = dbInstance.issn;
     this.Publisher = dbInstance.publisher;
@@ -179,6 +176,7 @@ export class JournalListItemDto {
     }));
     this.Image = dbInstance.JournalDetails[0]?.image || '';
     this.Image_Context = dbInstance.JournalDetails[0]?.imageContent || '';
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     this.scimagoLink = dbInstance.JournalDetails
       ? dbInstance.JournalDetails[0].scrimagoLink
       : '';
