@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { ApiProperty } from '@nestjs/swagger';
 import { Prisma } from 'generated/prisma_client';
 
@@ -134,7 +133,7 @@ export class JournalListItemDto {
   hIndex: number;
 
   @ApiProperty({ description: 'Journal information', type: InformationDto })
-  Information: InformationDto;
+  Information: InformationDto | null;
 
   @ApiProperty({ description: 'Journal scope', required: false })
   Scope?: string;
@@ -180,7 +179,9 @@ export class JournalListItemDto {
     }));
     this.Image = dbInstance.JournalDetails[0]?.image || '';
     this.Image_Context = dbInstance.JournalDetails[0]?.imageContent || '';
-    this.scimagoLink = dbInstance.JournalDetails[0]?.scrimagoLink || null;
+    this.scimagoLink = dbInstance.JournalDetails
+      ? dbInstance.JournalDetails[0].scrimagoLink
+      : '';
 
     this.SJR = dbInstance.JournalDetails[0]?.sjr || 0;
     this.Overton = dbInstance.JournalDetails[0]?.overton || 0;
@@ -191,10 +192,9 @@ export class JournalListItemDto {
 
     this.Scope = dbInstance.JournalDetails[0]?.scope || '';
 
-    this.Information = new InformationDto(
-      dbInstance.JournalAuthorInformations[0],
-    );
-
+    this.Information = dbInstance.JournalAuthorInformations
+      ? new InformationDto(dbInstance.JournalAuthorInformations[0])
+      : null;
     this.SupplementaryTable = dbInstance.quartiles.map((entry) => ({
       Category: entry.category,
       Year: entry.year,
