@@ -1310,6 +1310,11 @@ export class AdminConferenceService {
           where: { id: conference.id },
           data: { status: 'NOT CRAWLED' },
         });
+      }else if (organization) {
+        return await this.prismaService.conferences.update({
+          where: { id: conference.id },
+          data: { status: 'CRAWLED' },
+        });
       }
     }))
     return { message: 'Conference statuses updated successfully' };
