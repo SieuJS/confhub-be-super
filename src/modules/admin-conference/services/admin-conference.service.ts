@@ -401,6 +401,7 @@ export class AdminConferenceService {
       const conferenceOrganization =
         await this.conferenceOrganizationService.importOrganize({
           ...conference,
+          link: conference.mainLink,
           conferenceId: conferenceInDB.id,
           isAvailable: true,
           summerize: conference.summary,
@@ -481,6 +482,7 @@ export class AdminConferenceService {
           stack: error.stack,
         },
       });
+      console.log('Error importing conference:', error);
       return false;
     }
   }
