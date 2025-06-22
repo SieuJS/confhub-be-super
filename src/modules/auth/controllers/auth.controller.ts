@@ -240,7 +240,7 @@ export class AuthController {
     @Res() res: Response,
   ) {
     // Check if the request contains error parameters (user cancelled or denied access)
-    const redirectUrl = req.session?.redirectUrl || 'https://confhub.ddns.net/apis/auth/google/callback';
+    const redirectUrl = req.session?.redirectUrl || 'apis/auth/google/callback';
 
     console.log('redirectUrl', redirectUrl);
 
