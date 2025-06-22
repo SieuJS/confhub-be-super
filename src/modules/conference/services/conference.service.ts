@@ -32,7 +32,6 @@ import { ConferenceDetailDTO } from '../models/conference/conference-detail.dto'
 import { ConferenceBlacklistByDTO } from '../models/conference-blacklist/conference-added-blacklist-by.dto';
 import { Prisma, Topics } from 'generated/prisma_client';
 import { ConferencePostRequestStatus } from 'src/modules/admin-conference/models/conference-request-post.dto';
-import { equal } from 'joi';
 
 const paginate: PaginatorTypes.PaginateFunction = paginator({ perPage: 10 });
 @Injectable()
@@ -242,19 +241,47 @@ export class ConferenceService {
                 byRank: {
                   ...(conferenceFilter?.rank
                     ? {
-                        name: {
-                          equals: conferenceFilter?.rank,
-                          mode: 'insensitive',
-                        },
+                        ...(conferenceFilter.rank === 'other'
+                          ? {
+                              name: {
+                                not: {
+                                  in: ['A', 'B', 'C', 'D', 'A*'],
+                                },
+                              },
+                            }
+                          : {
+                              name: {
+                                equals: conferenceFilter?.rank,
+                                mode: 'insensitive',
+                              },
+                            }),
                       }
                     : {}),
                   ...(conferenceFilter?.source
                     ? {
                         belongsToSource: {
-                          name: {
-                            contains: conferenceFilter?.source,
-                            mode: 'insensitive',
-                          },
+                          ...(conferenceFilter.source === 'other'
+                            ? {
+                                name: {
+                                  contains: conferenceFilter?.source,
+                                  mode: 'insensitive',
+                                },
+                              }
+                            : {
+                                name: {
+                                  not: {
+                                    in: [
+                                      'CORE',
+                                      'CORE21',
+                                      'CORE23',
+                                      'CORE24',
+                                      'CORE25',
+                                      'CORE26',
+                                      'CORE27',
+                                    ],
+                                  },
+                                },
+                              }),
                         },
                       }
                     : {}),
@@ -647,12 +674,15 @@ export class ConferenceService {
           id: conference.id,
           title: conference.title,
           acronym: conference.acronym,
-          location: locations.length > 0 ? {
-            cityStateProvince: locations[0].cityStateProvince ?? '',
-            country: locations[0].country ?? '',
-            address: locations[0].address ?? '',
-            continent: locations[0].continent ?? '',
-          } : null,
+          location:
+            locations.length > 0
+              ? {
+                  cityStateProvince: locations[0].cityStateProvince ?? '',
+                  country: locations[0].country ?? '',
+                  address: locations[0].address ?? '',
+                  continent: locations[0].continent ?? '',
+                }
+              : null,
           rank: conference.ranks[0]?.byRank?.name,
           source: conference.ranks[0]?.byRank?.belongsToSource.name,
           year: conference.ranks[0]?.year,
@@ -721,9 +751,13 @@ export class ConferenceService {
     return await this.prismaService.conferences.findUnique({
       where: {
         id,
-        ...(!force ?{status : {
-          not : ConferencePostRequestStatus.REJECTED
-        }} : {}),
+        ...(!force
+          ? {
+              status: {
+                not: ConferencePostRequestStatus.REJECTED,
+              },
+            }
+          : {}),
       },
     });
   }
@@ -976,7 +1010,6 @@ export class ConferenceService {
 
   async getConferenceByIdWithDetail(
     conferenceId: string,
-    force = false,
   ): Promise<ConferenceDetailDTO | undefined> {
     const conference = await this.prismaService.conferences.findUnique({
       where: {
@@ -1069,14 +1102,15 @@ export class ConferenceService {
             name: date.name,
           })),
         }))
-        .sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime()).map((org , index) => {
-          if(index === 0) {
-            return org
+        .sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime())
+        .map((org, index) => {
+          if (index === 0) {
+            return org;
           }
           return {
-            locations : org.locations,
-            conferenceDates : org.conferenceDates,
-          }
+            locations: org.locations,
+            conferenceDates: org.conferenceDates,
+          };
         }),
       feedbacks: conference.feedbacks.map((feedback) => ({
         id: feedback.id,
@@ -1212,7 +1246,7 @@ export class ConferenceService {
             conferenceDates: true,
           },
         },
-        ConferencePostRequests  : true
+        ConferencePostRequests: true,
       },
     });
 
@@ -1298,9 +1332,10 @@ export class ConferenceService {
                 lastName: follow.byUser.lastName,
               },
             })) || [],
-          message : conference.ConferencePostRequests?.length > 0
-            ? conference.ConferencePostRequests[0].message
-            : '',
+          message:
+            conference.ConferencePostRequests?.length > 0
+              ? conference.ConferencePostRequests[0].message
+              : '',
         };
       }),
     );
