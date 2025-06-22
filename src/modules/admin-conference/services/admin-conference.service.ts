@@ -1298,4 +1298,20 @@ export class AdminConferenceService {
 
     return { message: `Removed ${deleted.count} trash topics.` };
   }
+
+  async updateConferenceStatus(){
+    const conferences = await this.prismaService.conferences.findMany({});
+    Promise.all(conferences.map(async (conference) => {
+      const organization = await this.prismaService.conferenceOrganizations.findFirst({
+        where: { conferenceId: conference.id },
+      });
+      if (!organization) {
+        return await this.prismaService.conferences.update({
+          where: { id: conference.id },
+          data: { status: 'NOT CRAWLED' },
+        });
+      }
+    }))
+    return { message: 'Conference statuses updated successfully' };
+  }
 }

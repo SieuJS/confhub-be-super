@@ -571,4 +571,18 @@ export class AdminConferenceController {
       message: 'Conferences with empty source removed successfully',
     };
   }
+
+  @Get('update-conference-status')
+  @ApiOperation({ summary: 'Update conference status' })
+  @ApiResponse({
+    status: 200,
+    description: 'Conference status updated successfully',
+  })
+  async updateConferenceStatus() {
+    const updatedConferences = await this.adminConferenceService.updateConferenceStatus();
+    return {
+      message: 'Conference status updated successfully',
+      data: updatedConferences,
+    };
+  }
 }
