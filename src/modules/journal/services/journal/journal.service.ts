@@ -208,7 +208,7 @@ export class JournalService {
         results.push({
           success: true,
           message: 'Journal imported successfully',
-          data: { id: journalId },
+          data: { id: journalId, title: journal.Title, issn: journal.Issn },
         });
         totalSuccess++;
       } catch (error) {
