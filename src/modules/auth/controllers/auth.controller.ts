@@ -242,6 +242,8 @@ export class AuthController {
     // Check if the request contains error parameters (user cancelled or denied access)
     const redirectUrl = req.session?.redirectUrl || '/en/dashboard';
 
+    console.log('redirectUrl', redirectUrl);
+
     if (req.query.error) {
       return res.redirect(`${redirectUrl}?error=true`);
     }
