@@ -101,7 +101,7 @@ export class JournalService {
             coverage: journal.Coverage,
             scope: journal.Scope,
             hIndex: parseInt(journal['H index']),
-            rank : journal.Rank,
+            rank: journal.Rank,
             scrimagoLink: journal.scimagoLink,
           },
         });
@@ -297,7 +297,7 @@ export class JournalService {
         JournalDetails: {
           some: {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-            hIndex: { equals: parseInt(query.hIndex as any) },
+            hIndex: { gte: parseFloat(query.hIndex) },
           },
         },
       }),

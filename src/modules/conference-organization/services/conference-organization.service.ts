@@ -7,13 +7,16 @@ import { OrganizedInput } from '../models/organize/organized.input';
 import { OrganizedDTO } from '../models/organize/organized.dto';
 import { Injectable } from '@nestjs/common';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
-import { Transactional, TransactionHost } from '@nestjs-cls/transactional';
+import { TransactionHost } from '@nestjs-cls/transactional';
 import parser from 'any-date-parser';
+import { PrismaClient } from 'generated/prisma_client';
 @Injectable()
 export class ConferenceOrganizationSerivce {
   constructor(
     private prismaService: PrismaService,
-    private readonly txHost: TransactionHost<TransactionalAdapterPrisma>,
+    private readonly txHost: TransactionHost<
+      TransactionalAdapterPrisma<PrismaClient>
+    >,
   ) {}
 
   async importPlace(input: LocationInput): Promise<LocationDTO> {
@@ -73,6 +76,41 @@ export class ConferenceOrganizationSerivce {
       ...organizedTopic,
       topic: topicInDb.name,
     };
+  }
+
+  async removeTopic(name: string) {
+    const topicInDb = await this.txHost.tx.topics.findFirst({
+      where: {
+        name,
+      },
+    });
+    if (!topicInDb) {
+      return;
+    }
+
+    await this.txHost.tx.conferenceTopics.deleteMany({
+      where: {
+        topicId: topicInDb.id,
+      },
+    });
+
+    await this.txHost.tx.journalTopics.deleteMany({
+      where: {
+        topicId: topicInDb.id,
+      },
+    });
+
+    await this.txHost.tx.topicUserInteresteds.deleteMany({
+      where: {
+        topicId: topicInDb.id,
+      },
+    });
+
+    return this.txHost.tx.topics.delete({
+      where: {
+        id: topicInDb.id,
+      },
+    });
   }
 
   async findOrCreateTopic(topic: string) {
@@ -261,23 +299,26 @@ export class ConferenceOrganizationSerivce {
     console.log('Normalized Link:', normalizedLink);
     const result = await this.prismaService.conferenceOrganizations.findFirst({
       where: {
-      OR: [
-        { link: {
-          contains: normalizedLink, mode: 'insensitive'
-        }},
-        { link: normalizedLink + '/' },
-      ],
+        OR: [
+          {
+            link: {
+              contains: normalizedLink,
+              mode: 'insensitive',
+            },
+          },
+          { link: normalizedLink + '/' },
+        ],
       },
       include: {
-      topics: {
-        include: {
-        inTopic: {
-          select: {
-          name: true,
+        topics: {
+          include: {
+            inTopic: {
+              select: {
+                name: true,
+              },
+            },
           },
         },
-        },
-      },
       },
     });
 

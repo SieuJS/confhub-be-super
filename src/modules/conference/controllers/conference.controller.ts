@@ -416,7 +416,7 @@ export class ConferenceController {
       try {
         const parsed = new URL(url);
         // Remove trailing slash
-        let pathname = parsed.pathname.replace(/\/+$/, '');
+        const pathname = parsed.pathname.replace(/\/+$/, '');
         // Remove query and hash
         return `${parsed.origin}${pathname}`;
       } catch {
