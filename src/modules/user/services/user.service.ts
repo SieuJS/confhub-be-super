@@ -203,7 +203,7 @@ export class UserService {
       },
     });
     if (!follow) {
-      return new BadRequestException('You are not following this conference');
+      throw new BadRequestException('You are not following this conference');
     }
     return await this.prismaService.conferenceFollows.delete({
       where: {

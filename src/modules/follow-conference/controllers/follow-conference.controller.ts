@@ -87,7 +87,7 @@ export class FollowConferenceController {
           userId,
           conferenceId,
           type: DEFAULT_TYPE.CONFERENCE_UNFOLLOWED,
-          message: `You have unfollowed the conference ${result?.belongsTo.title}`,
+          message: `You have unfollowed the conference ${result.belongsTo.title}`,
           isDeleted: false,
           isImportant: false,
           isRead: false,
