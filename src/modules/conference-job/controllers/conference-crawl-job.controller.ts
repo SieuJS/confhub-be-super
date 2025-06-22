@@ -303,7 +303,6 @@ export class ConferenceCrawlJobController {
 
     const data = result.data.map((item) => ({
       ...item,
-      title: item.name,
     }));
     await this.adminConferenceService.importConferences(data as any);
     await this.notificationService.sendUpdateConferenceNotification(

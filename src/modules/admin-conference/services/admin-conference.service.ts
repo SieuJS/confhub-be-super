@@ -266,7 +266,8 @@ export class AdminConferenceService {
       });
     });
     return csvData.map((row): ConferenceEvaluationRow => {
-      const t = {
+      try {
+      return {
         ...row,
         submissionDate: JSON.parse(row.submissionDate as unknown as string),
         notificationDate: JSON.parse(row.notificationDate as unknown as string),
@@ -274,7 +275,17 @@ export class AdminConferenceService {
         registrationDate: JSON.parse(row.registrationDate as unknown as string),
         otherDate: JSON.parse(row.otherDate),
       };
-      return t;
+      } catch (error) {
+      console.error('Error parsing CSV row:', row, error);
+      return {
+        ...row,
+        submissionDate: null,
+        notificationDate: null,
+        cameraReadyDate: null,
+        registrationDate: null,
+        otherDate: null,
+      };
+      }
     });
   }
 
@@ -387,6 +398,7 @@ export class AdminConferenceService {
     if (!conference) {
       throw new Error('No data to import');
     }
+    console.log('Importing conference:', conference.title, conference.acronym);
     const conferenceInDB =
       await this.conferenceService.getConferenceByAcronymAndTitle(
         conference?.title,
@@ -397,6 +409,7 @@ export class AdminConferenceService {
       console.log('No conference foudn', conference);
       return undefined;
     }
+    console.log('Importing conference:', conference.title, conference.acronym);
     try {
       const conferenceOrganization =
         await this.conferenceOrganizationService.importOrganize({
@@ -482,7 +495,7 @@ export class AdminConferenceService {
           stack: error.stack,
         },
       });
-      console.log('Error importing conference:', error);
+      console.log('Error importing conference:', conference.title, conference.acronym);
       return false;
     }
   }
@@ -778,6 +791,7 @@ export class AdminConferenceService {
   }
 
   async saveConference(conferenceData: ConferenceSaveDto): Promise<any> {
+    console.log('Saving conference:', conferenceData);
     try {
       // Create or update conference
       const conference = await this.txHost.tx.conferences.upsert({
