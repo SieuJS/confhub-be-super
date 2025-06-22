@@ -102,6 +102,7 @@ export class JournalService {
             scope: journal.Scope,
             hIndex: parseInt(journal['H index']),
             rank : journal.Rank,
+            scrimagoLink: journal.scimagoLink,
           },
         });
 

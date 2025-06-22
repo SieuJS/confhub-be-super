@@ -1,4 +1,9 @@
-import { HttpException, Injectable, HttpStatus } from '@nestjs/common';
+import {
+  HttpException,
+  Injectable,
+  HttpStatus,
+  BadRequestException,
+} from '@nestjs/common';
 import { UserInput } from '../models/user.input';
 import { PrismaService } from '../../common';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
@@ -162,6 +167,17 @@ export class UserService {
     if (!conference) {
       throw new HttpException('Conference not found', 400);
     }
+    const existingFollow = await this.txHost.tx.conferenceFollows.findFirst({
+      where: {
+        userId,
+        conferenceId,
+      },
+    });
+    if (existingFollow) {
+      throw new BadRequestException(
+        'You are already following this conference',
+      );
+    }
     const follow = await this.txHost.tx.conferenceFollows.create({
       data: {
         userId,
@@ -187,7 +203,7 @@ export class UserService {
       },
     });
     if (!follow) {
-      return;
+      return new BadRequestException('You are not following this conference');
     }
     return await this.prismaService.conferenceFollows.delete({
       where: {
@@ -216,6 +232,27 @@ export class UserService {
   }
 
   async addToCalendar(userId: string, conferenceId: string) {
+    const conference = await this.txHost.tx.conferences.findUnique({
+      where: {
+        id: conferenceId,
+      },
+    });
+    if (!conference) {
+      throw new HttpException('Conference not found', 400);
+    }
+    const existingCalendar = await this.txHost.tx.conferenceCalendars.findFirst(
+      {
+        where: {
+          userId,
+          conferenceId,
+        },
+      },
+    );
+    if (existingCalendar) {
+      throw new BadRequestException(
+        'You have already added this conference to your calendar',
+      );
+    }
     return await this.txHost.tx.conferenceCalendars.create({
       data: {
         userId,
@@ -325,7 +362,7 @@ export class UserService {
         updatedAt: conference.updatedAt,
         status: conference.belongsTo?.status,
         dates: conferenceDates,
-        accessType : latestOrg?.accessType ?? undefined,
+        accessType: latestOrg?.accessType ?? undefined,
         location: {
           address: firstLocation.address,
           cityStateProvince: firstLocation.cityStateProvince,
@@ -346,6 +383,18 @@ export class UserService {
     });
     if (!conference) {
       throw new HttpException('Conference not found', 400);
+    }
+    const existingBlacklist =
+      await this.txHost.tx.conferenceBlacklists.findFirst({
+        where: {
+          userId,
+          conferenceId,
+        },
+      });
+    if (existingBlacklist) {
+      throw new BadRequestException(
+        'You have already added this conference to your blacklist',
+      );
     }
 
     const blacklist = await this.txHost.tx.conferenceBlacklists.create({
@@ -472,80 +521,80 @@ export class UserService {
       return await this.prismaService.$transaction(async (prisma) => {
         // 1. Delete user's conference follows
         await prisma.conferenceFollows.deleteMany({
-          where: { userId }
+          where: { userId },
         });
 
         // 2. Delete user's conference likes
         await prisma.conferenceLikes.deleteMany({
-          where: { userId }
+          where: { userId },
         });
 
         // 3. Delete user's conference feedbacks
         await prisma.conferenceFeedbacks.deleteMany({
-          where: { creatorId: userId }
+          where: { creatorId: userId },
         });
 
         // 4. Delete user's conference calendars
         await prisma.conferenceCalendars.deleteMany({
-          where: { userId }
+          where: { userId },
         });
 
         // 5. Delete user's conference blacklists
         await prisma.conferenceBlacklists.deleteMany({
-          where: { userId }
+          where: { userId },
         });
 
         // 6. Delete user's notifications
         await prisma.notifications.deleteMany({
-          where: { userId }
+          where: { userId },
         });
 
         // 7. Delete user's notification settings
         await prisma.notificationSettings.deleteMany({
-          where: { userId }
+          where: { userId },
         });
 
         // 8. Delete user's interested topics
         await prisma.topicUserInteresteds.deleteMany({
-          where: { userId }
+          where: { userId },
         });
 
         // 9. Delete user's verification records
         await prisma.userVerification.deleteMany({
-          where: { userId }
+          where: { userId },
         });
 
         // 10. Delete user's conference post requests
         await prisma.conferencePostRequests.deleteMany({
-          where: { userId }
+          where: { userId },
         });
 
         // 11. Delete user's journal follows
         await prisma.journalFollows.deleteMany({
-          where: { userId }
+          where: { userId },
         });
 
         // 12. Delete user's journal notifications
         await prisma.journalNotifications.deleteMany({
-          where: { userId }
+          where: { userId },
         });
 
         // 13. Finally, delete the user
         const deletedUser = await prisma.users.delete({
-          where: { id: userId }
+          where: { id: userId },
         });
 
         return {
           success: true,
           message: 'User and all associated data deleted successfully',
-          deletedUser
+          deletedUser,
         };
       });
     } catch (error) {
       console.error('Error deleting user:', error);
       throw new HttpException(
         'Failed to delete user and associated data',
-        HttpStatus.INTERNAL_SERVER_ERROR
+        HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
   }
