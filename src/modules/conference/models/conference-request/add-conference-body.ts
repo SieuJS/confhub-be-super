@@ -68,7 +68,7 @@ export class AddConferenceBody extends ConferenceRequestBody {
     description: 'Conference description',
     example: 'This is a conference about AI and ML',
   })
-  summarize: string;
+  summary: string;
 
   @ApiProperty({
     description: 'Call for paper',

@@ -277,7 +277,7 @@ export class ConferenceController {
         link: conferenceImport.link,
         impLink: conferenceImport.impLink || '',
         cfpLink: conferenceImport.cfpLink || '',
-        summerize: conferenceImport.summarize,
+        summerize: conferenceImport.summary || '',
         callForPaper: conferenceImport.callForPaper || '',
         conferenceId: conferenceInstance.id,
         isAvailable: true,
