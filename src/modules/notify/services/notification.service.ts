@@ -483,6 +483,11 @@ export class NotificationService {
             notificationId: notificationType.id,
           },
         },
+        followConference: {
+          some: {
+            conferenceId: conferenceId,
+          },
+        },
       },
     });
     for (const user of users) {

@@ -156,7 +156,9 @@ export class ConferenceCrawlJobController {
                 conference.id,
               );
             if (!organization) {
-              console.log(`[Start Cron Immediate] No organization found for conference: ${conference.title}`);
+              console.log(
+                `[Start Cron Immediate] No organization found for conference: ${conference.title}`,
+              );
               return null;
             }
             return {
@@ -299,7 +301,10 @@ export class ConferenceCrawlJobController {
         description,
       });
 
-    const data = result.data;
+    const data = result.data.map((item) => ({
+      ...item,
+      title: item.name,
+    }));
     await this.adminConferenceService.importConferences(data as any);
     await this.notificationService.sendUpdateConferenceNotification(
       conference.id,
