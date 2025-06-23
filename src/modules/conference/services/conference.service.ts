@@ -260,7 +260,7 @@ export class ConferenceService {
                   ...(conferenceFilter?.source
                     ? {
                         belongsToSource: {
-                          ...(conferenceFilter.source === 'other'
+                          ...(conferenceFilter.source !== 'other'
                             ? {
                                 name: {
                                   contains: conferenceFilter?.source,
