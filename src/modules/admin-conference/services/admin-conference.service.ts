@@ -362,30 +362,46 @@ export class AdminConferenceService {
       data: { status: status }
     });
 
+    const conferenceAfterUpdate = await this.txHost.tx.conferences.findUnique({ 
+      where: { id: conferenceInDB.id },
+      include: {
+        ranks: {
+          include: {
+            byRank: {
+              include: {
+                belongsToSource: true,
+              },
+            },
+            inFieldOfResearch: true,
+          },
+        },
+      },
+    });
+
     return {
-      id: conferenceInDB?.id,
-      title: conferenceInDB.title,
+      id: conferenceAfterUpdate?.id,
+      title: conferenceAfterUpdate?.title,
       sources: Array.from(
         new Set(
-          conferenceInDB.ranks.map(
+          conferenceAfterUpdate?.ranks.map(
             (rank) => rank.byRank.belongsToSource.name as string,
           ),
         ),
       ),
-      acronym: conferenceInDB.acronym,
+      acronym: conferenceAfterUpdate?.acronym,
       ranks: Array.from(
-        new Set(conferenceInDB.ranks.map((rank) => rank.byRank.name as string)),
+        new Set(conferenceAfterUpdate?.ranks.map((rank) => rank.byRank.name as string)),
       ),
       researchFields: Array.from(
         new Set(
-          conferenceInDB.ranks.map(
+          conferenceAfterUpdate?.ranks.map(
             (rank) => rank.inFieldOfResearch.name as string,
           ),
         ),
       ),
       status: status,
-      createdAt: conferenceInDB.createdAt,
-      updatedAt: lastTimeCrawl || conferenceInDB.updatedAt,
+      createdAt: conferenceAfterUpdate?.createdAt,
+      updatedAt: lastTimeCrawl || conferenceAfterUpdate?.updatedAt,
       link: conferenceOrg?.link || '',
       impLink: conferenceOrg?.impLink || '',
       cfpLink: conferenceOrg?.cfpLink || '',
