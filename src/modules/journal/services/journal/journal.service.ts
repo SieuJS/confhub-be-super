@@ -216,6 +216,10 @@ export class JournalService {
           success: false,
           message: 'Failed to import journal',
           error: error instanceof Error ? error.message : 'Unknown error',
+          data : {
+            title: journal.Title,
+            issn: journal.Issn,
+          }
         });
         totalFailed++;
       }
@@ -241,6 +245,7 @@ export class JournalService {
       region,
       type,
       topic,
+      category,
       areas,
       sortBy = 'createdAt',
       sortOrder = 'desc',
@@ -270,6 +275,17 @@ export class JournalService {
           },
         },
       }),
+      ...(
+        category && {
+          JournalTopics: {
+            some: {
+              inTopic: {
+                name: { contains: category, mode: 'insensitive' as const },
+              },
+            },
+          },
+        }
+      ),
       ...(query.issn && {
         issn: { contains: query.issn, mode: 'insensitive' as const },
       }),
