@@ -251,7 +251,7 @@ export class JournalService {
       sortOrder = 'desc',
     } = query;
     const skip = (page - 1) * limit;
-
+    console.log('Query:', category);
     const where: Prisma.JournalsWhereInput = {
       ...(search && {
         OR: [
@@ -294,16 +294,6 @@ export class JournalService {
           some: {
             quartile: {
               contains: query.quartile,
-              mode: 'insensitive' as const,
-            },
-          },
-        },
-      }),
-      ...(query.category && {
-        JournalStatistics: {
-          some: {
-            category: {
-              contains: query.category,
               mode: 'insensitive' as const,
             },
           },
