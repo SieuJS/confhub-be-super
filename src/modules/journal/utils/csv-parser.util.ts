@@ -32,7 +32,7 @@ interface CsvRecord {
 }
 
 function validateRequiredFields(record: CsvRecord): void {
-  const requiredFields = ['Title', 'Issn', 'Publisher'];
+  const requiredFields = ['Title', 'Issn'];
   const missingFields = requiredFields.filter(
     (field) => !record[field]?.trim(),
   );

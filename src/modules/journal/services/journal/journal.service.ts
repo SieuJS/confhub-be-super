@@ -393,11 +393,7 @@ export class JournalService {
         // Check if journal has been crawled by looking for quartiles and scope
         const existingJournal = await this.prisma.journals.findFirst({
           where: {
-            AND: [
-              { title: journal.Title },
-              { issn: journal.Issn },
-              { publisher: journal.Publisher },
-            ],
+            AND: [{ title: journal.Title }, { issn: journal.Issn }],
           },
           include: {
             JournalDetails: true,

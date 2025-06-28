@@ -10,38 +10,27 @@ export class JournalCsvService {
   async processCsvFile(
     fileBuffer: Buffer,
   ): Promise<JournalCsvImportResponseDto> {
-    try {
-      if (!fileBuffer || fileBuffer.length === 0) {
-        throw new BadRequestException('Empty file provided');
-      }
-
-      // Convert buffer to string
-      const csvContent = fileBuffer.toString('utf-8');
-
-      // Validate CSV content
-      if (!csvContent.trim()) {
-        throw new BadRequestException('CSV file is empty');
-      }
-
-      // Parse CSV content
-      const journals = parseJournalCsv(csvContent);
-
-      // Validate parsed data
-      if (!journals || journals.length === 0) {
-        throw new BadRequestException('No valid journal data found in CSV');
-      }
-
-      // Check and import journals
-      return this.journalService.checkAndImportJournalsFromCsv(journals);
-    } catch (error) {
-      if (error instanceof BadRequestException) {
-        throw error;
-      }
-      throw new BadRequestException(
-        `Failed to process CSV file: ${
-          error instanceof Error ? error.message : 'Unknown error'
-        }`,
-      );
+    if (!fileBuffer || fileBuffer.length === 0) {
+      throw new BadRequestException('Empty file provided');
     }
+
+    // Convert buffer to string
+    const csvContent = fileBuffer.toString('utf-8');
+
+    // Validate CSV content
+    if (!csvContent.trim()) {
+      throw new BadRequestException('CSV file is empty');
+    }
+
+    // Parse CSV content
+    const journals = parseJournalCsv(csvContent);
+
+    // Validate parsed data
+    if (!journals || journals.length === 0) {
+      throw new BadRequestException('No valid journal data found in CSV');
+    }
+
+    // Check and import journals
+    return this.journalService.checkAndImportJournalsFromCsv(journals);
   }
 }
