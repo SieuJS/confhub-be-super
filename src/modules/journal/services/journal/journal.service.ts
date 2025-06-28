@@ -216,10 +216,10 @@ export class JournalService {
           success: false,
           message: 'Failed to import journal',
           error: error instanceof Error ? error.message : 'Unknown error',
-          data : {
+          data: {
             title: journal.Title,
             issn: journal.Issn,
-          }
+          },
         });
         totalFailed++;
       }
@@ -275,17 +275,15 @@ export class JournalService {
           },
         },
       }),
-      ...(
-        category && {
-          JournalTopics: {
-            some: {
-              inTopic: {
-                name: { contains: category, mode: 'insensitive' as const },
-              },
+      ...(category && {
+        JournalTopics: {
+          some: {
+            inTopic: {
+              name: { contains: category, mode: 'insensitive' as const },
             },
           },
-        }
-      ),
+        },
+      }),
       ...(query.issn && {
         issn: { contains: query.issn, mode: 'insensitive' as const },
       }),
