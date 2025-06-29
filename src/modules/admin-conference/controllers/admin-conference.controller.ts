@@ -67,6 +67,7 @@ export class AdminConferenceController {
       researchFields: params.researchFields,
       ranks: params.ranks,
     });
+    console.log('Where clause for Prisma:', JSON.stringify(where));
     return this.adminConferenceService.getConferenceInstances({
       where,
       orderBy: {

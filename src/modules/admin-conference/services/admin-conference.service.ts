@@ -75,8 +75,8 @@ export class AdminConferenceService {
               }
             : {}),
         },
-        {
-          ranks: {
+       {
+          ...(params.source.length > 0 || params.ranks.length > 0 ? {ranks: {
             some: {
               byRank: {
                 belongsToSource: {
@@ -106,7 +106,7 @@ export class AdminConferenceService {
                   : {}),
               },
             },
-          },
+          },} : {})
         },
       ],
     };
