@@ -25,6 +25,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { JournalModule } from './modules/journal/journal.module';
 import { AdminUserModule } from './modules/admin-user/admin-user.module';
 import { ConferenceRequestModule } from './modules/conference-request/conference-request.module';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
@@ -70,6 +71,18 @@ import { ConferenceRequestModule } from './modules/conference-request/conference
         };
       },
       global: true,
+    }),
+    CacheModule.registerAsync({
+      imports: [CommonModule],
+      inject: [Service.CONFIG],
+      useFactory: (config: Config) => {
+        return {
+          host: config.REDIS_HOST,
+          port: config.REDIS_PORT,
+          ttl: 3600, // 1 hour default TTL
+          max: 1000, // Maximum number of items in cache
+        };
+      },
     }),
     FeedbacksModule,
     ConferenceOrganizationModule,

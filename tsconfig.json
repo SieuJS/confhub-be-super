@@ -18,6 +18,6 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "resolveJsonModule": true,
-    "typeRoots": ["./node_modules/@types", "./src/modules/auth/types"]
+    "typeRoots": ["./node_modules/@types", "./src/modules/auth/types", "./src/types"]
   }
 }

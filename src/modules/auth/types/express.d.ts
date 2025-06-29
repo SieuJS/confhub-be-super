@@ -9,5 +9,6 @@ declare module 'express-session' {
 declare module 'express' {
   interface Request {
     session: Session & Partial<SessionData>;
+    oauthState?: string;
   }
 }
