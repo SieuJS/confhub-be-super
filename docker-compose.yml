@@ -1,64 +1,98 @@
-# THIS DOCKERFILE IS INTENDED FOR DEVELOPMENT ENVIRONMENTS
-# DO NOT USE THIS FOR PRODUCTION USAGES.
+# ~/confhub-be-super/docker-compose.yml
 
-version: '3'
+
 
 services:
+  # --- NGINX REVERSE PROXY SERVICE ---
+  nginx:
+    image: nginx:1.25-alpine
+    container_name: confhub_nginx_proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      # --- SỬA LẠI CÁC DÒNG MOUNT CẤU HÌNH ---
+      - ./nginx-config/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx-config/conf.d:/etc/nginx/conf.d:ro
+      # ----------------------------------------
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /var/www/html:/var/www/html
+      - /var/cache/nginx_cache:/var/cache/nginx
+    networks:
+      - confhub-network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  # --- DATABASE SERVICE ---
   postgresql:
     image: docker.io/bitnami/postgresql:16
+    container_name: confhub_postgresql
+    hostname: postgresql
+    restart: unless-stopped
     ports:
       - '5432:5432'
-    hostname: postgresql
     networks:
-      - prisma-network
+      - confhub-network
     volumes:
-      - 'postgresql_data:/bitnami/postgresql'
+      - postgresql_data:/bitnami/postgresql
+      - ./postgres-config/custom.conf:/opt/bitnami/postgresql/conf/conf.d/custom.conf
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U confhub -d confhub -h localhost -p 5432"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
       - POSTGRESQL_DATABASE=confhub
       - POSTGRESQL_USERNAME=confhub
       - POSTGRESQL_PASSWORD=password
+
+  # --- BACKEND SERVICE ---
   server:
     build: 
       context: .  
       dockerfile: Dockerfile
-    ports:
-      - '3000:3000'
-    stdin_open: true
-    tty: true  # Keeps the container running for debugging
     depends_on:
-      - postgresql
+      postgresql:
+        condition: service_healthy
     env_file:
       - .env.product
     networks:
-      - prisma-network
-    restart: unless-stopped
+      - confhub-network
+    deploy:
+      replicas: 6
+
+   
+  # --- REDIS SERVICE ---
   confhub_redis:
+    image: redis:7-alpine
     container_name: confhub_redis
-    image: redis:alpine
     hostname: redis
-    expose:
-      - 6379
-    ports:
-      - 6379:6379 
-    networks:
-      - prisma-network
     restart: unless-stopped
+    ports:
+      - '6379:6379' 
+    networks:
+      - confhub-network
+
+  # --- REDIS COMMANDER (Optional) ---
   confhub_redis_commander:
     container_name: confhub_redis_commander
     image: rediscommander/redis-commander:latest
+    restart: unless-stopped
     environment:
       - REDIS_HOSTS=local:confhub_redis:6379
     ports:
       - '8088:8081'
     networks:
-      - prisma-network
+      - confhub-network
     depends_on:
       - confhub_redis
- 
+
 networks:
-  prisma-network:
-    name: prisma-network
+  confhub-network:
+    name: confhub-network
+
 volumes:
   postgresql_data:
     driver: local
