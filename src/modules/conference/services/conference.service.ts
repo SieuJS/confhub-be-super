@@ -28,6 +28,8 @@ import {
 } from '../models/conference-request/get-conference-params';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { TransactionHost } from '@nestjs-cls/transactional';
+import { RedisCacheService } from '../../common/services/redis-cache.service';
+import * as crypto from 'crypto';
 import { ConferenceDetailDTO } from '../models/conference/conference-detail.dto';
 import { ConferenceBlacklistByDTO } from '../models/conference-blacklist/conference-added-blacklist-by.dto';
 import { Prisma, Topics } from 'generated/prisma_client';
@@ -45,9 +47,41 @@ export class ConferenceService {
     private readonly conferenceOraganizationService: ConferenceOrganizationSerivce,
     private readonly conferenceRankService: ConferenceRankService,
     private readonly txHost: TransactionHost<TransactionalAdapterPrisma>,
+    private readonly cacheService: RedisCacheService,
   ) {}
 
   async getConferences(
+    conferenceFilter?: GetConferencesParams,
+    sortOptions?: GetConferencesSortParams,
+  ): Promise<ConferencePaginationDTO> {
+    // Generate cache key based on filters and sort options
+    const cacheKey = this.generateCacheKey('conferences', {
+      ...conferenceFilter,
+      ...sortOptions,
+    });
+
+    // Try to get from cache first
+    const cached = await this.cacheService.get<ConferencePaginationDTO>(cacheKey);
+    if (cached) {
+      return cached;
+    }
+
+    // If not cached, execute the query and cache the result
+    const result = await this.getConferencesFromDB(conferenceFilter, sortOptions);
+    
+    // Cache for 30 minutes (1800 seconds)
+    await this.cacheService.set(cacheKey, result, 1800);
+    
+    return result;
+  }
+
+  private generateCacheKey(operation: string, params: any): string {
+    const keyData = JSON.stringify(params);
+    const hash = crypto.createHash('sha256').update(keyData).digest('hex');
+    return `conferences:${operation}:${hash}`;
+  }
+
+  private async getConferencesFromDB(
     conferenceFilter?: GetConferencesParams,
     sortOptions?: GetConferencesSortParams,
   ): Promise<ConferencePaginationDTO> {
@@ -728,33 +762,44 @@ export class ConferenceService {
       sortOptions?.sortBy === 'updatedAt'
     ) {
       const currentDate = new Date();
-
+      
       // Sort by conference date proximity (closest to current date) and then by follower count
       conferenceToResponse.sort((a, b) => {
         // Get conference dates
         const aDate = a.dates?.fromDate ? new Date(a.dates.fromDate) : null;
         const bDate = b.dates?.fromDate ? new Date(b.dates.fromDate) : null;
-
+        
         // Calculate distance from current date (in days)
         const getDateDistance = (date: Date | null) => {
           if (!date) return Infinity; // Put conferences without dates at the end
           const diffTime = Math.abs(date.getTime() - currentDate.getTime());
           return Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Convert to days
         };
-
+        
         const aDistance = getDateDistance(aDate);
         const bDistance = getDateDistance(bDate);
-
+        
         // Primary sort: by date proximity (closer dates first)
         if (aDistance !== bDistance) {
           return aDistance - bDistance;
         }
-
-        // Secondary sort: by follower count (we need to get this from the database)
-        // For now, we'll use updatedAt as secondary sort
+        
+        // Secondary sort: by follower count (get from the original conference data)
+        const aConference = conferences.find((c: any) => c.id === a.id);
+        const bConference = conferences.find((c: any) => c.id === b.id);
+        
+        const aFollowerCount = aConference?.follows?.length || 0;
+        const bFollowerCount = bConference?.follows?.length || 0;
+        
+        // More followers first
+        if (aFollowerCount !== bFollowerCount) {
+          return bFollowerCount - aFollowerCount;
+        }
+        
+        // Tertiary sort: by updatedAt
         const aTime = new Date(a.updatedAt).getTime();
         const bTime = new Date(b.updatedAt).getTime();
-
+        
         return sortOptions?.sortOrder === 'asc' ? aTime - bTime : bTime - aTime;
       });
     }
@@ -840,7 +885,7 @@ export class ConferenceService {
       );
     }
 
-    return await this.txHost.tx.conferences.create({
+    const result = await this.txHost.tx.conferences.create({
       data: {
         ...conference,
         status: 'pending',
@@ -848,6 +893,11 @@ export class ConferenceService {
         updatedAt: new Date(),
       },
     });
+
+    // Invalidate cache after creating conference
+    await this.invalidateConferenceCache();
+
+    return result;
   }
 
   async findOrCreateConference(conference: ConferenceImportDTO) {
@@ -1550,5 +1600,51 @@ export class ConferenceService {
         byAdmin: true,
       },
     });
+  }
+
+  // Cache invalidation methods
+  private async invalidateConferenceCache(conferenceId?: string): Promise<void> {
+    try {
+      // Invalidate all conference list caches
+      await this.cacheService.delByPattern('conferences:conferences:*');
+      
+      // Invalidate specific conference cache if ID provided
+      if (conferenceId) {
+        await this.cacheService.delByPattern(`conferences:detail:${conferenceId}*`);
+      }
+      
+      // Invalidate related caches
+      await this.cacheService.delByPattern('conferences:upcoming:*');
+      await this.cacheService.delByPattern('conferences:search:*');
+    } catch (error) {
+      console.error('Cache invalidation error:', error);
+    }
+  }
+
+  // Cached method for getting conference by ID
+  async getConferenceByIdCached(
+    id: string,
+    force = false,
+  ): Promise<any> {
+    const cacheKey = `conferences:detail:${id}:${force}`;
+    
+    return this.cacheService.getOrSet(
+      cacheKey,
+      () => this.getConferenceById(id, force),
+      3600, // 1 hour cache
+    );
+  }
+
+  // Cached method for upcoming conferences
+  async checkUpcomingEventsCached(
+    daysThreshold: number = 30,
+  ): Promise<ConferenceDTO[]> {
+    const cacheKey = `conferences:upcoming:${daysThreshold}`;
+    
+    return this.cacheService.getOrSet(
+      cacheKey,
+      () => this.checkUpcomingEvents(daysThreshold),
+      1800, // 30 minutes cache
+    );
   }
 }

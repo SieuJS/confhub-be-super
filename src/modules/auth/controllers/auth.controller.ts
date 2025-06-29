@@ -18,7 +18,6 @@ import { UserInput } from 'src/modules/user/models/user.input';
 import { Transactional } from '@nestjs-cls/transactional';
 import { UserService } from 'src/modules/user/services/user.service';
 import { NotificationService } from 'src/modules/notify/services/notification.service';
-import * as crypto from 'crypto';
 import { UserVerifyService } from 'src/modules/email-verify/services/user-verify.service';
 import { EmailService } from 'src/modules/email-verify/services/email.service';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
@@ -33,6 +32,7 @@ import { UserPropertyTransformPipe } from 'src/modules/user/pipes/user-property-
 import { PrismaService } from 'src/modules/common';
 import { PasswordService } from '../services/password.service';
 import { PasswordValidationPipe } from '../pipes/password-validation.pipe';
+import { RedisCacheService } from 'src/modules/common/services/redis-cache.service';
 
 interface GoogleUser {
   email: string;
@@ -40,6 +40,7 @@ interface GoogleUser {
   lastName: string;
   picture?: string;
   dob?: string;
+  oauthState?: string;
 }
 
 interface RequestWithUser extends Request {
@@ -58,6 +59,7 @@ export class AuthController {
     private readonly emailService: EmailService,
     private readonly prismaService: PrismaService,
     private readonly passwordService: PasswordService,
+    private readonly redisCacheService: RedisCacheService,
   ) {}
 
   private async getUserWithVerification(userId: string): Promise<UserDTO> {
@@ -240,9 +242,34 @@ export class AuthController {
     @Res() res: Response,
   ) {
     // Check if the request contains error parameters (user cancelled or denied access)
-    const redirectUrl = req.session?.redirectUrl || 'https://confhub.ddns.net/apis/auth/google-callback';
+    let redirectUrl = 'https://confhub.ddns.net/apis/auth/google-callback'; // Default fallback
 
-    console.log('redirectUrl', redirectUrl);
+    try {
+      // Try to get redirect URL from Redis using the OAuth state
+      const state = (req.query.state as string) || req.user?.oauthState;
+      
+      if (state) {
+        const cachedRedirectUrl = await this.redisCacheService.get<string>(
+          `oauth:redirect:${state}`,
+        );
+        if (cachedRedirectUrl) {
+          redirectUrl = cachedRedirectUrl;
+          console.log('Retrieved redirect URL from Redis:', redirectUrl);
+          
+          // Clean up the cache entry
+          await this.redisCacheService.del(`oauth:redirect:${state}`);
+        } else {
+          console.log('No cached redirect URL found for state:', state);
+        }
+      } else {
+        console.log('No OAuth state found in request');
+      }
+    } catch (error) {
+      console.error('Error retrieving redirect URL from Redis:', error);
+      // Continue with default URL
+    }
+
+    console.log('Final redirectUrl:', redirectUrl);
 
     if (req.query.error) {
       return res.redirect(`${redirectUrl}?error=true`);
@@ -278,11 +305,6 @@ export class AuthController {
     }
 
     const loginPayload = this.authService.loginUser(existUser);
-
-    // Clear the session redirectUrl after use
-    if (req.session) {
-      delete req.session.redirectUrl;
-    }
 
     return res.redirect(`${redirectUrl}?token=${loginPayload.token}`);
   }
