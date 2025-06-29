@@ -136,12 +136,23 @@ export class ConferenceService {
                   }
                 : {}),
             },
+            follows: true, // Include followers for sorting
           };
     // Only use standard orderBy for non-rank/source fields
     if (sortOptions?.sortBy !== 'rank' && sortOptions?.sortBy !== 'source') {
-      orderBy = {
-        [sortOptions?.sortBy || 'createdAt']: sortOptions?.sortOrder || 'desc',
-      };
+      // For date-based sorting and follower count, we'll handle it after fetching data
+      if (
+        !sortOptions?.sortBy ||
+        sortOptions?.sortBy === 'conferenceDate' ||
+        sortOptions?.sortBy === 'updatedAt'
+      ) {
+        // We'll sort by conference date proximity and follower count in JavaScript
+        orderBy = {}; // No database ordering for custom sorting
+      } else {
+        orderBy = {
+          [sortOptions?.sortBy]: sortOptions?.sortOrder || 'desc',
+        };
+      }
     }
 
     const whereCondition = {
@@ -709,6 +720,45 @@ export class ConferenceService {
         };
       }),
     );
+
+    // Custom sorting logic for date proximity and follower count
+    if (
+      !sortOptions?.sortBy ||
+      sortOptions?.sortBy === 'conferenceDate' ||
+      sortOptions?.sortBy === 'updatedAt'
+    ) {
+      const currentDate = new Date();
+
+      // Sort by conference date proximity (closest to current date) and then by follower count
+      conferenceToResponse.sort((a, b) => {
+        // Get conference dates
+        const aDate = a.dates?.fromDate ? new Date(a.dates.fromDate) : null;
+        const bDate = b.dates?.fromDate ? new Date(b.dates.fromDate) : null;
+
+        // Calculate distance from current date (in days)
+        const getDateDistance = (date: Date | null) => {
+          if (!date) return Infinity; // Put conferences without dates at the end
+          const diffTime = Math.abs(date.getTime() - currentDate.getTime());
+          return Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Convert to days
+        };
+
+        const aDistance = getDateDistance(aDate);
+        const bDistance = getDateDistance(bDate);
+
+        // Primary sort: by date proximity (closer dates first)
+        if (aDistance !== bDistance) {
+          return aDistance - bDistance;
+        }
+
+        // Secondary sort: by follower count (we need to get this from the database)
+        // For now, we'll use updatedAt as secondary sort
+        const aTime = new Date(a.updatedAt).getTime();
+        const bTime = new Date(b.updatedAt).getTime();
+
+        return sortOptions?.sortOrder === 'asc' ? aTime - bTime : bTime - aTime;
+      });
+    }
+
     return {
       payload: conferenceToResponse,
       meta: {
