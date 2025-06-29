@@ -59,7 +59,7 @@ export class CacheMiddleware implements NestMiddleware {
       // Try to get cached response
       const cachedResponse =
         await this.cacheService.get<CachedResponse>(cacheKey);
-      
+
       if (cachedResponse) {
         // Set cache headers
         res.set({
@@ -119,7 +119,7 @@ export class CacheMiddleware implements NestMiddleware {
     const url = req.originalUrl || req.url;
     const userId = req.user?.id || 'anonymous';
     const userRole = req.user?.role || 'guest';
-    
+
     // Include relevant user context but avoid sensitive data
     const keyData = {
       url,
@@ -133,7 +133,7 @@ export class CacheMiddleware implements NestMiddleware {
     // Create hash for consistent key generation
     const keyString = JSON.stringify(keyData);
     const hash = crypto.createHash('sha256').update(keyString).digest('hex');
-    
+
     return `api:${hash}`;
   }
 
@@ -213,7 +213,7 @@ export function Cacheable(ttl: number = 3600, keyPrefix?: string) {
       ...args: unknown[]
     ): Promise<unknown> {
       const cacheService = this.cacheService || this.redisCacheService;
-      
+
       if (!cacheService) {
         console.warn(
           'RedisCacheService not found, executing method without cache',
@@ -226,7 +226,7 @@ export function Cacheable(ttl: number = 3600, keyPrefix?: string) {
       const key = keyPrefix
         ? `${keyPrefix}:${JSON.stringify(args)}`
         : `${target.constructor.name}:${propertyName}:${JSON.stringify(args)}`;
-      
+
       const cacheKey = crypto.createHash('sha256').update(key).digest('hex');
 
       try {
@@ -242,7 +242,7 @@ export function Cacheable(ttl: number = 3600, keyPrefix?: string) {
           args,
         )) as Promise<unknown>;
         await cacheService.set(cacheKey, result, ttl);
-        
+
         return result;
       } catch (error) {
         console.error('Cache decorator error:', error);
@@ -275,7 +275,7 @@ export function InvalidateCache(patterns: string[]) {
         this,
         args,
       )) as Promise<unknown>;
-      
+
       const cacheService = this.cacheService || this.redisCacheService;
       if (cacheService) {
         // Invalidate cache patterns

@@ -84,9 +84,9 @@ export class RedisCacheService {
   }
 
   /**
-   * Delete keys by pattern
+   * Delete keys by pattern and return count of deleted keys
    */
-  async delByPattern(pattern: string): Promise<void> {
+  async delByPattern(pattern: string): Promise<number> {
     try {
       const keys = await this.redis.keys(pattern);
       if (keys.length > 0) {
@@ -95,12 +95,15 @@ export class RedisCacheService {
         for (const key of keys) {
           await this.cacheManager.del(key.replace('confhub:', ''));
         }
+        return keys.length;
       }
+      return 0;
     } catch (error) {
       console.error(
         `Cache delete by pattern error for pattern ${pattern}:`,
         error,
       );
+      return 0;
     }
   }
 
@@ -260,6 +263,54 @@ export class RedisCacheService {
       await this.redis.quit();
     } catch (error) {
       console.error('Redis close error:', error);
+    }
+  }
+
+  /**
+   * Get keys matching a pattern
+   */
+  async keys(pattern: string): Promise<string[]> {
+    try {
+      return await this.redis.keys(pattern);
+    } catch (error) {
+      console.error(`Cache keys error for pattern ${pattern}:`, error);
+      return [];
+    }
+  }
+
+  /**
+   * Push to left of list (FIFO queue)
+   */
+  async lpush(key: string, ...values: string[]): Promise<number> {
+    try {
+      return await this.redis.lpush(key, ...values);
+    } catch (error) {
+      console.error(`Cache lpush error for key ${key}:`, error);
+      return 0;
+    }
+  }
+
+  /**
+   * Pop from right of list (FIFO queue)
+   */
+  async rpop(key: string): Promise<string | null> {
+    try {
+      return await this.redis.rpop(key);
+    } catch (error) {
+      console.error(`Cache rpop error for key ${key}:`, error);
+      return null;
+    }
+  }
+
+  /**
+   * Get length of list
+   */
+  async llen(key: string): Promise<number> {
+    try {
+      return await this.redis.llen(key);
+    } catch (error) {
+      console.error(`Cache llen error for key ${key}:`, error);
+      return 0;
     }
   }
 }

@@ -32,7 +32,7 @@ import { UserPropertyTransformPipe } from 'src/modules/user/pipes/user-property-
 import { PrismaService } from 'src/modules/common';
 import { PasswordService } from '../services/password.service';
 import { PasswordValidationPipe } from '../pipes/password-validation.pipe';
-import { RedisCacheService } from 'src/modules/common/services/redis-cache.service';
+import { CacheManagementService } from '../services/cache-management.service';
 
 interface GoogleUser {
   email: string;
@@ -41,6 +41,7 @@ interface GoogleUser {
   picture?: string;
   dob?: string;
   oauthState?: string;
+  customOauthState?: string;
 }
 
 interface RequestWithUser extends Request {
@@ -59,7 +60,7 @@ export class AuthController {
     private readonly emailService: EmailService,
     private readonly prismaService: PrismaService,
     private readonly passwordService: PasswordService,
-    private readonly redisCacheService: RedisCacheService,
+    private readonly cacheManagementService: CacheManagementService,
   ) {}
 
   private async getUserWithVerification(userId: string): Promise<UserDTO> {
@@ -86,11 +87,28 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   async login(@Req() req: RequestWithUser) {
     const user = await this.getUserWithVerification(req.user.id);
+    
+    // Invalidate user-specific cache on login
+    try {
+      await this.cacheManagementService.invalidateUserCache(user.id);
+    } catch (error) {
+      console.error('Failed to invalidate user cache on login:', error);
+    }
+    
     return this.authService.loginUser(user);
   }
 
   @Post('/logout')
-  logout() {
+  @UseGuards(JWTGuardUser)
+  @ApiBearerAuth('access-token')
+  async logout(@Req() req: RequestWithUser) {
+    // Invalidate user-specific cache on logout
+    try {
+      await this.cacheManagementService.invalidateUserCache(req.user.id);
+    } catch (error) {
+      console.error('Failed to invalidate user cache on logout:', error);
+    }
+    
     return {
       message: 'Logout successful',
     };
@@ -106,11 +124,28 @@ export class AuthController {
     if (!admin) {
       throw new HttpException('Admin not found', 404);
     }
+    
+    // Invalidate admin-specific cache on login
+    try {
+      await this.cacheManagementService.invalidateUserCache(req.user.id);
+    } catch (error) {
+      console.error('Failed to invalidate admin cache on login:', error);
+    }
+    
     return this.authService.loginAdmin(admin as AdminDto);
   }
 
   @Post('/admin/logout')
-  logoutAdmin() {
+  @UseGuards(JWTGuardAdmin)
+  @ApiBearerAuth('access-token')
+  async logoutAdmin(@Req() req: RequestWithUser) {
+    // Invalidate admin-specific cache on logout
+    try {
+      await this.cacheManagementService.invalidateUserCache(req.user.id);
+    } catch (error) {
+      console.error('Failed to invalidate admin cache on logout:', error);
+    }
+    
     return {
       message: 'Logout successful',
     };
@@ -177,6 +212,13 @@ export class AuthController {
     const userWithVerification = await this.getUserWithVerification(newUser.id);
     const loginPayLoad = this.authService.loginUser(userWithVerification);
 
+    // Invalidate cache after user signup and login
+    try {
+      await this.cacheManagementService.invalidateUserCache(newUser.id);
+    } catch (error) {
+      console.error('Failed to invalidate cache after signup:', error);
+    }
+
     return {
       message: 'User created',
       verifyCode: verifyCode.verificationCode,
@@ -241,28 +283,56 @@ export class AuthController {
     @Req() req: Request & { user: GoogleUser },
     @Res() res: Response,
   ) {
+    console.log('Google OAuth callback started');
+    console.log('Request query:', req.query);
+    console.log('User from OAuth:', req.user);
+
     // Check if the request contains error parameters (user cancelled or denied access)
+    if (req.query.error) {
+      console.log('OAuth error detected:', req.query.error);
+      const defaultErrorUrl =
+        'https://confhub.ddns.net/apis/auth/google-callback?error=true';
+      return res.redirect(defaultErrorUrl);
+    }
+
+    const user = req.user;
+    if (!user) {
+      console.log('No user found in OAuth callback');
+      const defaultErrorUrl =
+        'https://confhub.ddns.net/apis/auth/google-callback?error=true';
+      return res.redirect(defaultErrorUrl);
+    }
+
+    // Determine redirect URL with queue-based approach (simpler and more reliable)
     let redirectUrl = 'https://confhub.ddns.net/apis/auth/google-callback'; // Default fallback
 
     try {
-      // Try to get redirect URL from Redis using the OAuth state
-      const state = (req.query.state as string) || req.user?.oauthState;
+      console.log('Attempting to get redirect URL from queue...');
       
-      if (state) {
-        const cachedRedirectUrl = await this.redisCacheService.get<string>(
-          `oauth:redirect:${state}`,
-        );
-        if (cachedRedirectUrl) {
-          redirectUrl = cachedRedirectUrl;
-          console.log('Retrieved redirect URL from Redis:', redirectUrl);
-          
-          // Clean up the cache entry
-          await this.redisCacheService.del(`oauth:redirect:${state}`);
-        } else {
-          console.log('No cached redirect URL found for state:', state);
-        }
+      // Try queue-based approach first (FIFO - First In, First Out)
+      const queueRedirectUrl =
+        await this.cacheManagementService.getRedirectUrlFromQueue();
+      
+      if (queueRedirectUrl) {
+        redirectUrl = queueRedirectUrl;
+        console.log('Retrieved redirect URL from queue:', redirectUrl);
       } else {
-        console.log('No OAuth state found in request');
+        console.log('No redirect URL found in queue, trying fallback methods');
+        
+        // Fallback to the multi-strategy approach if queue is empty
+        const fallbackUrl =
+          await this.cacheManagementService.getOAuthRedirectUrlWithFallback(
+            req.query.state as string,
+            req.user?.customOauthState,
+            req.ip,
+          );
+        
+        if (fallbackUrl) {
+          redirectUrl = fallbackUrl;
+          console.log('Retrieved redirect URL from fallback:', redirectUrl);
+        } else {
+          console.log('No redirect URL found, using default');
+        }
       }
     } catch (error) {
       console.error('Error retrieving redirect URL from Redis:', error);
@@ -271,16 +341,10 @@ export class AuthController {
 
     console.log('Final redirectUrl:', redirectUrl);
 
-    if (req.query.error) {
-      return res.redirect(`${redirectUrl}?error=true`);
-    }
-
-    const user = req.user;
-    if (!user) {
-      return res.redirect(`${redirectUrl}?error=true`);
-    }
+    // Process user login/registration
     let existUser = await this.userService.getUserByEmail(user.email);
     if (!existUser) {
+      console.log('Creating new user from Google OAuth');
       existUser = await this.userService.createUser({
         email: user.email,
         firstName: user.firstName || '',
@@ -291,13 +355,19 @@ export class AuthController {
         aboutMe: '',
         background: '',
       });
+    } else {
+      console.log('Found existing user:', existUser.email);
     }
+
+    // Handle user verification
     const verificationStatus = await (
       this.userVerifyService.getUserVerificationStatus as (
         id: string,
       ) => Promise<{ isVerified: boolean } | null>
     )(existUser.id);
+    
     if (!verificationStatus?.isVerified) {
+      console.log('Verifying user automatically for Google OAuth');
       const verifyCode = await this.userVerifyService.createVerifyCode(
         existUser.id,
       );
@@ -306,7 +376,22 @@ export class AuthController {
 
     const loginPayload = this.authService.loginUser(existUser);
 
-    return res.redirect(`${redirectUrl}?token=${loginPayload.token}`);
+    // Invalidate user cache for Google OAuth login
+    try {
+      await this.cacheManagementService.invalidateUserCache(existUser.id);
+      console.log('Cache invalidated for user:', existUser.id);
+    } catch (error) {
+      console.error(
+        'Failed to invalidate user cache on Google OAuth login:',
+        error,
+      );
+    }
+
+    // Redirect with token
+    const finalRedirectUrl = `${redirectUrl}?token=${loginPayload.token}`;
+    console.log('Redirecting to:', finalRedirectUrl);
+    
+    return res.redirect(finalRedirectUrl);
   }
 
   @Post('google')
@@ -343,6 +428,17 @@ export class AuthController {
     }
 
     const loginPayload = this.authService.loginUser(existUser);
+    
+    // Invalidate user cache for Google OAuth login
+    try {
+      await this.cacheManagementService.invalidateUserCache(existUser.id);
+    } catch (error) {
+      console.error(
+        'Failed to invalidate user cache on Google OAuth login:',
+        error,
+      );
+    }
+    
     return {
       message: 'Login successful',
       ...loginPayload,
@@ -454,7 +550,7 @@ export class AuthController {
     @Req() req: RequestWithUser,
   ) {
     const user = await this.getUserWithVerification(req.user.id);
-    
+
     if (!this.passwordService.comparePasswords(oldPassword, user.password)) {
       throw new HttpException('Current password is incorrect', 400);
     }

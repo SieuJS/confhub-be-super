@@ -61,17 +61,21 @@ export class ConferenceService {
     });
 
     // Try to get from cache first
-    const cached = await this.cacheService.get<ConferencePaginationDTO>(cacheKey);
+    const cached =
+      await this.cacheService.get<ConferencePaginationDTO>(cacheKey);
     if (cached) {
       return cached;
     }
 
     // If not cached, execute the query and cache the result
-    const result = await this.getConferencesFromDB(conferenceFilter, sortOptions);
-    
+    const result = await this.getConferencesFromDB(
+      conferenceFilter,
+      sortOptions,
+    );
+
     // Cache for 30 minutes (1800 seconds)
     await this.cacheService.set(cacheKey, result, 1800);
-    
+
     return result;
   }
 
@@ -762,44 +766,44 @@ export class ConferenceService {
       sortOptions?.sortBy === 'updatedAt'
     ) {
       const currentDate = new Date();
-      
+
       // Sort by conference date proximity (closest to current date) and then by follower count
       conferenceToResponse.sort((a, b) => {
         // Get conference dates
         const aDate = a.dates?.fromDate ? new Date(a.dates.fromDate) : null;
         const bDate = b.dates?.fromDate ? new Date(b.dates.fromDate) : null;
-        
+
         // Calculate distance from current date (in days)
         const getDateDistance = (date: Date | null) => {
           if (!date) return Infinity; // Put conferences without dates at the end
           const diffTime = Math.abs(date.getTime() - currentDate.getTime());
           return Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Convert to days
         };
-        
+
         const aDistance = getDateDistance(aDate);
         const bDistance = getDateDistance(bDate);
-        
+
         // Primary sort: by date proximity (closer dates first)
         if (aDistance !== bDistance) {
           return aDistance - bDistance;
         }
-        
+
         // Secondary sort: by follower count (get from the original conference data)
         const aConference = conferences.find((c: any) => c.id === a.id);
         const bConference = conferences.find((c: any) => c.id === b.id);
-        
+
         const aFollowerCount = aConference?.follows?.length || 0;
         const bFollowerCount = bConference?.follows?.length || 0;
-        
+
         // More followers first
         if (aFollowerCount !== bFollowerCount) {
           return bFollowerCount - aFollowerCount;
         }
-        
+
         // Tertiary sort: by updatedAt
         const aTime = new Date(a.updatedAt).getTime();
         const bTime = new Date(b.updatedAt).getTime();
-        
+
         return sortOptions?.sortOrder === 'asc' ? aTime - bTime : bTime - aTime;
       });
     }
@@ -1603,16 +1607,20 @@ export class ConferenceService {
   }
 
   // Cache invalidation methods
-  private async invalidateConferenceCache(conferenceId?: string): Promise<void> {
+  private async invalidateConferenceCache(
+    conferenceId?: string,
+  ): Promise<void> {
     try {
       // Invalidate all conference list caches
       await this.cacheService.delByPattern('conferences:conferences:*');
-      
+
       // Invalidate specific conference cache if ID provided
       if (conferenceId) {
-        await this.cacheService.delByPattern(`conferences:detail:${conferenceId}*`);
+        await this.cacheService.delByPattern(
+          `conferences:detail:${conferenceId}*`,
+        );
       }
-      
+
       // Invalidate related caches
       await this.cacheService.delByPattern('conferences:upcoming:*');
       await this.cacheService.delByPattern('conferences:search:*');
@@ -1622,12 +1630,9 @@ export class ConferenceService {
   }
 
   // Cached method for getting conference by ID
-  async getConferenceByIdCached(
-    id: string,
-    force = false,
-  ): Promise<any> {
+  async getConferenceByIdCached(id: string, force = false): Promise<any> {
     const cacheKey = `conferences:detail:${id}:${force}`;
-    
+
     return this.cacheService.getOrSet(
       cacheKey,
       () => this.getConferenceById(id, force),
@@ -1640,7 +1645,7 @@ export class ConferenceService {
     daysThreshold: number = 30,
   ): Promise<ConferenceDTO[]> {
     const cacheKey = `conferences:upcoming:${daysThreshold}`;
-    
+
     return this.cacheService.getOrSet(
       cacheKey,
       () => this.checkUpcomingEvents(daysThreshold),

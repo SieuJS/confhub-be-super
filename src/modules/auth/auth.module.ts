@@ -20,6 +20,7 @@ import {
 import { RedirectUrlMiddleware } from './middlewares/redirect-url.middleware';
 import { GoogleOAuthGuard } from './guards/google-auth.guard';
 import { PasswordService } from './services/password.service';
+import { CacheManagementService } from './services/cache-management.service';
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { PasswordService } from './services/password.service';
     GoogleStrategy,
     GoogleOAuthGuard,
     PasswordService,
+    CacheManagementService,
   ],
   exports: [AuthService, PasswordService],
 })

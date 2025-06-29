@@ -3,36 +3,69 @@ import { Request, Response, NextFunction } from 'express';
 import { RedisCacheService } from '../../common/services/redis-cache.service';
 import * as crypto from 'crypto';
 
+// Extend Request interface to include oauthState and oauthSessionKey
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace Express {
+    interface Request {
+      oauthState?: string;
+      oauthSessionKey?: string;
+    }
+  }
+}
+
 @Injectable()
 export class RedirectUrlMiddleware implements NestMiddleware {
   constructor(private readonly redisCacheService: RedisCacheService) {}
 
-  async use(req: Request, res: Response, next: NextFunction) {
+  async use(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       // Get the redirectUrl from query parameters
       const redirectUrl = req.query.redirectUrl as string;
-      console.log('Input redirectUrl:', redirectUrl);
+      console.log('RedirectUrlMiddleware - Input redirectUrl:', redirectUrl);
+      console.log('RedirectUrlMiddleware - Full query:', req.query);
+      console.log('RedirectUrlMiddleware - Request path:', req.path);
 
-      // If redirectUrl exists, store it in Redis with a unique state key
+      // If redirectUrl exists, add it to the queue
       if (redirectUrl) {
-        // Generate a unique state parameter for this OAuth flow
+        // Validate the redirect URL to prevent open redirect attacks
+        if (!this.isValidRedirectUrl(redirectUrl)) {
+          console.warn('Invalid redirect URL provided:', redirectUrl);
+          return next();
+        }
+
+        // Add redirect URL to queue with timestamp for ordering
+        const queueItem = {
+          redirectUrl,
+          timestamp: Date.now(),
+          userIp: req.ip || 'unknown',
+        };
+
+        // Store in Redis queue - use list for FIFO behavior
+        await this.redisCacheService.lpush(
+          'oauth:redirect:queue',
+          JSON.stringify(queueItem),
+        );
+
+        // Set TTL for the entire queue (cleanup old entries)
+        await this.redisCacheService.expire('oauth:redirect:queue', 900); // 15 minutes
+
+        console.log(
+          'RedirectUrlMiddleware - Added redirect URL to queue:',
+          redirectUrl,
+        );
+        console.log('RedirectUrlMiddleware - Queue item:', queueItem);
+
+        // Also keep the old state-based approach as backup
         const oauthState = crypto.randomBytes(32).toString('hex');
-        
-        // Store the redirect URL in Redis with the state as key
-        // TTL of 10 minutes (600 seconds) for OAuth flow
         await this.redisCacheService.set(
           `oauth:redirect:${oauthState}`,
           redirectUrl,
-          600, // 10 minutes TTL
+          900, // 15 minutes TTL
         );
-
-        // Store the state in the request for use in OAuth flow
         req.oauthState = oauthState;
-        
-        // Also add state to query params for Google OAuth
-        req.query.state = oauthState;
-        
-        console.log('Stored redirect URL in Redis with state:', oauthState);
+      } else {
+        console.log('RedirectUrlMiddleware - No redirectUrl provided');
       }
 
       next();
@@ -40,6 +73,41 @@ export class RedirectUrlMiddleware implements NestMiddleware {
       console.error('RedirectUrlMiddleware error:', error);
       // Continue without caching if Redis fails
       next();
+    }
+  }
+
+  /**
+   * Validate redirect URL to prevent open redirect attacks
+   */
+  private isValidRedirectUrl(url: string): boolean {
+    try {
+      const parsedUrl = new URL(url);
+      
+      // Allow localhost for development
+      const allowedHosts = [
+        'confhub.ddns.net',
+        'localhost',
+        '127.0.0.1',
+        'confhub.com', // Add your production domain
+      ];
+      
+      // Check if the host is in the allowed list or is a subdomain of allowed hosts
+      const isAllowed = allowedHosts.some(
+        (allowedHost) =>
+          parsedUrl.hostname === allowedHost ||
+          parsedUrl.hostname.endsWith(`.${allowedHost}`),
+      );
+      
+      console.log('RedirectUrlMiddleware - URL validation:', {
+        url,
+        hostname: parsedUrl.hostname,
+        isAllowed,
+      });
+      
+      return isAllowed;
+    } catch (error) {
+      console.error('RedirectUrlMiddleware - URL validation error:', error);
+      return false;
     }
   }
 }
