@@ -283,7 +283,7 @@ export class NotificationService {
       if (!inSetting) {
         throw new HttpException('User turn off the notification', 400);
       }
-      await this.messageService.sendMessageToUser({
+      this.messageService.sendMessageToUser({
         userId,
         payload: notifyInput,
         channel: 'notification',
@@ -292,7 +292,7 @@ export class NotificationService {
   }
 
   async markAllAsRead(userId: string) {
-    const [conferenceResult, journalResult] = await Promise.all([
+    const [conferenceResult] = await Promise.all([
       this.prismaService.notifications.updateMany({
         where: {
           userId,
@@ -303,18 +303,10 @@ export class NotificationService {
           isRead: true,
         },
       }),
-      this.prismaService.$executeRaw(
-        Prisma.sql`
-          UPDATE "JournalNotifications"
-          SET "isRead" = true
-          WHERE "userId" = ${userId}
-        `,
-      ),
     ]);
 
     return {
       conferenceNotificationsUpdated: conferenceResult.count,
-      journalNotificationsUpdated: journalResult,
     };
   }
 
