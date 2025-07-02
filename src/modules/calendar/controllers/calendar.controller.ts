@@ -53,7 +53,8 @@ export class CalendarController {
     } catch (error) {
       console.error('Error sending notification:', error);
     }
-    const events = await this.calendarService.getConferenceCalendarByUserId(userId);
+    const events =
+      await this.calendarService.getConferenceCalendarByUserId(userId);
     return events;
   }
 
@@ -83,7 +84,8 @@ export class CalendarController {
     } catch (error) {
       console.error('Error sending notification:', error);
     }
-    const events = await this.calendarService.getConferenceCalendarByUserId(userId);
+    const events =
+      await this.calendarService.getConferenceCalendarByUserId(userId);
     return events;
   }
 

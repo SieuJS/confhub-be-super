@@ -23,9 +23,16 @@ export class CalendarEvent {
   @ApiProperty({
     description: 'The type of event',
     required: false,
-    type: String ,
+    type: String,
     example: 'Conference',
   })
+  @ApiProperty({
+    description: 'The type of the event, e.g., Conference, Workshop',
+    type: String,
+    example: 'Conference',
+  })
+  name: string | undefined; // Name of the event, e.g., "Conference Date"
+
   type: string | undefined;
   @ApiProperty({
     description: 'The conference name',
@@ -39,5 +46,5 @@ export class CalendarEvent {
     type: String,
     example: '123e4567-e89b-12d3-a456-426614174000',
   })
-  conferenceId : string | undefined; // Add conferenceId for easier lookup
+  conferenceId: string | undefined; // Add conferenceId for easier lookup
 }

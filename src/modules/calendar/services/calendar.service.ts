@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/modules/common';
 import { CalendarEvent } from '../models/calendar-event.dto';
-import { ConferenceOrganizationSerivce } from 'src/modules/conference-organization';
 import { ConferenceService } from 'src/modules/conference/services/conference.service';
 
 @Injectable()
@@ -65,6 +64,7 @@ export class CalendarService {
                   type: date.type,
                   conference: conf.title,
                   conferenceId: conf.id,
+                  name: date.name || 'Conference Date',
                 });
               }
             } else {
@@ -78,6 +78,7 @@ export class CalendarService {
                 type: date.type,
                 conference: conf.title,
                 conferenceId: conf.id,
+                name: date.name || 'Conference Date',
               });
             }
           } else {
