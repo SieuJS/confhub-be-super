@@ -59,7 +59,7 @@ export class CalendarService {
                 );
                 calendarEvents.push({
                   day: currentDate.getDate(),
-                  month: currentDate.getMonth() + 1,
+                  month: currentDate.getMonth(),
                   year: currentDate.getFullYear(),
                   type: date.type,
                   conference: conf.title,
@@ -73,7 +73,7 @@ export class CalendarService {
               );
               calendarEvents.push({
                 day: fromDate.getDate(),
-                month: fromDate.getMonth() + 1,
+                month: fromDate.getMonth(),
                 year: fromDate.getFullYear(),
                 type: date.type,
                 conference: conf.title,
