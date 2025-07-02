@@ -8,6 +8,7 @@ import {
   UseGuards,
   HttpException,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { NotificationService } from '../services/notification.service';
@@ -34,10 +35,10 @@ export class NotificationController {
     required: false,
   })
   @ApiBearerAuth('access-token')
-  async getNotificationByUserId(@Req() req) {
+  async getNotificationByUserId(@Req() req, @Query() take: number = 21) {
     const userId = req.user.id;
     const { conferenceNotifications } =
-      await this.notificationService.getNotificationByUserId(userId);
+      await this.notificationService.getNotificationByUserId(userId, take);
     return conferenceNotifications;
   }
 
