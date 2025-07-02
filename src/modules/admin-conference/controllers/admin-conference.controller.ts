@@ -419,7 +419,8 @@ export class AdminConferenceController {
       },
       orderBy: {
         value: 'asc'
-      }
+      },
+      distinct: ['name']
     });
     return ranks.map(r => r.name);
   }
