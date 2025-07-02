@@ -35,7 +35,10 @@ export class NotificationController {
     required: false,
   })
   @ApiBearerAuth('access-token')
-  async getNotificationByUserId(@Req() req, @Query('take') take: number = 21) {
+  async getNotificationByUserId(
+    @Req() req,
+    @Query('take') take: number | undefined,
+  ) {
     const userId = req.user.id;
     const { conferenceNotifications } =
       await this.notificationService.getNotificationByUserId(userId, take);
