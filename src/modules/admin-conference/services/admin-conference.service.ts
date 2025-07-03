@@ -1340,7 +1340,12 @@ export class AdminConferenceService {
       // First, get the source to return it after deletion
        
       const sourceToDelete = await this.txHost.tx.sources.findFirst({
-        where: { name },
+        where: { 
+          name: {
+            contains: name,
+            mode: 'insensitive', // Case-insensitive search
+          }
+        },
       });
 
       const id = sourceToDelete?.id;

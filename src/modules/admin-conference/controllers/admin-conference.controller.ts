@@ -378,7 +378,8 @@ export class AdminConferenceController {
     const sources = await this.prismaService.sources.findMany({
       select: {
         name: true
-      }
+      },
+      distinct : ['name'],
     });
     return sources.map(s => s.name);
   }
