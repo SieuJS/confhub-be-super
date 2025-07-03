@@ -1,5 +1,5 @@
 /* eslint-disable*/
-import { HttpException, Injectable, BadRequestException, HttpStatus } from '@nestjs/common';
+import { HttpException, Injectable, BadRequestException, HttpStatus, NotFoundException } from '@nestjs/common';
 import { paginator, PaginatorTypes } from '@nodeteam/nestjs-prisma-pagination';
 import { Conferences, Prisma } from 'generated/prisma_client';
 import { PrismaService } from 'src/modules/common';
@@ -32,6 +32,7 @@ import { ConferenceSaveDto } from '../models/conference-save.dto';
 import { PrismaClient } from 'generated/prisma_client';
 import { ConferenceHistoryDto } from '../models/admin-conference.dto';
 import { ConferenceHistoryResponseDto } from '../models/conference-history-response.dto';
+import { SourceDTO } from 'src/modules/source-rank/models/source.dto';
 
 const paginate: PaginatorTypes.PaginateFunction = paginator({ perPage: 10 });
 @Injectable()
@@ -1335,4 +1336,59 @@ export class AdminConferenceService {
     }))
     return { message: 'Conference statuses updated successfully' };
   }
+   public async removeSource(name: string): Promise<SourceDTO> {
+      // First, get the source to return it after deletion
+       
+      const sourceToDelete = await this.txHost.tx.sources.findFirst({
+        where: { name },
+      });
+
+      const id = sourceToDelete?.id;
+  
+      if (!sourceToDelete) {
+        throw new NotFoundException(`Source with id ${id} not found`);;
+      }
+  
+      // Get all ranks associated with this source
+       
+      const ranksToDelete = await this.txHost.tx.ranks.findMany({
+        where: {
+          sourceId: id,
+        },
+        select: {
+          id: true,
+        },
+      });
+  
+      // Delete all conference ranks that reference the ranks from this source
+       
+      if (ranksToDelete.length > 0) {
+         
+        await this.txHost.tx.conferenceRanks.deleteMany({
+          where: {
+            rankId: {
+               
+              in: ranksToDelete.map((rank: any) => rank.id),
+            },
+          },
+        });
+      }
+  
+      // Delete all related ranks (due to foreign key constraint)
+       
+      await this.txHost.tx.ranks.deleteMany({
+        where: {
+          sourceId: id,
+        },
+      });
+  
+      // Finally delete the source
+       
+      await this.txHost.tx.sources.delete({
+        where: { id },
+      });
+  
+       
+      return sourceToDelete;
+    }
 }

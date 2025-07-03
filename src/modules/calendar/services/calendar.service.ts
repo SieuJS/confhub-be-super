@@ -29,6 +29,9 @@ export class CalendarService {
         where: {
           id: event.conferenceId,
         },
+        orderBy: {
+          updatedAt: 'desc',
+        },
       });
 
       if (conf && conference && conference.organizations) {
