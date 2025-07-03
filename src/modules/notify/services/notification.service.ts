@@ -312,7 +312,7 @@ export class NotificationService {
 
   async updateNotification(noty: NotificationResponseDTO & { userId: string }) {
     const { id, seenAt, deletedAt, isImportant, isDeleted } = noty;
-    if (deletedAt) {
+    if (!!deletedAt && isDeleted) {
       return await this.prismaService.notifications.delete({
         where: {
           id,
