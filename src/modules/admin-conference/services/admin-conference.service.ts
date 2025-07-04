@@ -33,6 +33,7 @@ import { PrismaClient } from 'generated/prisma_client';
 import { ConferenceHistoryDto } from '../models/admin-conference.dto';
 import { ConferenceHistoryResponseDto } from '../models/conference-history-response.dto';
 import { SourceDTO } from 'src/modules/source-rank/models/source.dto';
+import { equal } from 'joi';
 
 const paginate: PaginatorTypes.PaginateFunction = paginator({ perPage: 10 });
 @Injectable()
@@ -1338,13 +1339,11 @@ export class AdminConferenceService {
   }
    public async removeSource(name: string | undefined): Promise<SourceDTO> {
       // First, get the source to return it after deletion
-       
       const sourceToDelete = await this.txHost.tx.sources.findFirst({
         where: { 
-          name: {
-            contains: name || '',
-            mode: 'insensitive', // Case-insensitive search
-          }
+          ...(name ? { name: {
+            equals: name || '',
+          }} : {name : {equals : ''}} )
         },
       });
 
@@ -1392,7 +1391,8 @@ export class AdminConferenceService {
       await this.txHost.tx.sources.delete({
         where: { id },
       });
-  
+      
+
        
       return sourceToDelete;
     }
