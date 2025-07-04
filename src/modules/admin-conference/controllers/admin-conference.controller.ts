@@ -40,6 +40,7 @@ import { TransformDatePipe } from '../pipes/transform-date.pipe';
 import { NotificationService } from 'src/modules/notify/services/notification.service';
 import { DEFAULT_TYPE } from 'src/modules/notify/constants/default-type';
 import { EmailService } from 'src/modules/email-verify/services/email.service';
+import { RedisCacheService } from 'src/modules/common/services/redis-cache.service';
 
 @ApiTags('admin-conference')
 @Controller('admin/conferences')
@@ -50,7 +51,8 @@ export class AdminConferenceController {
     private readonly adminConferenceService: AdminConferenceService,
     private readonly prismaService: PrismaService,
     private readonly notificationService: NotificationService, // Inject NotificationService
-    private readonly emailService : EmailService
+    private readonly emailService : EmailService,
+    private readonly cacheSearvice : RedisCacheService
   ) {}
 
   @ApiTags('get')
@@ -95,6 +97,7 @@ export class AdminConferenceController {
         400,
       );
     }
+    await this.cacheSearvice.removeAllCache();
     const admin = await this.prismaService.admins.findFirst();
 
     if (!admin) {
@@ -163,6 +166,8 @@ export class AdminConferenceController {
     const result = await Promise.all(imports).catch((err) => {
       console.log('error', err);
     });
+
+    await this.cacheSearvice.removeAllCache();
     return {
       message: 'file is imported',
       data: result,
@@ -457,6 +462,7 @@ export class AdminConferenceController {
   })
   async updateConferenceHistory(@Body(new TransformDatePipe()) data: ConferenceHistoryDto) {
     console.log(data)
+    await this.cacheSearvice.removeAllCache();
     return this.adminConferenceService.updateConferenceHistory(data);
   }
 
@@ -603,4 +609,5 @@ export class AdminConferenceController {
       deletedCount,
     };
   }
+  
 }

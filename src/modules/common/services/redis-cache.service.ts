@@ -313,4 +313,148 @@ export class RedisCacheService {
       return 0;
     }
   }
+
+  /**
+   * Remove all cache data from both cache manager and Redis
+   */
+  async removeAllCache(): Promise<{ success: boolean; message: string }> {
+    try {
+      // Get all keys with the prefix to know what we're clearing
+      const allKeys = await this.redis.keys('*');
+      const keyCount = allKeys.length;
+
+      // Flush all Redis data
+      await this.redis.flushall();
+
+      // Clear cache manager by getting all keys and deleting them
+      // Since cache-manager doesn't have a direct way to get all keys,
+      // we'll use the Redis keys to clear the cache manager
+      const cacheManagerPromises = allKeys.map(async (key) => {
+        try {
+          // Remove the prefix when clearing from cache manager
+          const unprefixedKey = key.replace('confhub:', '');
+          await this.cacheManager.del(unprefixedKey);
+        } catch (error) {
+          // Ignore individual key deletion errors
+          console.warn(
+            `Warning: Could not delete key ${key} from cache manager:`,
+            error,
+          );
+        }
+      });
+
+      await Promise.allSettled(cacheManagerPromises);
+
+      console.log(`Successfully cleared ${keyCount} cache entries`);
+
+      return {
+        success: true,
+        message: `Successfully removed all cache data. Cleared ${keyCount} entries.`,
+      };
+    } catch (error) {
+      console.error('Error removing all cache:', error);
+      return {
+        success: false,
+        message: `Failed to remove all cache: ${(error as Error).message}`,
+      };
+    }
+  }
+
+  /**
+   * Remove cache by namespace/prefix pattern
+   */
+  async removeCacheByNamespace(
+    namespace: string,
+  ): Promise<{ success: boolean; message: string; deletedCount: number }> {
+    try {
+      const pattern = `*${namespace}*`;
+      const keys = await this.redis.keys(pattern);
+
+      if (keys.length === 0) {
+        return {
+          success: true,
+          message: `No cache entries found for namespace: ${namespace}`,
+          deletedCount: 0,
+        };
+      }
+
+      // Delete from Redis
+      await this.redis.del(...keys);
+
+      // Delete from cache manager
+      const cacheManagerPromises = keys.map(async (key) => {
+        try {
+          const unprefixedKey = key.replace('confhub:', '');
+          await this.cacheManager.del(unprefixedKey);
+        } catch (error) {
+          console.warn(
+            `Warning: Could not delete key ${key} from cache manager:`,
+            error,
+          );
+        }
+      });
+
+      await Promise.allSettled(cacheManagerPromises);
+
+      console.log(
+        `Successfully cleared ${keys.length} cache entries for namespace: ${namespace}`,
+      );
+
+      return {
+        success: true,
+        message: `Successfully removed cache for namespace: ${namespace}`,
+        deletedCount: keys.length,
+      };
+    } catch (error) {
+      console.error(`Error removing cache for namespace ${namespace}:`, error);
+      return {
+        success: false,
+        message: `Failed to remove cache for namespace ${namespace}: ${(error as Error).message}`,
+        deletedCount: 0,
+      };
+    }
+  }
+
+  /**
+   * Get cache statistics
+   */
+  async getCacheStats(): Promise<{
+    totalKeys: number;
+    memoryUsed: string;
+    uptime: string;
+    connectedClients: number;
+  }> {
+    try {
+      const info = await this.redis.info();
+      const keys = await this.redis.keys('*');
+
+      // Parse Redis info for useful stats
+      const lines = info.split('\r\n');
+      const stats: Record<string, string> = {};
+
+      lines.forEach((line) => {
+        const [key, value] = line.split(':');
+        if (key && value) {
+          stats[key] = value;
+        }
+      });
+
+      return {
+        totalKeys: keys.length,
+        memoryUsed: stats['used_memory_human'] || 'N/A',
+        uptime: stats['uptime_in_seconds']
+          ? `${Math.floor(Number(stats['uptime_in_seconds']) / 3600)}h ${Math.floor((Number(stats['uptime_in_seconds']) % 3600) / 60)}m`
+          : 'N/A',
+        connectedClients: parseInt(stats['connected_clients'] || '0') || 0,
+      };
+    } catch (error) {
+      console.error('Error getting cache stats:', error);
+      return {
+        totalKeys: 0,
+        memoryUsed: 'N/A',
+        uptime: 'N/A',
+        connectedClients: 0,
+      };
+    }
+  }
 }
