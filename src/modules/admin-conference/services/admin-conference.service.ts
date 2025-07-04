@@ -1336,13 +1336,13 @@ export class AdminConferenceService {
     }))
     return { message: 'Conference statuses updated successfully' };
   }
-   public async removeSource(name: string): Promise<SourceDTO> {
+   public async removeSource(name: string | undefined): Promise<SourceDTO> {
       // First, get the source to return it after deletion
        
       const sourceToDelete = await this.txHost.tx.sources.findFirst({
         where: { 
           name: {
-            contains: name,
+            contains: name || '',
             mode: 'insensitive', // Case-insensitive search
           }
         },

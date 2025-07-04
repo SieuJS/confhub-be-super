@@ -597,12 +597,12 @@ export class AdminConferenceController {
 
   @Delete('delete/source/:sourceName')
   @ApiOperation({ summary: 'Delete all conferences from a specific source' })
-  @ApiParam({ name: 'sourceName', description: 'Source name' })
+  @ApiParam({ name: 'sourceName', description: 'Source name' , required: false })
   @ApiResponse({
     status: 200,
     description: 'All conferences from the specified source deleted successfully',
   })
-  async deleteConferencesBySource(@Param('sourceName') sourceName: string) {
+  async deleteConferencesBySource(@Param('sourceName') sourceName: string | undefined) {
     const deletedCount = await this.adminConferenceService.removeSource(sourceName);
     return {
       message: `All conferences from source ${sourceName} deleted successfully`,
