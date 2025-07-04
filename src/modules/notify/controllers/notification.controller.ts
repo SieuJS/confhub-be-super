@@ -41,7 +41,7 @@ export class NotificationController {
   ) {
     const userId = req.user.id;
     const { conferenceNotifications } =
-      await this.notificationService.getNotificationByUserId(userId, take);
+      await this.notificationService.getNotificationByUserId(userId, parseInt(take as unknown as string, 10));
     return conferenceNotifications;
   }
 

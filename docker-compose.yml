@@ -61,7 +61,7 @@ services:
     networks:
       - confhub-network
     deploy:
-      replicas: 6
+      replicas: 1
 
    
   # --- REDIS SERVICE ---

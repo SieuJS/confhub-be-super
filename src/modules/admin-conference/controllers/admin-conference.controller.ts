@@ -603,7 +603,7 @@ export class AdminConferenceController {
     description: 'All conferences from the specified source deleted successfully',
   })
   async deleteConferencesBySource(@Param('sourceName') sourceName: string | undefined) {
-    const deletedCount = await this.adminConferenceService.removeSource(sourceName);
+    const deletedCount = await this.adminConferenceService.removeSource(sourceName?.trim() || '');
     return {
       message: `All conferences from source ${sourceName} deleted successfully`,
       deletedCount,
