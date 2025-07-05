@@ -61,11 +61,11 @@ export class ConferenceService {
     });
 
     // Try to get from cache first
-    const cached =
-      await this.cacheService.get<ConferencePaginationDTO>(cacheKey);
-    if (cached) {
-      return cached;
-    }
+    // const cached =
+    //   await this.cacheService.get<ConferencePaginationDTO>(cacheKey);
+    // if (cached) {
+    //   return cached;
+    // }
 
     // If not cached, execute the query and cache the result
     const result = await this.getConferencesFromDB(
@@ -74,7 +74,7 @@ export class ConferenceService {
     );
 
     // Cache for 30 minutes (1800 seconds)
-    await this.cacheService.set(cacheKey, result, 1800);
+    // await this.cacheService.set(cacheKey, result, 1800);
 
     return result;
   }
@@ -1144,6 +1144,9 @@ export class ConferenceService {
             },
             conferenceDates: true,
           },
+          orderBy : {
+            updatedAt: 'desc',
+          }
         },
         feedbacks: {
           include: {

@@ -2,12 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/modules/common';
 import { CalendarEvent } from '../models/calendar-event.dto';
 import { ConferenceService } from 'src/modules/conference/services/conference.service';
+import { ConferenceOrganizationSerivce } from 'src/modules/conference-organization';
 
 @Injectable()
 export class CalendarService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly conferenceService: ConferenceService,
+    private readonly organizationService: ConferenceOrganizationSerivce
   ) {}
 
   async getCalendarEventsByUserId(
@@ -35,7 +37,7 @@ export class CalendarService {
       });
 
       if (conf && conference && conference.organizations) {
-        conference.organizations?.pop()?.conferenceDates?.forEach((date) => {
+        conference.organizations[0].conferenceDates?.forEach((date) => {
           // Check for null values on date properties
           if (date && date.fromDate && date.toDate) {
             const fromDate = new Date(date.fromDate);
@@ -62,7 +64,7 @@ export class CalendarService {
                 );
                 calendarEvents.push({
                   day: currentDate.getDate(),
-                  month: currentDate.getMonth(),
+                  month: currentDate.getMonth()+1,
                   year: currentDate.getFullYear(),
                   type: date.type,
                   conference: conf.title,
@@ -76,7 +78,7 @@ export class CalendarService {
               );
               calendarEvents.push({
                 day: fromDate.getDate(),
-                month: fromDate.getMonth(),
+                month: fromDate.getMonth()+1,
                 year: fromDate.getFullYear(),
                 type: date.type,
                 conference: conf.title,
