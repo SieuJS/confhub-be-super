@@ -474,7 +474,7 @@ export class AdminConferenceController {
         HttpStatus.NOT_FOUND,
       );
     }
-    await this.followService.notifyFollowersAboutConferenceUpdate(data.conferenceId);
+    await this.followService.notifyFollowersAboutConferenceUpdate(update.id);
     return {
       message: 'Conference history updated successfully',
       data: update,
