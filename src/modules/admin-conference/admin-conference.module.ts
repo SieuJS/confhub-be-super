@@ -9,6 +9,7 @@ import { ConferencesModule } from '../conference/conference.module';
 import { ConferenceOrganizationModule } from '../conference-organization';
 import { EmailVerifyModule } from '../email-verify/email-verify.module';
 import { NotifyModule } from '../notify/notify.module';
+import { FollowConferenceModule } from '../follow-conference/follow-conference.module';
 
 @Module({
   imports: [
@@ -18,7 +19,8 @@ import { NotifyModule } from '../notify/notify.module';
     ConferencesModule,
     ConferenceOrganizationModule,
     EmailVerifyModule,
-    NotifyModule
+    NotifyModule,
+    FollowConferenceModule,
   ],
   controllers: [AdminConferenceController],
   providers: [AdminConferenceService, NativeConferenceService],

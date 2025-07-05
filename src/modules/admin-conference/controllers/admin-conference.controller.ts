@@ -41,6 +41,7 @@ import { NotificationService } from 'src/modules/notify/services/notification.se
 import { DEFAULT_TYPE } from 'src/modules/notify/constants/default-type';
 import { EmailService } from 'src/modules/email-verify/services/email.service';
 import { RedisCacheService } from 'src/modules/common/services/redis-cache.service';
+import { FollowConferenceService } from 'src/modules/follow-conference/services/follow-conference.service';
 
 @ApiTags('admin-conference')
 @Controller('admin/conferences')
@@ -52,7 +53,8 @@ export class AdminConferenceController {
     private readonly prismaService: PrismaService,
     private readonly notificationService: NotificationService, // Inject NotificationService
     private readonly emailService : EmailService,
-    private readonly cacheSearvice : RedisCacheService
+    private readonly cacheSearvice : RedisCacheService,
+    private readonly followService : FollowConferenceService
   ) {}
 
   @ApiTags('get')
@@ -463,7 +465,20 @@ export class AdminConferenceController {
   async updateConferenceHistory(@Body(new TransformDatePipe()) data: ConferenceHistoryDto) {
     console.log(data)
     await this.cacheSearvice.removeAllCache();
-    return this.adminConferenceService.updateConferenceHistory(data);
+    const update = await this.adminConferenceService.updateConferenceHistory(data);
+    if (!update) {
+      throw new HttpException(
+        {
+          message: 'Conference history not found',
+        },
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    await this.followService.notifyFollowersAboutConferenceUpdate(data.conferenceId);
+    return {
+      message: 'Conference history updated successfully',
+      data: update,
+    };
   }
 
   @Get('history/:id')
