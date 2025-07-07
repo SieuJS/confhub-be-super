@@ -155,6 +155,16 @@ export class ConferenceCrawlJobService {
           orderBy: { updatedAt: 'desc' },
         },
       },
+      where: {
+        organizations: {
+          some: {
+            link: {
+              not: '',
+            },
+          },
+        },
+      },
+      orderBy: { updatedAt: 'desc' },
     });
 
     // Process conferences in batches

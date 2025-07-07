@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import {
   Controller,
   Get,
@@ -115,6 +117,10 @@ export class ConferenceCrawlJobController {
         batchSize: {
           type: 'number',
           description: 'Number of conferences to update per batch',
+        },
+        take: {
+          type: 'number',
+          description: 'Number of conferences to fetch for immediate execution',
         },
       },
     },
@@ -392,5 +398,58 @@ export class ConferenceCrawlJobController {
       totalConferences: results.flat().length,
       results,
     };
+  }
+    @Post('schedule-delayed')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        delaySeconds: {
+          type: 'number',
+          description: 'Delay in seconds before execution',
+          default: 0,
+        },
+        delayMinutes: {
+          type: 'number',
+          description: 'Delay in minutes before execution',
+          default: 0,
+        },
+        delayHours: {
+          type: 'number',
+          description: 'Delay in hours before execution',
+          default: 0,
+        },
+        batchSize: {
+          type: 'number',
+          description: 'Number of conferences to update per batch',
+          default: 10,
+        },
+        take: {
+          type: 'number',
+          description: 'Number of conferences to fetch for execution',
+          default: 10,
+        },
+      },
+    },
+  })
+  @ApiBearerAuth('access-token')
+  // @UseGuards(JWTGuardAdmin)
+  scheduleDelayedCrawl(
+    @Body('delaySeconds') delaySeconds: number = 0,
+    @Body('delayMinutes') delayMinutes: number = 0,
+    @Body('delayHours') delayHours: number = 0,
+    @Body('batchSize') batchSize: number = 10,
+  ) {
+    // Calculate total delay in milliseconds
+    const totalDelayMs = (delayHours * 3600 + delayMinutes * 60 + delaySeconds) * 1000;
+
+    if (totalDelayMs <= 0) {
+      throw new HttpException('Delay must be greater than 0', 400);
+    }
+
+    this.conferenceCrawlJobService.scheduleCronUpdate(
+      `0 ${new Date(Date.now() + totalDelayMs).getMinutes()} ${new Date(Date.now() + totalDelayMs).getHours()} * * *`,
+      batchSize,
+    );
   }
 }
