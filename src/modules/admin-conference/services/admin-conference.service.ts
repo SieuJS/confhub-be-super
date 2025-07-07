@@ -273,9 +273,9 @@ export class AdminConferenceService {
             'Unknown', // Default to 'Unknown' if source is not provided
           rank: row.Rank || 
             'Unranked', // Default to 'Unranked' if rank is not provided
-          researchFieldCodes: [row["Field Of Research 1"],
-            row["Field Of Research 2"],
-            row["Field Of Research 3"],
+          researchFieldCodes: [row["fieldOfResearch1"],
+            row["fieldOfResearch2"],
+            row["fieldOfResearch3"],
           ].filter(code => !!code)
           .map((code) => code.trim())
           .filter((code) => code !== ''),
