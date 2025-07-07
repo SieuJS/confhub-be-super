@@ -255,6 +255,31 @@ export class AdminConferenceService {
     return parseds;
   }
 
+  async parseCSVFileWithHeader(file: Express.Multer.File): Promise<ConferenceImportRow[]> {
+      const streamFile = Readable.from(file.buffer);
+      const csvData = await new Promise<any[]>((resolve, reject) => {
+        papa.parse(streamFile, {
+          delimiter: ',',
+          header: true,
+          complete: (result) => resolve(result.data),
+          error: (error) => reject(error),
+        });
+      });
+      return csvData.map((row): ConferenceImportRow => {
+        return {
+          title: row.Title,
+          acronym: row.Acronym,
+          source: row.Source,
+          rank: row.Rank,
+          researchFieldCodes: [row["Field Of Research 1"],
+            row["Field Of Research 2"],
+            row["Field Of Research 3"],
+          ].map((code) => code.trim())
+          .filter((code) => code !== ''),
+        };
+      });
+    }
+
   async parsePartEvaluateCsv(
     file: Express.Multer.File,
   ): Promise<ConferenceEvaluationRow[]> {

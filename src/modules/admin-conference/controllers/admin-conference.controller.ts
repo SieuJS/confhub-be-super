@@ -143,6 +143,65 @@ export class AdminConferenceController {
     };
   }
 
+  @Post('import-header-csv')
+  @Transactional<TransactionalAdapterPrisma>({
+    timeout: 300000,
+  })
+  @UseInterceptors(FileInterceptor('file'))
+  @UsePipes(new FileSizeValidationPipe())
+  async importHeaderCSVFile(
+    @UploadedFile(new FileSizeValidationPipe()) file: Express.Multer.File,
+  ) {
+    if (!file) {
+      throw new HttpException(
+        {
+          message: 'file is required',
+        },
+        400,
+      );
+    }
+    const admin = await this.prismaService.admins.findFirst();
+
+    if (!admin) {
+      throw new HttpException(
+        {
+          message: 'admin not found',
+        },
+        400,
+      );
+    }
+    const data = await this.adminConferenceService.parseCSVFileWithHeader(file);
+    if (!data) {
+      throw new HttpException(
+        {
+          message: 'file is empty',
+        },
+        400,
+      );
+    }
+    const results: AdminConferenceDTO[] = [];
+    for (const item of data) {
+      const conference = await this.adminConferenceService
+        .importConference(item, admin.id)
+        .catch((err) => {
+          console.log('error', err);
+          throw new HttpException(
+            {
+              message: 'error when importing conference',
+              error: err,
+            },
+            400,
+          );
+        });
+      results.push(conference as AdminConferenceDTO);
+    }
+    await this.cacheSearvice.removeAllCache();
+    return {
+      message: 'file is imported',
+      data: results,
+    };
+  }
+
   @Post('/import-evaluate')
   @Transactional<TransactionalAdapterPrisma>({
     timeout: 300000,
