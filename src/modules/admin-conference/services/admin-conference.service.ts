@@ -267,11 +267,11 @@ export class AdminConferenceService {
       });
       return csvData.map((row): ConferenceImportRow => {
         return {
-          title: row.Title,
-          acronym: row.Acronym,
-          source: row.Source || 
+          title: row.title,
+          acronym: row.acronym,
+          source: row.source || 
             'Unknown', // Default to 'Unknown' if source is not provided
-          rank: row.Rank || 
+          rank: row.rank || 
             'Unranked', // Default to 'Unranked' if rank is not provided
           researchFieldCodes: [row["fieldOfResearch1"],
             row["fieldOfResearch2"],
