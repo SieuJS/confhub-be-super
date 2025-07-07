@@ -19,7 +19,7 @@ import {
   Put,
   Delete,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody, ApiBearerAuth, ApiQuery, ApiConsumes } from '@nestjs/swagger';
 import { AdminConferenceService } from '../services/admin-conference.service';
 import {
   AdminConferenceDTO,
@@ -144,9 +144,23 @@ export class AdminConferenceController {
   }
 
   @Post('import-header-csv')
+
   @Transactional<TransactionalAdapterPrisma>({
     timeout: 300000,
   })
+    @ApiConsumes('multipart/form-data')
+    @ApiBody({
+      schema: {
+        type: 'object',
+        properties: {
+          file: {
+            type: 'string',
+            format: 'binary',
+            description: 'CSV file containing journal data',
+          },
+        },
+      },
+    })
   @UseInterceptors(FileInterceptor('file'))
   @UsePipes(new FileSizeValidationPipe())
   async importHeaderCSVFile(

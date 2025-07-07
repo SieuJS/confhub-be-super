@@ -269,12 +269,15 @@ export class AdminConferenceService {
         return {
           title: row.Title,
           acronym: row.Acronym,
-          source: row.Source,
-          rank: row.Rank,
+          source: row.Source || 
+            'Unknown', // Default to 'Unknown' if source is not provided
+          rank: row.Rank || 
+            'Unranked', // Default to 'Unranked' if rank is not provided
           researchFieldCodes: [row["Field Of Research 1"],
             row["Field Of Research 2"],
             row["Field Of Research 3"],
-          ].map((code) => code.trim())
+          ].filter(code => !!code)
+          .map((code) => code.trim())
           .filter((code) => code !== ''),
         };
       });
