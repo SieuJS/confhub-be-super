@@ -63,7 +63,7 @@ export class ConferenceFilter {
     required: false,
     isArray: true,
   })
-  researchFields?: string[];
+  researchFields?: string[] | string;
 
   @ApiProperty({
     description: 'The confeerence rank',

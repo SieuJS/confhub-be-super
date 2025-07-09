@@ -28,7 +28,7 @@ export class GetConferencesSortParams {
   })
   sortBy?:
     | 'conferenceDate'
-    | 'updatedAt'
+    | 'submissionDate'
     | 'title'
     | 'acronym'
     | 'rank'

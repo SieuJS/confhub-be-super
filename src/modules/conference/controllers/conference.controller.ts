@@ -74,8 +74,15 @@ export class ConferenceController {
     name: 'sortBy',
     required: false,
     description: 'Sort by field',
-    enum: ['createdAt', 'updatedAt', 'title', 'acronym', 'rank', 'source'],
-    default: 'createdAt',
+    enum: [
+      'conferenceDate',
+      'submissionDate',
+      'title',
+      'acronym',
+      'rank',
+      'source',
+    ],
+    default: 'conferenceDate',
   })
   @ApiQuery({
     name: 'sortOrder',

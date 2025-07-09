@@ -40,16 +40,29 @@ export class ConferenceRankService {
     const rankInfo = await this.prismaService.conferenceRanks.findFirst({
       where: {
         conferenceId,
-        ...(filter?.researchFields
+        ...(filter?.researchFields &&
+        Array.isArray(filter.researchFields) &&
+        filter.researchFields.length > 0
           ? {
-              inFieldOfResearch: {
-                name: {
-                  in: filter?.researchFields,
-                  mode: 'insensitive',
+              OR: filter.researchFields.map((field: string) => ({
+                inFieldOfResearch: {
+                  name: {
+                    contains: field,
+                    mode: 'insensitive',
+                  },
                 },
-              },
+              })),
             }
-          : {}),
+          : filter?.researchFields && typeof filter.researchFields === 'string'
+            ? {
+                inFieldOfResearch: {
+                  name: {
+                    contains: filter.researchFields,
+                    mode: 'insensitive',
+                  },
+                },
+              }
+            : {}),
         ...(filter?.source
           ? {
               byRank: {

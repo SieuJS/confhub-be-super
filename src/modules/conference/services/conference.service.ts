@@ -55,26 +55,10 @@ export class ConferenceService {
     sortOptions?: GetConferencesSortParams,
   ): Promise<ConferencePaginationDTO> {
     // Generate cache key based on filters and sort options
-    const cacheKey = this.generateCacheKey('conferences', {
-      ...conferenceFilter,
-      ...sortOptions,
-    });
-
-    // Try to get from cache first
-    // const cached =
-    //   await this.cacheService.get<ConferencePaginationDTO>(cacheKey);
-    // if (cached) {
-    //   return cached;
-    // }
-
-    // If not cached, execute the query and cache the result
     const result = await this.getConferencesFromDB(
       conferenceFilter,
       sortOptions,
     );
-
-    // Cache for 30 minutes (1800 seconds)
-    // await this.cacheService.set(cacheKey, result, 1800);
 
     return result;
   }
@@ -182,10 +166,10 @@ export class ConferenceService {
       if (
         !sortOptions?.sortBy ||
         sortOptions?.sortBy === 'conferenceDate' ||
-        sortOptions?.sortBy === 'updatedAt'
+        sortOptions?.sortBy === 'submissionDate'
       ) {
-        // We'll sort by conference date proximity and follower count in JavaScript
-        orderBy = {}; // No database ordering for custom sorting
+        // No DB-level orderBy for nested conferenceDates
+        orderBy = {};
       } else {
         orderBy = {
           [sortOptions?.sortBy]: sortOptions?.sortOrder || 'desc',
@@ -334,17 +318,33 @@ export class ConferenceService {
                         },
                       }
                     : {}),
-                  ...(conferenceFilter?.researchFields
+                },
+                ...(conferenceFilter?.researchFields &&
+                Array.isArray(conferenceFilter.researchFields) &&
+                conferenceFilter.researchFields.length > 0
+                  ? {
+                      OR: conferenceFilter.researchFields.map(
+                        (field: string) => ({
+                          inFieldOfResearch: {
+                            name: {
+                              contains: field.trim(),
+                              mode: 'insensitive',
+                            },
+                          },
+                        }),
+                      ),
+                    }
+                  : conferenceFilter?.researchFields &&
+                      typeof conferenceFilter.researchFields === 'string'
                     ? {
                         inFieldOfResearch: {
                           name: {
-                            in: conferenceFilter?.researchFields,
+                            contains: conferenceFilter.researchFields.trim(),
                             mode: 'insensitive',
                           },
                         },
                       }
                     : {}),
-                },
               },
             }
           : {}),
@@ -763,48 +763,53 @@ export class ConferenceService {
     if (
       !sortOptions?.sortBy ||
       sortOptions?.sortBy === 'conferenceDate' ||
-      sortOptions?.sortBy === 'updatedAt'
+      sortOptions?.sortBy === 'submissionDate'
     ) {
       const currentDate = new Date();
-
-      // Sort by conference date proximity (closest to current date) and then by follower count
+      const dateType =
+        sortOptions?.sortBy === 'submissionDate'
+          ? 'submissionDate'
+          : 'conferenceDates';
+      // Sort by the earliest fromDate of the correct type across all organizations
       conferenceToResponse.sort((a, b) => {
-        // Get conference dates
-        const aDate = a.dates?.fromDate ? new Date(a.dates.fromDate) : null;
-        const bDate = b.dates?.fromDate ? new Date(b.dates.fromDate) : null;
-
+        function getEarliestDate(conference, type) {
+          if (!conference.organizations) return null;
+          const allDates = conference.organizations.flatMap(
+            (org) => org.dates || org.conferenceDates || [],
+          );
+          const filtered = allDates.filter(
+            (d) => d && d.type === type && d.fromDate,
+          );
+          if (filtered.length === 0) return null;
+          return new Date(filtered.map((d) => d.fromDate).sort()[0]);
+        }
+        const aDate = getEarliestDate(a, dateType);
+        const bDate = getEarliestDate(b, dateType);
         // Calculate distance from current date (in days)
-        const getDateDistance = (date: Date | null) => {
-          if (!date) return Infinity; // Put conferences without dates at the end
+        const getDateDistance = (date) => {
+          if (!date) return Infinity;
           const diffTime = Math.abs(date.getTime() - currentDate.getTime());
-          return Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Convert to days
+          return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         };
-
         const aDistance = getDateDistance(aDate);
         const bDistance = getDateDistance(bDate);
-
-        // Primary sort: by date proximity (closer dates first)
         if (aDistance !== bDistance) {
           return aDistance - bDistance;
         }
-
-        // Secondary sort: by follower count (get from the original conference data)
-        const aConference = conferences.find((c: any) => c.id === a.id);
-        const bConference = conferences.find((c: any) => c.id === b.id);
-
+        // Secondary: follower count
+        const aConference = conferences.find((c) => c.id === a.id);
+        const bConference = conferences.find((c) => c.id === b.id);
         const aFollowerCount = aConference?.follows?.length || 0;
         const bFollowerCount = bConference?.follows?.length || 0;
-
-        // More followers first
         if (aFollowerCount !== bFollowerCount) {
           return bFollowerCount - aFollowerCount;
         }
+        // Tertiary: updatedAt
+        const aConferenceTime = new Date(a.updatedAt).getTime();
+        const bConferenceTime = new Date(b.updatedAt).getTime();
 
-        // Tertiary sort: by updatedAt
-        const aTime = new Date(a.updatedAt).getTime();
-        const bTime = new Date(b.updatedAt).getTime();
-
-        return sortOptions?.sortOrder === 'asc' ? aTime - bTime : bTime - aTime;
+        const timeDiff = aConferenceTime - bConferenceTime;
+        return sortOptions?.sortOrder === 'asc' ? timeDiff : -timeDiff;
       });
     }
 
@@ -1144,9 +1149,9 @@ export class ConferenceService {
             },
             conferenceDates: true,
           },
-          orderBy : {
+          orderBy: {
             updatedAt: 'desc',
-          }
+          },
         },
         feedbacks: {
           include: {

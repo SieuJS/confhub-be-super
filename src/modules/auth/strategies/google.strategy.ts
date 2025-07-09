@@ -44,13 +44,13 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     const { name, emails, photos } = profile;
     const state = req.query?.state as string; // Get state from callback request
     const customState = req.oauthState; // Get custom state from middleware
-    
+
     console.log('GoogleStrategy validate - State from callback:', state);
     console.log(
       'GoogleStrategy validate - Custom state from middleware:',
       customState,
     );
-    
+
     const user = {
       id: profile.id || emails[0].value, // Use profile ID or email as fallback
       email: emails[0].value,
@@ -62,7 +62,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       oauthState: state || '', // Pass state to user object (Google's state)
       customOauthState: customState || '', // Pass custom state to user object (our state)
     };
-    
+
     console.log('GoogleStrategy validate - User created with states:', {
       googleState: user.oauthState,
       customState: user.customOauthState,

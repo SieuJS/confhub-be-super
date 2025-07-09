@@ -87,14 +87,14 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   async login(@Req() req: RequestWithUser) {
     const user = await this.getUserWithVerification(req.user.id);
-    
+
     // Invalidate user-specific cache on login
     try {
       await this.cacheManagementService.invalidateUserCache(user.id);
     } catch (error) {
       console.error('Failed to invalidate user cache on login:', error);
     }
-    
+
     return this.authService.loginUser(user);
   }
 
@@ -108,7 +108,7 @@ export class AuthController {
     } catch (error) {
       console.error('Failed to invalidate user cache on logout:', error);
     }
-    
+
     return {
       message: 'Logout successful',
     };
@@ -124,14 +124,14 @@ export class AuthController {
     if (!admin) {
       throw new HttpException('Admin not found', 404);
     }
-    
+
     // Invalidate admin-specific cache on login
     try {
       await this.cacheManagementService.invalidateUserCache(req.user.id);
     } catch (error) {
       console.error('Failed to invalidate admin cache on login:', error);
     }
-    
+
     return this.authService.loginAdmin(admin as AdminDto);
   }
 
@@ -145,7 +145,7 @@ export class AuthController {
     } catch (error) {
       console.error('Failed to invalidate admin cache on logout:', error);
     }
-    
+
     return {
       message: 'Logout successful',
     };
@@ -308,17 +308,17 @@ export class AuthController {
 
     try {
       console.log('Attempting to get redirect URL from queue...');
-      
+
       // Try queue-based approach first (FIFO - First In, First Out)
       const queueRedirectUrl =
         await this.cacheManagementService.getRedirectUrlFromQueue();
-      
+
       if (queueRedirectUrl) {
         redirectUrl = queueRedirectUrl;
         console.log('Retrieved redirect URL from queue:', redirectUrl);
       } else {
         console.log('No redirect URL found in queue, trying fallback methods');
-        
+
         // Fallback to the multi-strategy approach if queue is empty
         const fallbackUrl =
           await this.cacheManagementService.getOAuthRedirectUrlWithFallback(
@@ -326,7 +326,7 @@ export class AuthController {
             req.user?.customOauthState,
             req.ip,
           );
-        
+
         if (fallbackUrl) {
           redirectUrl = fallbackUrl;
           console.log('Retrieved redirect URL from fallback:', redirectUrl);
@@ -365,7 +365,7 @@ export class AuthController {
         id: string,
       ) => Promise<{ isVerified: boolean } | null>
     )(existUser.id);
-    
+
     if (!verificationStatus?.isVerified) {
       console.log('Verifying user automatically for Google OAuth');
       const verifyCode = await this.userVerifyService.createVerifyCode(
@@ -390,7 +390,7 @@ export class AuthController {
     // Redirect with token
     const finalRedirectUrl = `${redirectUrl}?token=${loginPayload.token}`;
     console.log('Redirecting to:', finalRedirectUrl);
-    
+
     return res.redirect(finalRedirectUrl);
   }
 
@@ -428,7 +428,7 @@ export class AuthController {
     }
 
     const loginPayload = this.authService.loginUser(existUser);
-    
+
     // Invalidate user cache for Google OAuth login
     try {
       await this.cacheManagementService.invalidateUserCache(existUser.id);
@@ -438,7 +438,7 @@ export class AuthController {
         error,
       );
     }
-    
+
     return {
       message: 'Login successful',
       ...loginPayload,
