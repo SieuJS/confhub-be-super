@@ -46,7 +46,7 @@ model ConferenceOrganizations {
   link            String
   cfpLink         String
   impLink         String
-  status          String?
+  isLastest          Boolean?
   createdAt       DateTime           @default(now())
   updatedAt       DateTime           @updatedAt
   conferenceDates ConferenceDates[]

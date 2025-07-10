@@ -155,7 +155,7 @@ export class NotificationService {
   async createConferenceNotification(input: NotificationInput) {
     const { conferenceId, message, type } = input;
     if (!type) {
-      throw new HttpException('Notification type is required', 400);
+      throw new Error('Notification type is required');
     }
     const notificationType = await this.txHost.tx.notificationsTypes.findFirst({
       where: {
@@ -163,7 +163,7 @@ export class NotificationService {
       },
     });
     if (!notificationType) {
-      throw new HttpException('Notification type not found', 400);
+      throw new Error('Notification type not found');
     }
     const setting = await this.txHost.tx.notificationSettings.findFirst({
       where: {
@@ -173,7 +173,7 @@ export class NotificationService {
       },
     });
     if (!setting) {
-      throw new HttpException('User turn off the notification', 400);
+      throw new Error('User turn off the notification');
     }
 
     const notification = await this.txHost.tx.notifications.create({

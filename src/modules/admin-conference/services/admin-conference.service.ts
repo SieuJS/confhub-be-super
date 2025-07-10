@@ -1424,4 +1424,42 @@ export class AdminConferenceService {
        
       return sourceToDelete;
     }
+
+    async updateLastestOrganization(){
+      const conferences = await this.prismaService.conferences.findMany({});
+      for(const conference of conferences) {
+        const organizations = await this.prismaService.conferenceOrganizations.findMany({
+          where: { conferenceId: conference.id },
+          orderBy: { updatedAt: 'desc' },
+        });
+        if (organizations.length > 0) {
+          await this.prismaService.conferenceOrganizations.update({
+            where: { id: organizations[0].id },
+            data: { isLastest: true, updatedAt: organizations[0].updatedAt },
+          });
+          await this.prismaService.conferenceOrganizations.updateMany({
+            where: { id: { not: organizations[0].id }, conferenceId: conference.id },
+            data: { isLastest: false },
+          });
+        }
+      }
+      return { message: 'Latest organizations updated successfully' };
+    }
+
+  async updateLastestOrganizationById(conferenceId: string) {
+  const organizations = await this.prismaService.conferenceOrganizations.findMany({
+    where: { conferenceId },
+    orderBy: { updatedAt: 'desc' },
+  });
+  if (organizations.length > 0) {
+    await this.prismaService.conferenceOrganizations.update({
+      where: { id: organizations[0].id },
+      data: { isLastest: true, updatedAt: organizations[0].updatedAt },
+    });
+    await this.prismaService.conferenceOrganizations.updateMany({
+      where: { id: { not: organizations[0].id }, conferenceId },
+      data: { isLastest: false },
+    });
+  }
+}
 }

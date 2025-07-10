@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Processor, WorkerHost } from '@nestjs/bullmq';
@@ -46,7 +45,6 @@ export class ConferenceImportProcessor extends WorkerHost {
     const channel = 'cfp-crawl-' + job.data.id;
 
     try {
-
       this.loggerService.info(`Job data: ${JSON.stringify(job.data)}`);
       this.loggerService.info(
         `Sending crawl request for ${conferences.length} conferences`,
@@ -54,7 +52,7 @@ export class ConferenceImportProcessor extends WorkerHost {
 
       const crawlDataResponse =
         await this.conferenceCrawlJobService.fetchConferenceCrawlData({
-          items: conferences.map(conf => ({
+          items: conferences.map((conf) => ({
             Title: conf.conferenceTitle || '',
             Acronym: conf.conferenceAcronym || '',
           })),
@@ -66,10 +64,12 @@ export class ConferenceImportProcessor extends WorkerHost {
           description: 'Crawl conference data',
         });
 
-      if (!crawlDataResponse || !crawlDataResponse.data || crawlDataResponse.data.length === 0) {
-        this.loggerService.error(
-          `No data found for any of the conferences`,
-        );
+      if (
+        !crawlDataResponse ||
+        !crawlDataResponse.data ||
+        crawlDataResponse.data.length === 0
+      ) {
+        this.loggerService.error(`No data found for any of the conferences`);
         throw new Error(`No data found for any of the conferences`);
       }
 
@@ -159,14 +159,11 @@ export class ConferenceImportProcessor extends WorkerHost {
     for (const jobData of jobs) {
       try {
         // Send message to channel
-        await this.messageService.sendMessage(
-          `conference-crawl-job-${jobData.id}`,
-          {
-            status: 'RUNNING',
-            progress: 0,
-            message: 'Fetching updated conference data...',
-          },
-        );
+        this.messageService.sendMessage(`conference-crawl-job-${jobData.id}`, {
+          status: 'RUNNING',
+          progress: 0,
+          message: 'Fetching updated conference data...',
+        });
 
         this.loggerService.info(`Update job data: ${JSON.stringify(jobData)}`);
         this.loggerService.info(
@@ -275,9 +272,11 @@ export class ConferenceImportProcessor extends WorkerHost {
                 description: 'Update conference data',
               },
             );
-          console.log(`Update request for conference - Title: ${jobData.conferenceTitle}, Acronym: ${jobData.conferenceAcronym}`);
           console.log(
-            `Update crawl data response: ${JSON.stringify(response)}`,    
+            `Update request for conference - Title: ${jobData.conferenceTitle}, Acronym: ${jobData.conferenceAcronym}`,
+          );
+          console.log(
+            `Update crawl data response: ${JSON.stringify(response)}`,
           );
 
           if (!response || !response.data || response.data.length === 0) {
@@ -337,14 +336,11 @@ export class ConferenceImportProcessor extends WorkerHost {
         }
 
         // Send success message
-        await this.messageService.sendMessage(
-          `conference-crawl-job-${jobData.id}`,
-          {
-            status: 'COMPLETED',
-            progress: 100,
-            message: 'Conference update completed successfully',
-          },
-        );
+        this.messageService.sendMessage(`conference-crawl-job-${jobData.id}`, {
+          status: 'COMPLETED',
+          progress: 100,
+          message: 'Conference update completed successfully',
+        });
       } catch (error) {
         console.error(
           `Error updating conference ${jobData.conferenceTitle}:`,
@@ -352,13 +348,13 @@ export class ConferenceImportProcessor extends WorkerHost {
         );
 
         // Send error message
-        await this.messageService.sendMessage(
-          `conference-crawl-job-${jobData.id}`,
-          {
-            status: 'FAILED',
-            progress: 0,
-            message: `Error: ${error.message}`,
-          },
+        this.messageService.sendMessage(`conference-crawl-job-${jobData.id}`, {
+          status: 'FAILED',
+          progress: 0,
+          message: `Error: ${error.message}`,
+        });
+        await this.conferenceOrganizationService.updateLastestOrganizationById(
+          jobData.conferenceId,
         );
       }
     }

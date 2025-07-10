@@ -291,7 +291,10 @@ export class ConferenceCrawlJobService {
           })
           .pipe(
             catchError((error) => {
-              console.error('Error fetching update conference crawl data:', error);
+              console.error(
+                'Error fetching update conference crawl data:',
+                error,
+              );
               throw error;
             }),
           ),

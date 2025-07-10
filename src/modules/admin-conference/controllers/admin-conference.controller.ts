@@ -55,7 +55,9 @@ export class AdminConferenceController {
     private readonly emailService : EmailService,
     private readonly cacheSearvice : RedisCacheService,
     private readonly followService : FollowConferenceService
-  ) {}
+  ) {
+    this.adminConferenceService.updateLastestOrganization();
+  }
 
   @ApiTags('get')
   @Get('get')
