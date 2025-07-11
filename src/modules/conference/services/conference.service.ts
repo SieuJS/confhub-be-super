@@ -204,10 +204,8 @@ export class ConferenceService {
                             mode: 'insensitive',
                           },
                         },
-                        isLastest: true,
                       },
                     },
-                    isLastest: true,
                   },
                 },
               },
@@ -222,7 +220,6 @@ export class ConferenceService {
                         },
                       },
                     },
-                    isLastest: true,
                   },
                 },
               },
@@ -233,7 +230,6 @@ export class ConferenceService {
                       contains: conferenceFilter?.keyword,
                       mode: 'insensitive',
                     },
-                    isLastest: true,
                   },
                 },
               },
@@ -244,7 +240,6 @@ export class ConferenceService {
                       contains: conferenceFilter?.keyword,
                       mode: 'insensitive',
                     },
-                    isLastest: true,
                   },
                 },
               },
@@ -255,8 +250,12 @@ export class ConferenceService {
                       contains: conferenceFilter?.keyword,
                       mode: 'insensitive',
                     },
-                    isLastest: true,
                   },
+                },
+              },
+              {
+                organization: {
+                  isLastest: true,
                 },
               },
             ],
@@ -388,7 +387,6 @@ export class ConferenceService {
                         contains: conferenceFilter?.accessType,
                         mode: 'insensitive',
                       },
-                      isLastest: true,
                     }
                   : {}),
                 ...(conferenceFilter?.topics
@@ -403,7 +401,6 @@ export class ConferenceService {
                           },
                         },
                       },
-                      isLastest: true,
                     }
                   : {}),
                 locations: {
@@ -468,7 +465,6 @@ export class ConferenceService {
                                   ),
                                 },
                                 type: 'conferenceDates',
-                                isLastest: true,
                               }
                             : {}),
                         },
@@ -486,7 +482,6 @@ export class ConferenceService {
                                   ),
                                 },
                                 type: 'submissionDate',
-                                isLastest: true,
                               }
                             : {}),
 
@@ -498,7 +493,6 @@ export class ConferenceService {
                                   ),
                                 },
                                 type: 'submissionDate',
-                                isLastest: true,
                               }
                             : {}),
                         },
@@ -516,7 +510,6 @@ export class ConferenceService {
                                   ),
                                 },
                                 type: 'cameraReadyDate',
-                                isLastest: true,
                               }
                             : {}),
 
@@ -528,7 +521,6 @@ export class ConferenceService {
                                   ),
                                 },
                                 type: 'cameraReadyDate',
-                                isLastest: true,
                               }
                             : {}),
                         },
@@ -546,7 +538,6 @@ export class ConferenceService {
                                   ),
                                 },
                                 type: 'registrationDate',
-                                isLastest: true,
                               }
                             : {}),
 
@@ -558,7 +549,6 @@ export class ConferenceService {
                                   ),
                                 },
                                 type: 'registrationDate',
-                                isLastest: true,
                               }
                             : {}),
                         },
@@ -576,7 +566,6 @@ export class ConferenceService {
                                   ),
                                 },
                                 type: 'notificationDate',
-                                isLastest: true,
                               }
                             : {}),
 
@@ -588,14 +577,12 @@ export class ConferenceService {
                                   ),
                                 },
                                 type: 'notificationDate',
-                                isLastest: true,
                               }
                             : {}),
                         },
                       }
                     : {}),
                 },
-                isLastest: true,
               },
             },
           }
