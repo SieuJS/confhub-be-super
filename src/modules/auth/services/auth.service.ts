@@ -10,7 +10,7 @@ import { JwtService } from '@nestjs/jwt';
 import { AdminService } from 'src/modules/user/services/admin.service';
 import { AdminDto } from 'src/modules/user/models/admin/admin.dto';
 import { PayloadToken } from '../models/payload-token';
-import axios from 'axios';
+import { OAuth2Client } from 'google-auth-library';
 import { PrismaService } from 'src/modules/common';
 
 @Injectable()
@@ -155,34 +155,31 @@ export class AuthService {
   }
 
   async validateGoogleToken(token: string) {
-    const { data } = (await axios
-      .get('https://www.googleapis.com/oauth2/v2/userinfo', {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .catch(() => {
-        throw new UnauthorizedException('Invalid Google access token');
-      })) as {
-      data: {
-        email: string;
-        given_name: string;
-        family_name: string;
-        picture: string;
-        dob: string;
+    try {
+      const client = new OAuth2Client();
+      const ticket = await client.verifyIdToken({
+        idToken: token,
+        // You might want to add your Google Client ID here for additional security
+        // audience: process.env.GOOGLE_CLIENT_ID,
+      });
+      
+      const payload = ticket.getPayload();
+      if (!payload) {
+        throw new UnauthorizedException('Invalid Google ID token');
+      }
+
+      const { email, given_name, family_name, picture } = payload;
+      
+      return {
+        email: email || '',
+        firstName: given_name || '',
+        lastName: family_name || '',
+        picture: picture || '',
+        dob: '', // Note: Google ID tokens don't typically include date of birth
       };
-    };
-    const { email, given_name, family_name, picture, dob } = data as {
-      email: string;
-      given_name: string;
-      family_name: string;
-      picture: string;
-      dob: string;
-    };
-    return {
-      email: email,
-      firstName: given_name,
-      lastName: family_name,
-      picture: picture,
-      dob: dob,
-    };
+    } catch (error) {
+      console.error('Google OAuth token validation failed:', error);
+      throw new UnauthorizedException('Invalid Google ID token');
+    }
   }
 }

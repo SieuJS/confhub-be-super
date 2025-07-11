@@ -414,7 +414,6 @@ export class ConferenceService {
                             contains: conferenceFilter?.cityStateProvince,
                             mode: 'insensitive',
                           },
-                          isLastest: true,
                         }
                       : {}),
 
@@ -424,7 +423,6 @@ export class ConferenceService {
                             contains: conferenceFilter?.country,
                             mode: 'insensitive',
                           },
-                          isLastest: true,
                         }
                       : {}),
 
@@ -434,7 +432,6 @@ export class ConferenceService {
                             contains: conferenceFilter?.continent,
                             mode: 'insensitive',
                           },
-                          isLastest: true,
                         }
                       : {}),
 
@@ -444,7 +441,6 @@ export class ConferenceService {
                             contains: conferenceFilter?.address,
                             mode: 'insensitive',
                           },
-                          isLastest: true,
                         }
                       : {}),
                   },
@@ -461,7 +457,6 @@ export class ConferenceService {
                                   ),
                                 },
                                 type: 'conferenceDates',
-                                isLastest: true,
                               }
                             : {}),
 
@@ -600,6 +595,7 @@ export class ConferenceService {
                       }
                     : {}),
                 },
+                isLastest: true,
               },
             },
           }

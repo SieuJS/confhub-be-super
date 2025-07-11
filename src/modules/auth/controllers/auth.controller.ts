@@ -396,6 +396,7 @@ export class AuthController {
 
   @Post('google')
   async googleLogin(@Body('access_token') token: string) {
+    console.log('Google OAuth login started with token:', token);
     const user = (await this.authService.validateGoogleToken(
       token,
     )) as GoogleUser;
