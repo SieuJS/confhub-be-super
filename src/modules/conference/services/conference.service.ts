@@ -646,8 +646,8 @@ export class ConferenceService {
           }))
           .sort((a, b) => {
             // Sort isLastest true first (descending)
-            if (a.isLastest && !b.isLastest) return -1;
-            if (!a.isLastest && b.isLastest) return 1;
+            if (a.isLastest && !b.isLastest) return 1;
+            if (!a.isLastest && b.isLastest) return -1;
             return 0;
           })
           .slice(-2)
