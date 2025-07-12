@@ -305,7 +305,7 @@ export class ConferenceService {
                           ...(conferenceFilter.source !== 'other'
                             ? {
                                 name: {
-                                  contains: conferenceFilter?.source,
+                                  equals: conferenceFilter?.source,
                                   mode: 'insensitive',
                                 },
                               }
