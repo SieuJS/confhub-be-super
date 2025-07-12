@@ -195,7 +195,7 @@ export class NotificationService {
       },
     });
     if (isTurnOffAll) {
-      throw new HttpException('User turn off all notifications', 400);
+      throw new Error('User turn off all notifications');
     }
 
     const notification = await this.txHost.tx.notifications.create({
@@ -300,10 +300,10 @@ export class NotificationService {
         },
       });
       if (isTurnOffAll) {
-        throw new HttpException('User turn off all notifications', 400);
+        throw new Error('User turn off all notifications');
       }
       if (!inSetting) {
-        throw new HttpException('User turn off the notification', 400);
+        throw new Error('User turn off the notification');
       }
       this.messageService.sendMessageToUser({
         userId,
@@ -537,7 +537,7 @@ export class NotificationService {
 
     console.log('type', emailType, 'userSetting', userSetting, 'id', userId);
     if (!userSetting) {
-      throw new HttpException('User turn off the notification', 400);
+      throw new Error('User turn off the notification');
     }
     const user = await this.prismaService.users.findUnique({
       where: {

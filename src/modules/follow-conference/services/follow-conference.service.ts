@@ -173,7 +173,6 @@ export class FollowConferenceService {
       };
     } catch (error) {
       console.error('Error sending conference update notifications:', error);
-      throw error;
     }
   }
 }
