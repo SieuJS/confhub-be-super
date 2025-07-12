@@ -962,6 +962,9 @@ export class AdminConferenceService {
             for (const date of dateInput) {
                 await this.conferenceOrganizationService.importDate(date);
             }
+      await this.updateLastestOrganizationById(
+        organization.id,
+      );
 
       return conference;
     } catch (error) {
@@ -1027,6 +1030,7 @@ export class AdminConferenceService {
       if (updateHistoryDto.link !== undefined) updateData.link = updateHistoryDto.link;
       if (updateHistoryDto.cfpLink !== undefined) updateData.cfpLink = updateHistoryDto.cfpLink;
       if (updateHistoryDto.impLink !== undefined) updateData.impLink = updateHistoryDto.impLink;
+      updateHistoryDto.isLastest = true;
 
       // Update the conference organization with only the provided fields
       const updatedHistory = await this.txHost.tx.conferenceOrganizations.update({
@@ -1134,6 +1138,9 @@ export class AdminConferenceService {
       if (!updatedConference) {
         throw new HttpException('Conference not found after update', HttpStatus.NOT_FOUND);
       }
+      await this.updateLastestOrganizationById(
+        updatedHistory.id,
+      );
 
       return updatedConference;
     } catch (error) {

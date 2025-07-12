@@ -157,6 +157,9 @@ export class ConferenceHistoryDto {
   summerize: string;
 
   @ApiProperty()
+  isLastest?: boolean;
+
+  @ApiProperty()
   callForPaper: string;
 
   @ApiProperty()
