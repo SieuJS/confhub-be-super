@@ -62,6 +62,7 @@ export class ConferenceFilter {
     description: 'The field of researches',
     required: false,
     isArray: true,
+    type: String,
   })
   researchFields?: string[] | string;
 
