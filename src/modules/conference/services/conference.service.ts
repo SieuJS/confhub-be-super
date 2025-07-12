@@ -1224,7 +1224,6 @@ export class ConferenceService {
             name: date.name,
           })),
         }))
-        .sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime())
         .map((org, index) => {
           if (index === 0) {
             return org;
