@@ -311,9 +311,13 @@ export class ConferenceCrawlJobController {
       ...item,
     }));
     await this.adminConferenceService.importConferences(data as any);
-    await this.notificationService.sendUpdateConferenceNotification(
-      conference.id,
-    );
+    try {
+      await this.notificationService.sendUpdateConferenceNotification(
+        conference.id,
+      );
+    } catch (error: unknown) {
+      console.error('Error sending update notification:', error);
+    }
 
     // Notify followers about the conference update
     try {
@@ -399,7 +403,7 @@ export class ConferenceCrawlJobController {
       results,
     };
   }
-    @Post('schedule-delayed')
+  @Post('schedule-delayed')
   @ApiBody({
     schema: {
       type: 'object',
@@ -441,7 +445,8 @@ export class ConferenceCrawlJobController {
     @Body('batchSize') batchSize: number = 10,
   ) {
     // Calculate total delay in milliseconds
-    const totalDelayMs = (delayHours * 3600 + delayMinutes * 60 + delaySeconds) * 1000;
+    const totalDelayMs =
+      (delayHours * 3600 + delayMinutes * 60 + delaySeconds) * 1000;
 
     if (totalDelayMs <= 0) {
       throw new HttpException('Delay must be greater than 0', 400);
