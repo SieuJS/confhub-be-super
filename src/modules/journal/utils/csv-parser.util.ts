@@ -81,6 +81,7 @@ export function parseJournalCsv(csvContent: string): JournalImportDto[] {
 
         // Transform the CSV record into JournalImportDto format
         const journal: JournalImportDto = {
+          ...record,
           scimagoLink: '',
           bioxbio: [],
           Image: '',
@@ -93,7 +94,6 @@ export function parseJournalCsv(csvContent: string): JournalImportDto[] {
           SJR: parseNumericValue(record.SJR, 'SJR'),
           'SJR Best Quartile': record['SJR Quartile']?.trim() || '',
           'H index': record['H index']?.trim() || '',
-          'Total Docs. (2023)': record['Total Docs. (2024)']?.trim() || '',
           'Total Docs. (3years)': record['Total Docs. (3years)']?.trim() || '',
           'Total Refs.': record['Total Refs.']?.trim() || '',
           'Total Cites (3years)': record['Total Cites (3years)']?.trim() || '',

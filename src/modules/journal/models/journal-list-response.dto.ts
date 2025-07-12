@@ -179,7 +179,7 @@ export class JournalListItemDto {
     this.Image_Context = dbInstance.JournalDetails[0]?.imageContent || '';
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     this.scimagoLink = dbInstance.JournalDetails
-      ? dbInstance.JournalDetails[0].scrimagoLink
+      ? dbInstance.JournalDetails[0]?.scrimagoLink
       : '';
 
     this.SJR = dbInstance.JournalDetails[0]?.sjr || 0;

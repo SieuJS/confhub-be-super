@@ -60,8 +60,6 @@ services:
       - .env.product
     networks:
       - confhub-network
-    deploy:
-      replicas: 1
 
    
   # --- REDIS SERVICE ---

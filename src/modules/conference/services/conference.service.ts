@@ -253,15 +253,9 @@ export class ConferenceService {
                   },
                 },
               },
-              {
-                organization: {
-                  isLastest: true,
-                },
-              },
             ],
           }
         : {}),
-
       ...(conferenceFilter?.title
         ? {
             title: {
@@ -381,6 +375,7 @@ export class ConferenceService {
         ? {
             organizations: {
               some: {
+                isLastest: true, // Ensure we only get the latest organization
                 ...(conferenceFilter?.accessType
                   ? {
                       accessType: {

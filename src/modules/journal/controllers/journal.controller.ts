@@ -95,11 +95,11 @@ export class JournalController {
     }
 
     // Check file size (5MB limit)
-    const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+    const maxSize = 15 * 1024 * 1024; // 5MB in bytes
     if (file.size > maxSize) {
       throw new HttpException(
         {
-          message: 'file size must be less than 5MB',
+          message: 'file size must be less than 15MB',
         },
         400,
       );

@@ -75,9 +75,6 @@ export class JournalImportDto {
   @ApiProperty({ description: 'H-index' })
   'H index': string;
 
-  @ApiProperty({ description: 'Total documents in 2023' })
-  'Total Docs. (2023)': string;
-
   @ApiProperty({ description: 'Total documents in 3 years' })
   'Total Docs. (3years)': string;
 

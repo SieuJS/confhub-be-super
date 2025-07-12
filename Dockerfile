@@ -44,11 +44,11 @@ COPY --from=builder /usr/src/app/node_modules ./node_modules
 COPY --from=builder /usr/src/app/package.json ./package.json
 COPY --from=builder /usr/src/app/prisma ./prisma
 
-# Sao chép file cấu hình PM2 vào trong image
-COPY ecosystem.config.js ./
+# # Sao chép file cấu hình PM2 vào trong image
+# COPY ecosystem.config.js ./
 
-# Cài đặt PM2 trên toàn cục trong image
-RUN npm install pm2 -g
+# # Cài đặt PM2 trên toàn cục trong image
+# RUN npm install pm2 -g
 
 # Generate Prisma Client một lần nữa trong image cuối cùng (để chắc chắn)
 RUN npx prisma generate
@@ -57,4 +57,4 @@ RUN npx prisma generate
 EXPOSE 3000
 
 # Lệnh để khởi động ứng dụng bằng PM2 khi container chạy
-CMD ["pm2-runtime", "start", "ecosystem.config.js"]
+CMD ["npm", "run", "start:prod"]
