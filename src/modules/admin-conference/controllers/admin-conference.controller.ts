@@ -537,7 +537,6 @@ export class AdminConferenceController {
     isolationLevel: 'Serializable',
   })
   async updateConferenceHistory(@Body(new TransformDatePipe()) data: ConferenceHistoryDto) {
-    console.log(data)
     await this.cacheSearvice.removeAllCache();
     const update = await this.adminConferenceService.updateConferenceHistory(data);
     if (!update) {
@@ -549,7 +548,7 @@ export class AdminConferenceController {
       );
     }
     try{
-    await this.followService.notifyFollowersAboutConferenceUpdate(update.id);
+    await this.followService. notifyFollowersAboutConferenceUpdate(update.id);
     }
     catch (error) {
       console.error('Error notifying followers:', error);

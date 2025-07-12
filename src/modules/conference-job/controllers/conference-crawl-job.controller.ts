@@ -315,17 +315,11 @@ export class ConferenceCrawlJobController {
       await this.notificationService.sendUpdateConferenceNotification(
         conference.id,
       );
-    } catch (error: unknown) {
-      console.error('Error sending update notification:', error);
-    }
-
-    // Notify followers about the conference update
-    try {
       await this.followService.notifyFollowersAboutConferenceUpdate(
         conference.id,
       );
     } catch (error: unknown) {
-      console.error('Error notifying followers:', error);
+      console.error('Error sending update notification:', error);
     }
 
     return {
