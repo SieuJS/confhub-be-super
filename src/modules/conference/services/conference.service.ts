@@ -1160,7 +1160,7 @@ export class ConferenceService {
             conferenceDates: true,
           },
           orderBy: {
-            updatedAt: 'desc',
+            isLastest: 'desc',
           },
         },
         feedbacks: {

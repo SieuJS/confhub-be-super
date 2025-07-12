@@ -260,7 +260,7 @@ export class NotificationService {
 
     if (type === 'JOURNAL') {
       // Handle journal notification
-      await this.messageService.sendMessageToUser({
+      this.messageService.sendMessageToUser({
         userId,
         payload: notifyInput,
         channel: 'journal-notification',
