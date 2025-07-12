@@ -30,7 +30,9 @@ export class NotificationService {
     private txHost: TransactionHost<TransactionalAdapterPrisma<PrismaClient>>,
     private emailService: EmailService,
     private messageService: MessageService,
-  ) {}
+  ) {
+    this.initNotification();
+  }
 
   async getNotificationByUserId(userId: string, take?: number) {
     const [conferenceNotifications] = await Promise.all([
@@ -98,8 +100,9 @@ export class NotificationService {
       }
     }
     // Remove duplicate settings after initialization
-    await this.removeDuplicateSettings();
     await this.resetAllUserNotificationSetting();
+    await this.removeDuplicateSettings();
+    console.log('Notification service initialized');
   }
 
   async removeDuplicateSettings() {
@@ -531,6 +534,8 @@ export class NotificationService {
         isEnabled: true,
       },
     });
+
+    console.log('type', emailType, 'userSetting', userSetting, 'id', userId);
     if (!userSetting) {
       throw new HttpException('User turn off the notification', 400);
     }
@@ -544,7 +549,7 @@ export class NotificationService {
     }
     const emailService = await this.emailService.sendUpcomingEventEmail(
       user.email,
-      user.firstName,
+      user.firstName + ' ' + user.lastName,
       content,
     );
     return emailService;

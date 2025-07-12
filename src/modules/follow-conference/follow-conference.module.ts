@@ -8,9 +8,15 @@ import { NotifyModule } from '../notify/notify.module';
 import { EmailVerifyModule } from '../email-verify/email-verify.module';
 
 @Module({
-    imports: [CommonModule, UserModule, ConferencesModule, NotifyModule, EmailVerifyModule],
-    controllers: [FollowConferenceController],
-    providers: [FollowConferenceService],
-    exports: [FollowConferenceService]
+  imports: [
+    CommonModule,
+    UserModule,
+    ConferencesModule,
+    NotifyModule,
+    EmailVerifyModule,
+  ],
+  controllers: [FollowConferenceController],
+  providers: [FollowConferenceService],
+  exports: [FollowConferenceService],
 })
 export class FollowConferenceModule {}
