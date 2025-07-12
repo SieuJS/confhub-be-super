@@ -50,20 +50,19 @@ export class JournalFollowService {
     });
 
     // Send notification
-    const noti = await this.notificationService.createConferenceNotification({
-      userId,
-      message: `You are now following ${journal.title}`,
-      type: DEFAULT_TYPE.JOURNAL_FOLLOWED,
-      isRead: false,
-      isDeleted: false,
-      isImportant: false,
-      journalId: journalId,
-    });
-
     try {
+      const noti = await this.notificationService.createConferenceNotification({
+        userId,
+        message: `You are now following ${journal.title}`,
+        type: DEFAULT_TYPE.JOURNAL_FOLLOWED,
+        isRead: false,
+        isDeleted: false,
+        isImportant: false,
+        journalId: journalId,
+      });
       await this.notificationService.sendNotificationToUser(noti, userId);
-    } catch {
-      /* empty */
+    } catch (error) {
+      console.error('Failed to send notification:', error);
     }
     return;
   }
