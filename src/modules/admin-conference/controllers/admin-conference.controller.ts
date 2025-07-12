@@ -56,7 +56,6 @@ export class AdminConferenceController {
     private readonly cacheSearvice : RedisCacheService,
     private readonly followService : FollowConferenceService
   ) {
-    this.adminConferenceService.updateLastestOrganization();
   }
 
   @ApiTags('get')
@@ -640,6 +639,7 @@ export class AdminConferenceController {
     }
 
     await this.adminConferenceService.removeConference(id);
+    await this.adminConferenceService.updateLastestOrganization()
     return {
       message: 'Conference deleted successfully',
     };

@@ -963,7 +963,7 @@ export class AdminConferenceService {
                 await this.conferenceOrganizationService.importDate(date);
             }
       await this.updateLastestOrganizationById(
-        organization.id,
+        organization.conferenceId,
       );
 
       return conference;
@@ -1139,7 +1139,7 @@ export class AdminConferenceService {
         throw new HttpException('Conference not found after update', HttpStatus.NOT_FOUND);
       }
       await this.updateLastestOrganizationById(
-        updatedHistory.id,
+        updatedConference.id,
       );
 
       return updatedConference;
@@ -1440,14 +1440,15 @@ export class AdminConferenceService {
           orderBy: { updatedAt: 'desc' },
         });
         if (organizations.length > 0) {
+                    await this.prismaService.conferenceOrganizations.updateMany({
+            where: { id: { not: organizations[0].id }, conferenceId: conference.id },
+            data: { isLastest: false },
+          });
           await this.prismaService.conferenceOrganizations.update({
             where: { id: organizations[0].id },
             data: { isLastest: true, updatedAt: organizations[0].updatedAt },
           });
-          await this.prismaService.conferenceOrganizations.updateMany({
-            where: { id: { not: organizations[0].id }, conferenceId: conference.id },
-            data: { isLastest: false },
-          });
+
         }
       }
       return { message: 'Latest organizations updated successfully' };
@@ -1459,14 +1460,34 @@ export class AdminConferenceService {
     orderBy: { updatedAt: 'desc' },
   });
   if (organizations.length > 0) {
-    await this.prismaService.conferenceOrganizations.update({
-      where: { id: organizations[0].id },
-      data: { isLastest: true, updatedAt: organizations[0].updatedAt },
-    });
     await this.prismaService.conferenceOrganizations.updateMany({
       where: { id: { not: organizations[0].id }, conferenceId },
       data: { isLastest: false },
     });
+    await this.prismaService.conferenceOrganizations.update({
+      where: { id: organizations[0].id },
+      data: { isLastest: true, updatedAt: organizations[0].updatedAt },
+    });
+
   }
 }
+
+  async updateLastestOrgByConference(confId : string) {
+    const organizations = await this.prismaService.conferenceOrganizations.findMany({
+      where: { conferenceId: confId },
+      orderBy: { updatedAt: 'desc' },
+    });
+    if (organizations.length > 0) {
+      await this.prismaService.conferenceOrganizations.updateMany({
+        where: { id: { not: organizations[0].id }, conferenceId: confId },
+        data: { isLastest: false },
+      });
+      await this.prismaService.conferenceOrganizations.update({
+        where: { id: organizations[0].id },
+        data: { isLastest: true, updatedAt: organizations[0].updatedAt },
+      });
+
+    }
+    return { message: 'Latest organization updated successfully' };
+  }
 }

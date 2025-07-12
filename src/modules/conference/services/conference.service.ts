@@ -1198,6 +1198,7 @@ export class ConferenceService {
         .map((org) => ({
           id: org.id,
           isAvailable: org.isAvailable,
+          isLastest: org.isLastest,
           createdAt: org.createdAt,
           updatedAt: org.updatedAt,
           conferenceId: org.conferenceId,
@@ -1223,7 +1224,13 @@ export class ConferenceService {
             type: date.type,
             name: date.name,
           })),
-        }))
+        })).
+        sort((a, b) => {
+          // Sort isLastest true first (descending)
+          if (a.isLastest && !b.isLastest) return -1;
+          if (!a.isLastest && b.isLastest) return 1;
+          return 0;
+        })
         .map((org, index) => {
           if (index === 0) {
             return org;

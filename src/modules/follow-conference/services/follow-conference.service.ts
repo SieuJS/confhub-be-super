@@ -14,7 +14,6 @@ export class FollowConferenceService {
 
   async notifyFollowersAboutConferenceUpdate(conferenceId: string) {
     try {
-      // Get all users following this conference
       const followers = await this.prismaService.conferenceFollows.findMany({
         where: {
           conferenceId: conferenceId,
@@ -24,8 +23,8 @@ export class FollowConferenceService {
           byUser: true,
         },
       });
+      
 
-      // Get conference details
       const conference = await this.prismaService.conferences.findUnique({
         where: {
           id: conferenceId,

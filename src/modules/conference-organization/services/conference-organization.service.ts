@@ -346,17 +346,18 @@ export class ConferenceOrganizationSerivce {
           orderBy: { updatedAt: 'desc' },
         });
       if (organizations.length > 0) {
-        await this.prismaService.conferenceOrganizations.update({
-          where: { id: organizations[0].id },
-          data: { isLastest: true, updatedAt: organizations[0].updatedAt },
-        });
-        await this.prismaService.conferenceOrganizations.updateMany({
+                await this.prismaService.conferenceOrganizations.updateMany({
           where: {
             id: { not: organizations[0].id },
             conferenceId: conference.id,
           },
           data: { isLastest: false },
         });
+        await this.prismaService.conferenceOrganizations.update({
+          where: { id: organizations[0].id },
+          data: { isLastest: true, updatedAt: organizations[0].updatedAt },
+        });
+
       }
     }
     return { message: 'Latest organizations updated successfully' };
@@ -369,14 +370,15 @@ export class ConferenceOrganizationSerivce {
         orderBy: { updatedAt: 'desc' },
       });
     if (organizations.length > 0) {
+            await this.prismaService.conferenceOrganizations.updateMany({
+        where: { id: { not: organizations[0].id }, conferenceId },
+        data: { isLastest: false },
+      });
       await this.prismaService.conferenceOrganizations.update({
         where: { id: organizations[0].id },
         data: { isLastest: true, updatedAt: organizations[0].updatedAt },
       });
-      await this.prismaService.conferenceOrganizations.updateMany({
-        where: { id: { not: organizations[0].id }, conferenceId },
-        data: { isLastest: false },
-      });
+
     }
   }
 }
