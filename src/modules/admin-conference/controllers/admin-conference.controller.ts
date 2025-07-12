@@ -548,7 +548,12 @@ export class AdminConferenceController {
         HttpStatus.NOT_FOUND,
       );
     }
+    try{
     await this.followService.notifyFollowersAboutConferenceUpdate(update.id);
+    }
+    catch (error) {
+      console.error('Error notifying followers:', error);
+    }
     return {
       message: 'Conference history updated successfully',
       data: update,

@@ -636,6 +636,7 @@ export class ConferenceService {
               continent: loc.continent,
             })),
             topics: org.topics.map((topic) => topic.inTopic?.name),
+            isLastest: !!org.isLastest,
             dates: org.conferenceDates.map((date) => ({
               fromDate: date.fromDate,
               toDate: date.toDate,
@@ -643,6 +644,12 @@ export class ConferenceService {
               name: date.name,
             })),
           }))
+          .sort((a, b) => {
+            // Sort isLastest true first (descending)
+            if (a.isLastest && !b.isLastest) return -1;
+            if (!a.isLastest && b.isLastest) return 1;
+            return 0;
+          })
           .slice(-2)
           .map((org, index, arr) =>
             arr.length === 1
@@ -1224,8 +1231,8 @@ export class ConferenceService {
             type: date.type,
             name: date.name,
           })),
-        })).
-        sort((a, b) => {
+        }))
+        .sort((a, b) => {
           // Sort isLastest true first (descending)
           if (a.isLastest && !b.isLastest) return -1;
           if (!a.isLastest && b.isLastest) return 1;
@@ -1233,7 +1240,7 @@ export class ConferenceService {
         })
         .map((org, index) => {
           if (index === 0) {
-            return org;
+            return { ...org };
           }
           return {
             locations: org.locations,
