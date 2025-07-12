@@ -165,6 +165,9 @@ export class NotificationService {
     if (!notificationType) {
       throw new Error('Notification type not found');
     }
+    console.log(
+      `Creating notification for user ${input.userId} with type ${type}`,
+    );
     const setting = await this.txHost.tx.notificationSettings.findFirst({
       where: {
         userId: input.userId,
@@ -174,6 +177,22 @@ export class NotificationService {
     });
     if (!setting) {
       throw new Error('User turn off the notification');
+    }
+    const turnOffAll = DEFAULT_TYPE.ON_NOTIFICATION;
+    const turnOffType = await this.txHost.tx.notificationsTypes.findFirst({
+      where: {
+        name: turnOffAll,
+      },
+    });
+    const isTurnOffAll = await this.txHost.tx.notificationSettings.findFirst({
+      where: {
+        userId: input.userId,
+        notificationId: turnOffType?.id,
+        isEnabled: false,
+      },
+    });
+    if (isTurnOffAll) {
+      throw new HttpException('User turn off all notifications', 400);
     }
 
     const notification = await this.txHost.tx.notifications.create({
