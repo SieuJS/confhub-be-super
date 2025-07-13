@@ -105,8 +105,24 @@ export class ConferenceCrawlJobController {
   }
 
   @Post('cancel-cron')
-  cancelCronUpdate() {
-    return this.conferenceCrawlJobService.cancelCronUpdate();
+  async cancelCronUpdate() {
+    console.log('🎯🎯🎯 CONTROLLER ENTRY: cancel-cron endpoint called');
+    console.log('🎯 Controller: cancel-cron endpoint called');
+    
+    try {
+      // Use the comprehensive stop method instead of just cancelCronUpdate
+      console.log(
+        '🎯 Controller: About to call stopConferenceCrawlOperations...',
+      );
+      const result =
+        await this.conferenceCrawlJobService.stopConferenceCrawlOperations();
+      
+      console.log('🎯 Controller: stop operation completed, result:', result);
+      return result;
+    } catch (error) {
+      console.error('🎯 Controller: Error in cancel-cron:', error);
+      throw error;
+    }
   }
 
   @Post('start-cron-immediate')
@@ -455,5 +471,57 @@ export class ConferenceCrawlJobController {
       batchSize,
       take,
     );
+  }
+
+  @Post('force-update-jobs')
+  async forceUpdateJobs() {
+    console.log('🎯 Controller: force-update-jobs endpoint called');
+    const result =
+      await this.conferenceCrawlJobService.forceUpdateJobsToCancel();
+    console.log('🎯 Controller: force update completed, result:', result);
+    return result;
+  }
+
+  @Get('detailed-status')
+  async getDetailedStatus() {
+    console.log('🎯 Controller: detailed-status endpoint called');
+    const result = await this.conferenceCrawlJobService.getDetailedJobStatus();
+    console.log('🎯 Controller: detailed status retrieved');
+    return result;
+  }
+
+  @Post('test-stop-operations')
+  async testStopOperations() {
+    console.log('🎯 Controller: test-stop-operations endpoint called');
+    const result = await this.conferenceCrawlJobService.testStopOperations();
+    console.log('🎯 Controller: test operations completed, result:', result);
+    return result;
+  }
+
+  @Post('simple-cancel-test')
+  async simpleCancelTest() {
+    console.log('🧪🧪🧪 SIMPLE TEST: simple-cancel-test endpoint called');
+    
+    try {
+      // Just call the basic cancelCronUpdate method to test
+      console.log('🧪 Test: About to call basic cancelCronUpdate...');
+      const result = await this.conferenceCrawlJobService.cancelCronUpdate();
+      
+      console.log('🧪 Test: basic cancel completed, result:', result);
+      return {
+        testName: 'simple-cancel-test',
+        success: true,
+        result,
+        timestamp: new Date().toISOString(),
+      };
+    } catch (error) {
+      console.error('🧪 Test: Error in simple-cancel-test:', error);
+      return {
+        testName: 'simple-cancel-test',
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+        timestamp: new Date().toISOString(),
+      };
+    }
   }
 }
