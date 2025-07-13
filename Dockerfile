@@ -57,4 +57,4 @@ RUN npx prisma generate
 EXPOSE 3000
 
 # Lệnh để khởi động ứng dụng bằng PM2 khi container chạy
-CMD ["npm", "run", "db:resolve" ,"start:prod"]
+CMD ["sh", "-c", "npm run db:resolve && npm run start:prod"]
