@@ -361,6 +361,14 @@ export class ConferenceOrganizationSerivce {
           updatedAt: organizations[0].updatedAt, // Preserve original updatedAt
         },
       });
+
+      // Sync conference updatedAt with the latest organization's updatedAt
+      await this.prismaService.conferences.update({
+        where: { id: conferenceId },
+        data: {
+          updatedAt: organizations[0].updatedAt, // Sync with latest organization's updatedAt
+        },
+      });
     }
   }
 
@@ -388,6 +396,14 @@ export class ConferenceOrganizationSerivce {
         data: {
           isLastest: true,
           updatedAt: organizations[0].updatedAt, // Preserve original updatedAt
+        },
+      });
+
+      // Sync conference updatedAt with the latest organization's updatedAt
+      await this.prismaService.conferences.update({
+        where: { id: confId },
+        data: {
+          updatedAt: organizations[0].updatedAt, // Sync with latest organization's updatedAt
         },
       });
     }

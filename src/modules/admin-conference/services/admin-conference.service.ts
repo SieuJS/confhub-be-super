@@ -1530,6 +1530,14 @@ export class AdminConferenceService {
               updatedAt: organizations[0].updatedAt // Preserve original updatedAt
             },
           });
+
+          // Sync conference updatedAt with the latest organization's updatedAt
+          await this.prismaService.conferences.update({
+            where: { id: conference.id },
+            data: { 
+              updatedAt: organizations[0].updatedAt // Sync with latest organization's updatedAt
+            },
+          });
         }
       }
       return { message: 'Latest organizations updated successfully' };
@@ -1560,6 +1568,14 @@ export class AdminConferenceService {
           updatedAt: organizations[0].updatedAt // Preserve original updatedAt
         },
       });
+
+      // Sync conference updatedAt with the latest organization's updatedAt
+      await this.txHost.tx.conferences.update({
+        where: { id: conferenceId },
+        data: { 
+          updatedAt: organizations[0].updatedAt // Sync with latest organization's updatedAt
+        },
+      });
     }
   }
 
@@ -1586,6 +1602,14 @@ export class AdminConferenceService {
         data: { 
           isLastest: true,
           updatedAt: organizations[0].updatedAt // Preserve original updatedAt
+        },
+      });
+
+      // Sync conference updatedAt with the latest organization's updatedAt
+      await this.prismaService.conferences.update({
+        where: { id: confId },
+        data: { 
+          updatedAt: organizations[0].updatedAt // Sync with latest organization's updatedAt
         },
       });
     }
