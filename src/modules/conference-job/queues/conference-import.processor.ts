@@ -10,6 +10,8 @@ import { ConferenceCrawlJobService } from '../services';
 import { ConferenceOrganizationSerivce } from '../../conference-organization';
 import { MessageService } from '../../socket-gateway/services/message.service';
 import { ConferenceCrawlJobDTO } from '../models/conference-crawl-job/conference-crawl-job.dto';
+import { ConferenceBatchCrawlJobDTO } from '../models/conference-crawl-job/conference-batch-crawl-job.dto';
+
 @Injectable()
 @Processor(CONFERENCE_QUEUE_NAME.CRAWL)
 export class ConferenceImportProcessor extends WorkerHost {
@@ -22,13 +24,20 @@ export class ConferenceImportProcessor extends WorkerHost {
     super();
   }
 
-  async process(job: Job<ConferenceCrawlJobDTO, any, string>) {
+  async process(
+    job: Job<ConferenceCrawlJobDTO | ConferenceBatchCrawlJobDTO, any, string>,
+  ) {
     switch (job.name) {
       case CONFERENCE_CRAWL_JOB_NAME.CRAWL:
-        await this.handleCrawlConferenceJob(job);
+        await this.handleCrawlConferenceJob(job as Job<ConferenceCrawlJobDTO>);
+        break;
+      case CONFERENCE_CRAWL_JOB_NAME.BATCH_CRAWL:
+        await this.handleBatchCrawlConferenceJob(
+          job as Job<ConferenceBatchCrawlJobDTO>,
+        );
         break;
       case CONFERENCE_CRAWL_JOB_NAME.UPDATE:
-        await this.handleUpdateConferenceJob(job);
+        this.handleUpdateConferenceJob(job as Job<ConferenceCrawlJobDTO>);
         break;
       case CONFERENCE_CRAWL_JOB_NAME.NOTIFY:
         this.loggerService.info(`Notifying conference import`);
@@ -149,214 +158,180 @@ export class ConferenceImportProcessor extends WorkerHost {
         message: `Error while importing conference data: ${e.message}`,
         status: 'failed',
       });
-      this.loggerService.error(e);
+      this.loggerService.error(String(e));
     }
   }
 
-  async handleUpdateConferenceJob(job: Job<ConferenceCrawlJobDTO>) {
-    const jobs = Array.isArray(job.data.jobs) ? job.data.jobs : [job.data];
+  async handleBatchCrawlConferenceJob(job: Job<ConferenceBatchCrawlJobDTO>) {
+    const { conferences, batchId } = job.data;
+    const channel = 'cfp-batch-crawl-' + batchId;
+    const totalCount = conferences.length;
+    let successCount = 0;
+    let failedCount = 0;
 
-    for (const jobData of jobs) {
-      try {
-        // Send message to channel
-        this.messageService.sendMessage(`conference-crawl-job-${jobData.id}`, {
-          status: 'RUNNING',
-          progress: 0,
-          message: 'Fetching updated conference data...',
+    try {
+      this.loggerService.info(`Batch job data: ${JSON.stringify(job.data)}`);
+      this.loggerService.info(
+        `Sending batch crawl request for ${totalCount} conferences`,
+      );
+
+      // Send progress update at start
+      job.data.progress = 0;
+      job.data.message = `Starting batch crawl for ${totalCount} conferences`;
+      this.messageService.sendMessage(channel, {
+        progress: 0,
+        message: `Starting batch crawl for ${totalCount} conferences`,
+        status: 'running',
+        successCount,
+        failedCount,
+        totalCount,
+      });
+
+      const crawlDataResponse =
+        await this.conferenceCrawlJobService.fetchConferenceCrawlData({
+          items: conferences.map((conf) => ({
+            Title: conf.conferenceTitle || '',
+            Acronym: conf.conferenceAcronym || '',
+          })),
+          models: {
+            determineLinks: 'tuned',
+            extractInfo: 'non-tuned',
+            extractCfp: 'non-tuned',
+          },
+          description: `Batch crawl for ${totalCount} conferences`,
         });
 
-        this.loggerService.info(`Update job data: ${JSON.stringify(jobData)}`);
-        this.loggerService.info(
-          `Sending update request for conference - Title: ${jobData.conferenceTitle}, Acronym: ${jobData.conferenceAcronym}`,
+      if (
+        !crawlDataResponse ||
+        !crawlDataResponse.data ||
+        crawlDataResponse.data.length === 0
+      ) {
+        this.loggerService.error(
+          `No data found for any of the conferences in batch`,
         );
-
-        // Check if we have any organization data
-        const hasOrganizationData =
-          jobData.mainLink || jobData.cfpLink || jobData.impLink;
-
-        if (!hasOrganizationData) {
-          this.loggerService.info(
-            `No organization data found for ${jobData.conferenceTitle}, switching to new crawl`,
-          );
-          // Switch to new crawl
-          const crawlDataResponse =
-            await this.conferenceCrawlJobService.fetchConferenceCrawlData({
-              items: [
-                {
-                  Title: jobData.conferenceTitle || '',
-                  Acronym: jobData.conferenceAcronym || '',
-                },
-              ],
-              models: {
-                determineLinks: 'tuned',
-                extractInfo: 'non-tuned',
-                extractCfp: 'non-tuned',
-              },
-              description: 'Crawl conference data',
-            });
-          console.log(
-            `Crawl data response: ${JSON.stringify(crawlDataResponse)}`,
-          );
-          if (
-            !crawlDataResponse ||
-            !crawlDataResponse.data ||
-            crawlDataResponse.data.length === 0
-          ) {
-            throw new Error(
-              `No data found for conference: ${jobData.conferenceTitle}`,
-            );
-          }
-
-          const crawlData = crawlDataResponse.data[0];
-          // Continue with the rest of the crawl process...
-          // Import organization and location data
-          const organizeData =
-            await this.conferenceOrganizationService.importOrganize({
-              year: parseInt(crawlData.year),
-              conferenceId: jobData.conferenceId,
-              accessType: crawlData.type,
-              link: crawlData.mainLink || '',
-              cfpLink: crawlData.cfpLink || '',
-              impLink: crawlData.impLink || '',
-              summerize: crawlData.summary || '',
-              callForPaper: crawlData.callForPapers || '',
-              publisher: crawlData.publisher || '',
-              isAvailable: true,
-            });
-
-          if (!organizeData) {
-            throw new Error(
-              `Failed to import organization data for conference: ${jobData.conferenceTitle}`,
-            );
-          }
-
-          // Import dates
-          await this.conferenceOrganizationService.importPlace({
-            continent: crawlData.continent,
-            country: crawlData.country,
-            cityStateProvince: crawlData.cityStateProvince,
-            address: crawlData.location,
-            organizeId: organizeData.id,
-          });
-
-          // Import topics
-          const createdTopics = await Promise.all(
-            crawlData.topics.split(' ').map((topic) => {
-              return this.conferenceOrganizationService.importTopic({
-                organized: organizeData.id,
-                topic: topic,
-              });
-            }),
-          );
-
-          await Promise.all(createdTopics);
-        } else {
-          // Fetch updated conference crawl data
-          const response =
-            await this.conferenceCrawlJobService.fetchUpdateConferenceCrawlData(
-              {
-                items: [
-                  {
-                    Title: jobData.conferenceTitle || '',
-                    Acronym: jobData.conferenceAcronym || '',
-                    ...(jobData.mainLink ? { link: jobData.mainLink } : {}),
-                    ...(jobData.cfpLink ? { cfpLink: jobData.cfpLink } : {}),
-                    ...(jobData.impLink ? { impLink: jobData.impLink } : {}),
-                  },
-                ],
-                models: {
-                  determineLinks: 'non-tuned',
-                  extractInfo: 'non-tuned',
-                  extractCfp: 'non-tuned',
-                },
-                description: 'Update conference data',
-              },
-            );
-          console.log(
-            `Update request for conference - Title: ${jobData.conferenceTitle}, Acronym: ${jobData.conferenceAcronym}`,
-          );
-          console.log(
-            `Update crawl data response: ${JSON.stringify(response)}`,
-          );
-
-          if (!response || !response.data || response.data.length === 0) {
-            throw new Error(
-              `No data found for conference: ${jobData.conferenceTitle}`,
-            );
-          }
-
-          const crawlData = response.data[0];
-          if (!crawlData.mainLink) {
-            throw new Error(
-              `No link found for conference: ${jobData.conferenceTitle}`,
-            );
-          }
-
-          // Import organization and location data
-          const organizeData =
-            await this.conferenceOrganizationService.importOrganize({
-              year: parseInt(crawlData.year),
-              conferenceId: jobData.conferenceId,
-              accessType: crawlData.type,
-              link: crawlData.mainLink || '',
-              cfpLink: crawlData.cfpLink || '',
-              impLink: crawlData.impLink || '',
-              summerize: crawlData.summary || '',
-              callForPaper: crawlData.callForPapers || '',
-              publisher: crawlData.publisher || '',
-              isAvailable: true,
-            });
-
-          if (!organizeData) {
-            throw new Error(
-              `Failed to import organization data for conference: ${jobData.conferenceTitle}`,
-            );
-          }
-
-          // Import dates
-          await this.conferenceOrganizationService.importPlace({
-            continent: crawlData.continent,
-            country: crawlData.country,
-            cityStateProvince: crawlData.cityStateProvince,
-            address: crawlData.location,
-            organizeId: organizeData.id,
-          });
-
-          // Import topics
-          const createdTopics = await Promise.all(
-            crawlData.topics.split(' ').map((topic) => {
-              return this.conferenceOrganizationService.importTopic({
-                organized: organizeData.id,
-                topic: topic,
-              });
-            }),
-          );
-
-          await Promise.all(createdTopics);
-        }
-
-        // Send success message
-        this.messageService.sendMessage(`conference-crawl-job-${jobData.id}`, {
-          status: 'COMPLETED',
-          progress: 100,
-          message: 'Conference update completed successfully',
-        });
-      } catch (error) {
-        console.error(
-          `Error updating conference ${jobData.conferenceTitle}:`,
-          error,
-        );
-
-        // Send error message
-        this.messageService.sendMessage(`conference-crawl-job-${jobData.id}`, {
-          status: 'FAILED',
-          progress: 0,
-          message: `Error: ${error.message}`,
-        });
-        await this.conferenceOrganizationService.updateLastestOrganizationById(
-          jobData.conferenceId,
-        );
+        throw new Error(`No data found for any of the conferences in batch`);
       }
+
+      // Process each conference in the response
+      for (let i = 0; i < crawlDataResponse.data.length; i++) {
+        const crawlData = crawlDataResponse.data[i];
+        const conference = conferences[i];
+
+        try {
+          this.loggerService.info(
+            `Processing conference ${i + 1}/${totalCount}: ${conference.conferenceTitle}`,
+          );
+
+          const organizeData =
+            await this.conferenceOrganizationService.importOrganize({
+              year: parseInt(crawlData.year),
+              conferenceId: conference.conferenceId,
+              accessType: crawlData.type,
+              link: crawlData.mainLink || '',
+              cfpLink: crawlData.cfpLink || '',
+              impLink: crawlData.impLink || '',
+              summerize: crawlData.summary || '',
+              callForPaper: crawlData.callForPapers || '',
+              publisher: crawlData.publisher || '',
+              isAvailable: true,
+            });
+
+          if (!organizeData) {
+            this.loggerService.error(
+              `Failed to import organization data for ${conference.conferenceTitle}`,
+            );
+            failedCount++;
+            continue;
+          }
+
+          // Import place data
+          await this.conferenceOrganizationService.importPlace({
+            continent: crawlData.continent,
+            country: crawlData.country,
+            cityStateProvince: crawlData.cityStateProvince,
+            address: crawlData.location,
+            organizeId: organizeData.id,
+          });
+
+          // Import topics
+          const createdTopics = await Promise.all(
+            crawlData.topics.split(' ').map((topic) => {
+              return this.conferenceOrganizationService.importTopic({
+                organized: organizeData.id,
+                topic: topic,
+              });
+            }),
+          );
+
+          await Promise.all(createdTopics);
+          successCount++;
+
+          // Send progress update
+          const progress = Math.round(((i + 1) / totalCount) * 100);
+          job.data.progress = progress;
+          job.data.successCount = successCount;
+          job.data.failedCount = failedCount;
+          job.data.message = `Processed ${i + 1}/${totalCount} conferences`;
+
+          this.messageService.sendMessage(channel, {
+            progress,
+            message: `Processed ${i + 1}/${totalCount} conferences`,
+            status: 'running',
+            successCount,
+            failedCount,
+            totalCount,
+          });
+
+          this.loggerService.info(
+            `Successfully processed conference ${i + 1}/${totalCount}: ${conference.conferenceTitle}`,
+          );
+        } catch (conferenceError) {
+          failedCount++;
+          this.loggerService.error(
+            `Error processing conference ${conference.conferenceTitle}: ${conferenceError.message}`,
+          );
+          // Continue processing other conferences even if one fails
+        }
+      }
+
+      // Final status update
+      job.data.progress = 100;
+      job.data.successCount = successCount;
+      job.data.failedCount = failedCount;
+      job.data.message = `Batch completed: ${successCount} successful, ${failedCount} failed`;
+
+      this.messageService.sendMessage(channel, {
+        progress: 100,
+        message: `Batch completed: ${successCount} successful, ${failedCount} failed`,
+        status: failedCount === 0 ? 'completed' : 'completed_with_errors',
+        successCount,
+        failedCount,
+        totalCount,
+      });
+
+      this.loggerService.info(
+        `Batch crawl completed: ${successCount} successful, ${failedCount} failed out of ${totalCount} conferences`,
+      );
+    } catch (e) {
+      this.loggerService.error(
+        `Error while processing batch crawl: ${e.message}`,
+      );
+      this.messageService.sendMessage(channel, {
+        progress: 100,
+        message: `Error while processing batch crawl: ${e.message}`,
+        status: 'failed',
+        successCount,
+        failedCount,
+        totalCount,
+      });
+      this.loggerService.error(String(e));
     }
+  }
+
+  handleUpdateConferenceJob(job: Job<ConferenceCrawlJobDTO>) {
+    // TODO: Implement update conference job logic
+    this.loggerService.info(
+      `Update conference job not implemented yet: ${JSON.stringify(job.data)}`,
+    );
   }
 }

@@ -437,6 +437,7 @@ export class ConferenceCrawlJobController {
     @Body('delayMinutes') delayMinutes: number = 0,
     @Body('delayHours') delayHours: number = 0,
     @Body('batchSize') batchSize: number = 10,
+    @Body('take') take: number = 10,
   ) {
     // Calculate total delay in milliseconds
     const totalDelayMs =
@@ -449,6 +450,7 @@ export class ConferenceCrawlJobController {
     this.conferenceCrawlJobService.scheduleCronUpdate(
       `0 ${new Date(Date.now() + totalDelayMs).getMinutes()} ${new Date(Date.now() + totalDelayMs).getHours()} * * *`,
       batchSize,
+      take,
     );
   }
 }

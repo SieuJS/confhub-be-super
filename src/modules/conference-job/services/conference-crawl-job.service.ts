@@ -98,14 +98,14 @@ export class ConferenceCrawlJobService {
     };
   }
 
-  scheduleCronUpdate(schedule: string, batchSize: number = 10) {
+  scheduleCronUpdate(schedule: string, batchSize: number = 10, take?: number) {
     // Cancel existing cron job if any
     this.cancelCronUpdate();
 
     // Create new cron job
     const job = new CronJob(schedule, async () => {
       try {
-        await this.scheduleUpdate(batchSize);
+        await this.scheduleUpdate(batchSize, take);
       } catch (error) {
         console.error('Error in cron update:', error);
       }
@@ -146,7 +146,7 @@ export class ConferenceCrawlJobService {
     };
   }
 
-  async scheduleUpdate(batchSize: number = 10) {
+  async scheduleUpdate(batchSize: number = 10, take?: number) {
     // Get all conferences
     const conferences = await this.prismaService.conferences.findMany({
       include: {
@@ -165,6 +165,7 @@ export class ConferenceCrawlJobService {
         },
       },
       orderBy: { updatedAt: 'desc' },
+      take: take || undefined,
     });
 
     // Process conferences in batches
@@ -253,6 +254,33 @@ export class ConferenceCrawlJobService {
     };
   }
 
+  /**
+   * Create conference crawl jobs with automatic batch processing
+   * Uses batch processing for multiple conferences, single processing for one conference
+   */
+  async createConferenceCrawlJobs(
+    inputs: ConferenceCrawlJobInputDTO | ConferenceCrawlJobInputDTO[],
+  ): Promise<ConferenceCrawlJobDTO | ConferenceCrawlJobDTO[]> {
+    const inputArray = Array.isArray(inputs) ? inputs : [inputs];
+
+    if (inputArray.length === 1) {
+      // Single conference - use individual processing
+      return this.createConferenceCrawlJob(inputArray[0]);
+    } else {
+      // Multiple conferences - use batch processing
+      // Determine if these are updates (have links) or new crawls
+      const hasLinks = inputArray.some(
+        (input) => input.mainLink || input.cfpLink || input.impLink,
+      );
+
+      if (hasLinks) {
+        return this.createBatchUpdateConferenceCrawlJob(inputArray);
+      } else {
+        return this.createBatchCrawlJob(inputArray);
+      }
+    }
+  }
+
   async fetchConferenceCrawlData(
     input: ConferenceCrawlNewRequestDto,
   ): Promise<ConferenceCrawlNewResponseDto> {
@@ -284,7 +312,7 @@ export class ConferenceCrawlJobService {
       await firstValueFrom(
         this.httpService
           .post(CRAWL_URL + '/crawl-conferences', input, {
-            params: { dataSource: 'client', mode : 'sync' },
+            params: { dataSource: 'client', mode: 'sync' },
             headers: {
               'Content-Type': 'application/json',
             },
@@ -421,8 +449,13 @@ export class ConferenceCrawlJobService {
       }),
     );
 
-    await this.conferenceCrawlQueue.add(CONFERENCE_CRAWL_JOB_NAME.UPDATE, {
-      jobs: jobInstances.map((instance, index) => ({
+    // Generate a unique batch ID
+    const batchId = `batch-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
+    // Use the new BATCH_CRAWL job type with ConferenceBatchCrawlJobDTO structure
+    await this.conferenceCrawlQueue.add(CONFERENCE_CRAWL_JOB_NAME.BATCH_CRAWL, {
+      batchId,
+      conferences: jobInstances.map((instance, index) => ({
         id: instance.id,
         conferenceId: instance.conferenceId,
         conferenceAcronym: inputs[index].conferenceAcronym,
@@ -432,7 +465,15 @@ export class ConferenceCrawlJobService {
         impLink: inputs[index].impLink,
         progress: 0,
         status: ConferenceAttribute.JOB_STATUS_PENDING,
+        message: ConferenceMessageJob.PENDING,
+        createdAt: instance.createdAt,
+        updatedAt: instance.updatedAt,
       })),
+      progress: 0,
+      message: `Batch job created with ${inputs.length} conferences`,
+      totalCount: inputs.length,
+      successCount: 0,
+      failedCount: 0,
     });
 
     return jobInstances.map((instance, index) => ({
@@ -443,6 +484,61 @@ export class ConferenceCrawlJobService {
       mainLink: inputs[index].mainLink,
       cfpLink: inputs[index].cfpLink,
       impLink: inputs[index].impLink,
+      status: instance.status as ConferenceAttribute,
+      createdAt: instance.createdAt,
+      updatedAt: instance.updatedAt,
+      progress: instance.progress,
+      message: instance.message as ConferenceMessageJob,
+    }));
+  }
+
+  async createBatchCrawlJob(
+    inputs: ConferenceCrawlJobInputDTO[],
+  ): Promise<ConferenceCrawlJobDTO[]> {
+    const jobInstances = await Promise.all(
+      inputs.map(async (input) => {
+        return this.prismaService.conferenceCrawlJobs.create({
+          data: {
+            conferenceId: input.conferenceId,
+            status: ConferenceAttribute.JOB_STATUS_PENDING,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            progress: 0,
+            message: ConferenceMessageJob.PENDING,
+          },
+        });
+      }),
+    );
+
+    // Generate a unique batch ID
+    const batchId = `batch-crawl-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
+    // Use the new BATCH_CRAWL job type for new conference crawling
+    await this.conferenceCrawlQueue.add(CONFERENCE_CRAWL_JOB_NAME.BATCH_CRAWL, {
+      batchId,
+      conferences: jobInstances.map((instance, index) => ({
+        id: instance.id,
+        conferenceId: instance.conferenceId,
+        conferenceAcronym: inputs[index].conferenceAcronym,
+        conferenceTitle: inputs[index].conferenceTitle,
+        progress: 0,
+        status: ConferenceAttribute.JOB_STATUS_PENDING,
+        message: ConferenceMessageJob.PENDING,
+        createdAt: instance.createdAt,
+        updatedAt: instance.updatedAt,
+      })),
+      progress: 0,
+      message: `Batch crawl job created with ${inputs.length} conferences`,
+      totalCount: inputs.length,
+      successCount: 0,
+      failedCount: 0,
+    });
+
+    return jobInstances.map((instance, index) => ({
+      id: instance.id,
+      conferenceId: instance.conferenceId,
+      conferenceTitle: inputs[index].conferenceTitle,
+      conferenceAcronym: inputs[index].conferenceAcronym,
       status: instance.status as ConferenceAttribute,
       createdAt: instance.createdAt,
       updatedAt: instance.updatedAt,
