@@ -1244,37 +1244,68 @@ export class AdminConferenceService {
 
   async deleteConferenceHistory(id: string) {
     try {
+      console.log(`[DELETE HISTORY] Starting deletion for organization ID: ${id}`);
+      const startTime = Date.now();
+      
       // First check if the organization exists
+      console.log(`[DELETE HISTORY] Step 1: Checking if organization exists`);
+      const checkStart = Date.now();
       const organization = await this.txHost.tx.conferenceOrganizations.findUnique({
         where: { id },
       });
+      console.log(`[DELETE HISTORY] Organization check completed in ${Date.now() - checkStart}ms`);
 
       if (!organization) {
+        console.log(`[DELETE HISTORY] Organization not found: ${id}`);
         throw new HttpException('Organization history not found', HttpStatus.NOT_FOUND);
       }
 
       const conferenceId = organization.conferenceId;
+      console.log(`[DELETE HISTORY] Found organization for conference: ${conferenceId}`);
 
+      console.log(`[DELETE HISTORY] Step 2: Deleting locations`);
+      const locationsStart = Date.now();
       await this.txHost.tx.locations.deleteMany({
         where: { organizeId: id },
       });
-      await  this.txHost.tx.conferenceTopics.deleteMany({
+      console.log(`[DELETE HISTORY] Locations deleted in ${Date.now() - locationsStart}ms`);
+
+      console.log(`[DELETE HISTORY] Step 3: Deleting conference topics`);
+      const topicsStart = Date.now();
+      await this.txHost.tx.conferenceTopics.deleteMany({
         where: { organizeId: id },
       });
-      await  this.txHost.tx.conferenceDates.deleteMany({
+      console.log(`[DELETE HISTORY] Conference topics deleted in ${Date.now() - topicsStart}ms`);
+
+      console.log(`[DELETE HISTORY] Step 4: Deleting conference dates`);
+      const datesStart = Date.now();
+      await this.txHost.tx.conferenceDates.deleteMany({
         where: { organizedId: id },
       });
+      console.log(`[DELETE HISTORY] Conference dates deleted in ${Date.now() - datesStart}ms`);
+
+      console.log(`[DELETE HISTORY] Step 5: Deleting conference organization`);
+      const orgStart = Date.now();
       await this.txHost.tx.conferenceOrganizations.delete({
         where: { id },
       });
+      console.log(`[DELETE HISTORY] Conference organization deleted in ${Date.now() - orgStart}ms`);
 
       // After deletion, update isLastest flags for remaining organizations
+      console.log(`[DELETE HISTORY] Step 6: Updating latest organization flags for conference: ${conferenceId}`);
+      const updateStart = Date.now();
       await this.updateLastestOrganizationById(conferenceId);
+      console.log(`[DELETE HISTORY] Latest organization flags updated in ${Date.now() - updateStart}ms`);
+
+      const totalTime = Date.now() - startTime;
+      console.log(`[DELETE HISTORY] Deletion completed successfully in ${totalTime}ms`);
 
       return {
         message: 'Conference organization history deleted successfully',
       };
     } catch (error) {
+      console.error(`[DELETE HISTORY] Error occurred:`, error);
+      console.error(`[DELETE HISTORY] Error stack:`, error.stack);
       if (error instanceof HttpException) {
         throw error;
       }
@@ -1505,14 +1536,14 @@ export class AdminConferenceService {
     }
 
   async updateLastestOrganizationById(conferenceId: string) {
-    const organizations = await this.prismaService.conferenceOrganizations.findMany({
+    const organizations = await this.txHost.tx.conferenceOrganizations.findMany({
       where: { conferenceId },
       orderBy: { updatedAt: 'desc' },
     });
     if (organizations.length > 0) {
       // First set all to false while preserving their updatedAt timestamps
       for (const org of organizations) {
-        await this.prismaService.conferenceOrganizations.update({
+        await this.txHost.tx.conferenceOrganizations.update({
           where: { id: org.id },
           data: { 
             isLastest: false,
@@ -1522,7 +1553,7 @@ export class AdminConferenceService {
       }
       
       // Then set the latest one to true while preserving its updatedAt timestamp
-      await this.prismaService.conferenceOrganizations.update({
+      await this.txHost.tx.conferenceOrganizations.update({
         where: { id: organizations[0].id },
         data: { 
           isLastest: true,

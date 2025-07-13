@@ -594,8 +594,8 @@ export class AdminConferenceController {
     status: 500,
     description: 'Internal server error',
   })
-  @Transactional<TransactionalAdapterPrisma>()
   async deleteConferenceHistory(@Param('id') id: string) {
+    console.log('Deleting conference history with ID:', id);
     return this.adminConferenceService.deleteConferenceHistory(id);
   }
 
