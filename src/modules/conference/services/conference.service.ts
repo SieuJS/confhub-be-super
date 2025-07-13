@@ -121,6 +121,14 @@ export class ConferenceService {
                 },
                 conferenceDates: true,
               },
+              orderBy: [
+                {
+                  isLastest: 'desc',
+                },
+                {
+                  updatedAt: 'desc',
+                },
+              ],
             },
           }
         : {
@@ -644,25 +652,18 @@ export class ConferenceService {
               name: date.name,
             })),
           }))
-          .sort((a, b) => {
-            // Sort isLastest true first (descending)
-            if (a.isLastest && !b.isLastest) return 1;
-            if (!a.isLastest && b.isLastest) return -1;
-            return 0;
-          })
-          .slice(-2)
+          // Organizations are already sorted by isLastest DESC, updatedAt DESC from the query
+          .slice(0, 2) // Take first 2 organizations (latest first)
           .map((org, index, arr) =>
             arr.length === 1
               ? org
               : index === 0
-                ? {
-                    org,
-                  }
+                ? org // Keep all data for the first (latest) organization
                 : {
                     ...org,
-                    topics: [],
-                    callForPaper: '',
-                    summary: '',
+                    topics: [], // Remove topics for older organization
+                    callForPaper: '', // Remove call for paper for older organization
+                    summary: '', // Remove summary for older organization
                   },
           ),
       }));
@@ -721,6 +722,7 @@ export class ConferenceService {
             creatorId: conference.creatorId,
             accessType: '',
             status: conference.status,
+            isLastest: false, // No organization means no latest flag
           };
         }
         const topics =
@@ -772,6 +774,7 @@ export class ConferenceService {
           adminId: conference.adminId,
           accessType: organization.accessType,
           status: conference.status,
+          isLastest: true, // This organization is the latest since getFirstOrganizationsByConferenceId filters by isLastest: true
         };
       }),
     );
@@ -1166,9 +1169,14 @@ export class ConferenceService {
             },
             conferenceDates: true,
           },
-          orderBy: {
-            isLastest: 'desc',
-          },
+          orderBy: [
+            {
+              isLastest: 'desc',
+            },
+            {
+              updatedAt: 'desc',
+            },
+          ],
         },
         feedbacks: {
           include: {

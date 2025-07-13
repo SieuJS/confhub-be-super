@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { PrismaService } from '../../common';
 import { LocationInput } from '../models/location/location.input';
 import { LocationDTO } from '../models/location/location.dto';
@@ -191,9 +190,8 @@ export class ConferenceOrganizationSerivce {
     }
     return {
       ...organizedDb,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+
       topics: organizedDb.topics.map((topic) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
         return topic.inTopic.name;
       }),
       locations: [],
@@ -337,32 +335,6 @@ export class ConferenceOrganizationSerivce {
       conferenceDates: [],
     };
   }
-  async updateLastestOrganization() {
-    const conferences = await this.prismaService.conferences.findMany({});
-    for (const conference of conferences) {
-      const organizations =
-        await this.prismaService.conferenceOrganizations.findMany({
-          where: { conferenceId: conference.id },
-          orderBy: { updatedAt: 'desc' },
-        });
-      if (organizations.length > 0) {
-                await this.prismaService.conferenceOrganizations.updateMany({
-          where: {
-            id: { not: organizations[0].id },
-            conferenceId: conference.id,
-          },
-          data: { isLastest: false },
-        });
-        await this.prismaService.conferenceOrganizations.update({
-          where: { id: organizations[0].id },
-          data: { isLastest: true, updatedAt: organizations[0].updatedAt },
-        });
-
-      }
-    }
-    return { message: 'Latest organizations updated successfully' };
-  }
-
   async updateLastestOrganizationById(conferenceId: string) {
     const organizations =
       await this.prismaService.conferenceOrganizations.findMany({
@@ -370,15 +342,214 @@ export class ConferenceOrganizationSerivce {
         orderBy: { updatedAt: 'desc' },
       });
     if (organizations.length > 0) {
-            await this.prismaService.conferenceOrganizations.updateMany({
-        where: { id: { not: organizations[0].id }, conferenceId },
-        data: { isLastest: false },
-      });
+      // First set all to false while preserving their updatedAt timestamps
+      for (const org of organizations) {
+        await this.prismaService.conferenceOrganizations.update({
+          where: { id: org.id },
+          data: {
+            isLastest: false,
+            updatedAt: org.updatedAt, // Preserve original updatedAt
+          },
+        });
+      }
+
+      // Then set the latest one to true while preserving its updatedAt timestamp
       await this.prismaService.conferenceOrganizations.update({
         where: { id: organizations[0].id },
-        data: { isLastest: true, updatedAt: organizations[0].updatedAt },
+        data: {
+          isLastest: true,
+          updatedAt: organizations[0].updatedAt, // Preserve original updatedAt
+        },
       });
+    }
+  }
 
+  async updateLastestOrgByConference(confId: string) {
+    const organizations =
+      await this.prismaService.conferenceOrganizations.findMany({
+        where: { conferenceId: confId },
+        orderBy: { updatedAt: 'desc' },
+      });
+    if (organizations.length > 0) {
+      // First set all to false while preserving their updatedAt timestamps
+      for (const org of organizations) {
+        await this.prismaService.conferenceOrganizations.update({
+          where: { id: org.id },
+          data: {
+            isLastest: false,
+            updatedAt: org.updatedAt, // Preserve original updatedAt
+          },
+        });
+      }
+
+      // Then set the latest one to true while preserving its updatedAt timestamp
+      await this.prismaService.conferenceOrganizations.update({
+        where: { id: organizations[0].id },
+        data: {
+          isLastest: true,
+          updatedAt: organizations[0].updatedAt, // Preserve original updatedAt
+        },
+      });
+    }
+    return { message: 'Latest organization updated successfully' };
+  }
+
+  /**
+   * Import dates from crawler data
+   * Handles various date fields that may come from the crawler API
+   */
+  async importDatesFromCrawlerData(
+    crawlData: any,
+    organizeId: string,
+  ): Promise<void> {
+    try {
+      const dateFields = [
+        {
+          field: 'conferenceDates',
+          type: 'conferenceDates',
+          name: 'Conference Date',
+        },
+        {
+          field: 'submissionDate',
+          type: 'submissionDate',
+          name: 'Submission Deadline',
+        },
+        {
+          field: 'notificationDate',
+          type: 'notificationDate',
+          name: 'Notification Date',
+        },
+        {
+          field: 'cameraReadyDate',
+          type: 'cameraReadyDate',
+          name: 'Camera Ready Date',
+        },
+        {
+          field: 'registrationDate',
+          type: 'registrationDate',
+          name: 'Registration Date',
+        },
+        {
+          field: 'conferenceDate',
+          type: 'conferenceDate',
+          name: 'Conference Date',
+        },
+        { field: 'dates', type: 'dates', name: 'Important Dates' },
+      ];
+
+      for (const dateField of dateFields) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+        const dateValue = crawlData[dateField.field];
+        if (dateValue) {
+          let dateInput: ConferenceDateInput;
+
+          if (typeof dateValue === 'string') {
+            // Handle string dates
+            const [fromDate, toDate] = this.parseDateRange(dateValue);
+            dateInput = {
+              fromDate,
+              toDate,
+              type: dateField.type,
+              name: dateField.name,
+              organizedId: organizeId,
+            };
+
+            if (fromDate || toDate) {
+              await this.importDate(dateInput);
+            }
+          } else if (typeof dateValue === 'object' && dateValue !== null) {
+            // Handle object dates (e.g., { "Paper Submission": "2024-01-15", "Notification": "2024-03-01" })
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+            for (const [key, value] of Object.entries(dateValue)) {
+              if (value && typeof value === 'string') {
+                const [fromDate, toDate] = this.parseDateRange(value);
+                dateInput = {
+                  fromDate,
+                  toDate,
+                  type: dateField.type,
+                  name: key,
+                  organizedId: organizeId,
+                };
+
+                if (fromDate || toDate) {
+                  await this.importDate(dateInput);
+                }
+              }
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error(
+        `Error importing dates for organization ${organizeId}:`,
+        error,
+      );
+      // Don't throw error - dates are not critical for import success
+    }
+  }
+
+  /**
+   * Parse date range from string (similar to the utility function)
+   */
+  private parseDateRange(dateRange: string): [Date | null, Date | null] {
+    try {
+      // Normalize dash types and remove any extra spaces
+      dateRange = dateRange
+        .replace('–', '-')
+        .replace(/\s*,\s*/g, ', ')
+        .trim();
+
+      let parts = dateRange.split(' - ');
+
+      // If splitting by " - " fails, attempt to split by "–"
+      if (parts.length === 1) {
+        parts = dateRange.split('-');
+      }
+
+      if (parts.length !== 2) {
+        let singleDate = parser.fromString(dateRange);
+        if (!singleDate.isValid()) {
+          singleDate = parser.fromString('1' + dateRange);
+        }
+        if (!singleDate.isValid()) {
+          return [null, null];
+        } else {
+          return [singleDate, singleDate];
+        }
+      }
+
+      let firstPart = parts[0].trim();
+      let lastPart = parts[1].trim();
+
+      if (/^\d/.test(lastPart)) {
+        lastPart = firstPart.split(' ')[0] + ' ' + parts[1].trim();
+      }
+
+      let lastDate = parser.fromString(lastPart);
+      if (!lastDate.isValid()) {
+        lastPart = firstPart.split(' ')[0] + lastPart;
+        lastDate = parser.fromString(lastPart);
+      }
+      if (!lastDate.isValid()) return [null, null];
+
+      // If firstPart lacks a year, inherit from lastDate
+      const yearOfFirstPart = firstPart.split(' ').pop() || '';
+      if (yearOfFirstPart.length < 4) {
+        firstPart += ' ' + lastDate.getFullYear();
+      }
+      let firstDate = parser.fromString(firstPart);
+
+      if (!firstDate.isValid()) {
+        firstPart += ` ${lastDate.getFullYear()}`;
+        firstDate = parser.fromString(firstPart);
+      }
+
+      if (!firstDate.isValid()) return [null, null];
+
+      return [firstDate, lastDate];
+    } catch (error) {
+      console.error('Error parsing date range:', dateRange, error);
+      return [null, null];
     }
   }
 }

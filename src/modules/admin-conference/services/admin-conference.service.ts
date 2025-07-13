@@ -148,9 +148,14 @@ export class AdminConferenceService {
           },
           conferenceDates: true,
         },
-        orderBy: {
-          updatedAt: 'desc'
-        }
+        orderBy: [
+          {
+            isLastest: 'desc'
+          },
+          {
+            updatedAt: 'desc'
+          }
+        ]
       },
     };
 
@@ -532,6 +537,10 @@ export class AdminConferenceService {
       for (const date of allDates) {
         await this.conferenceOrganizationService.importDate(date);
       }
+      
+      // Update isLastest flags for all organizations of this conference
+      await this.updateLastestOrganizationById(conferenceInDB.id);
+      
       return true;
     } catch (error) {
       this.txHost.tx.errorConferenceLogger.create({
@@ -858,13 +867,29 @@ export class AdminConferenceService {
         },
       });
 
-      // Create or update organization
+      // First, set all existing organizations of this conference to isLastest: false while preserving updatedAt
+      const existingOrganizations = await this.txHost.tx.conferenceOrganizations.findMany({
+        where: { conferenceId: conference.id },
+      });
+      
+      for (const org of existingOrganizations) {
+        await this.txHost.tx.conferenceOrganizations.update({
+          where: { id: org.id },
+          data: { 
+            isLastest: false,
+            updatedAt: org.updatedAt // Preserve original updatedAt
+          },
+        });
+      }
+
+      // Create or update organization with isLastest: true
       const organization = await this.txHost.tx.conferenceOrganizations.create({
         data: {
           conferenceId: conference.id,
           year: conferenceData.year ? parseInt(conferenceData.year) : null,
           accessType: conferenceData.type || 'Offline',
           isAvailable: true,
+          isLastest: true,
           publisher: conferenceData.publisher || '',
           summerize: conferenceData.summary || '',
           callForPaper: conferenceData.callForPapers || '',
@@ -962,11 +987,10 @@ export class AdminConferenceService {
             for (const date of dateInput) {
                 await this.conferenceOrganizationService.importDate(date);
             }
-      await this.updateLastestOrganizationById(
-        organization.conferenceId,
-      );
 
+      await this.updateLastestOrganizationById(conference.id);
       return conference;
+
     } catch (error) {
       console.error('Error saving conference:', error);
       throw new HttpException(
@@ -1030,9 +1054,9 @@ export class AdminConferenceService {
       if (updateHistoryDto.link !== undefined) updateData.link = updateHistoryDto.link;
       if (updateHistoryDto.cfpLink !== undefined) updateData.cfpLink = updateHistoryDto.cfpLink;
       if (updateHistoryDto.impLink !== undefined) updateData.impLink = updateHistoryDto.impLink;
-      updateHistoryDto.isLastest = true;
 
       // Update the conference organization with only the provided fields
+      // Do NOT automatically set isLastest here - let it be determined by updatedAt timestamp
       const updatedHistory = await this.txHost.tx.conferenceOrganizations.update({
         where: { id: updateHistoryDto.id },
         data: updateData,
@@ -1114,6 +1138,10 @@ export class AdminConferenceService {
           ));
       }
 
+      // After all updates are complete, determine which organization should be latest
+      // based on updatedAt timestamp
+      await this.updateLastestOrganizationById(existingHistory.conferenceId);
+
       // Get the updated conference with all relations
       const updatedConference = await this.txHost.tx.conferences.findUnique({
         where: { id: existingHistory.conferenceId },
@@ -1128,9 +1156,14 @@ export class AdminConferenceService {
               },
               conferenceDates: true,
             },
-            orderBy: {
-              updatedAt: 'desc',
-            },
+            orderBy: [
+              {
+                isLastest: 'desc',
+              },
+              {
+                updatedAt: 'desc',
+              },
+            ],
           },
         },
       });
@@ -1138,9 +1171,6 @@ export class AdminConferenceService {
       if (!updatedConference) {
         throw new HttpException('Conference not found after update', HttpStatus.NOT_FOUND);
       }
-      await this.updateLastestOrganizationById(
-        updatedConference.id,
-      );
 
       return updatedConference;
     } catch (error) {
@@ -1223,18 +1253,23 @@ export class AdminConferenceService {
         throw new HttpException('Organization history not found', HttpStatus.NOT_FOUND);
       }
 
-        await this.txHost.tx.locations.deleteMany({
-          where: { organizeId: id },
-        });
-        await  this.txHost.tx.conferenceTopics.deleteMany({
-          where: { organizeId: id },
-        });
-        await  this.txHost.tx.conferenceDates.deleteMany({
-          where: { organizedId: id },
-        });
+      const conferenceId = organization.conferenceId;
+
+      await this.txHost.tx.locations.deleteMany({
+        where: { organizeId: id },
+      });
+      await  this.txHost.tx.conferenceTopics.deleteMany({
+        where: { organizeId: id },
+      });
+      await  this.txHost.tx.conferenceDates.deleteMany({
+        where: { organizedId: id },
+      });
       await this.txHost.tx.conferenceOrganizations.delete({
         where: { id },
       });
+
+      // After deletion, update isLastest flags for remaining organizations
+      await this.updateLastestOrganizationById(conferenceId);
 
       return {
         message: 'Conference organization history deleted successfully',
@@ -1264,9 +1299,14 @@ export class AdminConferenceService {
         },
         conferenceDates: true
       },
-      orderBy: {
-        updatedAt: 'desc'
-      }
+      orderBy: [
+        {
+          isLastest: 'desc'
+        },
+        {
+          updatedAt: 'desc'
+        }
+      ]
     });
 
     return organizations.map(org => ({
@@ -1440,53 +1480,83 @@ export class AdminConferenceService {
           orderBy: { updatedAt: 'desc' },
         });
         if (organizations.length > 0) {
-                    await this.prismaService.conferenceOrganizations.updateMany({
-            where: { id: { not: organizations[0].id }, conferenceId: conference.id },
-            data: { isLastest: false },
-          });
+          // First set all to false while preserving their updatedAt timestamps
+          for (const org of organizations) {
+            await this.prismaService.conferenceOrganizations.update({
+              where: { id: org.id },
+              data: { 
+                isLastest: false,
+                updatedAt: org.updatedAt // Preserve original updatedAt
+              },
+            });
+          }
+          
+          // Then set the latest one to true while preserving its updatedAt timestamp
           await this.prismaService.conferenceOrganizations.update({
             where: { id: organizations[0].id },
-            data: { isLastest: true, updatedAt: organizations[0].updatedAt },
+            data: { 
+              isLastest: true,
+              updatedAt: organizations[0].updatedAt // Preserve original updatedAt
+            },
           });
-
         }
       }
       return { message: 'Latest organizations updated successfully' };
     }
 
   async updateLastestOrganizationById(conferenceId: string) {
-  const organizations = await this.prismaService.conferenceOrganizations.findMany({
-    where: { conferenceId },
-    orderBy: { updatedAt: 'desc' },
-  });
-  if (organizations.length > 0) {
-    await this.prismaService.conferenceOrganizations.updateMany({
-      where: { id: { not: organizations[0].id }, conferenceId },
-      data: { isLastest: false },
+    const organizations = await this.prismaService.conferenceOrganizations.findMany({
+      where: { conferenceId },
+      orderBy: { updatedAt: 'desc' },
     });
-    await this.prismaService.conferenceOrganizations.update({
-      where: { id: organizations[0].id },
-      data: { isLastest: true, updatedAt: organizations[0].updatedAt },
-    });
-
+    if (organizations.length > 0) {
+      // First set all to false while preserving their updatedAt timestamps
+      for (const org of organizations) {
+        await this.prismaService.conferenceOrganizations.update({
+          where: { id: org.id },
+          data: { 
+            isLastest: false,
+            updatedAt: org.updatedAt // Preserve original updatedAt
+          },
+        });
+      }
+      
+      // Then set the latest one to true while preserving its updatedAt timestamp
+      await this.prismaService.conferenceOrganizations.update({
+        where: { id: organizations[0].id },
+        data: { 
+          isLastest: true,
+          updatedAt: organizations[0].updatedAt // Preserve original updatedAt
+        },
+      });
+    }
   }
-}
 
-  async updateLastestOrgByConference(confId : string) {
+  async updateLastestOrgByConference(confId: string) {
     const organizations = await this.prismaService.conferenceOrganizations.findMany({
       where: { conferenceId: confId },
       orderBy: { updatedAt: 'desc' },
     });
     if (organizations.length > 0) {
-      await this.prismaService.conferenceOrganizations.updateMany({
-        where: { id: { not: organizations[0].id }, conferenceId: confId },
-        data: { isLastest: false },
-      });
+      // First set all to false while preserving their updatedAt timestamps
+      for (const org of organizations) {
+        await this.prismaService.conferenceOrganizations.update({
+          where: { id: org.id },
+          data: { 
+            isLastest: false,
+            updatedAt: org.updatedAt // Preserve original updatedAt
+          },
+        });
+      }
+      
+      // Then set the latest one to true while preserving its updatedAt timestamp
       await this.prismaService.conferenceOrganizations.update({
         where: { id: organizations[0].id },
-        data: { isLastest: true, updatedAt: organizations[0].updatedAt },
+        data: { 
+          isLastest: true,
+          updatedAt: organizations[0].updatedAt // Preserve original updatedAt
+        },
       });
-
     }
     return { message: 'Latest organization updated successfully' };
   }
