@@ -270,14 +270,36 @@ export class ConferenceImportProcessor extends WorkerHost {
           status: ConferenceAttribute.JOB_STATUS_RUNNING,
         });
 
+        // Get existing organization data to preserve existing links
+        const existingOrganization =
+          await this.conferenceOrganizationService.getFirstOrganizationsByConferenceId(
+            String(conference.conferenceId),
+          );
+
+        // Preserve existing links if they exist, otherwise use crawler data
+        const preservedMainLink =
+          existingOrganization?.link || crawlData.mainLink || '';
+        const preservedCfpLink =
+          existingOrganization?.cfpLink || crawlData.cfpLink || '';
+        const preservedImpLink =
+          existingOrganization?.impLink || crawlData.impLink || '';
+
+        // Log link preservation information
+        this.loggerService.info(
+          `Link preservation for ${conference.conferenceTitle}: ` +
+            `MainLink - ${existingOrganization?.link ? 'preserved existing' : 'using crawler data'}, ` +
+            `CfpLink - ${existingOrganization?.cfpLink ? 'preserved existing' : 'using crawler data'}, ` +
+            `ImpLink - ${existingOrganization?.impLink ? 'preserved existing' : 'using crawler data'}`,
+        );
+
         const organizeData =
           await this.conferenceOrganizationService.importOrganize({
             year: parseInt(String(crawlData.year || '0')),
             conferenceId: conference.conferenceId,
             accessType: crawlData.type,
-            link: crawlData.mainLink || '',
-            cfpLink: crawlData.cfpLink || '',
-            impLink: crawlData.impLink || '',
+            link: preservedMainLink,
+            cfpLink: preservedCfpLink,
+            impLink: preservedImpLink,
             summerize: crawlData.summary || '',
             callForPaper: crawlData.callForPapers || '',
             publisher: crawlData.publisher || '',
@@ -594,14 +616,36 @@ export class ConferenceImportProcessor extends WorkerHost {
             })}`,
           );
 
+          // Get existing organization data to preserve existing links
+          const existingOrganization =
+            await this.conferenceOrganizationService.getFirstOrganizationsByConferenceId(
+              String(conference.conferenceId),
+            );
+
+          // Preserve existing links if they exist, otherwise use crawler data
+          const preservedMainLink =
+            existingOrganization?.link || crawlData.mainLink || '';
+          const preservedCfpLink =
+            existingOrganization?.cfpLink || crawlData.cfpLink || '';
+          const preservedImpLink =
+            existingOrganization?.impLink || crawlData.impLink || '';
+
+          // Log link preservation information
+          this.loggerService.info(
+            `Link preservation for ${conference.conferenceTitle}: ` +
+              `MainLink - ${existingOrganization?.link ? 'preserved existing' : 'using crawler data'}, ` +
+              `CfpLink - ${existingOrganization?.cfpLink ? 'preserved existing' : 'using crawler data'}, ` +
+              `ImpLink - ${existingOrganization?.impLink ? 'preserved existing' : 'using crawler data'}`,
+          );
+
           const organizeData =
             await this.conferenceOrganizationService.importOrganize({
               year: parseInt(String(crawlData.year || '0')),
               conferenceId: conference.conferenceId,
               accessType: crawlData.type,
-              link: crawlData.mainLink || '',
-              cfpLink: crawlData.cfpLink || '',
-              impLink: crawlData.impLink || '',
+              link: preservedMainLink,
+              cfpLink: preservedCfpLink,
+              impLink: preservedImpLink,
               summerize: crawlData.summary || '',
               callForPaper: crawlData.callForPapers || '',
               publisher: crawlData.publisher || '',
@@ -704,7 +748,10 @@ export class ConferenceImportProcessor extends WorkerHost {
           );
           successCount++;
 
-          // Update latest organization flag for this conferenc
+          // Update latest organization flag for this conference
+          await this.conferenceOrganizationService.updateLastestOrganizationById(
+            String(conference.conferenceId),
+          );
 
           // Update individual job status to completed in database
           await this.updateIndividualJobInBatch(

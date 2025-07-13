@@ -309,6 +309,9 @@ export class ConferenceCrawlJobController {
 
     const data = result.data.map((item) => ({
       ...item,
+      mainLink: organization.link || item.mainLink,
+      cfpLink: organization.cfpLink || item.cfpLink,
+      impLink: organization.impLink || item.impLink,
     }));
     await this.adminConferenceService.importConferences(data as any);
     try {
