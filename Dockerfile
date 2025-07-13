@@ -20,10 +20,10 @@ RUN npm install
 COPY . .
 
 # Generate Prisma Client (cần thiết trước khi build)
-RUN npx prisma generate
+RUN npx prisma db generate
 
 # Build ứng dụng cho production. Bây giờ lệnh "nest" chắc chắn đã tồn tại.
-RUN npm run build
+RUN npm run db:resolve
 
 # Dọn dẹp: Xóa devDependencies để chuẩn bị cho stage production
 RUN npm prune --production
@@ -51,7 +51,7 @@ COPY --from=builder /usr/src/app/prisma ./prisma
 # RUN npm install pm2 -g
 
 # Generate Prisma Client một lần nữa trong image cuối cùng (để chắc chắn)
-RUN npx prisma generate
+RUN npm run db:resolve
 
 # Mở port mà ứng dụng sẽ chạy
 EXPOSE 3000
