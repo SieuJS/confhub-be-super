@@ -236,8 +236,8 @@ export class AuthController {
     const user = await this.getUserWithVerification(userId);
     await this.emailService.sendEmailVerification(
       user.email,
-      verificationCode.verificationCode,
       user.firstName,
+      verificationCode.verificationCode,
     );
     return {
       code: verificationCode.verificationCode,

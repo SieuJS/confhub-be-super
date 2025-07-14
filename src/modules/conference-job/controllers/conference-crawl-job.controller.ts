@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-misused-promises */
 import {
   Controller,
   Get,
@@ -108,7 +106,7 @@ export class ConferenceCrawlJobController {
   async cancelCronUpdate() {
     console.log('🎯🎯🎯 CONTROLLER ENTRY: cancel-cron endpoint called');
     console.log('🎯 Controller: cancel-cron endpoint called');
-    
+
     try {
       // Use the comprehensive stop method instead of just cancelCronUpdate
       console.log(
@@ -116,7 +114,7 @@ export class ConferenceCrawlJobController {
       );
       const result =
         await this.conferenceCrawlJobService.stopConferenceCrawlOperations();
-      
+
       console.log('🎯 Controller: stop operation completed, result:', result);
       return result;
     } catch (error) {
@@ -501,12 +499,12 @@ export class ConferenceCrawlJobController {
   @Post('simple-cancel-test')
   async simpleCancelTest() {
     console.log('🧪🧪🧪 SIMPLE TEST: simple-cancel-test endpoint called');
-    
+
     try {
       // Just call the basic cancelCronUpdate method to test
       console.log('🧪 Test: About to call basic cancelCronUpdate...');
       const result = await this.conferenceCrawlJobService.cancelCronUpdate();
-      
+
       console.log('🧪 Test: basic cancel completed, result:', result);
       return {
         testName: 'simple-cancel-test',

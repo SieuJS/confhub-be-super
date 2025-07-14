@@ -79,11 +79,11 @@ export class EmailService {
       brevo.TransactionalEmailsApiApiKeys.apiKey,
       setting.apiKey,
     );
-    sendSmtpEmail.subject = 'Verify Your Account - Your App Name'; // <<< Thay đổi Subject nếu cần
+    sendSmtpEmail.subject = 'Verify Your Account - Conference HUB';
     sendSmtpEmail.htmlContent = `
         <html>
             <body>
-                <h1>Welcome to Your App Name, ${firstName}!</h1>
+                <h1>Welcome to Conference HUB, ${firstName}!</h1>
                 <p>Thank you for registering. Please use the following code to verify your email address:</p>
                 <p style="font-size: 24px; font-weight: bold; letter-spacing: 2px; margin: 20px 0; padding: 10px; background-color: #f0f0f0; display: inline-block;">
                     ${verificationCode}
