@@ -88,6 +88,22 @@ export class AdminConferenceController {
   @Transactional<TransactionalAdapterPrisma>({
     timeout: 300000,
   })
+  @Transactional<TransactionalAdapterPrisma>({
+    timeout: 300000,
+  })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+      schema: {
+        type: 'object',
+        properties: {
+          file: {
+            type: 'string',
+            format: 'binary',
+            description: 'CSV file containing conerence data',
+          },
+        },
+      },
+    })
   @UseInterceptors(FileInterceptor('file'))
   async importCSVFile(
     @UploadedFile(new FileSizeValidationPipe()) file: Express.Multer.File,
@@ -149,15 +165,15 @@ export class AdminConferenceController {
   @Transactional<TransactionalAdapterPrisma>({
     timeout: 300000,
   })
-    @ApiConsumes('multipart/form-data')
-    @ApiBody({
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
       schema: {
         type: 'object',
         properties: {
           file: {
             type: 'string',
             format: 'binary',
-            description: 'CSV file containing journal data',
+            description: 'CSV file containing conerence data',
           },
         },
       },
@@ -194,6 +210,7 @@ export class AdminConferenceController {
         400,
       );
     }
+    console.log('Parsed CSV data header cfp:', data);
     const results: AdminConferenceDTO[] = [];
     for (const item of data) {
       const conference = await this.adminConferenceService
@@ -210,7 +227,6 @@ export class AdminConferenceController {
         });
       results.push(conference as AdminConferenceDTO);
     }
-    await this.cacheSearvice.removeAllCache();
     return {
       message: 'file is imported',
       data: results,
@@ -220,6 +236,19 @@ export class AdminConferenceController {
   @Post('/import-evaluate')
   @Transactional<TransactionalAdapterPrisma>({
     timeout: 300000,
+  })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+          description: 'CSV file containing journal data',
+        },
+      },
+    },
   })
   @UseInterceptors(FileInterceptor('file'))
   @UsePipes(new FileSizeValidationPipe())
