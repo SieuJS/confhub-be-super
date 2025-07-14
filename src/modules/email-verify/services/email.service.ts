@@ -109,17 +109,9 @@ export class EmailService {
       // Sử dụng apiInstance đã được cấu hình ở trên
       const data = await apiInstance.sendTransacEmail(sendSmtpEmail);
       // Log data trả về từ Brevo có thể hữu ích khi debug
-    } catch (error: any) {
+    } catch {
       // Log chi tiết lỗi từ Brevo nếu có
       console.error('Error sending verification email via Brevo:');
-      if (error.response) {
-        // Lỗi từ API Brevo (có response body)
-        console.error('Status:', error.response.status);
-        console.error('Body:', error.response.body || error.response.text); // Log body hoặc text
-      } else {
-        // L  ỗi mạng hoặc lỗi khác
-        console.error('Error Message:', error.message);
-      }
       // Ném lỗi để controller biết việc gửi mail thất bại và xử lý phù hợp
       throw new Error('Failed to send verification email.');
     }
@@ -156,7 +148,7 @@ export class EmailService {
                 <p>If you did not request a password reset, please ignore this email or contact support if you have concerns.</p>
                 <br/>
                 <p>Thanks,</p>
-                <p>The Your App Name Team</p>
+                <p>Conference HUb Team</p>
             </body>
         </html>
     `;
@@ -166,15 +158,8 @@ export class EmailService {
 
     try {
       const data = await apiInstance.sendTransacEmail(sendSmtpEmail);
-    } catch (error: any) {
+    } catch {
       console.error('Error sending password reset email via Brevo:');
-      if (error.response) {
-        console.error('Status:', error.response.status);
-        console.error('Body:', error.response.body || error.response.text);
-      } else {
-        console.error('Error Message:', error.message);
-      }
-      throw new Error('Failed to send password reset email.');
     }
   }
 
@@ -208,14 +193,8 @@ export class EmailService {
     sendSmtpEmail.to = [{ email: toEmail, name: firstName }];
     try {
       const data = await apiInstance.sendTransacEmail(sendSmtpEmail);
-    } catch (error: any) {
+    } catch {
       console.error('Error sending upcoming event email via Brevo:');
-      if (error.response) {
-        console.error('Status:', error.response.status);
-        console.error('Body:', error.response.body || error.response.text);
-      } else {
-        console.error('Error Message:', error.message);
-      }
     }
   }
 
@@ -249,12 +228,8 @@ export class EmailService {
     sendSmtpEmail.to = [{ email: toEmail, name: firstName }];
     try {
       const data = await apiInstance.sendTransacEmail(sendSmtpEmail);
-    } catch (error: any) {
+    } catch {
       console.error('Error sending updated conference email via Brevo:');
-      if (error.response) {
-        console.error('Status:', error.response.status);
-        console.error('Body:', error.response.body || error.response.text);
-      }
     }
   }
 
@@ -307,13 +282,8 @@ export class EmailService {
     try {
       const data = await apiInstance.sendTransacEmail(sendSmtpEmail);
       return data;
-    } catch (error: any) {
+    } catch {
       console.error('Error sending conference request email via Brevo:');
-      if (error.response) {
-        console.error('Status:', error.response.status);
-        console.error('Body:', error.response.body || error.response.text);
-      }
-      throw new Error('Failed to send conference request email.');
     }
   }
 }
