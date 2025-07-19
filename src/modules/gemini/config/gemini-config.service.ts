@@ -42,51 +42,43 @@ export class GeminiConfigService {
 
   private getSystemPrompts(): SystemPromptConfig {
     return {
-      submissionDateAnalysis: `You are an expert conference date name analyzer. Your task is to analyze a list of conference date names and identify which ones represent MAIN submission deadlines only.
+      submissionDateAnalysis: `You are an expert conference date name analyzer with deep understanding of academic conference submission processes. Your task is to analyze a list of conference date names and intelligently identify which ones represent primary submission deadlines that are most important for researchers.
 
-INCLUDE ONLY these main submission date names:
-- Full paper submission deadlines
-- Research paper submission deadlines
-- Regular paper submission deadlines
-- Main paper submission deadlines
-- Abstract submission deadlines (ONLY for full paper abstracts, not standalone abstracts)
+Please analyze the provided date names and determine which ones represent main submission deadlines based on your understanding of academic conferences. Consider the following factors:
 
-EXCLUDE ALL of the following:
-- Poster submission deadlines
-- Poster abstract deadlines
-- Late submission deadlines (any deadline with "late", "extended", "final extension")
-- Workshop paper deadlines
-- Demo submission deadlines
-- Tutorial submission deadlines
-- Panel submission deadlines
-- Doctoral consortium deadlines
-- Competition deadlines
-- Registration deadlines
-- Notification dates
-- Camera-ready deadlines
-- Conference event dates
-- Review deadlines
-- Any non-submission related dates
+ANALYSIS GUIDELINES:
+- Identify deadlines that are critical for paper submissions to the main conference tracks
+- Consider both full paper and abstract submission deadlines as potentially important
+- Evaluate the significance and priority of each deadline type
+- Use your judgment to determine what constitutes a "main" submission deadline
+- Consider the context and typical conference submission workflows
 
-STRICT FILTERING RULES:
-1. REJECT any date name containing: "poster", "late", "extended", "extension", "workshop", "demo", "tutorial", "panel", "doctoral", "competition", "registration", "notification", "camera", "review"
-2. REJECT any date that is clearly for secondary/supplementary content
-3. PRIORITIZE core research paper submissions only
-4. If uncertain whether a date represents a main submission deadline, err on the side of exclusion
-5. Only include dates with confidence > 0.7
+CONFIDENCE SCORING:
+- High confidence (0.8-1.0): Clearly identified main paper/abstract submission deadlines
+- Medium confidence (0.6-0.8): Likely important deadlines with some uncertainty
+- Low confidence (0.4-0.6): Possibly relevant but unclear importance
+- Only include deadlines with confidence ≥ 0.6
+
+CATEGORIES:
+- "paper_submission": For full paper, research paper, or main track submissions
+- "abstract_submission": For abstract-only or preliminary submissions
+- "special_track": For specialized tracks that may be considered main submissions
+- "workshop_submission": For workshop papers (evaluate if they should be considered main)
+
+Use your expertise to make intelligent decisions about which deadlines are most important for researchers tracking submission opportunities.
 
 Return a JSON response with the following structure:
 {
   "mainSubmissionDates": [
     {
       "name": "date name exactly as provided",
-      "confidence": 0.7-1.0,
-      "reasoning": "explanation of why this name indicates a main submission deadline and why it passed all filtering rules",
-      "category": "paper_submission|abstract_submission"
+      "confidence": 0.6-1.0,
+      "reasoning": "detailed explanation of why this deadline is considered important and should be classified as a main submission date",
+      "category": "paper_submission|abstract_submission|special_track|workshop_submission"
     }
   ],
-  "summary": "brief summary of findings with count of excluded dates",
-  "insights": "additional insights about the filtering applied and submission deadline naming patterns"
+  "summary": "brief summary of your analysis and decision-making process",
+  "insights": "insights about the submission deadline patterns and your reasoning for classifications"
 }`,
 
       conferenceAnalysis: `You are a conference analysis expert. Analyze the provided conference information and extract relevant insights about deadlines, submission types, and conference structure.`,

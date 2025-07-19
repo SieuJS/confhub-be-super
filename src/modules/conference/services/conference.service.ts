@@ -523,14 +523,7 @@ export class ConferenceService {
                                 //     ? 'mainSubmissionDate'
                                 //     : 'submissionDate',
                                 // Enhanced filtering: If pre-classified data available, filter by those names
-                                ...(geminiAnalyzedSubmissionTypes.length > 0
-                                  ? {
-                                      name: {
-                                        in: geminiAnalyzedSubmissionTypes,
-                                        mode: 'insensitive',
-                                      },
-                                    }
-                                  : {}),
+                                type: 'submissionDate',
                               }
                             : {}),
 
@@ -544,14 +537,7 @@ export class ConferenceService {
                                 // Use mainSubmissionDate type when pre-classified data is available,
                                 // otherwise fall back to submissionDate
                                 // Enhanced filtering: If pre-classified data available, filter by those names
-                                ...(geminiAnalyzedSubmissionTypes.length > 0
-                                  ? {
-                                      name: {
-                                        in: geminiAnalyzedSubmissionTypes,
-                                        mode: 'insensitive',
-                                      },
-                                    }
-                                  : {}),
+                                type: 'submissionDate',
                               }
                             : {}),
                         },
@@ -834,14 +820,9 @@ export class ConferenceService {
             if (!date.fromDate || !date.toDate) return false;
 
             // Check if this is a main submission date (if we have pre-classified data)
-            const isMainSubmissionDate =
-              geminiAnalyzedSubmissionTypes.length > 0
-                ? geminiAnalyzedSubmissionTypes.some((name) =>
-                    date.name?.toLowerCase().includes(name.toLowerCase()),
-                  )
-                : date.type === 'submissionDate';
-
-            if (!isMainSubmissionDate) return false;
+            if (!(date.type === 'submissionDate')) {
+              return false; // Only include main submission dates
+            }
 
             // Date range filtering: Include dates that overlap with the filter range
             // A date overlaps if: date.toDate >= subFromDate AND date.fromDate <= subToDate

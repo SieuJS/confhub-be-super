@@ -101,9 +101,18 @@ export class MainSubmissionDate {
   @ApiProperty({
     description: 'Category of the submission date',
     example: 'paper_submission',
-    enum: ['paper_submission', 'abstract_submission'],
+    enum: [
+      'paper_submission',
+      'abstract_submission',
+      'special_track',
+      'workshop_submission',
+    ],
   })
-  category: 'paper_submission' | 'abstract_submission';
+  category:
+    | 'paper_submission'
+    | 'abstract_submission'
+    | 'special_track'
+    | 'workshop_submission';
 }
 
 /**

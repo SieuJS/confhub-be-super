@@ -17,7 +17,7 @@ export class MainSubmissionDateInitializerService implements OnModuleInit {
 
   async onModuleInit() {
     // Initialize main submission dates on application startup
-    await this.initializeMainSubmissionDates();
+    // await this.initializeMainSubmissionDates();
   }
 
   /**
@@ -80,7 +80,7 @@ export class MainSubmissionDateInitializerService implements OnModuleInit {
         conferenceContext:
           'Academic conference submission deadlines - initialization analysis',
         additionalInstructions:
-          'Identify main paper submission deadlines that should be classified as primary submission dates.',
+          'Please analyze and identify the most important submission deadlines that researchers should prioritize when tracking conference opportunities.',
       };
 
       this.logger.log('Sending request to Gemini for analysis...');
@@ -94,9 +94,9 @@ export class MainSubmissionDateInitializerService implements OnModuleInit {
         this.logger.log(`Insights: ${geminiResponse.insights}`);
       }
 
-      // Extract main submission date names (high confidence only)
+      // Extract main submission date names (medium to high confidence)
       const mainSubmissionDateNames = geminiResponse.mainSubmissionDates
-        .filter((date) => date.confidence >= 0.7)
+        .filter((date) => date.confidence >= 0.6)
         .map((date) => date.name);
 
       this.logger.log(

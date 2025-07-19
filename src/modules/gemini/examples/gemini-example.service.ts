@@ -150,18 +150,18 @@ export class GeminiExampleService {
     }
 
     // Prioritize by category, then by confidence
-    const categoryPriority = {
+    const categoryPriority: Record<string, number> = {
       paper_submission: 5,
       abstract_submission: 4,
-      poster_submission: 3,
+      special_track: 3,
       workshop_submission: 2,
-      other: 1,
     };
 
     return submissionDates.reduce((best, current) => {
-      const bestPriority = categoryPriority[best.category] * best.confidence;
+      const bestPriority =
+        (categoryPriority[best.category] || 1) * best.confidence;
       const currentPriority =
-        categoryPriority[current.category] * current.confidence;
+        (categoryPriority[current.category] || 1) * current.confidence;
 
       return currentPriority > bestPriority ? current : best;
     });

@@ -50,7 +50,12 @@ export class GeminiService {
   private isValidCategory(
     value: unknown,
   ): value is MainSubmissionDate['category'] {
-    const validCategories = ['paper_submission', 'abstract_submission'];
+    const validCategories = [
+      'paper_submission',
+      'abstract_submission',
+      'special_track',
+      'workshop_submission',
+    ];
     return (
       typeof value === 'string' &&
       validCategories.includes(value as MainSubmissionDate['category'])
@@ -480,6 +485,10 @@ Please analyze these dates and return a JSON response following the specified st
       if (fixed.endsWith('"paper')) {
         fixed += '_submission"';
       } else if (fixed.endsWith('"abstract')) {
+        fixed += '_submission"';
+      } else if (fixed.endsWith('"special')) {
+        fixed += '_track"';
+      } else if (fixed.endsWith('"workshop')) {
         fixed += '_submission"';
       }
 
