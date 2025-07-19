@@ -1,4 +1,11 @@
-import { Body, Controller, Delete, Get, HttpException } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpException,
+  Query,
+} from '@nestjs/common';
 import { ConferenceOrganizationSerivce } from '../services';
 
 @Controller('/conference-organization')
@@ -29,5 +36,28 @@ export class ConferenceOrganizationController {
       }),
     );
     return { message: 'Topics deleted successfully' };
+  }
+
+  @Get('/dates/types')
+  async getAllDateTypes() {
+    const dateTypes =
+      await this.conferenceOrganizationService.getAllDateTypes();
+    return dateTypes.map((type) => ({
+      type,
+      name: this.conferenceOrganizationService.getDatenameByType(type),
+    }));
+  }
+
+  @Get('/dates')
+  async getDateNameByType(@Query('type') type: string) {
+    if (!type) {
+      throw new HttpException('Type is required', 400);
+    }
+    const dateNames =
+      await this.conferenceOrganizationService.getDatenameByType(type);
+    if (!dateNames) {
+      throw new HttpException('Date type not found', 404);
+    }
+    return { type, names: dateNames };
   }
 }

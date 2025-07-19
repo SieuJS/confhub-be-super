@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/require-await */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { PrismaService } from '../../common';
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, Injectable, Logger } from '@nestjs/common';
 import { ConferenceImportDTO } from '../models/conference/conference-import.dto';
 import { RankDTO } from '../../source-rank/models/rank.dto';
 import { PaginationService } from '../../common/services/pagination.service';
@@ -38,6 +38,8 @@ import { ConferencePostRequestStatus } from 'src/modules/admin-conference/models
 const paginate: PaginatorTypes.PaginateFunction = paginator({ perPage: 10 });
 @Injectable()
 export class ConferenceService {
+  private readonly logger = new Logger(ConferenceService.name);
+
   constructor(
     private readonly prismaService: PrismaService,
     private readonly paginationService: PaginationService<any>,
@@ -73,6 +75,36 @@ export class ConferenceService {
     conferenceFilter?: GetConferencesParams,
     sortOptions?: GetConferencesSortParams,
   ): Promise<ConferencePaginationDTO> {
+    // Enhanced submission date filtering with pre-classified main submission dates
+    let geminiAnalyzedSubmissionTypes: string[] = [];
+
+    // Only run when user applies submission date filters
+    if (conferenceFilter?.subFromDate || conferenceFilter?.subToDate) {
+      try {
+        // Get pre-classified main submission date names from the database
+        const mainSubmissionDateNames =
+          await this.conferenceOraganizationService.getMainSubmissionDateNames();
+
+        if (mainSubmissionDateNames.length > 0) {
+          geminiAnalyzedSubmissionTypes = mainSubmissionDateNames;
+          this.logger.log(
+            `Using ${geminiAnalyzedSubmissionTypes.length} pre-classified main submission date types`,
+          );
+        } else {
+          this.logger.warn(
+            'No pre-classified main submission dates found, falling back to standard filtering',
+          );
+        }
+      } catch (error) {
+        this.logger.warn(
+          'Failed to get pre-classified main submission dates, falling back to standard filtering',
+          error,
+        );
+        // Fallback to original behavior if getting pre-classified data fails
+        geminiAnalyzedSubmissionTypes = [];
+      }
+    }
+
     let orderBy: Prisma.ConferencesOrderByWithRelationInput = {};
     const include =
       conferenceFilter?.mode === 'detail'
@@ -484,7 +516,21 @@ export class ConferenceService {
                                     conferenceFilter?.subFromDate,
                                   ),
                                 },
-                                type: 'submissionDate',
+                                // Use mainSubmissionDate type when pre-classified data is available,
+                                // otherwise fall back to submissionDate
+                                // type:
+                                //   geminiAnalyzedSubmissionTypes.length > 0
+                                //     ? 'mainSubmissionDate'
+                                //     : 'submissionDate',
+                                // Enhanced filtering: If pre-classified data available, filter by those names
+                                ...(geminiAnalyzedSubmissionTypes.length > 0
+                                  ? {
+                                      name: {
+                                        in: geminiAnalyzedSubmissionTypes,
+                                        mode: 'insensitive',
+                                      },
+                                    }
+                                  : {}),
                               }
                             : {}),
 
@@ -495,7 +541,17 @@ export class ConferenceService {
                                     conferenceFilter?.subToDate,
                                   ),
                                 },
-                                type: 'submissionDate',
+                                // Use mainSubmissionDate type when pre-classified data is available,
+                                // otherwise fall back to submissionDate
+                                // Enhanced filtering: If pre-classified data available, filter by those names
+                                ...(geminiAnalyzedSubmissionTypes.length > 0
+                                  ? {
+                                      name: {
+                                        in: geminiAnalyzedSubmissionTypes,
+                                        mode: 'insensitive',
+                                      },
+                                    }
+                                  : {}),
                               }
                             : {}),
                         },
@@ -767,6 +823,59 @@ export class ConferenceService {
                   name: '',
                   type: 'conferenceDates',
                 },
+          submissionDates: dates.filter((date) => {
+            // Filter for submission dates that fall within the specified date range
+            if (
+              !conferenceFilter?.subFromDate ||
+              !conferenceFilter?.subToDate
+            ) {
+              return false; // If no date filters, include all submission dates
+            }
+            if (!date.fromDate || !date.toDate) return false;
+
+            // Check if this is a main submission date (if we have pre-classified data)
+            const isMainSubmissionDate =
+              geminiAnalyzedSubmissionTypes.length > 0
+                ? geminiAnalyzedSubmissionTypes.some((name) =>
+                    date.name?.toLowerCase().includes(name.toLowerCase()),
+                  )
+                : date.type === 'submissionDate';
+
+            if (!isMainSubmissionDate) return false;
+
+            // Date range filtering: Include dates that overlap with the filter range
+            // A date overlaps if: date.toDate >= subFromDate AND date.fromDate <= subToDate
+            const subFromDate = conferenceFilter?.subFromDate
+              ? parser.fromString(conferenceFilter.subFromDate)
+              : null;
+            const subToDate = conferenceFilter?.subToDate
+              ? parser.fromString(conferenceFilter.subToDate)
+              : null;
+
+            // If no date filters are specified, include all main submission dates
+            if (!subFromDate && !subToDate) return true;
+
+            // Check for date range overlap
+            const dateStart = new Date(date.fromDate);
+            const dateEnd = new Date(date.toDate);
+
+            // If only subFromDate is specified: include dates that end on or after subFromDate
+            if (subFromDate && !subToDate) {
+              return dateEnd >= subFromDate;
+            }
+
+            // If only subToDate is specified: include dates that start on or before subToDate
+            if (!subFromDate && subToDate) {
+              return dateStart <= subToDate;
+            }
+
+            // If both dates are specified: include dates that overlap with the range
+            if (subFromDate && subToDate) {
+              return dateEnd >= subFromDate && dateStart <= subToDate;
+            }
+
+            return false;
+          }),
           link: organization.link,
           createdAt: conference.createdAt,
           updatedAt: conference.updatedAt,
@@ -792,16 +901,24 @@ export class ConferenceService {
           : 'conferenceDates';
       // Sort by the earliest fromDate of the correct type across all organizations
       conferenceToResponse.sort((a, b) => {
-        function getEarliestDate(conference, type) {
+        function getEarliestDate(conference: any, type: string): Date | null {
           if (!conference.organizations) return null;
           const allDates = conference.organizations.flatMap(
-            (org) => org.dates || org.conferenceDates || [],
+            (org: any) => org.dates || org.conferenceDates || [],
           );
           const filtered = allDates.filter(
-            (d) => d && d.type === type && d.fromDate,
+            (d: any) => d && d.type === type && d.fromDate,
           );
           if (filtered.length === 0) return null;
-          return new Date(filtered.map((d) => d.fromDate).sort()[0]);
+          const sortedDates = filtered
+            .map((d: any) => d.fromDate)
+            .filter((date: any): date is string | Date => date != null)
+            .sort();
+          if (sortedDates.length === 0) return null;
+          const firstDate = sortedDates[0];
+          return typeof firstDate === 'string'
+            ? new Date(firstDate)
+            : firstDate;
         }
         const aDate = getEarliestDate(a, dateType);
         const bDate = getEarliestDate(b, dateType);

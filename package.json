@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@getbrevo/brevo": "^2.2.0",
+    "@google/generative-ai": "^0.24.1",
     "@keyv/redis": "^4.5.0",
     "@nestjs-cls/transactional-adapter-prisma": "^1.2.19",
     "@nestjs/axios": "^4.0.0",

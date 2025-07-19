@@ -1,5 +1,5 @@
 export type ConferenceErrorDTO = {
-    message : string,
-    conferenceId: string;
-    stack : string ;
-}
+  message: string;
+  conferenceId: string;
+  stack: string;
+};

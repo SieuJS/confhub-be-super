@@ -568,4 +568,76 @@ export class ConferenceOrganizationSerivce {
       return [null, null];
     }
   }
+
+  async getAllDateTypes(): Promise<string[]> {
+    const dateTypes = await this.prismaService.conferenceDates.findMany({
+      distinct: ['type'],
+      select: {
+        type: true,
+      },
+    });
+
+    return dateTypes.map((date) => date.type);
+  }
+
+  async getDatenameByType(type: string): Promise<string[] | null> {
+    const date = await this.prismaService.conferenceDates.findMany({
+      distinct: ['name'],
+      where: {
+        type,
+      },
+      select: {
+        name: true,
+      },
+    });
+    return date.length > 0 ? date.map((d) => d.name) : null;
+  }
+
+  /**
+   * Create main submission date entries based on Gemini analysis
+   */
+  async createMainSubmissionDateEntries(
+    mainSubmissionDateNames: string[],
+    organizedId: string,
+  ): Promise<void> {
+    for (const name of mainSubmissionDateNames) {
+      // Check if this name already exists as mainSubmissionDate type
+      const existing = await this.prismaService.conferenceDates.findFirst({
+        where: {
+          name,
+          type: 'mainSubmissionDate',
+          organizedId,
+        },
+      });
+
+      if (!existing) {
+        // Create a new entry with type 'mainSubmissionDate'
+        await this.prismaService.conferenceDates.create({
+          data: {
+            name,
+            type: 'mainSubmissionDate',
+            organizedId,
+            isAvailable: true,
+            // fromDate and toDate can be null for this classification type
+          },
+        });
+      }
+    }
+  }
+
+  /**
+   * Get all main submission date names
+   */
+  async getMainSubmissionDateNames(): Promise<string[]> {
+    const dates = await this.prismaService.conferenceDates.findMany({
+      distinct: ['name'],
+      where: {
+        type: 'mainSubmissionDate',
+      },
+      select: {
+        name: true,
+      },
+    });
+    return dates.map((d) => d.name);
+  }
 }

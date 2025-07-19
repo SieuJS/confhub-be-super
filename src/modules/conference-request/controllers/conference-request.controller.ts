@@ -7,9 +7,9 @@ import { ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 @UseGuards(JWTGuardUser)
 @ApiBearerAuth('access-token')
 export class ConferenceRequestController {
-  constructor(private readonly conferenceRequestService: ConferenceRequestService) {
-
-  }
+  constructor(
+    private readonly conferenceRequestService: ConferenceRequestService,
+  ) {}
 
   @Get('/')
   @ApiQuery({
@@ -20,6 +20,9 @@ export class ConferenceRequestController {
   async getConferenceRequestById(@Req() req, @Query('status') status?: string) {
     const user = req.user as { id: string };
     const id = user.id;
-    return await this.conferenceRequestService.getConferenceRequestsByUserId(id, status);
+    return await this.conferenceRequestService.getConferenceRequestsByUserId(
+      id,
+      status,
+    );
   }
 }

@@ -1,2 +1,2 @@
-export * from './services' ;
-export * from './source-rank.module' ;
+export * from './services';
+export * from './source-rank.module';

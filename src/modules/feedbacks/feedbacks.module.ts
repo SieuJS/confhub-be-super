@@ -7,8 +7,8 @@ import { ConferencesModule } from '../conference/conference.module';
 import { NotifyModule } from '../notify/notify.module';
 
 @Module({
-    imports : [CommonModule, UserModule, ConferencesModule, NotifyModule],
-    controllers : [FeedbackController],
-    providers: [FeedbackService],
+  imports: [CommonModule, UserModule, ConferencesModule, NotifyModule],
+  controllers: [FeedbackController],
+  providers: [FeedbackService],
 })
 export class FeedbacksModule {}

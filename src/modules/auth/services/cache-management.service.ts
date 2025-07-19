@@ -12,7 +12,7 @@ export class CacheManagementService {
   async invalidateUserCache(userId: string): Promise<void> {
     try {
       console.log(`Starting cache invalidation for user: ${userId}`);
-      
+
       // Generate hash-based cache keys that match our cache middleware
       const userSpecificPatterns = [
         // Hash-based patterns that include user ID
@@ -40,7 +40,7 @@ export class CacheManagementService {
       // Execute invalidation in batches to avoid overwhelming Redis
       const batchSize = 5;
       const allPatterns = [...userSpecificPatterns, ...routePatterns];
-      
+
       for (let i = 0; i < allPatterns.length; i += batchSize) {
         const batch = allPatterns.slice(i, i + batchSize);
         const batchPromises = batch.map(async (pattern) => {
@@ -58,7 +58,7 @@ export class CacheManagementService {
             return 0;
           }
         });
-        
+
         await Promise.all(batchPromises);
       }
 
@@ -70,7 +70,7 @@ export class CacheManagementService {
           console.warn(`Failed to delete cache key ${key}:`, err);
         }
       });
-      
+
       await Promise.all(directKeyPromises);
 
       console.log(`Cache invalidation completed for user: ${userId}`);
@@ -100,17 +100,17 @@ export class CacheManagementService {
     try {
       const cacheKey = `oauth:redirect:${state}`;
       console.log(`Retrieving OAuth redirect URL for state: ${state}`);
-      
+
       const cachedRedirectUrl =
         await this.redisCacheService.get<string>(cacheKey);
-      
+
       if (cachedRedirectUrl) {
         console.log('Retrieved redirect URL from Redis:', cachedRedirectUrl);
-        
+
         // Clean up the cache entry immediately after retrieval
         await this.redisCacheService.del(cacheKey);
         console.log('Cleaned up OAuth cache entry for state:', state);
-        
+
         return cachedRedirectUrl;
       } else {
         console.log('No cached redirect URL found for state:', state);
@@ -199,7 +199,7 @@ export class CacheManagementService {
       if (userIp) {
         const sessionPattern = `oauth:session:${userIp}:*`;
         const sessionKeys = await this.redisCacheService.keys(sessionPattern);
-        
+
         for (const sessionKey of sessionKeys) {
           const sessionData =
             await this.redisCacheService.get<string>(sessionKey);
@@ -234,7 +234,7 @@ export class CacheManagementService {
       const allOAuthKeys =
         await this.redisCacheService.keys('oauth:redirect:*');
       console.log('Searching all OAuth keys:', allOAuthKeys.length);
-      
+
       for (const key of allOAuthKeys) {
         const value = await this.redisCacheService.get<string>(key);
         if (value && typeof value === 'string') {
@@ -261,38 +261,38 @@ export class CacheManagementService {
   async getRedirectUrlFromQueue(): Promise<string | null> {
     try {
       console.log('CacheManagementService - Getting redirect URL from queue');
-      
+
       // Get queue length first
       const queueLength = await this.redisCacheService.llen(
         'oauth:redirect:queue',
       );
       console.log('Queue length:', queueLength);
-      
+
       if (queueLength === 0) {
         console.log('No redirect URLs in queue');
         return null;
       }
-      
+
       // Pop the oldest item from queue (FIFO)
       const queueItem = await this.redisCacheService.rpop(
         'oauth:redirect:queue',
       );
-      
+
       if (!queueItem) {
         console.log('No item retrieved from queue');
         return null;
       }
-      
+
       try {
         const data = JSON.parse(queueItem) as {
           redirectUrl: string;
           timestamp: number;
           userIp: string;
         };
-        
+
         // Check if the redirect URL is not too old (within 15 minutes)
         const isRecent = Date.now() - data.timestamp < 15 * 60 * 1000;
-        
+
         if (isRecent && data.redirectUrl) {
           console.log('Retrieved redirect URL from queue:', data.redirectUrl);
           console.log('Queue item data:', data);

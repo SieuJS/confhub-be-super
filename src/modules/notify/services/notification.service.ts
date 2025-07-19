@@ -61,7 +61,7 @@ export class NotificationService {
   }
 
   async resetAllUserNotificationSetting() {
-    const users = await this.prismaService.users.findMany();
+    const users = await this.txHost.tx.users.findMany();
     for (const user of users) {
       await this.setDefaultNotificationSettingForUser(user.id);
     }
@@ -219,20 +219,57 @@ export class NotificationService {
     const notificationTypes =
       await this.txHost.tx.notificationsTypes.findMany();
     for (const type of notificationTypes) {
-      await this.txHost.tx.notificationSettings.upsert({
-        where: {
-          userId_notificationId: {
+      try {
+        await this.txHost.tx.notificationSettings.upsert({
+          where: {
+            userId_notificationId: {
+              userId,
+              notificationId: type.id,
+            },
+          },
+          update: {},
+          create: {
             userId,
             notificationId: type.id,
+            isEnabled: true,
           },
-        },
-        update: {},
-        create: {
-          userId,
-          notificationId: type.id,
-          isEnabled: true,
-        },
-      });
+        });
+      } catch (error: any) {
+        // If upsert fails due to unique constraint, try to find existing record
+        if (error.code === 'P2002') {
+          const existingSetting =
+            await this.txHost.tx.notificationSettings.findUnique({
+              where: {
+                userId_notificationId: {
+                  userId,
+                  notificationId: type.id,
+                },
+              },
+            });
+          if (!existingSetting) {
+            // If no existing record found, try to create one more time
+            try {
+              await this.txHost.tx.notificationSettings.create({
+                data: {
+                  userId,
+                  notificationId: type.id,
+                  isEnabled: true,
+                },
+              });
+            } catch (createError: any) {
+              console.warn(
+                `Failed to create notification setting for user ${userId} and type ${type.id}:`,
+                String(createError),
+              );
+            }
+          }
+        } else {
+          console.warn(
+            `Failed to upsert notification setting for user ${userId} and type ${type.id}:`,
+            String(error),
+          );
+        }
+      }
     }
   }
 

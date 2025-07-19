@@ -807,7 +807,7 @@ export class ConferenceCrawlJobService {
         // Get current active jobs before stopping to update their database status
         const activeJobs = await this.conferenceCrawlQueue.getActive();
         const waitingJobs = await this.conferenceCrawlQueue.getWaiting();
-        
+
         console.log(
           `🔍 Found ${activeJobs.length} active jobs and ${waitingJobs.length} waiting jobs to terminate`,
         );
@@ -1022,11 +1022,11 @@ export class ConferenceCrawlJobService {
       console.log(
         `📊 Before update: ${currentPending.length} pending, ${currentRunning.length} running jobs`,
       );
-      
+
       if (currentPending.length > 0) {
         console.log('📝 Pending jobs to be cancelled:', currentPending);
       }
-      
+
       if (currentRunning.length > 0) {
         console.log('📝 Running jobs to be cancelled:', currentRunning);
       }

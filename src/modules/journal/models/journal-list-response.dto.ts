@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { ApiProperty } from '@nestjs/swagger';
 import { Prisma } from 'generated/prisma_client';
 
@@ -177,7 +176,7 @@ export class JournalListItemDto {
     }));
     this.Image = dbInstance.JournalDetails[0]?.image || '';
     this.Image_Context = dbInstance.JournalDetails[0]?.imageContent || '';
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
     this.scimagoLink = dbInstance.JournalDetails
       ? dbInstance.JournalDetails[0]?.scrimagoLink
       : '';

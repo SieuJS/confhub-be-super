@@ -1,9 +1,9 @@
-import { OmitType, PickType } from "@nestjs/swagger";
-import { AdminDto } from "./admin.dto";
+import { OmitType, PickType } from '@nestjs/swagger';
+import { AdminDto } from './admin.dto';
 
-export class AdminInputDto extends OmitType(AdminDto, ['id']) {
+export class AdminInputDto extends OmitType(AdminDto, ['id']) {}
 
-}
-
-export class AdminSigninInput extends PickType(AdminDto, ['email', 'password']) {
-}
+export class AdminSigninInput extends PickType(AdminDto, [
+  'email',
+  'password',
+]) {}

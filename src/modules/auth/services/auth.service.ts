@@ -162,14 +162,14 @@ export class AuthService {
         // You might want to add your Google Client ID here for additional security
         // audience: process.env.GOOGLE_CLIENT_ID,
       });
-      
+
       const payload = ticket.getPayload();
       if (!payload) {
         throw new UnauthorizedException('Invalid Google ID token');
       }
 
       const { email, given_name, family_name, picture } = payload;
-      
+
       return {
         email: email || '',
         firstName: given_name || '',

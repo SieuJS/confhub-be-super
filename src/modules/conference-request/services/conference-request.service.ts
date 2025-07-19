@@ -9,7 +9,7 @@ export class ConferenceRequestService {
   async getConferenceRequestsById(
     id: string,
   ): Promise<ConferencePostRequestDTO | null> {
-    const request= await this.prismaService.conferencePostRequests.findUnique({
+    const request = await this.prismaService.conferencePostRequests.findUnique({
       where: { id },
       include: {
         byUser: {
@@ -20,8 +20,8 @@ export class ConferenceRequestService {
             lastName: true,
           },
         },
-        byAdmin : true,
-        belongsTo : true
+        byAdmin: true,
+        belongsTo: true,
       },
     });
     if (!request) {
@@ -47,11 +47,13 @@ export class ConferenceRequestService {
         firstName: request.byUser.firstName,
         lastName: request.byUser.lastName,
       },
-      admin: request.byAdmin ? {
-        id: request.byAdmin.id,
-        email: request.byAdmin.email,
-        fullName: request.byAdmin.fullName,
-      } : null,
+      admin: request.byAdmin
+        ? {
+            id: request.byAdmin.id,
+            email: request.byAdmin.email,
+            fullName: request.byAdmin.fullName,
+          }
+        : null,
     };
   }
 
@@ -60,7 +62,7 @@ export class ConferenceRequestService {
     status?: string,
   ): Promise<ConferencePostRequestDTO[]> {
     const requests = await this.prismaService.conferencePostRequests.findMany({
-      where: { userId , status },
+      where: { userId, status },
       orderBy: { createdAt: 'desc' },
       include: {
         byUser: {
@@ -71,12 +73,12 @@ export class ConferenceRequestService {
             lastName: true,
           },
         },
-        byAdmin : true,
-        belongsTo : true
+        byAdmin: true,
+        belongsTo: true,
       },
     });
 
-    return requests.map(request => ({
+    return requests.map((request) => ({
       id: request.id,
       conferenceId: request.conferenceId,
       userId: request.userId,
@@ -96,11 +98,13 @@ export class ConferenceRequestService {
         firstName: request.byUser.firstName,
         lastName: request.byUser.lastName,
       },
-      admin: request.byAdmin ? {
-        id: request.byAdmin.id,
-        email: request.byAdmin.email,
-        fullName: request.byAdmin.fullName,
-      } : null,
+      admin: request.byAdmin
+        ? {
+            id: request.byAdmin.id,
+            email: request.byAdmin.email,
+            fullName: request.byAdmin.fullName,
+          }
+        : null,
     }));
   }
 }

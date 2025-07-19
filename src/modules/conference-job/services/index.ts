@@ -1,1 +1,1 @@
-export * from './conference-crawl-job.service'
+export * from './conference-crawl-job.service';

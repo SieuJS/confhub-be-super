@@ -1,5 +1,4 @@
-import { OmitType } from "@nestjs/swagger";
-import { RankDTO } from "./rank.dto";
+import { OmitType } from '@nestjs/swagger';
+import { RankDTO } from './rank.dto';
 
-export class RankInputDTO extends OmitType(RankDTO, ['id']) {
-}
+export class RankInputDTO extends OmitType(RankDTO, ['id']) {}

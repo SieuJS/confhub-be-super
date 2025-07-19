@@ -6,13 +6,13 @@ import { MessageService } from './services/message.service';
 import { CommonModule } from '../common';
 
 @Module({
-    imports : [
-        CommonModule,
-        BullModule.registerQueue({
-            name : CONFERENCE_QUEUE_NAME.NOTIFY
-        }),
-    ],
-    providers: [SocketGateway, MessageService],
-    exports    : [MessageService]
+  imports: [
+    CommonModule,
+    BullModule.registerQueue({
+      name: CONFERENCE_QUEUE_NAME.NOTIFY,
+    }),
+  ],
+  providers: [SocketGateway, MessageService],
+  exports: [MessageService],
 })
 export class SocketGatewayModule {}

@@ -300,7 +300,6 @@ export class JournalService {
       ...(query.hIndex && {
         JournalDetails: {
           some: {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
             hIndex: { gte: parseFloat(query.hIndex) },
           },
         },

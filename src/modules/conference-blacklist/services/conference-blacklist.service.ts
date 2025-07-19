@@ -1,11 +1,7 @@
-import { Injectable } from "@nestjs/common";
-import { PrismaService } from "src/modules/common";
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/modules/common';
 
-@Injectable() 
+@Injectable()
 export class ConferenceBlacklistService {
-    constructor (
-        private readonly prismaService : PrismaService
-    ){}
-
-    
+  constructor(private readonly prismaService: PrismaService) {}
 }

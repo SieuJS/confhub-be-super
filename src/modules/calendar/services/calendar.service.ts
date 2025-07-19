@@ -9,7 +9,7 @@ export class CalendarService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly conferenceService: ConferenceService,
-    private readonly organizationService: ConferenceOrganizationSerivce
+    private readonly organizationService: ConferenceOrganizationSerivce,
   ) {}
 
   async getCalendarEventsByUserId(
@@ -64,7 +64,7 @@ export class CalendarService {
                 );
                 calendarEvents.push({
                   day: currentDate.getDate(),
-                  month: currentDate.getMonth()+1,
+                  month: currentDate.getMonth() + 1,
                   year: currentDate.getFullYear(),
                   type: date.type,
                   conference: conf.title,
@@ -78,7 +78,7 @@ export class CalendarService {
               );
               calendarEvents.push({
                 day: fromDate.getDate(),
-                month: fromDate.getMonth()+1,
+                month: fromDate.getMonth() + 1,
                 year: fromDate.getFullYear(),
                 type: date.type,
                 conference: conf.title,

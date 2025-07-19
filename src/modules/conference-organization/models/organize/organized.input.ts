@@ -1,5 +1,15 @@
-import { PickType } from "@nestjs/swagger";
-import { OrganizedDTO } from "./organized.dto";
+import { PickType } from '@nestjs/swagger';
+import { OrganizedDTO } from './organized.dto';
 
-export class OrganizedInput extends PickType(OrganizedDTO, 
-    ['isAvailable', 'accessType', 'year', 'conferenceId', 'link', 'cfpLink', 'impLink','summerize', 'callForPaper', 'publisher']) {}
+export class OrganizedInput extends PickType(OrganizedDTO, [
+  'isAvailable',
+  'accessType',
+  'year',
+  'conferenceId',
+  'link',
+  'cfpLink',
+  'impLink',
+  'summerize',
+  'callForPaper',
+  'publisher',
+]) {}

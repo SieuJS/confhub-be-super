@@ -15,7 +15,9 @@ export class LocationDto {
 }
 
 export class ConferenceDateDto {
-  @ApiProperty({ description: 'Type of the date (e.g., conference, submission, etc.)' })
+  @ApiProperty({
+    description: 'Type of the date (e.g., conference, submission, etc.)',
+  })
   type: string;
 
   @ApiProperty({ description: 'Start date' })
@@ -70,4 +72,4 @@ export class ConferenceHistoryResponseDto {
 
   @ApiProperty({ description: 'Last update timestamp' })
   updatedAt: Date;
-} 
+}

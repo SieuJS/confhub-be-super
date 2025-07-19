@@ -7,8 +7,13 @@ import { ConferenceOrganizationModule } from '../conference-organization';
 import { ConferencesModule } from '../conference/conference.module';
 
 @Module({
-    imports : [CommonModule, NotifyModule, ConferenceOrganizationModule, ConferencesModule],
-    controllers : [CalendarController],
-    providers : [CalendarService]
+  imports: [
+    CommonModule,
+    NotifyModule,
+    ConferenceOrganizationModule,
+    ConferencesModule,
+  ],
+  controllers: [CalendarController],
+  providers: [CalendarService],
 })
 export class CalendarModule {}

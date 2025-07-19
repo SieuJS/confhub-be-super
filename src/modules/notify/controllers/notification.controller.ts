@@ -23,9 +23,7 @@ import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-pr
 @Controller('/notification')
 @ApiTags('notification')
 export class NotificationController {
-  constructor(private readonly notificationService: NotificationService) {
-    this.notificationService.initNotification();
-  }
+  constructor(private readonly notificationService: NotificationService) {}
 
   @Get('/user')
   @UseGuards(JWTGuardUser)
@@ -41,7 +39,10 @@ export class NotificationController {
   ) {
     const userId = req.user.id;
     const { conferenceNotifications } =
-      await this.notificationService.getNotificationByUserId(userId, parseInt(take as unknown as string, 10));
+      await this.notificationService.getNotificationByUserId(
+        userId,
+        parseInt(take as unknown as string, 10),
+      );
     return conferenceNotifications;
   }
 

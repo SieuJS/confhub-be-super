@@ -82,7 +82,7 @@ export class RedirectUrlMiddleware implements NestMiddleware {
   private isValidRedirectUrl(url: string): boolean {
     try {
       const parsedUrl = new URL(url);
-      
+
       // Allow localhost for development
       const allowedHosts = [
         'confhub.ddns.net',
@@ -90,20 +90,20 @@ export class RedirectUrlMiddleware implements NestMiddleware {
         '127.0.0.1',
         'confhub.com', // Add your production domain
       ];
-      
+
       // Check if the host is in the allowed list or is a subdomain of allowed hosts
       const isAllowed = allowedHosts.some(
         (allowedHost) =>
           parsedUrl.hostname === allowedHost ||
           parsedUrl.hostname.endsWith(`.${allowedHost}`),
       );
-      
+
       console.log('RedirectUrlMiddleware - URL validation:', {
         url,
         hostname: parsedUrl.hostname,
         isAllowed,
       });
-      
+
       return isAllowed;
     } catch (error) {
       console.error('RedirectUrlMiddleware - URL validation error:', error);
