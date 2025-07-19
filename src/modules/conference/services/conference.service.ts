@@ -415,219 +415,268 @@ export class ConferenceService {
         ? {
             organizations: {
               some: {
-                isLastest: true, // Ensure we only get the latest organization
-                ...(conferenceFilter?.accessType
-                  ? {
-                      accessType: {
-                        contains: conferenceFilter?.accessType,
-                        mode: 'insensitive',
-                      },
-                    }
-                  : {}),
-                ...(conferenceFilter?.topics
-                  ? {
-                      topics: {
-                        some: {
-                          inTopic: {
-                            name: {
-                              in: conferenceFilter?.topics,
-                              mode: 'insensitive',
+                AND: [
+                  { isLastest: true }, // Ensure we only get the latest organization
+                  ...(conferenceFilter?.accessType
+                    ? [
+                        {
+                          accessType: {
+                            contains: conferenceFilter?.accessType,
+                            mode: 'insensitive',
+                          },
+                        },
+                      ]
+                    : []),
+                  ...(conferenceFilter?.topics
+                    ? [
+                        {
+                          topics: {
+                            some: {
+                              inTopic: {
+                                name: {
+                                  in: conferenceFilter?.topics,
+                                  mode: 'insensitive',
+                                },
+                              },
                             },
                           },
                         },
-                      },
-                    }
-                  : {}),
-                locations: {
-                  some: {
-                    ...(conferenceFilter?.cityStateProvince
-                      ? {
-                          cityStateProvince: {
-                            contains: conferenceFilter?.cityStateProvince,
-                            mode: 'insensitive',
-                          },
-                        }
-                      : {}),
+                      ]
+                    : []),
+                  ...(conferenceFilter?.cityStateProvince ||
+                  conferenceFilter?.country ||
+                  conferenceFilter?.continent ||
+                  conferenceFilter?.address
+                    ? [
+                        {
+                          locations: {
+                            some: {
+                              ...(conferenceFilter?.cityStateProvince
+                                ? {
+                                    cityStateProvince: {
+                                      contains:
+                                        conferenceFilter?.cityStateProvince,
+                                      mode: 'insensitive',
+                                    },
+                                  }
+                                : {}),
 
-                    ...(conferenceFilter?.country
-                      ? {
-                          country: {
-                            contains: conferenceFilter?.country,
-                            mode: 'insensitive',
-                          },
-                        }
-                      : {}),
+                              ...(conferenceFilter?.country
+                                ? {
+                                    country: {
+                                      contains: conferenceFilter?.country,
+                                      mode: 'insensitive',
+                                    },
+                                  }
+                                : {}),
 
-                    ...(conferenceFilter?.continent
-                      ? {
-                          continent: {
-                            contains: conferenceFilter?.continent,
-                            mode: 'insensitive',
-                          },
-                        }
-                      : {}),
+                              ...(conferenceFilter?.continent
+                                ? {
+                                    continent: {
+                                      contains: conferenceFilter?.continent,
+                                      mode: 'insensitive',
+                                    },
+                                  }
+                                : {}),
 
-                    ...(conferenceFilter?.address
-                      ? {
-                          address: {
-                            contains: conferenceFilter?.address,
-                            mode: 'insensitive',
+                              ...(conferenceFilter?.address
+                                ? {
+                                    address: {
+                                      contains: conferenceFilter?.address,
+                                      mode: 'insensitive',
+                                    },
+                                  }
+                                : {}),
+                            },
                           },
-                        }
-                      : {}),
-                  },
-                },
-                conferenceDates: {
-                  ...(conferenceFilter?.fromDate || conferenceFilter?.toDate
-                    ? {
-                        some: {
-                          ...(conferenceFilter?.fromDate
-                            ? {
-                                toDate: {
-                                  gte: parser.fromString(
-                                    conferenceFilter?.fromDate,
-                                  ),
-                                },
-                                type: 'conferenceDates',
-                              }
-                            : {}),
-
-                          ...(conferenceFilter?.toDate
-                            ? {
-                                fromDate: {
-                                  lte: parser.fromString(
-                                    conferenceFilter?.toDate,
-                                  ),
-                                },
-                                type: 'conferenceDates',
-                              }
-                            : {}),
                         },
-                      }
-                    : {}),
+                      ]
+                    : []),
+                  // Conference dates filter
+                  ...(conferenceFilter?.fromDate || conferenceFilter?.toDate
+                    ? [
+                        {
+                          conferenceDates: {
+                            some: {
+                              AND: [
+                                { type: 'conferenceDates' },
+                                ...(conferenceFilter?.fromDate
+                                  ? [
+                                      {
+                                        toDate: {
+                                          gte: parser.fromString(
+                                            conferenceFilter?.fromDate,
+                                          ),
+                                        },
+                                      },
+                                    ]
+                                  : []),
+                                ...(conferenceFilter?.toDate
+                                  ? [
+                                      {
+                                        fromDate: {
+                                          lte: parser.fromString(
+                                            conferenceFilter?.toDate,
+                                          ),
+                                        },
+                                      },
+                                    ]
+                                  : []),
+                              ],
+                            },
+                          },
+                        },
+                      ]
+                    : []),
+                  // Submission dates filter
                   ...(conferenceFilter?.subFromDate ||
                   conferenceFilter?.subToDate
-                    ? {
-                        some: {
-                          ...(conferenceFilter?.subFromDate
-                            ? {
-                                toDate: {
-                                  gte: parser.fromString(
-                                    conferenceFilter?.subFromDate,
-                                  ),
-                                },
-                                // Use mainSubmissionDate type when pre-classified data is available,
-                                // otherwise fall back to submissionDate
-                                // type:
-                                //   geminiAnalyzedSubmissionTypes.length > 0
-                                //     ? 'mainSubmissionDate'
-                                //     : 'submissionDate',
-                                // Enhanced filtering: If pre-classified data available, filter by those names
-                                type: 'submissionDate',
-                              }
-                            : {}),
-
-                          ...(conferenceFilter?.subToDate
-                            ? {
-                                fromDate: {
-                                  lte: parser.fromString(
-                                    conferenceFilter?.subToDate,
-                                  ),
-                                },
-                                // Use mainSubmissionDate type when pre-classified data is available,
-                                // otherwise fall back to submissionDate
-                                // Enhanced filtering: If pre-classified data available, filter by those names
-                                type: 'submissionDate',
-                              }
-                            : {}),
+                    ? [
+                        {
+                          conferenceDates: {
+                            some: {
+                              AND: [
+                                { type: 'submissionDate' },
+                                ...(conferenceFilter?.subFromDate
+                                  ? [
+                                      {
+                                        toDate: {
+                                          gte: parser.fromString(
+                                            conferenceFilter?.subFromDate,
+                                          ),
+                                        },
+                                      },
+                                    ]
+                                  : []),
+                                ...(conferenceFilter?.subToDate
+                                  ? [
+                                      {
+                                        fromDate: {
+                                          lte: parser.fromString(
+                                            conferenceFilter?.subToDate,
+                                          ),
+                                        },
+                                      },
+                                    ]
+                                  : []),
+                              ],
+                            },
+                          },
                         },
-                      }
-                    : {}),
+                      ]
+                    : []),
+                  // Camera ready dates filter
                   ...(conferenceFilter?.cameraReadyFromDate ||
                   conferenceFilter?.cameraReadyToDate
-                    ? {
-                        some: {
-                          ...(conferenceFilter?.cameraReadyFromDate
-                            ? {
-                                toDate: {
-                                  gte: parser.fromString(
-                                    conferenceFilter?.cameraReadyFromDate,
-                                  ),
-                                },
-                                type: 'cameraReadyDate',
-                              }
-                            : {}),
-
-                          ...(conferenceFilter?.cameraReadyToDate
-                            ? {
-                                fromDate: {
-                                  lte: parser.fromString(
-                                    conferenceFilter?.cameraReadyToDate,
-                                  ),
-                                },
-                                type: 'cameraReadyDate',
-                              }
-                            : {}),
+                    ? [
+                        {
+                          conferenceDates: {
+                            some: {
+                              AND: [
+                                { type: 'cameraReadyDate' },
+                                ...(conferenceFilter?.cameraReadyFromDate
+                                  ? [
+                                      {
+                                        toDate: {
+                                          gte: parser.fromString(
+                                            conferenceFilter?.cameraReadyFromDate,
+                                          ),
+                                        },
+                                      },
+                                    ]
+                                  : []),
+                                ...(conferenceFilter?.cameraReadyToDate
+                                  ? [
+                                      {
+                                        fromDate: {
+                                          lte: parser.fromString(
+                                            conferenceFilter?.cameraReadyToDate,
+                                          ),
+                                        },
+                                      },
+                                    ]
+                                  : []),
+                              ],
+                            },
+                          },
                         },
-                      }
-                    : {}),
+                      ]
+                    : []),
+                  // Registration dates filter
                   ...(conferenceFilter?.registerationFromDate ||
                   conferenceFilter?.registerationToDate
-                    ? {
-                        some: {
-                          ...(conferenceFilter?.registerationFromDate
-                            ? {
-                                toDate: {
-                                  gte: parser.fromString(
-                                    conferenceFilter?.registerationFromDate,
-                                  ),
-                                },
-                                type: 'registrationDate',
-                              }
-                            : {}),
-
-                          ...(conferenceFilter?.registerationToDate
-                            ? {
-                                fromDate: {
-                                  lte: parser.fromString(
-                                    conferenceFilter?.registerationToDate,
-                                  ),
-                                },
-                                type: 'registrationDate',
-                              }
-                            : {}),
+                    ? [
+                        {
+                          conferenceDates: {
+                            some: {
+                              AND: [
+                                { type: 'registrationDate' },
+                                ...(conferenceFilter?.registerationFromDate
+                                  ? [
+                                      {
+                                        toDate: {
+                                          gte: parser.fromString(
+                                            conferenceFilter?.registerationFromDate,
+                                          ),
+                                        },
+                                      },
+                                    ]
+                                  : []),
+                                ...(conferenceFilter?.registerationToDate
+                                  ? [
+                                      {
+                                        fromDate: {
+                                          lte: parser.fromString(
+                                            conferenceFilter?.registerationToDate,
+                                          ),
+                                        },
+                                      },
+                                    ]
+                                  : []),
+                              ],
+                            },
+                          },
                         },
-                      }
-                    : {}),
+                      ]
+                    : []),
+                  // Notification dates filter
                   ...(conferenceFilter?.notificationFromDate ||
                   conferenceFilter?.notificationToDate
-                    ? {
-                        some: {
-                          ...(conferenceFilter?.notificationFromDate
-                            ? {
-                                toDate: {
-                                  gte: parser.fromString(
-                                    conferenceFilter?.notificationFromDate,
-                                  ),
-                                },
-                                type: 'notificationDate',
-                              }
-                            : {}),
-
-                          ...(conferenceFilter?.notificationToDate
-                            ? {
-                                fromDate: {
-                                  lte: parser.fromString(
-                                    conferenceFilter?.notificationToDate,
-                                  ),
-                                },
-                                type: 'notificationDate',
-                              }
-                            : {}),
+                    ? [
+                        {
+                          conferenceDates: {
+                            some: {
+                              AND: [
+                                { type: 'notificationDate' },
+                                ...(conferenceFilter?.notificationFromDate
+                                  ? [
+                                      {
+                                        toDate: {
+                                          gte: parser.fromString(
+                                            conferenceFilter?.notificationFromDate,
+                                          ),
+                                        },
+                                      },
+                                    ]
+                                  : []),
+                                ...(conferenceFilter?.notificationToDate
+                                  ? [
+                                      {
+                                        fromDate: {
+                                          lte: parser.fromString(
+                                            conferenceFilter?.notificationToDate,
+                                          ),
+                                        },
+                                      },
+                                    ]
+                                  : []),
+                              ],
+                            },
+                          },
                         },
-                      }
-                    : {}),
-                },
+                      ]
+                    : []),
+                ],
               },
             },
           }
