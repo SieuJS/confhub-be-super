@@ -408,6 +408,7 @@ export class ConferenceService {
       conferenceFilter?.accessType ||
       conferenceFilter?.subFromDate ||
       conferenceFilter?.subToDate ||
+      conferenceFilter?.publisher ||
       conferenceFilter?.cameraReadyFromDate ||
       conferenceFilter?.cameraReadyToDate ||
       conferenceFilter?.registerationFromDate ||
@@ -439,6 +440,16 @@ export class ConferenceService {
                                 },
                               },
                             },
+                          },
+                        },
+                      ]
+                    : []),
+                  ...(conferenceFilter?.publisher
+                    ? [
+                        {
+                          publisher: {
+                            contains: conferenceFilter?.publisher,
+                            mode: 'insensitive',
                           },
                         },
                       ]
@@ -726,7 +737,7 @@ export class ConferenceService {
             summary: org.summerize,
             callForPaper: org.callForPaper,
             link: org.link,
-            pulisher: org.pulisher || '',
+            publisher: org.publisher || '',
             cfpLink: org.cfpLink,
             locations: org.locations.map((loc) => ({
               address: loc.address,
@@ -849,6 +860,8 @@ export class ConferenceService {
             (rank) => rank.inFieldOfResearch.name,
           ),
           topics: topics.map((topic) => topic.inTopic.name),
+          publisher: organization.publisher || '',
+
           dates:
             dates.length > 0
               ? dates.filter((date) => date.type === 'conferenceDates')[0]
