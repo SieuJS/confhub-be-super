@@ -104,6 +104,12 @@ export class ConferenceService {
         geminiAnalyzedSubmissionTypes = [];
       }
     }
+    const accessType = conferenceFilter?.type
+      ? conferenceFilter.type
+      : conferenceFilter?.accessType;
+    if (conferenceFilter) {
+      conferenceFilter.accessType = accessType;
+    }
 
     let orderBy: Prisma.ConferencesOrderByWithRelationInput = {};
     const include =
