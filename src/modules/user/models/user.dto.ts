@@ -69,6 +69,12 @@ export class UserDTO {
   isVerified: boolean;
 
   @ApiProperty({
+    description: 'The trust credit of the user',
+    required: false,
+  })
+  trustCredit?: number;
+
+  @ApiProperty({
     description: 'The date of creation',
     required: true,
   })

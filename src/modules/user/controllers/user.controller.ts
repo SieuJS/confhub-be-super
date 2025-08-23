@@ -65,6 +65,7 @@ export class UserController {
       dob: userInfo.dob,
       avatar: userInfo.avatar,
       aboutMe: userInfo.aboutMe,
+      trustCredit: userInfo.trustCredit,
       background: userInfo.background,
       isVerified: verificationStatus?.isVerified || false,
       interestedTopics,
