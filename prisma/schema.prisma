@@ -190,6 +190,7 @@ model Users {
   password             String
   firstName            String
   lastName             String
+  trustCredit          Int?
   dob                  DateTime?
   avatar               String?
   aboutMe              String?
