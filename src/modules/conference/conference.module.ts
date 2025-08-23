@@ -10,8 +10,6 @@ import { ConferenceRankService } from './services/conference-rank.service';
 import { NotifyModule } from '../notify/notify.module';
 import { SocketGatewayModule } from '../socket-gateway/socket-gateway.module';
 
-import { GeminiModule } from '../gemini/gemini.module';
-
 @Module({
   imports: [
     SocketGatewayModule,
@@ -20,7 +18,6 @@ import { GeminiModule } from '../gemini/gemini.module';
     NotifyModule,
     ConferenceOrganizationModule,
     UserModule,
-    GeminiModule,
   ],
   providers: [
     ConferenceService,

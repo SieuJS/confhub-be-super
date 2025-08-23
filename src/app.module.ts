@@ -26,7 +26,6 @@ import { JournalModule } from './modules/journal/journal.module';
 import { AdminUserModule } from './modules/admin-user/admin-user.module';
 import { ConferenceRequestModule } from './modules/conference-request/conference-request.module';
 import { CacheModule } from '@nestjs/cache-manager';
-import { GeminiModule } from './modules/gemini';
 
 @Module({
   imports: [
@@ -99,7 +98,6 @@ import { GeminiModule } from './modules/gemini';
     JournalModule,
     AdminUserModule,
     ConferenceRequestModule,
-
   ],
   controllers: [AppController],
   providers: [AppService],
