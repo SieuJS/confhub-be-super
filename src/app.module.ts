@@ -99,7 +99,7 @@ import { GeminiModule } from './modules/gemini';
     JournalModule,
     AdminUserModule,
     ConferenceRequestModule,
-    GeminiModule,
+
   ],
   controllers: [AppController],
   providers: [AppService],
