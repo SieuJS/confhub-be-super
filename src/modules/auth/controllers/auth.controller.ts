@@ -291,7 +291,7 @@ export class AuthController {
     if (req.query.error) {
       console.log('OAuth error detected:', req.query.error);
       const defaultErrorUrl =
-        'https://confhub.ddns.net/apis/auth/google-callback?error=true';
+        process.env.REDIRECT_URL || "https://easyconf.ddns.net/apis/auth/google-callback?error=true";
       return res.redirect(defaultErrorUrl);
     }
 
@@ -299,12 +299,12 @@ export class AuthController {
     if (!user) {
       console.log('No user found in OAuth callback');
       const defaultErrorUrl =
-        'https://confhub.ddns.net/apis/auth/google-callback?error=true';
+        process.env.REDIRECT_URL || "https://easyconf.ddns.net/apis/auth/google-callback?error=true";
       return res.redirect(defaultErrorUrl);
     }
 
     // Determine redirect URL with queue-based approach (simpler and more reliable)
-    let redirectUrl = 'https://confhub.ddns.net/apis/auth/google-callback'; // Default fallback
+    let redirectUrl = process.env.REDIRECT_URL || "https://easyconf.ddns.net/apis/auth/google-callback"; // Default fallback
 
     try {
       console.log('Attempting to get redirect URL from queue...');
