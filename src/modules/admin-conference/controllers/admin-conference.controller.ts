@@ -743,4 +743,13 @@ export class AdminConferenceController {
     };
   }
   
+  @Get('/all-conference')
+  @ApiOperation({ summary: 'Get all conferences' })
+  @ApiResponse({
+    status: 200,
+    description: 'List of all conferences',
+  })
+  async getAllConferences() {
+    return this.adminConferenceService.getAllConferences();
+  }
 }

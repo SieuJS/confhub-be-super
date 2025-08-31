@@ -1647,4 +1647,7 @@ export class AdminConferenceService {
     }
     return { message: 'Latest organization updated successfully' };
   }
+  async getAllConferences() {
+    return this.prismaService.conferences.findMany({});
+  }
 }
