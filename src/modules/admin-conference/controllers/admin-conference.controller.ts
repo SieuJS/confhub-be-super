@@ -1,3 +1,6 @@
+import { Response } from 'express';
+import { Res } from '@nestjs/common';
+
 /* eslint-disable */
 import {
   Controller,
@@ -48,6 +51,13 @@ import { FollowConferenceService } from 'src/modules/follow-conference/services/
 // @UseGuards(JWTGuardAdmin)
 @ApiBearerAuth()
 export class AdminConferenceController {
+
+  @Get('export-feedbacks')
+  @ApiOperation({ summary: 'Export all conference feedbacks as CSV' })
+  @ApiResponse({ status: 200, description: 'CSV file containing all conference feedbacks' })
+  async exportConferenceFeedbacks(@Res() res: Response) {
+    return this.adminConferenceService.exportConferenceFeedbacksToClient(res);
+  }
   constructor(
     private readonly adminConferenceService: AdminConferenceService,
     private readonly prismaService: PrismaService,

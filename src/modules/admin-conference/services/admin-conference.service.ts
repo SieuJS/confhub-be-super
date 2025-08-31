@@ -1,3 +1,5 @@
+import { Response } from 'express';
+
 /* eslint-disable*/
 import { HttpException, Injectable, BadRequestException, HttpStatus, NotFoundException } from '@nestjs/common';
 import { paginator, PaginatorTypes } from '@nodeteam/nestjs-prisma-pagination';
@@ -38,6 +40,36 @@ import { equal } from 'joi';
 const paginate: PaginatorTypes.PaginateFunction = paginator({ perPage: 10 });
 @Injectable()
 export class AdminConferenceService {
+
+  // Helper to convert object to CSV row
+  private toCsvRow(obj: any, fields: string[]): string {
+    return fields.map(f => {
+      let val = obj[f];
+      if (val === null || val === undefined) return '';
+      if (typeof val === 'string' && (val.includes(',') || val.includes('"') || val.includes('\n'))) {
+        return '"' + val.replace(/"/g, '""') + '"';
+      }
+      return val;
+    }).join(',');
+  }
+
+  // Export feedbacks as CSV to client
+  async exportConferenceFeedbacksToClient(res: Response) {
+    const feedbacks = await this.prismaService.conferenceFeedbacks.findMany();
+    if (!feedbacks.length) {
+      res.status(404).send('No feedbacks found.');
+      return;
+    }
+    const fields = Object.keys(feedbacks[0]);
+    const csvRows = [fields.join(',')];
+    for (const fb of feedbacks) {
+      csvRows.push(this.toCsvRow(fb, fields));
+    }
+    const csvContent = csvRows.join('\n');
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', 'attachment; filename="conference_feedbacks_export.csv"');
+    res.send(csvContent);
+  }
   constructor(
     private readonly prismaService: PrismaService,
     private readonly nativeConferenceService: NativeConferenceService,
