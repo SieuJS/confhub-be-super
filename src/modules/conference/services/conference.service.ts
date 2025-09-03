@@ -7,14 +7,9 @@ import { PrismaService } from '../../common';
 import { HttpException, Injectable, Logger } from '@nestjs/common';
 import { ConferenceImportDTO } from '../models/conference/conference-import.dto';
 import { RankDTO } from '../../source-rank/models/rank.dto';
-import { PaginationService } from '../../common/services/pagination.service';
 import parser from 'any-date-parser';
 import { ConferenceDTO } from '../models/conference/conference.dto';
-import {
-  FieldOfResearchService,
-  RankService,
-  SourceService,
-} from '../../source-rank';
+
 import { ConferenceOrganizationSerivce } from '../../conference-organization';
 import { ConferenceRankService } from './conference-rank.service';
 import { ConferenceFollowByDTO } from '../models/conference-follow/conference-follow-by.dto';
@@ -34,6 +29,7 @@ import { ConferenceDetailDTO } from '../models/conference/conference-detail.dto'
 import { ConferenceBlacklistByDTO } from '../models/conference-blacklist/conference-added-blacklist-by.dto';
 import { Prisma, Topics } from 'generated/prisma_client';
 import { ConferencePostRequestStatus } from 'src/modules/admin-conference/models/conference-request-post.dto';
+import { RecommendService } from 'src/modules/recommend/services/recommend.service';
 
 const paginate: PaginatorTypes.PaginateFunction = paginator({ perPage: 10 });
 @Injectable()
@@ -42,14 +38,11 @@ export class ConferenceService {
 
   constructor(
     private readonly prismaService: PrismaService,
-    private readonly paginationService: PaginationService<any>,
-    private readonly rankService: RankService,
-    private readonly fieldOfResearchService: FieldOfResearchService,
-    private readonly sourceService: SourceService,
     private readonly conferenceOraganizationService: ConferenceOrganizationSerivce,
     private readonly conferenceRankService: ConferenceRankService,
     private readonly txHost: TransactionHost<TransactionalAdapterPrisma>,
     private readonly cacheService: RedisCacheService,
+    private readonly recommendService: RecommendService,
   ) {}
 
   async getConferences(
@@ -75,13 +68,10 @@ export class ConferenceService {
     conferenceFilter?: GetConferencesParams,
     sortOptions?: GetConferencesSortParams,
   ): Promise<ConferencePaginationDTO> {
-    // Enhanced submission date filtering with pre-classified main submission dates
     let geminiAnalyzedSubmissionTypes: string[] = [];
 
-    // Only run when user applies submission date filters
     if (conferenceFilter?.subFromDate || conferenceFilter?.subToDate) {
       try {
-        // Get pre-classified main submission date names from the database
         const mainSubmissionDateNames =
           await this.conferenceOraganizationService.getMainSubmissionDateNames();
 
@@ -100,7 +90,6 @@ export class ConferenceService {
           'Failed to get pre-classified main submission dates, falling back to standard filtering',
           error,
         );
-        // Fallback to original behavior if getting pre-classified data fails
         geminiAnalyzedSubmissionTypes = [];
       }
     }
@@ -161,10 +150,10 @@ export class ConferenceService {
               },
               orderBy: [
                 {
-                  isLastest: 'desc',
+                  isLastest: Prisma.SortOrder.desc,
                 },
                 {
-                  updatedAt: 'desc',
+                  updatedAt: Prisma.SortOrder.desc,
                 },
               ],
             },
@@ -223,20 +212,20 @@ export class ConferenceService {
       }
     }
 
-    const whereCondition = {
+    const whereCondition: Prisma.ConferencesWhereInput = {
       ...(conferenceFilter?.keyword
         ? {
             OR: [
               {
                 title: {
                   contains: conferenceFilter?.keyword,
-                  mode: 'insensitive',
+                  mode: Prisma.QueryMode.insensitive,
                 },
               },
               {
                 acronym: {
                   contains: conferenceFilter?.keyword,
-                  mode: 'insensitive',
+                  mode: Prisma.QueryMode.insensitive,
                 },
               },
               {
@@ -306,7 +295,7 @@ export class ConferenceService {
         ? {
             title: {
               contains: conferenceFilter?.title,
-              mode: 'insensitive',
+              mode: Prisma.QueryMode.insensitive,
             },
           }
         : {}),
@@ -315,7 +304,7 @@ export class ConferenceService {
         ? {
             acronym: {
               equals: conferenceFilter?.acronym,
-              mode: 'insensitive',
+              mode: Prisma.QueryMode.insensitive,
             },
           }
         : {}),
@@ -429,7 +418,7 @@ export class ConferenceService {
                         {
                           accessType: {
                             contains: conferenceFilter?.accessType,
-                            mode: 'insensitive',
+                            mode: Prisma.QueryMode.insensitive,
                           },
                         },
                       ]
@@ -442,7 +431,7 @@ export class ConferenceService {
                               inTopic: {
                                 name: {
                                   in: conferenceFilter?.topics,
-                                  mode: 'insensitive',
+                                  mode: Prisma.QueryMode.insensitive,
                                 },
                               },
                             },
@@ -455,7 +444,7 @@ export class ConferenceService {
                         {
                           publisher: {
                             contains: conferenceFilter?.publisher,
-                            mode: 'insensitive',
+                            mode: Prisma.QueryMode.insensitive,
                           },
                         },
                       ]
@@ -473,7 +462,7 @@ export class ConferenceService {
                                     cityStateProvince: {
                                       contains:
                                         conferenceFilter?.cityStateProvince,
-                                      mode: 'insensitive',
+                                      mode: Prisma.QueryMode.insensitive,
                                     },
                                   }
                                 : {}),
@@ -482,7 +471,7 @@ export class ConferenceService {
                                 ? {
                                     country: {
                                       contains: conferenceFilter?.country,
-                                      mode: 'insensitive',
+                                      mode: Prisma.QueryMode.insensitive,
                                     },
                                   }
                                 : {}),
@@ -491,7 +480,7 @@ export class ConferenceService {
                                 ? {
                                     continent: {
                                       contains: conferenceFilter?.continent,
-                                      mode: 'insensitive',
+                                      mode: Prisma.QueryMode.insensitive,
                                     },
                                   }
                                 : {}),
@@ -500,7 +489,7 @@ export class ConferenceService {
                                 ? {
                                     address: {
                                       contains: conferenceFilter?.address,
-                                      mode: 'insensitive',
+                                      mode: Prisma.QueryMode.insensitive,
                                     },
                                   }
                                 : {}),
@@ -701,23 +690,78 @@ export class ConferenceService {
       NOT: {
         status: {
           in: ['pending', 'deleted', 'rejected'],
-          mode: 'insensitive',
         },
       },
     };
 
-    const paginatedData = await paginate(
-      this.prismaService.conferences,
-      {
-        where: whereCondition,
-        include: include,
-        orderBy: orderBy,
-      },
-      {
-        page: conferenceFilter?.page || 1,
-        perPage: conferenceFilter?.perPage || 10,
-      },
-    );
+    // Always fetch all matching conferences for recommendation sorting
+    const allConferences = await this.prismaService.conferences.findMany({
+      where: whereCondition,
+      orderBy: orderBy,
+      include: include,
+    });
+
+    let sortedConferences = allConferences;
+
+    // If recommendId is present, sort by recommendation score
+    if (conferenceFilter?.recommendId && allConferences.length > 0) {
+      const recommendId = conferenceFilter.recommendId;
+      // Get recommendations with scores from the recommendService
+      const recommendedConferences =
+        await this.recommendService.getRecommendations({
+          conference_ids: allConferences.map((conf) => conf.id),
+          user_id: recommendId,
+        });
+      // recommendedConferences should be an array of { id, score }
+      const scoreMap = new Map<string, number>();
+      if (Array.isArray(recommendedConferences)) {
+        recommendedConferences.forEach((rec: { id: string; score: number }) => {
+          scoreMap.set(rec.id, rec.score);
+        });
+      }
+      // Sort allConferences by score (descending), fallback to 0 if not found
+      sortedConferences = [...allConferences].sort((a, b) => {
+        const scoreA = scoreMap.get(a.id) ?? 0;
+        const scoreB = scoreMap.get(b.id) ?? 0;
+        return scoreB - scoreA;
+      });
+    }
+
+    // Paginate if page/perPage is provided
+    let paginatedData;
+    if (conferenceFilter?.page || conferenceFilter?.perPage) {
+      const page = conferenceFilter?.page || 1;
+      const perPage = conferenceFilter?.perPage || 10;
+      const total = sortedConferences.length;
+      const lastPage = Math.ceil(total / perPage);
+      const start = (page - 1) * perPage;
+      const end = start + perPage;
+      paginatedData = {
+        data: sortedConferences.slice(start, end),
+        meta: {
+          currentPage: page,
+          perPage,
+          total,
+          lastPage,
+          prev: page > 1 ? page - 1 : null,
+          next: page < lastPage ? page + 1 : null,
+        },
+      };
+    } else {
+      paginatedData = {
+        data: sortedConferences,
+        meta: {
+          currentPage: 1,
+          perPage: sortedConferences.length,
+          total: sortedConferences.length,
+          lastPage: 1,
+          prev: null,
+          next: null,
+        },
+      };
+    }
+
+    // ...existing code...
 
     if (conferenceFilter?.mode === 'detail') {
       const data = paginatedData.data;
@@ -788,7 +832,7 @@ export class ConferenceService {
       } as any;
     }
 
-    const conferences = paginatedData.data as any;
+    const conferences = paginatedData.data;
     const conferenceToResponse: ConferenceDTO[] = await Promise.all(
       conferences.map(async (conference) => {
         const rank = await this.conferenceRankService.getRankByConferenceFilter(

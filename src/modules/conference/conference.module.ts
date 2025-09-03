@@ -9,6 +9,7 @@ import { UserModule } from '../user/user.module';
 import { ConferenceRankService } from './services/conference-rank.service';
 import { NotifyModule } from '../notify/notify.module';
 import { SocketGatewayModule } from '../socket-gateway/socket-gateway.module';
+import { RecommendModule } from '../recommend/recommend.module.template';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { SocketGatewayModule } from '../socket-gateway/socket-gateway.module';
     NotifyModule,
     ConferenceOrganizationModule,
     UserModule,
+    RecommendModule,
   ],
   providers: [
     ConferenceService,

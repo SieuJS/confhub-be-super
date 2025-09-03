@@ -26,6 +26,7 @@ import { JournalModule } from './modules/journal/journal.module';
 import { AdminUserModule } from './modules/admin-user/admin-user.module';
 import { ConferenceRequestModule } from './modules/conference-request/conference-request.module';
 import { CacheModule } from '@nestjs/cache-manager';
+import { RecommendModule } from './modules/recommend/recommend.module.template';
 
 @Module({
   imports: [
@@ -98,6 +99,7 @@ import { CacheModule } from '@nestjs/cache-manager';
     JournalModule,
     AdminUserModule,
     ConferenceRequestModule,
+    RecommendModule,
   ],
   controllers: [AppController],
   providers: [AppService],

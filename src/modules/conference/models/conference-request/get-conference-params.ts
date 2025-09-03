@@ -15,6 +15,12 @@ export class GetConferencesParams extends ConferenceFilter {
   page?: number;
 
   @ApiProperty({
+    description: 'The ID of the recommended conference',
+    required: false,
+  })
+  recommendId?: string;
+
+  @ApiProperty({
     description: 'The page size',
     required: false,
   })
