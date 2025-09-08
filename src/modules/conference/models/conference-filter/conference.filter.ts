@@ -100,7 +100,8 @@ export class ConferenceFilter {
     | 'name'
     | 'submissionDate'
     | 'startDate'
-    | 'endDate';
+    | 'endDate'
+    | 'match';
 
   @ApiProperty({
     description: 'Sort order',

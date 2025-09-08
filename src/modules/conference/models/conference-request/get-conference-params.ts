@@ -38,7 +38,8 @@ export class GetConferencesSortParams {
     | 'title'
     | 'acronym'
     | 'rank'
-    | 'source';
+    | 'source'
+    | 'match';
 
   @ApiProperty({
     description: 'Sort order',

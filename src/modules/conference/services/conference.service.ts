@@ -101,7 +101,7 @@ export class ConferenceService {
     }
 
     let orderBy: Prisma.ConferencesOrderByWithRelationInput = {};
-    const include =
+    const include: Prisma.ConferencesInclude =
       conferenceFilter?.mode === 'detail'
         ? {
             ranks: {
@@ -193,7 +193,12 @@ export class ConferenceService {
                   }
                 : {}),
             },
-            follows: true, // Include followers for sorting
+            follows: true,
+            organizations: {
+              include: {
+                conferenceDates: true,
+              },
+            }, // Include organizations for sorting
           };
     // Only use standard orderBy for non-rank/source fields
     if (sortOptions?.sortBy !== 'rank' && sortOptions?.sortBy !== 'source') {
@@ -201,7 +206,8 @@ export class ConferenceService {
       if (
         !sortOptions?.sortBy ||
         sortOptions?.sortBy === 'conferenceDate' ||
-        sortOptions?.sortBy === 'submissionDate'
+        sortOptions?.sortBy === 'submissionDate' ||
+        sortOptions?.sortBy === 'match'
       ) {
         // No DB-level orderBy for nested conferenceDates
         orderBy = {};
@@ -704,7 +710,34 @@ export class ConferenceService {
     let sortedConferences = allConferences;
 
     // If recommendId is present, sort by recommendation score
-    if (conferenceFilter?.recommendId && allConferences.length > 0) {
+    if (conferenceFilter?.sortBy === 'submissionDate') {
+      sortedConferences = [...allConferences].sort((a, b) => {
+        const getSubmissionDate = (conf: any): Date | null => {
+          const org = conf.organizations?.find((o: any) => o.isLastest);
+          if (!org || !org.conferenceDates) return null;
+          const subDate = org.conferenceDates.find(
+            (d: any) => d.type === 'submissionDate',
+          );
+          return subDate ? new Date(subDate.fromDate) : null;
+        };
+        const dateA = getSubmissionDate(a);
+        const dateB = getSubmissionDate(b);
+        if (dateA && dateB) {
+          return sortOptions?.sortOrder === 'asc'
+            ? dateA.getTime() - dateB.getTime()
+            : dateB.getTime() - dateA.getTime();
+        } else if (dateA) {
+          return -1; // a comes first
+        } else if (dateB) {
+          return 1; // b comes first
+        }
+        return 0; // equal
+      });
+    } else if (
+      conferenceFilter?.sortBy === 'match' &&
+      conferenceFilter?.recommendId &&
+      allConferences.length > 0
+    ) {
       const recommendId = conferenceFilter.recommendId;
       // Get recommendations with scores from the recommendService
       const recommendedConferences =
@@ -982,67 +1015,6 @@ export class ConferenceService {
     );
 
     // Custom sorting logic for date proximity and follower count
-    if (
-      !sortOptions?.sortBy ||
-      sortOptions?.sortBy === 'conferenceDate' ||
-      sortOptions?.sortBy === 'submissionDate'
-    ) {
-      const currentDate = new Date();
-      const dateType =
-        sortOptions?.sortBy === 'submissionDate'
-          ? 'submissionDate'
-          : 'conferenceDates';
-      // Sort by the earliest fromDate of the correct type across all organizations
-      conferenceToResponse.sort((a, b) => {
-        function getEarliestDate(conference: any, type: string): Date | null {
-          if (!conference.organizations) return null;
-          const allDates = conference.organizations.flatMap(
-            (org: any) => org.dates || org.conferenceDates || [],
-          );
-          const filtered = allDates.filter(
-            (d: any) => d && d.type === type && d.fromDate,
-          );
-          if (filtered.length === 0) return null;
-          const sortedDates = filtered
-            .map((d: any) => d.fromDate)
-            .filter((date: any): date is string | Date => date != null)
-            .sort();
-          if (sortedDates.length === 0) return null;
-          const firstDate = sortedDates[0];
-          return typeof firstDate === 'string'
-            ? new Date(firstDate)
-            : firstDate;
-        }
-        const aDate = getEarliestDate(a, dateType);
-        const bDate = getEarliestDate(b, dateType);
-        // Calculate distance from current date (in days)
-        const getDateDistance = (date) => {
-          if (!date) return Infinity;
-          const diffTime = Math.abs(date.getTime() - currentDate.getTime());
-          return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        };
-        const aDistance = getDateDistance(aDate);
-        const bDistance = getDateDistance(bDate);
-        if (aDistance !== bDistance) {
-          return aDistance - bDistance;
-        }
-        // Secondary: follower count
-        const aConference = conferences.find((c) => c.id === a.id);
-        const bConference = conferences.find((c) => c.id === b.id);
-        const aFollowerCount = aConference?.follows?.length || 0;
-        const bFollowerCount = bConference?.follows?.length || 0;
-        if (aFollowerCount !== bFollowerCount) {
-          return bFollowerCount - aFollowerCount;
-        }
-        // Tertiary: updatedAt
-        const aConferenceTime = new Date(a.updatedAt).getTime();
-        const bConferenceTime = new Date(b.updatedAt).getTime();
-
-        const timeDiff = aConferenceTime - bConferenceTime;
-        return sortOptions?.sortOrder === 'asc' ? timeDiff : -timeDiff;
-      });
-    }
-
     return {
       payload: conferenceToResponse,
       meta: {
