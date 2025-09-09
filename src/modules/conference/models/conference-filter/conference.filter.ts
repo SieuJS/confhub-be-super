@@ -1,4 +1,4 @@
-import { ApiProperty, PartialType } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class ConferenceFilter {
   @ApiProperty({
@@ -101,7 +101,9 @@ export class ConferenceFilter {
     | 'submissionDate'
     | 'startDate'
     | 'endDate'
-    | 'match';
+    | 'match'
+    | 'conferenceDate'
+    | 'type';
 
   @ApiProperty({
     description: 'Sort order',

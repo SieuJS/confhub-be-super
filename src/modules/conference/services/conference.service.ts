@@ -207,7 +207,8 @@ export class ConferenceService {
         !sortOptions?.sortBy ||
         sortOptions?.sortBy === 'conferenceDate' ||
         sortOptions?.sortBy === 'submissionDate' ||
-        sortOptions?.sortBy === 'match'
+        sortOptions?.sortBy === 'match' ||
+        sortOptions?.sortBy === 'type'
       ) {
         // No DB-level orderBy for nested conferenceDates
         orderBy = {};
@@ -732,6 +733,41 @@ export class ConferenceService {
           return 1; // b comes first
         }
         return 0; // equal
+      });
+    } else if (conferenceFilter?.sortBy === 'conferenceDate') {
+      sortedConferences = [...allConferences].sort((a, b) => {
+        const getConferenceDate = (conf: any): Date | null => {
+          const org = conf.organizations?.find((o: any) => o.isLastest);
+          if (!org || !org.conferenceDates) return null;
+          const confDate = org.conferenceDates.find(
+            (d: any) => d.type === 'conferenceDate',
+          );
+          return confDate ? new Date(confDate.fromDate) : null;
+        };
+        const dateA = getConferenceDate(a);
+        const dateB = getConferenceDate(b);
+        if (dateA && dateB) {
+          return sortOptions?.sortOrder === 'asc'
+            ? dateA.getTime() - dateB.getTime()
+            : dateB.getTime() - dateA.getTime();
+        } else if (dateA) {
+          return -1; // a comes first
+        } else if (dateB) {
+          return 1; // b comes first
+        }
+        return 0; // equal
+      });
+    } else if (conferenceFilter?.sortBy === 'type') {
+      sortedConferences = [...allConferences].sort((a, b) => {
+        const getAccessType = (conf: any): string | null => {
+          const org = conf.organizations?.find((o: any) => o.isLastest);
+          return org ? org.accessType || null : null;
+        };
+        const typeA = getAccessType(a) || '';
+        const typeB = getAccessType(b) || '';
+        return sortOptions?.sortOrder === 'asc'
+          ? typeA.localeCompare(typeB)
+          : typeB.localeCompare(typeA);
       });
     } else if (
       conferenceFilter?.sortBy === 'match' &&
