@@ -39,7 +39,7 @@ export class GetConferencesSortParams {
     | 'acronym'
     | 'rank'
     | 'source'
-    | 'match'
+    | 'relevant'
     | 'type';
 
   @ApiProperty({

@@ -207,7 +207,7 @@ export class ConferenceService {
         !sortOptions?.sortBy ||
         sortOptions?.sortBy === 'conferenceDate' ||
         sortOptions?.sortBy === 'submissionDate' ||
-        sortOptions?.sortBy === 'match' ||
+        sortOptions?.sortBy === 'relevant' ||
         sortOptions?.sortBy === 'type'
       ) {
         // No DB-level orderBy for nested conferenceDates
@@ -770,7 +770,7 @@ export class ConferenceService {
           : typeB.localeCompare(typeA);
       });
     } else if (
-      conferenceFilter?.sortBy === 'match' &&
+      conferenceFilter?.sortBy === 'relevant' &&
       conferenceFilter?.recommendId &&
       allConferences.length > 0
     ) {

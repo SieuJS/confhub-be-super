@@ -101,7 +101,7 @@ export class ConferenceFilter {
     | 'submissionDate'
     | 'startDate'
     | 'endDate'
-    | 'match'
+    | 'relevant'
     | 'conferenceDate'
     | 'type';
 
