@@ -743,7 +743,6 @@ export class ConferenceService {
           const confDate = org.conferenceDates.find(
             (d: any) => d.type === 'conferenceDates',
           );
-          console.log('confDate', org.conferenceDates);
           return confDate ? new Date(confDate.fromDate) : null;
         };
         const dateA = getConferenceDate(a);
