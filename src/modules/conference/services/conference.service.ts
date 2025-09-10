@@ -197,6 +197,7 @@ export class ConferenceService {
             organizations: {
               include: {
                 conferenceDates: true,
+                locations: true,
               },
             }, // Include organizations for sorting
           };
@@ -740,8 +741,9 @@ export class ConferenceService {
           const org = conf.organizations?.find((o: any) => o.isLastest);
           if (!org || !org.conferenceDates) return null;
           const confDate = org.conferenceDates.find(
-            (d: any) => d.type === 'conferenceDate',
+            (d: any) => d.type === 'conferenceDates',
           );
+          console.log('confDate', org.conferenceDates);
           return confDate ? new Date(confDate.fromDate) : null;
         };
         const dateA = getConferenceDate(a);
