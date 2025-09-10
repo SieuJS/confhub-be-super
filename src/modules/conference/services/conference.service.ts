@@ -776,24 +776,30 @@ export class ConferenceService {
     ) {
       const recommendId = conferenceFilter.recommendId;
       // Get recommendations with scores from the recommendService
-      const recommendedConferences =
-        await this.recommendService.getRecommendations({
-          conference_ids: allConferences.map((conf) => conf.id),
-          user_id: recommendId,
+      try {
+        const recommendedConferences =
+          await this.recommendService.getRecommendations({
+            conference_ids: allConferences.map((conf) => conf.id),
+            user_id: recommendId,
+          });
+        // recommendedConferences should be an array of { id, score }
+        const scoreMap = new Map<string, number>();
+        if (Array.isArray(recommendedConferences)) {
+          recommendedConferences.forEach((rec: { id: string; score: number }) => {
+            scoreMap.set(rec.id, rec.score);
+          });
+        }
+        // Sort allConferences by score (descending), fallback to 0 if not found
+        sortedConferences = [...allConferences].sort((a, b) => {
+          const scoreA = scoreMap.get(a.id) ?? 0;
+          const scoreB = scoreMap.get(b.id) ?? 0;
+          return scoreB - scoreA;
         });
-      // recommendedConferences should be an array of { id, score }
-      const scoreMap = new Map<string, number>();
-      if (Array.isArray(recommendedConferences)) {
-        recommendedConferences.forEach((rec: { id: string; score: number }) => {
-          scoreMap.set(rec.id, rec.score);
-        });
+      } catch (error) {
+        this.logger?.error?.('Error in recommendService.getRecommendations:', error);
+        // Fallback: do not sort, just use allConferences as is
+        sortedConferences = allConferences;
       }
-      // Sort allConferences by score (descending), fallback to 0 if not found
-      sortedConferences = [...allConferences].sort((a, b) => {
-        const scoreA = scoreMap.get(a.id) ?? 0;
-        const scoreB = scoreMap.get(b.id) ?? 0;
-        return scoreB - scoreA;
-      });
     }
 
     // Paginate if page/perPage is provided
