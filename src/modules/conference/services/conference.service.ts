@@ -710,6 +710,7 @@ export class ConferenceService {
     });
 
     let sortedConferences = allConferences;
+    let notHaveRelevantSort = true;
 
     // If recommendId is present, sort by recommendation score
     if (conferenceFilter?.sortBy === 'submissionDate') {
@@ -796,10 +797,11 @@ export class ConferenceService {
           const scoreB = scoreMap.get(b.id) ?? 0;
           return scoreB - scoreA;
         });
+        notHaveRelevantSort = false;
       } catch (error) {
-        this.logger?.error?.('Error in recommendService.getRecommendations:', error);
         // Fallback: do not sort, just use allConferences as is
         sortedConferences = allConferences;
+
       }
     }
 
@@ -1068,6 +1070,7 @@ export class ConferenceService {
         prevPage: paginatedData.meta.prev,
         nextPage: paginatedData.meta.next,
       },
+      notHaveRelevantSort,
     };
   }
 

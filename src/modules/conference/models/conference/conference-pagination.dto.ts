@@ -12,4 +12,11 @@ export class ConferencePaginationDTO {
 
   @ApiProperty({ description: 'Meta data', type: PaginationDTO })
   meta: PaginationDTO;
+
+  @ApiProperty({
+    description: 'Indicates if relevant sort was not applied',
+    type: Boolean,
+    required: false,
+  })
+  notHaveRelevantSort?: boolean;
 }
