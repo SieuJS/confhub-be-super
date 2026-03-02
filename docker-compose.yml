@@ -26,7 +26,7 @@ services:
 
   # --- DATABASE SERVICE ---
   postgresql:
-    image: docker.io/bitnami/postgresql:16
+    image: docker.io/bitnami/postgresql:latest
     container_name: confhub_postgresql
     hostname: postgresql
     restart: unless-stopped
@@ -63,6 +63,24 @@ services:
     ports:
       - '3000:3000'
 
+  # --- NEW: RECOMMENDATION SERVER SERVICE ---
+  recommendation-server:
+    build:
+      context: ../RS-SERVER
+      dockerfile: Dockerfile
+    container_name: confhub_recommendation_server
+    hostname: recommendation-server
+    restart: unless-stopped
+    
+    # --- THAY ĐỔI QUAN TRỌNG: BỎ COMMENT VÀ KÍCH HOẠT PORT MAPPING ---
+    # Ánh xạ cổng 8000 của container ra cổng 8000 của máy chủ host.
+    ports:
+      - "8000:8000" 
+      
+    networks:
+      - confhub-network
+    env_file:
+      - ../RS-SERVER/.env
    
   # --- REDIS SERVICE ---
   confhub_redis:

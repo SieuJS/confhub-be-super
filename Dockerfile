@@ -20,7 +20,7 @@ RUN npm install
 COPY . .
 
 # Generate Prisma Client (cần thiết trước khi build)
-RUN npx prisma db push && npx prisma generate
+RUN npx prisma generate
 
 # Build ứng dụng cho production. Bây giờ lệnh "nest" chắc chắn đã tồn tại.
 RUN npm run build
